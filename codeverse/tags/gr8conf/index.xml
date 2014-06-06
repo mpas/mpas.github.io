@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Gr8conf on CodeVerse </title>
+      <generator uri="https://hugo.spf13.com">Hugo</generator>
+    <link>http://mpas.github.io/tags/gr8conf/index.xml</link>
+    
+    
+    
+    <updated>Sat, 25 May 2013 00:00:00 UTC</updated>
+    
+    <item>
+      <title>Using Grails to power your Electric Car</title>
+      <link>http://mpas.github.io/post/2013/05/grails-to-power-your-electric-car</link>
+      <pubDate>Sat, 25 May 2013 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2013/05/grails-to-power-your-electric-car</guid>
+      <description>&lt;p&gt;Past week I really enjoyed visiting &amp;amp; speaking at the &lt;a href=&#34;http://gr8conf.org/&#34;&gt;Grails Conference (GR8Conf 2013)&lt;/a&gt;. The organisation made it possible that for me to host a talk about &amp;ldquo;Using Grails to power your Electric Car&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car&#34;&gt;Using Grails to power your Electric Car&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

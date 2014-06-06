@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Testing constraints with Build Test Data</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://mpas.github.io/codeverse">CodeVerse</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://mpas.github.io/codeverse">Home</a></li>
+						<li><a href="http://mpas.github.io/codeverse/page/about/">About</a></li>
+						<li><a href="http://mpas.github.io/codeverse/page/resume/">Resume</a></li>
+						<li><a href="http://mpas.github.io/codeverse/post/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>Testing constraints with Build Test Data</h3>
+				<span class="label label-primary">Sun Jan 13, 2013</span> in 
+				
+					
+					<a href="/categories/development">Development</a>
+				 using tags 			 
+				
+					
+					<a href="/tags/build">build</a>
+				
+					 , 
+					<a href="/tags/testdata">testdata</a>
+				
+					 , 
+					<a href="/tags/grails">grails</a>
+				
+					 , 
+					<a href="/tags/spock">spock</a>
+				
+					 , 
+					<a href="/tags/test">test</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			<p>The <a href="http://grails.org/plugin/spock">Spock</a> &amp; <a href="http://grails.org/plugin/build-test-data">Build Test Data</a> plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!</p>
+
+<p>When testing constraints on an object it can be used as follows:</p>
+
+<pre><code>class Foo {
+    String name   // name of foo
+    Integer age   // age of foo
+
+    static constraints = {
+     name nullable: false, blank: false // name may never be nullable or blank
+     age nullable: true
+    }
+}
+</code></pre>
+
+<p>And the Spock test</p>
+
+<pre><code>@Build(Foo)
+@TestFor(Foo)
+class FooSpec extends Specification {
+
+    def &quot;Name of Foo must exist&quot;() {
+        given: &quot;setting up the constraints&quot;
+        mockForConstraintsTests(Foo)
+
+        when: &quot;creating a Foo&quot;
+        Foo foo = Foo.buildWithoutSave()
+
+        then: &quot;validation should trigger&quot;
+        assertFalse foo.validate()
+
+        and: &quot;validation error should be on the value field&quot;
+        assert foo.errors.allErrors.first().field == &quot;name&quot;
+    }
+
+}
+</code></pre>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014 Marco Pas ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="js/jquery-min-2.1.1.js"></script>
+    <script src="js/bootstrap.min-3.1.1.js"></script>
+    </body>
+</html>

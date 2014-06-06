@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Development on CodeVerse </title>
+      <generator uri="https://hugo.spf13.com">Hugo</generator>
+    <link>http://mpas.github.io/categories/development/index.xml</link>
+    
+    
+    
+    <updated>Wed, 27 Nov 2013 00:00:00 UTC</updated>
+    
+    <item>
+      <title>Bookreview : Instant Vert.x</title>
+      <link>http://mpas.github.io/post/2013/11/bookreview-instant-vertx</link>
+      <pubDate>Wed, 27 Nov 2013 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2013/11/bookreview-instant-vertx</guid>
+      <description>&lt;p&gt;For those who have not yet got into contact with &lt;a href=&#34;http://vertx.io/&#34;&gt;Vert.x&lt;/a&gt;, the book &lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Instant Vert.x&lt;/a&gt; (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.&lt;/p&gt;
+
+&lt;p&gt;As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.&lt;/p&gt;
+
+&lt;p&gt;For those who have not yet had the opportunity to learn about Vert.x, I would not immediately recommend this book. The online documentation section on Vertx.io contains the same information. But if you like a book with information nicely put into digestible chapters then this book is a good fit.&lt;/p&gt;
+
+&lt;p&gt;Personally i hoped to get some more technical information and how-to information from this book but it is really targeted towards people that are just starting or have a beginning interest in Vert.x.&lt;/p&gt;
+
+&lt;p&gt;Overall, I really liked the compactness and pace of the book. It is an easy read and you quickly gain knowledge on the high level concepts of Vert.x. While noted earlier you can get the information also on Vertx.io website or other places, it&amp;rsquo;s is nice to have all information aggregated in one place. This book is a good start in your journey to learn about Vert.x.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://vertx.io/&#34;&gt;Go to the Vert.x website&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Get the book at Pack Publishing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Using Grails to power your Electric Car</title>
+      <link>http://mpas.github.io/post/2013/05/grails-to-power-your-electric-car</link>
+      <pubDate>Sat, 25 May 2013 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2013/05/grails-to-power-your-electric-car</guid>
+      <description>&lt;p&gt;Past week I really enjoyed visiting &amp;amp; speaking at the &lt;a href=&#34;http://gr8conf.org/&#34;&gt;Grails Conference (GR8Conf 2013)&lt;/a&gt;. The organisation made it possible that for me to host a talk about &amp;ldquo;Using Grails to power your Electric Car&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car&#34;&gt;Using Grails to power your Electric Car&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Simple Helloworld verticle</title>
+      <link>http://mpas.github.io/post/2013/05/simple-helloworld-verticle</link>
+      <pubDate>Thu, 16 May 2013 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2013/05/simple-helloworld-verticle</guid>
+      <description>&lt;p&gt;Sourcecode:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package helloworld;
+
+import org.vertx.java.core.Handler;
+import org.vertx.java.core.http.HttpServerRequest;
+import org.vertx.java.deploy.Verticle;
+
+public class Server extends Verticle {
+
+    public void start() {
+        vertx.createHttpServer().requestHandler(new Handler&amp;lt;HttpServerRequest&amp;gt;() {
+            public void handle(HttpServerRequest req) {
+            req.response.headers().put(&amp;quot;Content-Type&amp;quot;, &amp;quot;text/html; charset-UTF-8&amp;quot;);
+            req.response.end(&amp;quot;&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;Hello from vert.x!&amp;lt;/h1&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&amp;quot;);
+            }
+        }).listen(8080);
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Grails migrations and &#39;Waiting for changelog lock&#39;</title>
+      <link>http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog</link>
+      <pubDate>Thu, 28 Feb 2013 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog</guid>
+      <description>&lt;p&gt;Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;...
+Waiting for changelog lock....
+Waiting for changelog lock....
+Waiting for changelog lock....
+...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To solve this take the following steps:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Stop the application container (example: Tomcat)&lt;/li&gt;
+&lt;li&gt;In the database look for a table called &lt;code&gt;DATABASECHANGELOGLOCK&lt;/code&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;In the table there is a record with id=1, change the following values:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;locked -&amp;gt; 0
+lockgranted -&amp;gt; null
+lockedby -&amp;gt; null
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;After updating this record start the application container&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Notes:&lt;/strong&gt;&lt;br /&gt;
+To see who has locked the database (normally the local machine):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;select * from DATABASECHANGELOGLOCK;
+To update the record
+update DATABASECHANGELOGLOCK 
+set locked=0, lockgranted=null, lockedby=null 
+where id=1
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Testing constraints with Build Test Data</title>
+      <link>http://mpas.github.io/post/2013/01/testing-constraints-with-build-test-data</link>
+      <pubDate>Sun, 13 Jan 2013 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2013/01/testing-constraints-with-build-test-data</guid>
+      <description>&lt;p&gt;The &lt;a href=&#34;http://grails.org/plugin/spock&#34;&gt;Spock&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://grails.org/plugin/build-test-data&#34;&gt;Build Test Data&lt;/a&gt; plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!&lt;/p&gt;
+
+&lt;p&gt;When testing constraints on an object it can be used as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Foo {
+    String name   // name of foo
+    Integer age   // age of foo
+
+    static constraints = {
+     name nullable: false, blank: false // name may never be nullable or blank
+     age nullable: true
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And the Spock test&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@Build(Foo)
+@TestFor(Foo)
+class FooSpec extends Specification {
+
+    def &amp;quot;Name of Foo must exist&amp;quot;() {
+        given: &amp;quot;setting up the constraints&amp;quot;
+        mockForConstraintsTests(Foo)
+
+        when: &amp;quot;creating a Foo&amp;quot;
+        Foo foo = Foo.buildWithoutSave()
+
+        then: &amp;quot;validation should trigger&amp;quot;
+        assertFalse foo.validate()
+
+        and: &amp;quot;validation error should be on the value field&amp;quot;
+        assert foo.errors.allErrors.first().field == &amp;quot;name&amp;quot;
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Getting the Enum from a String value</title>
+      <link>http://mpas.github.io/post/2013/01/getting-enum-from-string-value</link>
+      <pubDate>Thu, 03 Jan 2013 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2013/01/getting-enum-from-string-value</guid>
+      <description>&lt;p&gt;Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Enum.valueOf(YourClassName.class, &amp;quot;String Value&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html&#34;&gt;http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Loading Grails configuration files update!</title>
+      <link>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files-update</link>
+      <pubDate>Mon, 17 Sep 2012 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files-update</guid>
+      <description>&lt;p&gt;We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;You cannot deal with all Grails Mail settings in the configuration file&lt;/li&gt;
+&lt;li&gt;You cannot use the log4j DSL to extract the logging configuration outside your application&lt;/li&gt;
+&lt;li&gt;etc..&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this &lt;a href=&#34;http://www.baselogic.com/blog/development/java-javaee-j2ee/getting-grails-external-configuration-working-in-the-real-world/&#34;&gt;blogpost&lt;/a&gt; which was the start for our implementation of loading the external configuration files.&lt;/p&gt;
+
+&lt;p&gt;We modified some small things and added a way of loading a configuration file that is resident in the root of a Grails project. So when developing with IntelliJ for example the config file is at your fingertips in the root of the application project structure. We must also note that we are very happy with the fact that the Grails community was more then helpfull in helping us out here!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// -------------------------------------------------------------------------------- //
+// - START: CONFIGURATION FILE LOADING -------------------------------------------- //
+// -------------------------------------------------------------------------------- //
+// locations to search for config files that get merged into the main config
+// config files can either be Java properties files or ConfigSlurper scripts
+def ENV_NAME = &amp;quot;${appName}.config.location&amp;quot;
+if(!grails.config.locations || !(grails.config.locations instanceof List)) {
+    grails.config.locations = []
+}
+println &amp;quot;--------------------------------------------------------------------------------&amp;quot;
+println &amp;quot;- Loading configuration file                                                   -&amp;quot;
+println &amp;quot;--------------------------------------------------------------------------------&amp;quot;
+// 1: check for environment variable that has been set! This variable must point to the
+// configuration file that must be used. Can be a .groovy or .properties file!
+if(System.getenv(ENV_NAME) &amp;amp;&amp;amp; new File(System.getenv(ENV_NAME)).exists()) {
+    println(&amp;quot;Including System Environment configuration file: &amp;quot; + System.getenv(ENV_NAME))
+    grails.config.locations &amp;lt;&amp;lt; &amp;quot;file:&amp;quot; + System.getenv(ENV_NAME)
+
+// 2: check for commandline properties!
+// Use it like (examples):
+//      grails -D[name of app].config.location=/tmp/[name of config file].groovy run-app
+// or
+//      grails -D[name of app].config.location=/tmp/[name of config file].properties run-app
+//
+} else if(System.getProperty(ENV_NAME) &amp;amp;&amp;amp; new File(System.getProperty(ENV_NAME)).exists()) {
+    println &amp;quot;Including configuration file specified on command line: &amp;quot; + System.getProperty(ENV_NAME)
+    grails.config.locations &amp;lt;&amp;lt; &amp;quot;file:&amp;quot; + System.getProperty(ENV_NAME)
+
+// 3: check on local project config file in the project root directory
+} else if (new File(&amp;quot;./${appName}-config.groovy&amp;quot;).exists()) {
+    println &amp;quot;*** User defined config: file:./${appName}-config.groovy ***&amp;quot;
+    grails.config.locations = [&amp;quot;file:./${appName}-config.groovy&amp;quot;]
+} else if (new File(&amp;quot;./${appName}-config.properties&amp;quot;).exists()) {
+    println &amp;quot;*** User defined config: file:./${appName}-config.properties ***&amp;quot;
+    grails.config.locations = [&amp;quot;file:./${appName}-config.groovy&amp;quot;]
+
+// 4: check on local project config file in ${userHome}/.grails/...
+} else if (new File(&amp;quot;${userHome}/.grails/${appName}-config.groovy&amp;quot;).exists()) {
+    println &amp;quot;*** User defined config: file:${userHome}/.grails/${appName}-config.groovy ***&amp;quot;
+    grails.config.locations = [&amp;quot;file:${userHome}/.grails/${appName}-config.groovy&amp;quot;]
+} else if (new File(&amp;quot;${userHome}/.grails/${appName}-config.properties&amp;quot;).exists()) {
+    println &amp;quot;*** User defined config: file:${userHome}/.grails/${appName}-config.properties ***&amp;quot;
+    grails.config.locations = [&amp;quot;file:${userHome}/.grails/${appName}-config.properties&amp;quot;]
+
+// 5: we have problem!!
+} else {
+    println &amp;quot;********************************************************************************&amp;quot;
+    println &amp;quot;* No external configuration file defined                                       *&amp;quot;
+    println &amp;quot;********************************************************************************&amp;quot;
+}
+println &amp;quot;(*) grails.config.locations = ${grails.config.locations}&amp;quot;
+println &amp;quot;--------------------------------------------------------------------------------&amp;quot;
+// -------------------------------------------------------------------------------- //
+// - END: CONFIGURATION FILE LOADING ---------------------------------------------- //
+// -------------------------------------------------------------------------------- //
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Loading external Configuration files in a Grails application</title>
+      <link>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files</link>
+      <pubDate>Sun, 16 Sep 2012 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files</guid>
+      <description>&lt;p&gt;The use of &amp;lsquo;Config.groovy&amp;rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &amp;lsquo;Config.groovy&amp;rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.&lt;/p&gt;
+
+&lt;p&gt;A simple mechanism to load these property files is to place a short snippet of code in the &amp;lsquo;Config.groovy&amp;rsquo; that will load a specific configuration file from the filesystem, depending on the availability.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;grails.config.locations = [&amp;quot;classpath:application-config.properties&amp;quot;, &amp;quot;file:./application-config.properties&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This snippet will first try to load the property file from the classpath and if that fails you have a backup on the filesystem. This opens opportunities to load a different property file during development! When you deploy the application you can place the &amp;lsquo;application-config.properties&amp;rsquo; file inside a folder which is available in the classpath. For Apache Tomcat this would be the &amp;lsquo;lib&amp;rsquo; folder!&lt;/p&gt;
+
+&lt;p&gt;This gives the opportunity to configure the application outside the &amp;lsquo;Config.groovy&amp;rsquo; file so any changes made the the property file will be reflected in your environment.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Combining ImageMagick and Grails</title>
+      <link>http://mpas.github.io/post/2012/09/grails-and-imagemagick</link>
+      <pubDate>Sat, 15 Sep 2012 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2012/09/grails-and-imagemagick</guid>
+      <description>&lt;p&gt;When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Steps:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Install ImageMagick according to the installation instructions.&lt;/li&gt;
+&lt;li&gt;It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc. So remember where this utility is installed on your system!&lt;/li&gt;
+&lt;li&gt;Make sure that ImageMagick is installed correctly be converting an image to a thumbnail by using the following command in a terminal.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;b&gt;&lt;/b&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/opt/local/bin/convert &amp;lt;filename&amp;gt; -thumbnail 70x70 &amp;lt;thumbnail-filename&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;example:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Create some code that calls the ImageMagick convert utility with the correct parameters to enable you to achieve what you want. Something like below:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def createThumbnail(File file) {
+   def command = &amp;quot;/opt/local/bin/convert ${file.canonicalPath} &amp;quot; +
+                 &amp;quot;-thumbnail 70x70 &amp;quot; +
+                 &amp;quot;/images/thumbs&amp;quot; + File.separator + &amp;quot;${file.name}&amp;quot;
+   def proc = Runtime.getRuntime().exec(command)
+   int exitStatus;
+   while (true) {
+       try {
+           exitStatus = proc.waitFor();
+           break;
+       } catch (java.lang.InterruptedException e) {
+           log.debug(&amp;quot;Creating thumbnail - Interrupted: Ignoring and waiting&amp;quot;)
+       }
+   }
+    if (exitStatus != 0) {
+        log.error(&amp;quot;Error executing command: exitStatus=[${exitStatus}]&amp;quot;)
+    }
+    log.debug(&amp;quot;Succesfully created thumbnail&amp;quot;)
+    return (exitStatus == 0);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Installing Vimball plugins when using Pathogen</title>
+      <link>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen</link>
+      <pubDate>Fri, 14 Sep 2012 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen</guid>
+      <description>
+
+&lt;p&gt;No need to discuss that &lt;a href=&#34;http://www.vim.org/&#34;&gt;Vim&lt;/a&gt; is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the &lt;a href=&#34;http://www.installationwiki.org/Installing_Vim_Scripts&#34;&gt;wiki&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_0&#34;&gt;Pathogen&lt;/h4&gt;
+
+&lt;p&gt;When you instal a plugin one may copy the files to the plugin directory. In a later stage you also want to delete a plugin and then the hunt for files starts. You need to track down which files belong to the specific plugin you want to delete. &lt;a href=&#34;http://tammersaleh.com/posts/the-modern-vim-config-with-pathogen&#34;&gt;Pathogen&lt;/a&gt; to the rescue :)&lt;/p&gt;
+
+&lt;p&gt;Pathogen enables you to create sub-folders inside a bundle-folder which will acts a place holder for all your plugins nicely separated in a ‘folder per plugin’ structure. So if you need to delete a plugin then you just delete the correct plugin-folder and everything is gone.&lt;/p&gt;
+
+&lt;p&gt;Normal installation of a Vim script is standard, you create a sub-folder below the bundle-folder, copy the Vim script and all is ok. BUT when you want to use a &lt;a href=&#34;http://www.vim.org/scripts/script.php?script_id=1502&#34;&gt;vimball&lt;/a&gt; then you need to do some additional steps.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Create a folder in which you want to later on extract the vimball. Preferably below the ‘bundle’ folder.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mkdir ~/.vim/bundle/align
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Open the vimball with command ‘:e &amp;lsquo;location of your vimball’/‘name of your vimball&amp;rsquo;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:e ~/Downloads/Align.vba
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Tell Vim to use the vimball by issuing command ‘:UseVimball &amp;lsquo;location to extract’&amp;rsquo;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;:UseVimball ~/.vim/bundle/align
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Restart your Vim and your plugin should be available.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Installing Markdown on OSX and use it inside VIM</title>
+      <link>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim</link>
+      <pubDate>Thu, 13 Sep 2012 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim</guid>
+      <description>
+
+&lt;p&gt;Back again to one of my favorites which is called &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;Markdown&lt;/a&gt;. Once every now and then i forget how easy it is. Normally i use &lt;a href=&#34;http://macromates.com/&#34;&gt;Textmate&lt;/a&gt; to do all my writing, but recently i have picked up &lt;a href=&#34;http://www.vim.org/&#34;&gt;VIM&lt;/a&gt; to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)&lt;/p&gt;
+
+&lt;p&gt;Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different. But anything is different when using VIM :)&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_0&#34;&gt;Steps&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;download Markdown from - &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;The home of Markdown&lt;/a&gt;, It’s usual place as this is a Perl script you need to put it somewhere so OSX is able to execute it.&lt;/li&gt;
+&lt;li&gt;start your terminal and create a directory inside &lt;code&gt;usr/local/bin&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;extract the downloaded file and put the &lt;code&gt;Markdown.pl&lt;/code&gt; file * inside the &lt;code&gt;user/local/bin&lt;/code&gt; directory&lt;/li&gt;
+&lt;li&gt;inside the terminal chmod the &lt;code&gt;Markdown.pl&lt;/code&gt; to 777&lt;/li&gt;
+&lt;li&gt;using the &lt;a href=&#34;http://gothick.org.uk/2010/08/04/installing-markdown-as-a-os-x-service-using-automator-in-snow-leopard/&#34;&gt;Installing Markdown as OSX Service&lt;/a&gt; creates a service to use Markdown&lt;/li&gt;
+&lt;li&gt;You are done… :)&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Introduction to Groovy &amp; Grails</title>
+      <link>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails</link>
+      <pubDate>Wed, 12 Sep 2012 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails</guid>
+      <description>&lt;p&gt;Recently i had the opportunity to show an exciting crowd a presentation about &lt;a href=&#34;http://groovy.codehaus.org/&#34;&gt;Groovy&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://www.grails.org/&#34;&gt;Grails&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This happend during the &lt;a href=&#34;http://www.devnology.nl/&#34;&gt;Devnology&lt;/a&gt; Community Event at Baarn. If you want to view the presentation &amp;ndash;&amp;gt; &lt;a href=&#34;http://slidesha.re/cfL3eH&#34;&gt;check it out here!&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Change default homepage for a Grails application</title>
+      <link>http://mpas.github.io/post/2012/09/grails-change-default-homepage</link>
+      <pubDate>Tue, 11 Sep 2012 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2012/09/grails-change-default-homepage</guid>
+      <description>&lt;p&gt;You can set the default homepage for a Grails application by modifying the &lt;code&gt;grails-app/conf/UrlMappings.groovy&lt;/code&gt; file. In a new Grails application this file will look like&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class UrlMappings {
+ static mappings = {
+  &amp;quot;/$controller/$action?/$id?&amp;quot;{
+   constraints {
+    // apply constraints here
+   }
+  }
+  &amp;quot;/&amp;quot;(view:&amp;quot;/index&amp;quot;)
+  &amp;quot;500&amp;quot;(view:&#39;/error&#39;)
+ }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Replace the line:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;/&amp;quot;(view:&amp;quot;/index&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;with:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;quot;/&amp;quot;(controller:&#39;home&#39;, action:&amp;quot;/index&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the &lt;strong&gt;HomeController&lt;/strong&gt; and corresponding &lt;strong&gt;index&lt;/strong&gt; action related to that controller.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Funcional Code Coverage using Cobertura</title>
+      <link>http://mpas.github.io/post/2012/09/functional-code-coverage-using-cobertura</link>
+      <pubDate>Mon, 10 Sep 2012 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2012/09/functional-code-coverage-using-cobertura</guid>
+      <description>
+
+&lt;p&gt;So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.&lt;/p&gt;
+
+&lt;p&gt;One can start to complain :), stop working on the project or even better master the concept of &lt;a href=&#34;http://se-radio.net/podcast/2009-11/episode-148-software-archaeology-dave-thomas&#34;&gt;Software Archeology&lt;/a&gt;. An additional thing is to adopt the use of &lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; a code coverage tool which can easily be used to track down Functional Code Coverage. Normally the concept of Code Coverage is used to identify what code is executed during development and test phase. This to give an indication on how much code you cover with your testing strategy (often unit testing). This is &lt;strong&gt;IMHO&lt;/strong&gt; something you will always want to know! But in the case you do not have unit tests or creating them is impossible due to the technical/organisational nature of the project, you can rely on creating functional tests and still track down the &amp;lsquo;functional&amp;rsquo; coverage with tools like &lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; (or alternatives like &lt;a href=&#34;http://emma.sourceforge.net/&#34;&gt;Emma&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;This tackles several problems:&lt;/strong&gt;&lt;br /&gt;
+You are creating functional tests which can be used for regression testing
+You are creating awareness on how little is tested or is known about the system
+Note: By functional testing we mean that we are going to test via the Web layer of the JEE project To see an example on how the reporting looks like, check out this &lt;a href=&#34;http://cobertura.sourceforge.net/sample/&#34;&gt;sample&lt;/a&gt; report!&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_0&#34;&gt;How to get Code Coverage information&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;General process:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Compile your software&lt;/li&gt;
+&lt;li&gt;Instrument the compiled code&lt;/li&gt;
+&lt;li&gt;Deploy your instrumented code and start the application&lt;/li&gt;
+&lt;li&gt;Use the application or run automated functional tests&lt;/li&gt;
+&lt;li&gt;Shutdown the application&lt;/li&gt;
+&lt;li&gt;Generate your Code Coverage reports&lt;/li&gt;
+&lt;li&gt;no step 7! All done :)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The remaining part of this article is going to describe how you can get Functional Code Coverage information in the process of continously building, deploying and testing your software. Some elements are not explained due to the fact that other extensive information is given somewhere else on the web!&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_1&#34;&gt;Compile, Instrument and Build&lt;/h4&gt;
+
+&lt;p&gt;The &lt;a href=&#34;http://maven.apache.org/&#34;&gt;Maven&lt;/a&gt; project enables you to build your software with great ease. Giving a few simple commands makes it able to build a project, deploy it and even integrate it with tools and technologies such as  Cobertura. There is a even a &lt;a href=&#34;http://mojo.codehaus.org/cobertura-maven-plugin/&#34;&gt;Cobertura Maven&lt;/a&gt; Plugin to easily use &lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; in a &lt;a href=&#34;http://maven.apache.org/&#34;&gt;Maven&lt;/a&gt; build. We need to use Cobertura in the build phase because it will instrument the compiled code and generate a small file called &amp;lsquo;cobertura.ser&amp;rsquo; which is used as a kind of database that stores each call to a piece of code. The instrumented code and the database file are crucial because they contains all information needed to generate code coverage reports later on.&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_2&#34;&gt;Run and Test&lt;/h4&gt;
+
+&lt;p&gt;After the code is succesfully instrumented you may deploy the build artifacts together with the &amp;lsquo;cobertura.ser&amp;rsquo; file inside a JBoss JEE container and run your application.&lt;/p&gt;
+
+&lt;p&gt;Note: In our project we used &lt;a href=&#34;http://www.jboss.org/&#34;&gt;JBoss&lt;/a&gt; but offcourse you can use other application servers!&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; project delivers an excellent tooling and technology which enables you to record your functional flow and lets you replay a scenario which was recorded earlier on. For more information on &lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; recording and usage, please check the &lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; project. But for now lets assume you have created a couple of functional tests, so you can execute them.&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_3&#34;&gt;Generate coverage reports&lt;/h4&gt;
+
+&lt;p&gt;After the functional tests have been executed, the modified database file &amp;lsquo;cobertura.ser&amp;rsquo; can be collected and reports can be generated. Cobertura has some nice predefined reporting templates. After these stepes you should have inisight on what code is actually executed during a functional flow and this may contribute to your understanding of the application.&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_4&#34;&gt;Not once but do it always!&lt;/h4&gt;
+
+&lt;p&gt;The process of compiling, instrumenting, deploying, testing and reporting can be fully automatized. The famous Hudson comes to the rescue! When corectly implemented Hudson will serve you all information that you need on the moments you need it!&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_5&#34;&gt;Tools &amp;amp; Technologies&lt;/h4&gt;
+
+&lt;p&gt;The folowing list provides information on the tools that are used:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://maven.apache.org/&#34;&gt;Maven&lt;/a&gt; -&amp;gt; used info for compiling and instrumenting your code (alternative to &lt;a href=&#34;http://ant.apache.org/&#34;&gt;Ant&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; -&amp;gt; used to get Code Coverage information&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.jboss.org/&#34;&gt;JBoss&lt;/a&gt; -&amp;gt; used for running a JEE project&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; -&amp;gt; used to record and playback functional tests&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt; -&amp;gt; used to automatically build &amp;amp; test your software&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Distributed Deployment with Hudson &amp; SSH</title>
+      <link>http://mpas.github.io/post/2012/09/distributed-deployment-with-hudson-and-ssh</link>
+      <pubDate>Sun, 09 Sep 2012 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2012/09/distributed-deployment-with-hudson-and-ssh</guid>
+      <description>
+
+&lt;p&gt;Have you already implemented an multi-server artifact deployment using a &lt;a href=&#34;http://en.wikipedia.org/wiki/Continuous_integration&#34;&gt;Continuous Integration&lt;/a&gt; Engine? If not, then read ahead and maybe this article is of help.&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_0&#34;&gt;The need for Continuous Integration&lt;/h4&gt;
+
+&lt;p&gt;A good practice in a software development methodology and lifecycle is the use of a &lt;a href=&#34;http://en.wikipedia.org/wiki/Continuous_integration&#34;&gt;Continuous Integration&lt;/a&gt; Engine. The adoption of &lt;a href=&#34;http://en.wikipedia.org/wiki/Continuous_integration&#34;&gt;Continuous Integration&lt;/a&gt; improves you software quality by quickly reporting failed builds so you can modify/correct your code. Popular Continuous Integration Engines can often be extended with software quality tooling so you can report on specific quality aspect of your software.&lt;/p&gt;
+
+&lt;p&gt;Thus informing developers and even other people who take an interest in the status of the latest build. &lt;strong&gt;IMHO&lt;/strong&gt; a failed build can also be identified as code that compiles but that does not meet the quality standards set by your organization. You are off-course totally free in defining what in your opinion a failed build actually means!&lt;/p&gt;
+
+&lt;p&gt;A good build compiles, quality requirements have been met and automatic functional and unit testing has been successful.&lt;/p&gt;
+
+&lt;p&gt;There a few popular &lt;a href=&#34;http://en.wikipedia.org/wiki/Continuous_integration&#34;&gt;Continuous Integration&lt;/a&gt; Engines available:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson Extensible Continuous Integration Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://cruisecontrol.sourceforge.net/&#34;&gt;CruiseControl&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.atlassian.com/software/bamboo/&#34;&gt;Bamboo&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Probably there a some more, but for me needs the [Hudson Extensible Continuous Integration Server] works perfect.&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_1&#34;&gt;My needs&lt;/h4&gt;
+
+&lt;p&gt;My Continuous Integration Engine:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Must support multiple programming languages Java/.Net/Ruby&lt;/li&gt;
+&lt;li&gt;Runs on multiple operating systems (Windows/Mac/Linux)&lt;/li&gt;
+&lt;li&gt;Pluggable in the sense that there must be integration with for example JUnit, JMeter, Cobertura, Checkstyle etc.&lt;/li&gt;
+&lt;li&gt;Must be able to send out notifications using email, twitter, Instant Messaging&lt;/li&gt;
+&lt;li&gt;Seemless integration with CVS/SubVersion and GIT&lt;/li&gt;
+&lt;li&gt;Simple and easy Configuration&lt;/li&gt;
+&lt;li&gt;Must support timed builds &amp;amp; trigger builds from &lt;a href=&#34;http://en.wikipedia.org/wiki/Revision_control&#34;&gt;SCM&lt;/a&gt; commits&lt;/li&gt;
+&lt;li&gt;Maintain a link between modified code and&lt;/li&gt;
+&lt;li&gt;and some more..&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;All of these requirements and more have been succesfully fulfilled by using &lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_2&#34;&gt;Hudson and automatic deployment&lt;/h4&gt;
+
+&lt;p&gt;In every project a recurring problem arises, artifacts of a software build have to be distributed accross different servers and environments. How are the build artifacts going to be distributed and deployed? Why not let the &lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt; server give a helping hand!!&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_3&#34;&gt;Deployment Scenario&lt;/h4&gt;
+
+&lt;p&gt;In the following scenario we will be distributing build artifacts from a central Hudson server to three different &lt;a href=&#34;http://www.jboss.org/&#34;&gt;JBoss&lt;/a&gt; application servers al running Windows 2003 Server as Operating System. Next to the &lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt; server we have a &lt;a href=&#34;http://subversion.tigris.org/&#34;&gt;Subversion&lt;/a&gt; system which is used for &lt;a href=&#34;http://en.wikipedia.org/wiki/Revision_control&#34;&gt;SCM&lt;/a&gt; purposes.&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_4&#34;&gt;Distribution of build artifacts&lt;/h4&gt;
+
+&lt;p&gt;After a succesfull build, the artifacts have to be distributed to remote machines. Offcourse the latest code has been checked out from the SVN repository, compiled and tested. The distribution of the artifacts can be done in various ways. One can use Ftp, shared folders, SCM checkin etc..&lt;/p&gt;
+
+&lt;p&gt;For me the most easiest way to distribute build artifacts is using &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;Secure Shell access aka SSH&lt;/a&gt;. This is a secure and a standardized manner for distribution. Lets assume we have the build artifacts somewhere on our &lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt; server, we need a way of transfering them using &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;SSH&lt;/a&gt; to a remote machine.&lt;/p&gt;
+
+&lt;p&gt;To accomplish this we need SSH access to the remote machine. With the help off &lt;a href=&#34;http://www.itefix.no/i2/node/27&#34;&gt;CopSSH&lt;/a&gt; installing SSH is a breeze!&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_5&#34;&gt;Prepare for installation of SSH&lt;/h4&gt;
+
+&lt;p&gt;Prepare yourself by downloading:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.itefix.no/i2/node/27&#34;&gt;CopSSH&lt;/a&gt; – &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;SSH&lt;/a&gt; service for Windows&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html&#34;&gt;Putty&lt;/a&gt; – &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;SSH&lt;/a&gt; client (used for connection to the SSH service)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html&#34;&gt;PSCP&lt;/a&gt; – &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;SSH&lt;/a&gt; client for file transfer&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html&#34;&gt;Plink&lt;/a&gt; – &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;SSH&lt;/a&gt; client for executing remote commands&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;toc_6&#34;&gt;Installing and enable remote access using SSH&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Install &lt;a href=&#34;http://www.itefix.no/i2/node/27&#34;&gt;CopSSH&lt;/a&gt; on the remote system&lt;/li&gt;
+&lt;li&gt;On the remote system enable a user for &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;SSH&lt;/a&gt; access, see the installation guide of CopSSH&lt;/li&gt;
+&lt;li&gt;Start &lt;a href=&#34;http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html&#34;&gt;Putty&lt;/a&gt; on your local machine&lt;/li&gt;
+&lt;li&gt;Using Putty connect to the remote system and exchange security credentials&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You are now officially ready to remotely access the system using SSH
+If you want to enable the Hudson server to access the remote system, start Putty on the Hudson server and repeat step 4!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Make sure that your Hudson uses the same credentials then the account in which you exchange security credentials, otherwise remote access from Hudson server to the remote system will not work!&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_7&#34;&gt;Execute remote commands and Exchange files using SSH&lt;/h4&gt;
+
+&lt;p&gt;If you can succesfully access the remote server using Putty, it is time to exchange files or execute remote commands. This can be done by using 2 small commandline utilities called PSCP for file transfer and Plink for executing remote commands such as remotely deleting files etc.&lt;/p&gt;
+
+&lt;p&gt;Make sure these are in you PATH settings so you can execute them everywhere!&lt;/p&gt;
+
+&lt;p&gt;Examples for executing a remote command (substitute the %parameters% with your own ones)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#create a directory
+plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  mkdir C:/tmp
+
+#delete a directory
+plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  rm -rf C:/tmp
+
+#stop a windows service
+plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  net stop %SERVICENAME%
+
+#upload a file
+pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
+
+#upload multiple files
+pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;toc_8&#34;&gt;The return of the .bat file&lt;/h4&gt;
+
+&lt;p&gt;So far we have enabled remote access using SSH / CopSSH, executed remote commands and transferred files. All the needed ingredients are in place to enable our Hudson server to remotely deploy build artifacts. In the job configuration of Hudson you can trigger a batch file after a succesfull build, so whenever a succesfull build occurs trigger a batch that executes a few commands to quickly deploy build artifacts to any number of remote servers.&lt;/p&gt;
+
+&lt;p&gt;In our case all deployment artifacts are copied to a central directory per project. So if we need to deploy a build, we can copy parts or the whole directory contents to a remote server.&lt;/p&gt;
+
+&lt;p&gt;To give an example see the following batch files: Main example for a batchfile that triggers stopping of the remote Windows Services gives the instruction on which files need to be remotely deployed and start the services again.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-&amp;gt; filename = upload-project-to-development.bat
+@CLS
+@ECHO OFF
+SET USERNAME=%1
+SET PASSWORD=%2
+SET HOSTNAME=%3
+SET JBOSSDIR=%4
+SET SOURCEDIR=%5
+@ECHO : - start upload procedure
+@ECHO : -- stopping servers
+@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% net stop JBoss
+@ECHO : -- uploading files CALL upload-files.bat %USERNAME% %PASSWORD% %HOSTNAME% %JBOSSDIR% %SOURCEDIR%\*.*
+@ECHO : -- starting servers
+@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% net start JBoss
+@ECHO : - finished upload procedure
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The above script can be called easily by the Hudson server after a succesfull deployment.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;example:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;upload-project-to-development scott tiger 10.0.0.100 d:/java/server/jboss-v5.0 d:/build_artifacts/projectx
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;The example above:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Stops the JBoss server on the 10.0.0.100 host&lt;/li&gt;
+&lt;li&gt;Passes some parameters to a file called “upload-files.bat” script&lt;/li&gt;
+&lt;li&gt;Starts the JBoss servers again&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The script that executes the actual maintenance and uploads is the “upload-files.bat file”. All parameters are passed in by the calling script.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-&amp;gt; filename = upload-files.bat
+@ECHO OFF
+SET USERNAME=%1
+SET PASSWORD=%2
+SET HOSTNAME=%3
+SET JBOSSDIR=%4
+SET SOURCE=%5
+SET DESTINATION=%JBOSSDIR%/deploy
+@ECHO  : - %HOSTNAME% - starting file copy
+@ECHO  : -- %HOSTNAME% - deleting JBOSS tmp
+@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm -rf %JBOSSDIR%/tmp
+@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% mkdir %JBOSSDIR%/tmp
+@ECHO  : -- %HOSTNAME% - deleting JBOSS work
+@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm -rf %JBOSSDIR%/work
+@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% mkdir %JBOSSDIR%/work
+@ECHO  : -- %HOSTNAME% - deleting previous ears + jars
+@plink -batch  -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm %JBOSSDIR%/deploy/*.ear
+@plink -batch  -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm %JBOSSDIR%/deploy/*.jar
+@ECHO  : -- %HOSTNAME% - copy remote files
+@pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
+@ECHO  : - %HOSTNAME% - finishing file copy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;The example above:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Removes the JBoss tmp &amp;amp; work directory&lt;/li&gt;
+&lt;li&gt;Removes artifacts from previous builds&lt;/li&gt;
+&lt;li&gt;Copies the artifacts to the remote JBoss deploy directory&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;toc_9&#34;&gt;Steps taken&lt;/h4&gt;
+
+&lt;p&gt;So the list of tasks executed by calling the batch files with the correct parameters are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Stopping the remote JBoss server&lt;/li&gt;
+&lt;li&gt;Removing the remote JBoss tmp &amp;amp; work directories&lt;/li&gt;
+&lt;li&gt;Removing the remote JBoss artifacts from previous deployments&lt;/li&gt;
+&lt;li&gt;Copy files to the remote JBoss server&lt;/li&gt;
+&lt;li&gt;Starting the JBoss server again&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;toc_10&#34;&gt;From build to deployment&lt;/h4&gt;
+
+&lt;p&gt;So with a quick installation of SSH/Putty/Plink/PSCP we now have a modular and easy way of distributing files to remote systems. Offcourse there are lots of improvements to make, but for now it works without any problems!&lt;/p&gt;
+
+&lt;p&gt;The given examples can be easily modified so that after a succesfull build the artifact deployment to all of your servers can be done in a very simple and easy way.
+Notes&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

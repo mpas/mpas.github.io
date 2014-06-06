@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Troubles getting vsftpd user logged in?</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://mpas.github.io/codeverse">CodeVerse</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://mpas.github.io/codeverse">Home</a></li>
+						<li><a href="http://mpas.github.io/codeverse/page/about/">About</a></li>
+						<li><a href="http://mpas.github.io/codeverse/page/resume/">Resume</a></li>
+						<li><a href="http://mpas.github.io/codeverse/post/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>Troubles getting vsftpd user logged in?</h3>
+				<span class="label label-primary">Tue Sep 18, 2012</span> in 
+				
+					
+					<a href="/categories/sysadmin">SysAdmin</a>
+				 using tags 			 
+				
+					
+					<a href="/tags/ftps">ftps</a>
+				
+					 , 
+					<a href="/tags/linux">linux</a>
+				
+					 , 
+					<a href="/tags/ubuntu">ubuntu</a>
+				
+					 , 
+					<a href="/tags/vsftpd">vsftpd</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			<p>Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message:
+500 OOPS: vsftpd: refusing to run with writable root inside chroot()</p>
+
+<p>After some googling around i found the following fix..
+chmod the folder that the ftp user comes in to as he first login (root folder) by using in terminal:</p>
+
+<pre><code>sudo chmod a-w /home/user
+</code></pre>
+
+<p>Create a subfolder within the folder, either by the use of GUI or if you only have terminal it&rsquo;s:</p>
+
+<pre><code>sudo mkdir /home/user/newfolder
+</code></pre>
+
+<p>Now you should be able to log in and read write within the &ldquo;newfolder&rdquo;.</p>
+
+<p>You will <strong>NOT</strong> be able to write in the root folder itself from the ftp with the chmod a-w, so that is the reason for the subfolder, there you can.</p>
+
+<p><a href="http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update">http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update</a></p>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014 Marco Pas ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="js/jquery-min-2.1.1.js"></script>
+    <script src="js/bootstrap.min-3.1.1.js"></script>
+    </body>
+</html>

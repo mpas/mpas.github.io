@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Automount NTFS volume under Linux (Mint)</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://mpas.github.io/codeverse">CodeVerse</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://mpas.github.io/codeverse">Home</a></li>
+						<li><a href="http://mpas.github.io/codeverse/page/about/">About</a></li>
+						<li><a href="http://mpas.github.io/codeverse/page/resume/">Resume</a></li>
+						<li><a href="http://mpas.github.io/codeverse/post/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>Automount NTFS volume under Linux (Mint)</h3>
+				<span class="label label-primary">Tue May 28, 2013</span> in 
+				
+					
+					<a href="/categories/operating-systems">Operating Systems</a>
+				 using tags 			 
+				
+					
+					<a href="/tags/linux">linux</a>
+				
+					 , 
+					<a href="/tags/mint">mint</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			<p>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file.</p>
+
+<pre><code>$ sudo pico /etc/fstab
+</code></pre>
+
+<p>Add a line in the /etc/fstab file:</p>
+
+<pre><code># custom mount point
+/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
+</code></pre>
+
+<p>And take the mount into effect.</p>
+
+<pre><code>$ mount -a
+</code></pre>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014 Marco Pas ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="js/jquery-min-2.1.1.js"></script>
+    <script src="js/bootstrap.min-3.1.1.js"></script>
+    </body>
+</html>

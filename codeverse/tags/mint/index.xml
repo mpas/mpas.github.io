@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Mint on CodeVerse </title>
+      <generator uri="https://hugo.spf13.com">Hugo</generator>
+    <link>http://mpas.github.io/tags/mint/index.xml</link>
+    
+    
+    
+    <updated>Thu, 30 May 2013 00:00:00 UTC</updated>
+    
+    <item>
+      <title>Use backspace key to go back in Google Chrome</title>
+      <link>http://mpas.github.io/post/2013/05/backspace-mint</link>
+      <pubDate>Thu, 30 May 2013 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2013/05/backspace-mint</guid>
+      <description>&lt;p&gt;When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&#34;&gt;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Automount NTFS volume under Linux (Mint)</title>
+      <link>http://mpas.github.io/post/2013/05/automount-ntfs-mint</link>
+      <pubDate>Tue, 28 May 2013 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2013/05/automount-ntfs-mint</guid>
+      <description>&lt;p&gt;When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo pico /etc/fstab
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Add a line in the /etc/fstab file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# custom mount point
+/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And take the mount into effect.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ mount -a
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

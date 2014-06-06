@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Combining ImageMagick and Grails</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://mpas.github.io/codeverse">CodeVerse</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://mpas.github.io/codeverse">Home</a></li>
+						<li><a href="http://mpas.github.io/codeverse/page/about/">About</a></li>
+						<li><a href="http://mpas.github.io/codeverse/page/resume/">Resume</a></li>
+						<li><a href="http://mpas.github.io/codeverse/post/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>Combining ImageMagick and Grails</h3>
+				<span class="label label-primary">Sat Sep 15, 2012</span> in 
+				
+					
+					<a href="/categories/development">Development</a>
+				 using tags 			 
+				
+					
+					<a href="/tags/grails">grails</a>
+				
+					 , 
+					<a href="/tags/imagemagick">imagemagick</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			<p>When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.</p>
+
+<p><strong>Steps:</strong></p>
+
+<ul>
+<li>Install ImageMagick according to the installation instructions.</li>
+<li>It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc. So remember where this utility is installed on your system!</li>
+<li>Make sure that ImageMagick is installed correctly be converting an image to a thumbnail by using the following command in a terminal.</li>
+</ul>
+
+<p><b></b></p>
+
+<pre><code>/opt/local/bin/convert &lt;filename&gt; -thumbnail 70x70 &lt;thumbnail-filename&gt;
+</code></pre>
+
+<p><strong>example:</strong></p>
+
+<pre><code>/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg
+</code></pre>
+
+<p>Create some code that calls the ImageMagick convert utility with the correct parameters to enable you to achieve what you want. Something like below:</p>
+
+<pre><code>def createThumbnail(File file) {
+   def command = &quot;/opt/local/bin/convert ${file.canonicalPath} &quot; +
+                 &quot;-thumbnail 70x70 &quot; +
+                 &quot;/images/thumbs&quot; + File.separator + &quot;${file.name}&quot;
+   def proc = Runtime.getRuntime().exec(command)
+   int exitStatus;
+   while (true) {
+       try {
+           exitStatus = proc.waitFor();
+           break;
+       } catch (java.lang.InterruptedException e) {
+           log.debug(&quot;Creating thumbnail - Interrupted: Ignoring and waiting&quot;)
+       }
+   }
+    if (exitStatus != 0) {
+        log.error(&quot;Error executing command: exitStatus=[${exitStatus}]&quot;)
+    }
+    log.debug(&quot;Succesfully created thumbnail&quot;)
+    return (exitStatus == 0);
+}
+</code></pre>
+
+<p>The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.</p>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014 Marco Pas ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="js/jquery-min-2.1.1.js"></script>
+    <script src="js/bootstrap.min-3.1.1.js"></script>
+    </body>
+</html>

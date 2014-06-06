@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Operating-Systems on CodeVerse </title>
+      <generator uri="https://hugo.spf13.com">Hugo</generator>
+    <link>http://mpas.github.io/categories/operating-systems/index.xml</link>
+    
+    
+    
+    <updated>Tue, 28 May 2013 00:00:00 UTC</updated>
+    
+    <item>
+      <title>Automount NTFS volume under Linux (Mint)</title>
+      <link>http://mpas.github.io/post/2013/05/automount-ntfs-mint</link>
+      <pubDate>Tue, 28 May 2013 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2013/05/automount-ntfs-mint</guid>
+      <description>&lt;p&gt;When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo pico /etc/fstab
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Add a line in the /etc/fstab file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# custom mount point
+/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And take the mount into effect.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ mount -a
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
