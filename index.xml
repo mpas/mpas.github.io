@@ -46,6 +46,27 @@
     </item>
     
     <item>
+      <title>Skip a contenttype/section to be renderend</title>
+      <link>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered</link>
+      <pubDate>Mon, 09 Jun 2014 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered</guid>
+      <description>&lt;p&gt;When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.&lt;/p&gt;
+
+&lt;p&gt;Example:
+You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the following code in your template:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{{ if eq .Type &amp;quot;post&amp;quot; }} 
+
+    {{ .Title }}
+    {{ .Content }}
+
+{{ end }}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Bookreview : Instant Vert.x</title>
       <link>http://mpas.github.io/post/2013/11/bookreview-instant-vertx</link>
       <pubDate>Wed, 27 Nov 2013 00:00:00 UTC</pubDate>
@@ -391,60 +412,6 @@ println &amp;quot;--------------------------------------------------------------
 &lt;p&gt;This snippet will first try to load the property file from the classpath and if that fails you have a backup on the filesystem. This opens opportunities to load a different property file during development! When you deploy the application you can place the &amp;lsquo;application-config.properties&amp;rsquo; file inside a folder which is available in the classpath. For Apache Tomcat this would be the &amp;lsquo;lib&amp;rsquo; folder!&lt;/p&gt;
 
 &lt;p&gt;This gives the opportunity to configure the application outside the &amp;lsquo;Config.groovy&amp;rsquo; file so any changes made the the property file will be reflected in your environment.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Combining ImageMagick and Grails</title>
-      <link>http://mpas.github.io/post/2012/09/grails-and-imagemagick</link>
-      <pubDate>Sat, 15 Sep 2012 00:00:00 UTC</pubDate>
-      
-      <guid>http://mpas.github.io/post/2012/09/grails-and-imagemagick</guid>
-      <description>&lt;p&gt;When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Steps:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Install ImageMagick according to the installation instructions.&lt;/li&gt;
-&lt;li&gt;It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc. So remember where this utility is installed on your system!&lt;/li&gt;
-&lt;li&gt;Make sure that ImageMagick is installed correctly be converting an image to a thumbnail by using the following command in a terminal.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;b&gt;&lt;/b&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;/opt/local/bin/convert &amp;lt;filename&amp;gt; -thumbnail 70x70 &amp;lt;thumbnail-filename&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;example:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Create some code that calls the ImageMagick convert utility with the correct parameters to enable you to achieve what you want. Something like below:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;def createThumbnail(File file) {
-   def command = &amp;quot;/opt/local/bin/convert ${file.canonicalPath} &amp;quot; +
-                 &amp;quot;-thumbnail 70x70 &amp;quot; +
-                 &amp;quot;/images/thumbs&amp;quot; + File.separator + &amp;quot;${file.name}&amp;quot;
-   def proc = Runtime.getRuntime().exec(command)
-   int exitStatus;
-   while (true) {
-       try {
-           exitStatus = proc.waitFor();
-           break;
-       } catch (java.lang.InterruptedException e) {
-           log.debug(&amp;quot;Creating thumbnail - Interrupted: Ignoring and waiting&amp;quot;)
-       }
-   }
-    if (exitStatus != 0) {
-        log.error(&amp;quot;Error executing command: exitStatus=[${exitStatus}]&amp;quot;)
-    }
-    log.debug(&amp;quot;Succesfully created thumbnail&amp;quot;)
-    return (exitStatus == 0);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.&lt;/p&gt;
 </description>
     </item>
     

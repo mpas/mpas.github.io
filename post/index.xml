@@ -7,7 +7,28 @@
     
     
     
-    <updated>Wed, 27 Nov 2013 00:00:00 UTC</updated>
+    <updated>Mon, 09 Jun 2014 00:00:00 UTC</updated>
+    
+    <item>
+      <title>Skip a contenttype/section to be renderend</title>
+      <link>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered</link>
+      <pubDate>Mon, 09 Jun 2014 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered</guid>
+      <description>&lt;p&gt;When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.&lt;/p&gt;
+
+&lt;p&gt;Example:
+You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the following code in your template:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{{ if eq .Type &amp;quot;post&amp;quot; }} 
+
+    {{ .Title }}
+    {{ .Content }}
+
+{{ end }}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Bookreview : Instant Vert.x</title>
@@ -447,31 +468,6 @@ println &amp;quot;--------------------------------------------------------------
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Restart your Vim and your plugin should be available.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Installing Markdown on OSX and use it inside VIM</title>
-      <link>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim</link>
-      <pubDate>Thu, 13 Sep 2012 00:00:00 UTC</pubDate>
-      
-      <guid>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim</guid>
-      <description>
-
-&lt;p&gt;Back again to one of my favorites which is called &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;Markdown&lt;/a&gt;. Once every now and then i forget how easy it is. Normally i use &lt;a href=&#34;http://macromates.com/&#34;&gt;Textmate&lt;/a&gt; to do all my writing, but recently i have picked up &lt;a href=&#34;http://www.vim.org/&#34;&gt;VIM&lt;/a&gt; to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)&lt;/p&gt;
-
-&lt;p&gt;Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different. But anything is different when using VIM :)&lt;/p&gt;
-
-&lt;h4 id=&#34;toc_0&#34;&gt;Steps&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;download Markdown from - &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;The home of Markdown&lt;/a&gt;, It’s usual place as this is a Perl script you need to put it somewhere so OSX is able to execute it.&lt;/li&gt;
-&lt;li&gt;start your terminal and create a directory inside &lt;code&gt;usr/local/bin&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;extract the downloaded file and put the &lt;code&gt;Markdown.pl&lt;/code&gt; file * inside the &lt;code&gt;user/local/bin&lt;/code&gt; directory&lt;/li&gt;
-&lt;li&gt;inside the terminal chmod the &lt;code&gt;Markdown.pl&lt;/code&gt; to 777&lt;/li&gt;
-&lt;li&gt;using the &lt;a href=&#34;http://gothick.org.uk/2010/08/04/installing-markdown-as-a-os-x-service-using-automator-in-snow-leopard/&#34;&gt;Installing Markdown as OSX Service&lt;/a&gt; creates a service to use Markdown&lt;/li&gt;
-&lt;li&gt;You are done… :)&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>
