@@ -48,6 +48,50 @@
 				
 		<div class="row">
 			<div class="col-md-offset-1 col-md-10">
+				<h3><a href="http://mpas.github.io/post/2014/07/upgrade-grails-2.4.2">Upgrading from Grails 2.3.8 to 2.4.2</a></h3>
+					<span class="label label-primary">Fri Jul 4, 2014</span> in 
+					
+						
+						<a href="/tags/development">Development</a>
+					 using tags 			 
+					
+						
+						<a href="/tags/grails">grails</a>
+					
+				</small>
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
+				<br> 
+				<p>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.</p>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%">Error creating bean with name &#39;grailsApplication&#39; defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResourceLoader&#39;;
+</pre></div>
+
+<p>To solve this issue you need to delete some lines in the <code>&lt;grails-app&gt;/web-app/WEB-INF/applicationContext.xml</code> file.</p>
+
+<p>Delete the following lines:</p>
+
+<pre><code>&lt;property name=&quot;grailsResourceLoader&quot; ref=&quot;grailsResourceLoader&quot; /&gt;
+
+&lt;bean id=&quot;grailsResourceLoader&quot; class=&quot;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&quot; /&gt;
+</code></pre>
+
+<p>And you should be up and running quickly.</p>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr>
+			</div>
+		</div>
+	
+		
+				
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
 				<h3><a href="http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered">Skip a contenttype/section to be renderend</a></h3>
 					<span class="label label-primary">Mon Jun 9, 2014</span> in 
 					
@@ -954,61 +998,6 @@ println &quot;------------------------------------------------------------------
 		</div>
 	
 		
-				
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">
-				<h3><a href="http://mpas.github.io/post/2012/09/grails-change-default-homepage">Change default homepage for a Grails application</a></h3>
-					<span class="label label-primary">Tue Sep 11, 2012</span> in 
-					
-						
-						<a href="/tags/development">Development</a>
-					 using tags 			 
-					
-						
-						<a href="/tags/grails">grails</a>
-					
-				</small>
-			</div>
-		</div>	
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">
-				<br> 
-				<p>You can set the default homepage for a Grails application by modifying the <code>grails-app/conf/UrlMappings.groovy</code> file. In a new Grails application this file will look like</p>
-
-<pre><code>class UrlMappings {
- static mappings = {
-  &quot;/$controller/$action?/$id?&quot;{
-   constraints {
-    // apply constraints here
-   }
-  }
-  &quot;/&quot;(view:&quot;/index&quot;)
-  &quot;500&quot;(view:'/error')
- }
-}
-</code></pre>
-
-<p>Replace the line:</p>
-
-<pre><code>&quot;/&quot;(view:&quot;/index&quot;)
-</code></pre>
-
-<p>with:</p>
-
-<pre><code>&quot;/&quot;(controller:'home', action:&quot;/index&quot;)
-</code></pre>
-
-<p>This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the <strong>HomeController</strong> and corresponding <strong>index</strong> action related to that controller.</p>
-
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<hr>
-			</div>
-		</div>
-	
-		
 	</div>
   <div class="container">
     <div class="row col-md-12">
@@ -1024,16 +1013,6 @@ println &quot;------------------------------------------------------------------
 
     
     
-    <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-3604020-13', 'mpas.github.io');
-  ga('send', 'pageview');
-
-</script>
     <script src="/js/jquery-min-2.1.1.js"></script>
     <script src="/js/bootstrap.min-3.1.1.js"></script>
     </body>

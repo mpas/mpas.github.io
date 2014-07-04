@@ -8,7 +8,7 @@
     <meta name="keyword" content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Using Grails to power your Electric Car</title>
+    <title>Upgrading from Grails 2.3.8 to 2.4.2</title>
 
  	
 	<link href="/css/journal.css" rel="stylesheet">
@@ -43,17 +43,14 @@
 <div class="container">	
 	<div class="row">
 		<div class="col-md-offset-1 col-md-10">
-			<h3>Using Grails to power your Electric Car</h3>
-				<span class="label label-primary">Sat May 25, 2013</span> in 
+			<h3>Upgrading from Grails 2.3.8 to 2.4.2</h3>
+				<span class="label label-primary">Fri Jul 4, 2014</span> in 
 				
 					
 					<a href="/categories/development">Development</a>
 				 using tags 			 
 				
 					
-					<a href="/tags/gr8conf">gr8conf</a>
-				
-					 , 
 					<a href="/tags/grails">grails</a>
 				
 			</small>
@@ -62,9 +59,21 @@
 	<div class="row">
 		<div class="col-md-offset-1 col-md-10">
 			<br>
-			<p>Past week I really enjoyed visiting &amp; speaking at the <a href="http://gr8conf.org/">Grails Conference (GR8Conf 2013)</a>. The organisation made it possible that for me to host a talk about &ldquo;Using Grails to power your Electric Car&rdquo;.</p>
+			<p>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.</p>
 
-<p><a href="http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car">Using Grails to power your Electric Car</a></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%">Error creating bean with name &#39;grailsApplication&#39; defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResourceLoader&#39;;
+</pre></div>
+
+<p>To solve this issue you need to delete some lines in the <code>&lt;grails-app&gt;/web-app/WEB-INF/applicationContext.xml</code> file.</p>
+
+<p>Delete the following lines:</p>
+
+<pre><code>&lt;property name=&quot;grailsResourceLoader&quot; ref=&quot;grailsResourceLoader&quot; /&gt;
+
+&lt;bean id=&quot;grailsResourceLoader&quot; class=&quot;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&quot; /&gt;
+</code></pre>
+
+<p>And you should be up and running quickly.</p>
 
 		</div>
 	</div>
