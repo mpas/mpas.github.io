@@ -46,6 +46,30 @@
     </item>
     
     <item>
+      <title>Upgrading from Grails 2.3.8 to 2.4.2</title>
+      <link>http://mpas.github.io/post/2014/07/upgrade-grails-2.4.2</link>
+      <pubDate>Fri, 04 Jul 2014 00:00:00 UTC</pubDate>
+      
+      <guid>http://mpas.github.io/post/2014/07/upgrade-grails-2.4.2</guid>
+      <description>&lt;p&gt;When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;Error creating bean with name &amp;#39;grailsApplication&amp;#39; defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean &amp;#39;grailsResourceLoader&amp;#39; while setting bean property &amp;#39;grailsResourceLoader&amp;#39;;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To solve this issue you need to delete some lines in the &lt;code&gt;&amp;lt;grails-app&amp;gt;/web-app/WEB-INF/applicationContext.xml&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;Delete the following lines:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;property name=&amp;quot;grailsResourceLoader&amp;quot; ref=&amp;quot;grailsResourceLoader&amp;quot; /&amp;gt;
+
+&amp;lt;bean id=&amp;quot;grailsResourceLoader&amp;quot; class=&amp;quot;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&amp;quot; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And you should be up and running quickly.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Skip a contenttype/section to be renderend</title>
       <link>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered</link>
       <pubDate>Mon, 09 Jun 2014 00:00:00 UTC</pubDate>
@@ -393,25 +417,6 @@ println &amp;quot;--------------------------------------------------------------
 // - END: CONFIGURATION FILE LOADING ---------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Loading external Configuration files in a Grails application</title>
-      <link>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files</link>
-      <pubDate>Sun, 16 Sep 2012 00:00:00 UTC</pubDate>
-      
-      <guid>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files</guid>
-      <description>&lt;p&gt;The use of &amp;lsquo;Config.groovy&amp;rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &amp;lsquo;Config.groovy&amp;rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.&lt;/p&gt;
-
-&lt;p&gt;A simple mechanism to load these property files is to place a short snippet of code in the &amp;lsquo;Config.groovy&amp;rsquo; that will load a specific configuration file from the filesystem, depending on the availability.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;grails.config.locations = [&amp;quot;classpath:application-config.properties&amp;quot;, &amp;quot;file:./application-config.properties&amp;quot;]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This snippet will first try to load the property file from the classpath and if that fails you have a backup on the filesystem. This opens opportunities to load a different property file during development! When you deploy the application you can place the &amp;lsquo;application-config.properties&amp;rsquo; file inside a folder which is available in the classpath. For Apache Tomcat this would be the &amp;lsquo;lib&amp;rsquo; folder!&lt;/p&gt;
-
-&lt;p&gt;This gives the opportunity to configure the application outside the &amp;lsquo;Config.groovy&amp;rsquo; file so any changes made the the property file will be reflected in your environment.&lt;/p&gt;
 </description>
     </item>
     
