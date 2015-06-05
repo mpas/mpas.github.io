@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Presentation on CodeVerse </title>
-      <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://mpas.github.io/tags/presentation/index.xml</link>
-    
-    
-    
-    <updated>Wed, 12 Sep 2012 00:00:00 UTC</updated>
+    <title>Presentation on CodeVerse</title>
+    <link>http://mpas.github.io/tags/presentation/</link>
+    <description>Recent content in Presentation on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 12 Sep 2012 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/presentation/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Introduction to Groovy &amp; Grails</title>
-      <link>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails</link>
-      <pubDate>Wed, 12 Sep 2012 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails/</link>
+      <pubDate>Wed, 12 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails</guid>
+      <guid>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails/</guid>
       <description>&lt;p&gt;Recently i had the opportunity to show an exciting crowd a presentation about &lt;a href=&#34;http://groovy.codehaus.org/&#34;&gt;Groovy&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://www.grails.org/&#34;&gt;Grails&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;This happend during the &lt;a href=&#34;http://www.devnology.nl/&#34;&gt;Devnology&lt;/a&gt; Community Event at Baarn. If you want to view the presentation &amp;ndash;&amp;gt; &lt;a href=&#34;http://slidesha.re/cfL3eH&#34;&gt;check it out here!&lt;/a&gt;&lt;/p&gt;

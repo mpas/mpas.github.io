@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Testing on CodeVerse </title>
-      <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://mpas.github.io/tags/testing/index.xml</link>
-    
-    
-    
-    <updated>Mon, 10 Sep 2012 00:00:00 UTC</updated>
+    <title>Testing on CodeVerse</title>
+    <link>http://mpas.github.io/tags/testing/</link>
+    <description>Recent content in Testing on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 10 Sep 2012 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/testing/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Funcional Code Coverage using Cobertura</title>
-      <link>http://mpas.github.io/post/2012/09/functional-code-coverage-using-cobertura</link>
-      <pubDate>Mon, 10 Sep 2012 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2012/09/functional-code-coverage-using-cobertura/</link>
+      <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/functional-code-coverage-using-cobertura</guid>
+      <guid>http://mpas.github.io/post/2012/09/functional-code-coverage-using-cobertura/</guid>
       <description>
 
 &lt;p&gt;So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.&lt;/p&gt;
@@ -26,7 +25,7 @@ You are creating functional tests which can be used for regression testing
 You are creating awareness on how little is tested or is known about the system
 Note: By functional testing we mean that we are going to test via the Web layer of the JEE project To see an example on how the reporting looks like, check out this &lt;a href=&#34;http://cobertura.sourceforge.net/sample/&#34;&gt;sample&lt;/a&gt; report!&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_0&#34;&gt;How to get Code Coverage information&lt;/h4&gt;
+&lt;h4 id=&#34;how-to-get-code-coverage-information:473f759f2a823830c4d8e8625989ae29&#34;&gt;How to get Code Coverage information&lt;/h4&gt;
 
 &lt;p&gt;&lt;strong&gt;General process:&lt;/strong&gt;&lt;/p&gt;
 
@@ -42,11 +41,11 @@ Note: By functional testing we mean that we are going to test via the Web layer 
 
 &lt;p&gt;The remaining part of this article is going to describe how you can get Functional Code Coverage information in the process of continously building, deploying and testing your software. Some elements are not explained due to the fact that other extensive information is given somewhere else on the web!&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_1&#34;&gt;Compile, Instrument and Build&lt;/h4&gt;
+&lt;h4 id=&#34;compile-instrument-and-build:473f759f2a823830c4d8e8625989ae29&#34;&gt;Compile, Instrument and Build&lt;/h4&gt;
 
 &lt;p&gt;The &lt;a href=&#34;http://maven.apache.org/&#34;&gt;Maven&lt;/a&gt; project enables you to build your software with great ease. Giving a few simple commands makes it able to build a project, deploy it and even integrate it with tools and technologies such as  Cobertura. There is a even a &lt;a href=&#34;http://mojo.codehaus.org/cobertura-maven-plugin/&#34;&gt;Cobertura Maven&lt;/a&gt; Plugin to easily use &lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; in a &lt;a href=&#34;http://maven.apache.org/&#34;&gt;Maven&lt;/a&gt; build. We need to use Cobertura in the build phase because it will instrument the compiled code and generate a small file called &amp;lsquo;cobertura.ser&amp;rsquo; which is used as a kind of database that stores each call to a piece of code. The instrumented code and the database file are crucial because they contains all information needed to generate code coverage reports later on.&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_2&#34;&gt;Run and Test&lt;/h4&gt;
+&lt;h4 id=&#34;run-and-test:473f759f2a823830c4d8e8625989ae29&#34;&gt;Run and Test&lt;/h4&gt;
 
 &lt;p&gt;After the code is succesfully instrumented you may deploy the build artifacts together with the &amp;lsquo;cobertura.ser&amp;rsquo; file inside a JBoss JEE container and run your application.&lt;/p&gt;
 
@@ -54,15 +53,15 @@ Note: By functional testing we mean that we are going to test via the Web layer 
 
 &lt;p&gt;The &lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; project delivers an excellent tooling and technology which enables you to record your functional flow and lets you replay a scenario which was recorded earlier on. For more information on &lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; recording and usage, please check the &lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; project. But for now lets assume you have created a couple of functional tests, so you can execute them.&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_3&#34;&gt;Generate coverage reports&lt;/h4&gt;
+&lt;h4 id=&#34;generate-coverage-reports:473f759f2a823830c4d8e8625989ae29&#34;&gt;Generate coverage reports&lt;/h4&gt;
 
 &lt;p&gt;After the functional tests have been executed, the modified database file &amp;lsquo;cobertura.ser&amp;rsquo; can be collected and reports can be generated. Cobertura has some nice predefined reporting templates. After these stepes you should have inisight on what code is actually executed during a functional flow and this may contribute to your understanding of the application.&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_4&#34;&gt;Not once but do it always!&lt;/h4&gt;
+&lt;h4 id=&#34;not-once-but-do-it-always:473f759f2a823830c4d8e8625989ae29&#34;&gt;Not once but do it always!&lt;/h4&gt;
 
 &lt;p&gt;The process of compiling, instrumenting, deploying, testing and reporting can be fully automatized. The famous Hudson comes to the rescue! When corectly implemented Hudson will serve you all information that you need on the moments you need it!&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_5&#34;&gt;Tools &amp;amp; Technologies&lt;/h4&gt;
+&lt;h4 id=&#34;tools-technologies:473f759f2a823830c4d8e8625989ae29&#34;&gt;Tools &amp;amp; Technologies&lt;/h4&gt;
 
 &lt;p&gt;The folowing list provides information on the tools that are used:&lt;/p&gt;
 

@@ -1,24 +1,210 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Development on CodeVerse </title>
-      <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://mpas.github.io/categories/development/index.xml</link>
+    <title>Development on CodeVerse</title>
+    <link>http://mpas.github.io/categories/development/</link>
+    <description>Recent content in Development on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 05 Jun 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://mpas.github.io/categories/development/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    
-    <updated>Fri, 04 Jul 2014 00:00:00 UTC</updated>
+    <item>
+      <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
+      <link>http://mpas.github.io/post/2015/06/docker-setup-registry/</link>
+      <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/2015/06/docker-setup-registry/</guid>
+      <description>
+
+&lt;p&gt;The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.&lt;/p&gt;
+
+&lt;p&gt;So the setup will be that we install the Docker Registry and proxy the SSL user access via self signed certificates using an NGINX proxy image provided by Container Solutions. &lt;a href=&#34;http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/&#34;&gt;Check here for more information&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Installation of the remote docker registry will be done by using on an Amazon EC2 (Linux AMI). Currently the free tier Amazon Linux AMI 2015.03 (HVM), SSD Volume Type - ami-a10897d6. So spin up the Amazon AMI and let&amp;rsquo;s install Docker.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; when you spin up your Amazon AMI make sure to remember the FQDN/DNS name! We need this name to generate the SSL certificates!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Example:
+&amp;lt;domain-name&amp;gt; = ec2-52-16-247-220.eu-west-1.compute.amazonaws.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So spin up your AMI and install Docker!&lt;/p&gt;
+
+&lt;h2 id=&#34;installing-docker:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Installing docker&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;login into your Amazon AMI&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;update the system and install Docker&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo yum update -y
+$ sudo wget -qO- https://get.docker.com/ | sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;add the ec2-user to the &lt;code&gt;docker&lt;/code&gt; group (optional)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo usermod -aG docker ec2-user
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;start Docker&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo service docker start
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;make sure Docker can run the basic &amp;ldquo;hello-world&amp;rdquo;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo docker run hello-world
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;create-docker-registry-data-and-configuration-directories:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Create Docker Registry data and configuration directories&lt;/h2&gt;
+
+&lt;p&gt;We are going to store the registry image data inside &lt;code&gt;/opt/docker/registry/data&lt;/code&gt; and configuration files such as the ssl certificates and user login inside &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;create data folders for Docker Registry data and configuration&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo mkdir -p /opt/docker/registry/data
+$ sudo mkdir -p /opt/docker/registry/conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;run-the-docker-registry:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Run the Docker Registry&lt;/h2&gt;
+
+&lt;p&gt;Now we are able to run the Docker Registry, the data for images that will be pushed are going to be stored in &lt;code&gt;/opt/docker/registry/data&lt;/code&gt; and the container will be named &lt;code&gt;docker-registry&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;run the registry and name it &lt;code&gt;docker-registry&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo docker run -d -v /opt/docker/registry/data:/tmp/registry-dev \
+--name docker-registry registry:2.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;test if the registry is actually running&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo docker ps
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;So now we have a running Docker Registry, but still no SSL proxy and no user accounts to get access to the registry.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;generate-self-signed-certificates-for-our-ssl-proxy:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Generate self signed certificates for our SSL proxy&lt;/h2&gt;
+
+&lt;p&gt;The result of the certificate generation will be placed in &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt; and named &lt;code&gt;docker-registry.crt&lt;/code&gt; and &lt;code&gt;docker-registry.key&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The &lt;code&gt;docker-registry.crt&lt;/code&gt; file is important, we will need this later on to configure our local Docker client on the machine that is going to access the remote registry. So after generating the &lt;code&gt;docker-registry.crt&lt;/code&gt; file, grab this and store it on your local machine in a place where you can find it.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;generate the certificates&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \ 
+-keyout /opt/docker/registry/conf/docker-registry.key \
+-out /opt/docker/registry/conf/docker-registry.crt
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Accept all defaults and make sure you give the correct FQDN /DNS name = &lt;code&gt;&amp;lt;domain-name&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;create-passwords-for-access-to-the-docker-registry:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Create passwords for access to the Docker Registry&lt;/h2&gt;
+
+&lt;p&gt;In order to let users login into the registry we need to create users  (user1/user2). This will be done by using &lt;code&gt;htpasswd&lt;/code&gt;. The user data will be stored in &lt;code&gt;docker-registry.htpasswd&lt;/code&gt; file and placed in the &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt; directory.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;install htpasswd&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo yum install httpd-tools -y
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;create the users&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo htpasswd -c /opt/docker/registry/conf/docker-registry.htpasswd user1
+$ sudo htpasswd /opt/docker/registry/conf/docker-registry.htpasswd user2
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; when creating the second user omit the &lt;code&gt;-c&lt;/code&gt; otherwise the docker-registry.htpasswd file will be get overwritten!&lt;/p&gt;
+
+&lt;h2 id=&#34;run-the-nginx-proxy:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Run the NGINX Proxy&lt;/h2&gt;
+
+&lt;p&gt;As mentioned we are going to use the image from &lt;a href=&#34;http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/&#34;&gt;Container Solutions&lt;/a&gt; to run our NGINX proxy.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;start the NGINX proxy and name it &lt;code&gt;docker-registry-proxy&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo docker run -d -p 443:443  \
+-e REGISTRY_HOST=&amp;quot;docker-registry&amp;quot; -e REGISTRY_PORT=&amp;quot;5000&amp;quot; -e SERVER_NAME=&amp;quot;localhost&amp;quot; \
+--link docker-registry:docker-registry \ 
+-v /opt/docker/registry/conf/docker-registry.htpasswd:/etc/nginx/.htpasswd:ro \
+-v /opt/docker/registry/conf:/etc/nginx/ssl:ro \ 
+--name docker-registry-proxy containersol/docker-registry-proxy
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;After this step we have a running Docker Registry which is secured using Self Signed certificates and users are able to login using their username/password.&lt;/p&gt;
+
+&lt;p&gt;To test this navigate to your registry by using a browser (Chrome) and access: &lt;code&gt;https://&amp;lt;domain-name&amp;gt;:443/v2/&lt;/code&gt;. After accepting the security warning provide a username/password and the output should be &lt;code&gt;{}&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;configure-the-local-docker-client:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Configure the local Docker client&lt;/h2&gt;
+
+&lt;p&gt;Now that we have a running secured Docker Registry we can configure the Docker client on our machine that is going to access the remote Registry. For this we need a copy of the earlier &lt;code&gt;docker-registry.crt&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;copy the &lt;code&gt;docker-registry.crt&lt;/code&gt; file from our server to your local machine. This file is located in &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt;. Put the copy in a place where you can find it.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;ubuntu-docker-client:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Ubuntu Docker Client&lt;/h3&gt;
+
+&lt;p&gt;In order to get the local client working, we need to install Docker and register the &lt;code&gt;docker-registry.crt&lt;/code&gt; certificate file!&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;install docker&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo wget -qO- https://get.docker.com/ | sh
+$ sudo service docker start
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;create a directory holding our extra certificates&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo mkdir /usr/share/ca-certificates/extra
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;copy the &lt;code&gt;docker-registry.crt&lt;/code&gt; file to the directory &lt;code&gt;/usr/share/ca-certificates/extra&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;register the certificate&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo dpkg-reconfigure ca-certificates
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now you are almost ready!&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;restart the local Docker client&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo service docker restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;login onto your remote registry using&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ docker login &amp;lt;domain-name&amp;gt;:port
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now we have a remote Docker Registry and the Docker Client is able to connect!&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Upgrading from Grails 2.3.8 to 2.4.2</title>
-      <link>http://mpas.github.io/post/2014/07/upgrade-grails-2.4.2</link>
-      <pubDate>Fri, 04 Jul 2014 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2014/07/upgrade-grails-2.4.2/</link>
+      <pubDate>Fri, 04 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2014/07/upgrade-grails-2.4.2</guid>
+      <guid>http://mpas.github.io/post/2014/07/upgrade-grails-2.4.2/</guid>
       <description>&lt;p&gt;When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;Error creating bean with name &amp;#39;grailsApplication&amp;#39; defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean &amp;#39;grailsResourceLoader&amp;#39; while setting bean property &amp;#39;grailsResourceLoader&amp;#39;;
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;p&amp;gt;Error creating bean with name ‘grailsApplication’ defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean ‘grailsResourceLoader’ while setting bean property ‘grailsResourceLoader’;&amp;lt;/p&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
 
 &lt;p&gt;To solve this issue you need to delete some lines in the &lt;code&gt;&amp;lt;grails-app&amp;gt;/web-app/WEB-INF/applicationContext.xml&lt;/code&gt; file.&lt;/p&gt;
 
@@ -35,10 +221,10 @@
     
     <item>
       <title>Skip a contenttype/section to be renderend</title>
-      <link>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered</link>
-      <pubDate>Mon, 09 Jun 2014 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered/</link>
+      <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered</guid>
+      <guid>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered/</guid>
       <description>&lt;p&gt;When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.&lt;/p&gt;
 
 &lt;p&gt;Example:
@@ -56,10 +242,10 @@ You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the followin
     
     <item>
       <title>Bookreview : Instant Vert.x</title>
-      <link>http://mpas.github.io/post/2013/11/bookreview-instant-vertx</link>
-      <pubDate>Wed, 27 Nov 2013 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2013/11/bookreview-instant-vertx/</link>
+      <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/11/bookreview-instant-vertx</guid>
+      <guid>http://mpas.github.io/post/2013/11/bookreview-instant-vertx/</guid>
       <description>&lt;p&gt;For those who have not yet got into contact with &lt;a href=&#34;http://vertx.io/&#34;&gt;Vert.x&lt;/a&gt;, the book &lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Instant Vert.x&lt;/a&gt; (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.&lt;/p&gt;
 
 &lt;p&gt;As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.&lt;/p&gt;
@@ -79,10 +265,10 @@ You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the followin
     
     <item>
       <title>Using Grails to power your Electric Car</title>
-      <link>http://mpas.github.io/post/2013/05/grails-to-power-your-electric-car</link>
-      <pubDate>Sat, 25 May 2013 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2013/05/grails-to-power-your-electric-car/</link>
+      <pubDate>Sat, 25 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/05/grails-to-power-your-electric-car</guid>
+      <guid>http://mpas.github.io/post/2013/05/grails-to-power-your-electric-car/</guid>
       <description>&lt;p&gt;Past week I really enjoyed visiting &amp;amp; speaking at the &lt;a href=&#34;http://gr8conf.org/&#34;&gt;Grails Conference (GR8Conf 2013)&lt;/a&gt;. The organisation made it possible that for me to host a talk about &amp;ldquo;Using Grails to power your Electric Car&amp;rdquo;.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car&#34;&gt;Using Grails to power your Electric Car&lt;/a&gt;&lt;/p&gt;
@@ -91,10 +277,10 @@ You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the followin
     
     <item>
       <title>Simple Helloworld verticle</title>
-      <link>http://mpas.github.io/post/2013/05/simple-helloworld-verticle</link>
-      <pubDate>Thu, 16 May 2013 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2013/05/simple-helloworld-verticle/</link>
+      <pubDate>Thu, 16 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/05/simple-helloworld-verticle</guid>
+      <guid>http://mpas.github.io/post/2013/05/simple-helloworld-verticle/</guid>
       <description>&lt;p&gt;Sourcecode:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;package helloworld;
@@ -121,10 +307,10 @@ public class Server extends Verticle {
     
     <item>
       <title>Grails migrations and &#39;Waiting for changelog lock&#39;</title>
-      <link>http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog</link>
-      <pubDate>Thu, 28 Feb 2013 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog/</link>
+      <pubDate>Thu, 28 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog</guid>
+      <guid>http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog/</guid>
       <description>&lt;p&gt;Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;...
@@ -164,10 +350,10 @@ where id=1
     
     <item>
       <title>Testing constraints with Build Test Data</title>
-      <link>http://mpas.github.io/post/2013/01/testing-constraints-with-build-test-data</link>
-      <pubDate>Sun, 13 Jan 2013 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2013/01/testing-constraints-with-build-test-data/</link>
+      <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/01/testing-constraints-with-build-test-data</guid>
+      <guid>http://mpas.github.io/post/2013/01/testing-constraints-with-build-test-data/</guid>
       <description>&lt;p&gt;The &lt;a href=&#34;http://grails.org/plugin/spock&#34;&gt;Spock&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://grails.org/plugin/build-test-data&#34;&gt;Build Test Data&lt;/a&gt; plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!&lt;/p&gt;
 
 &lt;p&gt;When testing constraints on an object it can be used as follows:&lt;/p&gt;
@@ -210,10 +396,10 @@ class FooSpec extends Specification {
     
     <item>
       <title>Getting the Enum from a String value</title>
-      <link>http://mpas.github.io/post/2013/01/getting-enum-from-string-value</link>
-      <pubDate>Thu, 03 Jan 2013 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2013/01/getting-enum-from-string-value/</link>
+      <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/01/getting-enum-from-string-value</guid>
+      <guid>http://mpas.github.io/post/2013/01/getting-enum-from-string-value/</guid>
       <description>&lt;p&gt;Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;Enum.valueOf(YourClassName.class, &amp;quot;String Value&amp;quot;)
@@ -225,10 +411,10 @@ class FooSpec extends Specification {
     
     <item>
       <title>Loading Grails configuration files update!</title>
-      <link>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files-update</link>
-      <pubDate>Mon, 17 Sep 2012 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files-update/</link>
+      <pubDate>Mon, 17 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files-update</guid>
+      <guid>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files-update/</guid>
       <description>&lt;p&gt;We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -302,10 +488,10 @@ println &amp;quot;--------------------------------------------------------------
     
     <item>
       <title>Loading external Configuration files in a Grails application</title>
-      <link>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files</link>
-      <pubDate>Sun, 16 Sep 2012 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files/</link>
+      <pubDate>Sun, 16 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files</guid>
+      <guid>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files/</guid>
       <description>&lt;p&gt;The use of &amp;lsquo;Config.groovy&amp;rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &amp;lsquo;Config.groovy&amp;rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.&lt;/p&gt;
 
 &lt;p&gt;A simple mechanism to load these property files is to place a short snippet of code in the &amp;lsquo;Config.groovy&amp;rsquo; that will load a specific configuration file from the filesystem, depending on the availability.&lt;/p&gt;
@@ -321,10 +507,10 @@ println &amp;quot;--------------------------------------------------------------
     
     <item>
       <title>Combining ImageMagick and Grails</title>
-      <link>http://mpas.github.io/post/2012/09/grails-and-imagemagick</link>
-      <pubDate>Sat, 15 Sep 2012 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2012/09/grails-and-imagemagick/</link>
+      <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/grails-and-imagemagick</guid>
+      <guid>http://mpas.github.io/post/2012/09/grails-and-imagemagick/</guid>
       <description>&lt;p&gt;When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Steps:&lt;/strong&gt;&lt;/p&gt;
@@ -375,15 +561,15 @@ println &amp;quot;--------------------------------------------------------------
     
     <item>
       <title>Installing Vimball plugins when using Pathogen</title>
-      <link>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen</link>
-      <pubDate>Fri, 14 Sep 2012 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen/</link>
+      <pubDate>Fri, 14 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen</guid>
+      <guid>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen/</guid>
       <description>
 
 &lt;p&gt;No need to discuss that &lt;a href=&#34;http://www.vim.org/&#34;&gt;Vim&lt;/a&gt; is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the &lt;a href=&#34;http://www.installationwiki.org/Installing_Vim_Scripts&#34;&gt;wiki&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_0&#34;&gt;Pathogen&lt;/h4&gt;
+&lt;h4 id=&#34;pathogen:465ac0ac6e9c686b7282c35f1b598e35&#34;&gt;Pathogen&lt;/h4&gt;
 
 &lt;p&gt;When you instal a plugin one may copy the files to the plugin directory. In a later stage you also want to delete a plugin and then the hunt for files starts. You need to track down which files belong to the specific plugin you want to delete. &lt;a href=&#34;http://tammersaleh.com/posts/the-modern-vim-config-with-pathogen&#34;&gt;Pathogen&lt;/a&gt; to the rescue :)&lt;/p&gt;
 
@@ -414,17 +600,17 @@ println &amp;quot;--------------------------------------------------------------
     
     <item>
       <title>Installing Markdown on OSX and use it inside VIM</title>
-      <link>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim</link>
-      <pubDate>Thu, 13 Sep 2012 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim/</link>
+      <pubDate>Thu, 13 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim</guid>
+      <guid>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim/</guid>
       <description>
 
 &lt;p&gt;Back again to one of my favorites which is called &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;Markdown&lt;/a&gt;. Once every now and then i forget how easy it is. Normally i use &lt;a href=&#34;http://macromates.com/&#34;&gt;Textmate&lt;/a&gt; to do all my writing, but recently i have picked up &lt;a href=&#34;http://www.vim.org/&#34;&gt;VIM&lt;/a&gt; to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)&lt;/p&gt;
 
 &lt;p&gt;Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different. But anything is different when using VIM :)&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_0&#34;&gt;Steps&lt;/h4&gt;
+&lt;h4 id=&#34;steps:df388b59527c9e4ae9e161df01c6cd12&#34;&gt;Steps&lt;/h4&gt;
 
 &lt;ul&gt;
 &lt;li&gt;download Markdown from - &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;The home of Markdown&lt;/a&gt;, It’s usual place as this is a Perl script you need to put it somewhere so OSX is able to execute it.&lt;/li&gt;
@@ -439,48 +625,13 @@ println &amp;quot;--------------------------------------------------------------
     
     <item>
       <title>Introduction to Groovy &amp; Grails</title>
-      <link>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails</link>
-      <pubDate>Wed, 12 Sep 2012 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails/</link>
+      <pubDate>Wed, 12 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails</guid>
+      <guid>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails/</guid>
       <description>&lt;p&gt;Recently i had the opportunity to show an exciting crowd a presentation about &lt;a href=&#34;http://groovy.codehaus.org/&#34;&gt;Groovy&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://www.grails.org/&#34;&gt;Grails&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;This happend during the &lt;a href=&#34;http://www.devnology.nl/&#34;&gt;Devnology&lt;/a&gt; Community Event at Baarn. If you want to view the presentation &amp;ndash;&amp;gt; &lt;a href=&#34;http://slidesha.re/cfL3eH&#34;&gt;check it out here!&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Change default homepage for a Grails application</title>
-      <link>http://mpas.github.io/post/2012/09/grails-change-default-homepage</link>
-      <pubDate>Tue, 11 Sep 2012 00:00:00 UTC</pubDate>
-      
-      <guid>http://mpas.github.io/post/2012/09/grails-change-default-homepage</guid>
-      <description>&lt;p&gt;You can set the default homepage for a Grails application by modifying the &lt;code&gt;grails-app/conf/UrlMappings.groovy&lt;/code&gt; file. In a new Grails application this file will look like&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class UrlMappings {
- static mappings = {
-  &amp;quot;/$controller/$action?/$id?&amp;quot;{
-   constraints {
-    // apply constraints here
-   }
-  }
-  &amp;quot;/&amp;quot;(view:&amp;quot;/index&amp;quot;)
-  &amp;quot;500&amp;quot;(view:&#39;/error&#39;)
- }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Replace the line:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;quot;/&amp;quot;(view:&amp;quot;/index&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;with:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;quot;/&amp;quot;(controller:&#39;home&#39;, action:&amp;quot;/index&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the &lt;strong&gt;HomeController&lt;/strong&gt; and corresponding &lt;strong&gt;index&lt;/strong&gt; action related to that controller.&lt;/p&gt;
 </description>
     </item>
     

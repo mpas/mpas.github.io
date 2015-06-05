@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Pathogen on CodeVerse </title>
-      <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://mpas.github.io/tags/pathogen/index.xml</link>
-    
-    
-    
-    <updated>Fri, 14 Sep 2012 00:00:00 UTC</updated>
+    <title>Pathogen on CodeVerse</title>
+    <link>http://mpas.github.io/tags/pathogen/</link>
+    <description>Recent content in Pathogen on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 14 Sep 2012 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/pathogen/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Installing Vimball plugins when using Pathogen</title>
-      <link>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen</link>
-      <pubDate>Fri, 14 Sep 2012 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen/</link>
+      <pubDate>Fri, 14 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen</guid>
+      <guid>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen/</guid>
       <description>
 
 &lt;p&gt;No need to discuss that &lt;a href=&#34;http://www.vim.org/&#34;&gt;Vim&lt;/a&gt; is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the &lt;a href=&#34;http://www.installationwiki.org/Installing_Vim_Scripts&#34;&gt;wiki&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_0&#34;&gt;Pathogen&lt;/h4&gt;
+&lt;h4 id=&#34;pathogen:465ac0ac6e9c686b7282c35f1b598e35&#34;&gt;Pathogen&lt;/h4&gt;
 
 &lt;p&gt;When you instal a plugin one may copy the files to the plugin directory. In a later stage you also want to delete a plugin and then the hunt for files starts. You need to track down which files belong to the specific plugin you want to delete. &lt;a href=&#34;http://tammersaleh.com/posts/the-modern-vim-config-with-pathogen&#34;&gt;Pathogen&lt;/a&gt; to the rescue :)&lt;/p&gt;
 

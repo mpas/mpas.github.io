@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Deployment on CodeVerse </title>
-      <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://mpas.github.io/tags/deployment/index.xml</link>
-    
-    
-    
-    <updated>Sun, 09 Sep 2012 00:00:00 UTC</updated>
+    <title>Deployment on CodeVerse</title>
+    <link>http://mpas.github.io/tags/deployment/</link>
+    <description>Recent content in Deployment on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 09 Sep 2012 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/deployment/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Distributed Deployment with Hudson &amp; SSH</title>
-      <link>http://mpas.github.io/post/2012/09/distributed-deployment-with-hudson-and-ssh</link>
-      <pubDate>Sun, 09 Sep 2012 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2012/09/distributed-deployment-with-hudson-and-ssh/</link>
+      <pubDate>Sun, 09 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/distributed-deployment-with-hudson-and-ssh</guid>
+      <guid>http://mpas.github.io/post/2012/09/distributed-deployment-with-hudson-and-ssh/</guid>
       <description>
 
 &lt;p&gt;Have you already implemented an multi-server artifact deployment using a &lt;a href=&#34;http://en.wikipedia.org/wiki/Continuous_integration&#34;&gt;Continuous Integration&lt;/a&gt; Engine? If not, then read ahead and maybe this article is of help.&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_0&#34;&gt;The need for Continuous Integration&lt;/h4&gt;
+&lt;h4 id=&#34;the-need-for-continuous-integration:a38aac7da26d3ad618f7d98d2e5dfbb0&#34;&gt;The need for Continuous Integration&lt;/h4&gt;
 
 &lt;p&gt;A good practice in a software development methodology and lifecycle is the use of a &lt;a href=&#34;http://en.wikipedia.org/wiki/Continuous_integration&#34;&gt;Continuous Integration&lt;/a&gt; Engine. The adoption of &lt;a href=&#34;http://en.wikipedia.org/wiki/Continuous_integration&#34;&gt;Continuous Integration&lt;/a&gt; improves you software quality by quickly reporting failed builds so you can modify/correct your code. Popular Continuous Integration Engines can often be extended with software quality tooling so you can report on specific quality aspect of your software.&lt;/p&gt;
 
@@ -37,7 +36,7 @@
 
 &lt;p&gt;Probably there a some more, but for me needs the [Hudson Extensible Continuous Integration Server] works perfect.&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_1&#34;&gt;My needs&lt;/h4&gt;
+&lt;h4 id=&#34;my-needs:a38aac7da26d3ad618f7d98d2e5dfbb0&#34;&gt;My needs&lt;/h4&gt;
 
 &lt;p&gt;My Continuous Integration Engine:&lt;/p&gt;
 
@@ -55,15 +54,15 @@
 
 &lt;p&gt;All of these requirements and more have been succesfully fulfilled by using &lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_2&#34;&gt;Hudson and automatic deployment&lt;/h4&gt;
+&lt;h4 id=&#34;hudson-and-automatic-deployment:a38aac7da26d3ad618f7d98d2e5dfbb0&#34;&gt;Hudson and automatic deployment&lt;/h4&gt;
 
 &lt;p&gt;In every project a recurring problem arises, artifacts of a software build have to be distributed accross different servers and environments. How are the build artifacts going to be distributed and deployed? Why not let the &lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt; server give a helping hand!!&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_3&#34;&gt;Deployment Scenario&lt;/h4&gt;
+&lt;h4 id=&#34;deployment-scenario:a38aac7da26d3ad618f7d98d2e5dfbb0&#34;&gt;Deployment Scenario&lt;/h4&gt;
 
 &lt;p&gt;In the following scenario we will be distributing build artifacts from a central Hudson server to three different &lt;a href=&#34;http://www.jboss.org/&#34;&gt;JBoss&lt;/a&gt; application servers al running Windows 2003 Server as Operating System. Next to the &lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt; server we have a &lt;a href=&#34;http://subversion.tigris.org/&#34;&gt;Subversion&lt;/a&gt; system which is used for &lt;a href=&#34;http://en.wikipedia.org/wiki/Revision_control&#34;&gt;SCM&lt;/a&gt; purposes.&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_4&#34;&gt;Distribution of build artifacts&lt;/h4&gt;
+&lt;h4 id=&#34;distribution-of-build-artifacts:a38aac7da26d3ad618f7d98d2e5dfbb0&#34;&gt;Distribution of build artifacts&lt;/h4&gt;
 
 &lt;p&gt;After a succesfull build, the artifacts have to be distributed to remote machines. Offcourse the latest code has been checked out from the SVN repository, compiled and tested. The distribution of the artifacts can be done in various ways. One can use Ftp, shared folders, SCM checkin etc..&lt;/p&gt;
 
@@ -71,7 +70,7 @@
 
 &lt;p&gt;To accomplish this we need SSH access to the remote machine. With the help off &lt;a href=&#34;http://www.itefix.no/i2/node/27&#34;&gt;CopSSH&lt;/a&gt; installing SSH is a breeze!&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_5&#34;&gt;Prepare for installation of SSH&lt;/h4&gt;
+&lt;h4 id=&#34;prepare-for-installation-of-ssh:a38aac7da26d3ad618f7d98d2e5dfbb0&#34;&gt;Prepare for installation of SSH&lt;/h4&gt;
 
 &lt;p&gt;Prepare yourself by downloading:&lt;/p&gt;
 
@@ -82,7 +81,7 @@
 &lt;li&gt;&lt;a href=&#34;http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html&#34;&gt;Plink&lt;/a&gt; – &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;SSH&lt;/a&gt; client for executing remote commands&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;toc_6&#34;&gt;Installing and enable remote access using SSH&lt;/h4&gt;
+&lt;h4 id=&#34;installing-and-enable-remote-access-using-ssh:a38aac7da26d3ad618f7d98d2e5dfbb0&#34;&gt;Installing and enable remote access using SSH&lt;/h4&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Install &lt;a href=&#34;http://www.itefix.no/i2/node/27&#34;&gt;CopSSH&lt;/a&gt; on the remote system&lt;/li&gt;
@@ -96,7 +95,7 @@ If you want to enable the Hudson server to access the remote system, start Putty
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Make sure that your Hudson uses the same credentials then the account in which you exchange security credentials, otherwise remote access from Hudson server to the remote system will not work!&lt;/p&gt;
 
-&lt;h4 id=&#34;toc_7&#34;&gt;Execute remote commands and Exchange files using SSH&lt;/h4&gt;
+&lt;h4 id=&#34;execute-remote-commands-and-exchange-files-using-ssh:a38aac7da26d3ad618f7d98d2e5dfbb0&#34;&gt;Execute remote commands and Exchange files using SSH&lt;/h4&gt;
 
 &lt;p&gt;If you can succesfully access the remote server using Putty, it is time to exchange files or execute remote commands. This can be done by using 2 small commandline utilities called PSCP for file transfer and Plink for executing remote commands such as remotely deleting files etc.&lt;/p&gt;
 
@@ -120,7 +119,7 @@ pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
 pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;toc_8&#34;&gt;The return of the .bat file&lt;/h4&gt;
+&lt;h4 id=&#34;the-return-of-the-bat-file:a38aac7da26d3ad618f7d98d2e5dfbb0&#34;&gt;The return of the .bat file&lt;/h4&gt;
 
 &lt;p&gt;So far we have enabled remote access using SSH / CopSSH, executed remote commands and transferred files. All the needed ingredients are in place to enable our Hudson server to remotely deploy build artifacts. In the job configuration of Hudson you can trigger a batch file after a succesfull build, so whenever a succesfull build occurs trigger a batch that executes a few commands to quickly deploy build artifacts to any number of remote servers.&lt;/p&gt;
 
@@ -193,7 +192,7 @@ SET DESTINATION=%JBOSSDIR%/deploy
 &lt;li&gt;Copies the artifacts to the remote JBoss deploy directory&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;toc_9&#34;&gt;Steps taken&lt;/h4&gt;
+&lt;h4 id=&#34;steps-taken:a38aac7da26d3ad618f7d98d2e5dfbb0&#34;&gt;Steps taken&lt;/h4&gt;
 
 &lt;p&gt;So the list of tasks executed by calling the batch files with the correct parameters are:&lt;/p&gt;
 
@@ -205,7 +204,7 @@ SET DESTINATION=%JBOSSDIR%/deploy
 &lt;li&gt;Starting the JBoss server again&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;toc_10&#34;&gt;From build to deployment&lt;/h4&gt;
+&lt;h4 id=&#34;from-build-to-deployment:a38aac7da26d3ad618f7d98d2e5dfbb0&#34;&gt;From build to deployment&lt;/h4&gt;
 
 &lt;p&gt;So with a quick installation of SSH/Putty/Plink/PSCP we now have a modular and easy way of distributing files to remote systems. Offcourse there are lots of improvements to make, but for now it works without any problems!&lt;/p&gt;
 

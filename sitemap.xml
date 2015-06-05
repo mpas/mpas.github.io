@@ -3,127 +3,132 @@
   
   <url>
     <loc>http://mpas.github.io/</loc>
-    <lastmod>2015-01-01T00:00:00+00:00</lastmod>
+    <lastmod>2015-06-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/page/about</loc>
+    <loc>http://mpas.github.io/post/2015/06/docker-setup-registry/</loc>
+    <lastmod>2015-06-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://mpas.github.io/page/resume/</loc>
     <lastmod>2015-01-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/page/resume</loc>
+    <loc>http://mpas.github.io/page/about/</loc>
     <lastmod>2015-01-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2014/07/upgrade-grails-2.4.2</loc>
+    <loc>http://mpas.github.io/post/2014/07/upgrade-grails-2.4.2/</loc>
     <lastmod>2014-07-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered</loc>
+    <loc>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered/</loc>
     <lastmod>2014-06-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2013/11/bookreview-instant-vertx</loc>
+    <loc>http://mpas.github.io/post/2013/11/bookreview-instant-vertx/</loc>
     <lastmod>2013-11-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2013/05/backspace-mint</loc>
+    <loc>http://mpas.github.io/post/2013/05/backspace-mint/</loc>
     <lastmod>2013-05-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2013/05/automount-ntfs-mint</loc>
+    <loc>http://mpas.github.io/post/2013/05/automount-ntfs-mint/</loc>
     <lastmod>2013-05-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2013/05/grails-to-power-your-electric-car</loc>
+    <loc>http://mpas.github.io/post/2013/05/grails-to-power-your-electric-car/</loc>
     <lastmod>2013-05-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2013/05/chrome-not-synchronizing-extensions</loc>
+    <loc>http://mpas.github.io/post/2013/05/chrome-not-synchronizing-extensions/</loc>
     <lastmod>2013-05-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2013/05/simple-helloworld-verticle</loc>
+    <loc>http://mpas.github.io/post/2013/05/simple-helloworld-verticle/</loc>
     <lastmod>2013-05-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog</loc>
+    <loc>http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog/</loc>
     <lastmod>2013-02-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2013/01/testing-constraints-with-build-test-data</loc>
+    <loc>http://mpas.github.io/post/2013/01/testing-constraints-with-build-test-data/</loc>
     <lastmod>2013-01-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2013/01/getting-enum-from-string-value</loc>
+    <loc>http://mpas.github.io/post/2013/01/getting-enum-from-string-value/</loc>
     <lastmod>2013-01-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2012/09/troubles-getting-vsftpd-user-logged-in</loc>
+    <loc>http://mpas.github.io/post/2012/09/troubles-getting-vsftpd-user-logged-in/</loc>
     <lastmod>2012-09-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files-update</loc>
+    <loc>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files-update/</loc>
     <lastmod>2012-09-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files</loc>
+    <loc>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files/</loc>
     <lastmod>2012-09-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2012/09/grails-and-imagemagick</loc>
+    <loc>http://mpas.github.io/post/2012/09/grails-and-imagemagick/</loc>
     <lastmod>2012-09-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen</loc>
+    <loc>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen/</loc>
     <lastmod>2012-09-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim</loc>
+    <loc>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim/</loc>
     <lastmod>2012-09-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails</loc>
+    <loc>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails/</loc>
     <lastmod>2012-09-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2012/09/grails-change-default-homepage</loc>
+    <loc>http://mpas.github.io/post/2012/09/grails-change-default-homepage/</loc>
     <lastmod>2012-09-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2012/09/functional-code-coverage-using-cobertura</loc>
+    <loc>http://mpas.github.io/post/2012/09/functional-code-coverage-using-cobertura/</loc>
     <lastmod>2012-09-10T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2012/09/distributed-deployment-with-hudson-and-ssh</loc>
+    <loc>http://mpas.github.io/post/2012/09/distributed-deployment-with-hudson-and-ssh/</loc>
     <lastmod>2012-09-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2012/09/grails-replace-in-memory-db-with-mysql</loc>
+    <loc>http://mpas.github.io/post/2012/09/grails-replace-in-memory-db-with-mysql/</loc>
     <lastmod>2012-09-05T00:00:00+00:00</lastmod>
   </url>
   

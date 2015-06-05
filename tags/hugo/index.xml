@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Hugo on CodeVerse </title>
-      <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://mpas.github.io/tags/hugo/index.xml</link>
-    
-    
-    
-    <updated>Mon, 09 Jun 2014 00:00:00 UTC</updated>
+    <title>Hugo on CodeVerse</title>
+    <link>http://mpas.github.io/tags/hugo/</link>
+    <description>Recent content in Hugo on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 09 Jun 2014 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Skip a contenttype/section to be renderend</title>
-      <link>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered</link>
-      <pubDate>Mon, 09 Jun 2014 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered/</link>
+      <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered</guid>
+      <guid>http://mpas.github.io/post/2014/06/hugo-skip-certain-content-to-be-rendered/</guid>
       <description>&lt;p&gt;When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.&lt;/p&gt;
 
 &lt;p&gt;Example:

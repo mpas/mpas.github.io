@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Mysql on CodeVerse </title>
-      <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://mpas.github.io/tags/mysql/index.xml</link>
-    
-    
-    
-    <updated>Wed, 05 Sep 2012 00:00:00 UTC</updated>
+    <title>Mysql on CodeVerse</title>
+    <link>http://mpas.github.io/tags/mysql/</link>
+    <description>Recent content in Mysql on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 05 Sep 2012 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Using MySQL instead of in-memory database for a Grails application</title>
-      <link>http://mpas.github.io/post/2012/09/grails-replace-in-memory-db-with-mysql</link>
-      <pubDate>Wed, 05 Sep 2012 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2012/09/grails-replace-in-memory-db-with-mysql/</link>
+      <pubDate>Wed, 05 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/grails-replace-in-memory-db-with-mysql</guid>
+      <guid>http://mpas.github.io/post/2012/09/grails-replace-in-memory-db-with-mysql/</guid>
       <description>&lt;p&gt;A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.&lt;/p&gt;
 
 &lt;ul&gt;

@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Imagemagick on CodeVerse </title>
-      <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://mpas.github.io/tags/imagemagick/index.xml</link>
-    
-    
-    
-    <updated>Sat, 15 Sep 2012 00:00:00 UTC</updated>
+    <title>Imagemagick on CodeVerse</title>
+    <link>http://mpas.github.io/tags/imagemagick/</link>
+    <description>Recent content in Imagemagick on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 15 Sep 2012 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/imagemagick/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Combining ImageMagick and Grails</title>
-      <link>http://mpas.github.io/post/2012/09/grails-and-imagemagick</link>
-      <pubDate>Sat, 15 Sep 2012 00:00:00 UTC</pubDate>
+      <link>http://mpas.github.io/post/2012/09/grails-and-imagemagick/</link>
+      <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/grails-and-imagemagick</guid>
+      <guid>http://mpas.github.io/post/2012/09/grails-and-imagemagick/</guid>
       <description>&lt;p&gt;When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Steps:&lt;/strong&gt;&lt;/p&gt;
