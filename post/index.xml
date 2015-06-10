@@ -5,8 +5,111 @@
     <link>http://mpas.github.io/post/</link>
     <description>Recent content in Posts on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 05 Jun 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 10 Jun 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
+      <link>http://mpas.github.io/post/2015/06/httpservletwrapper-3.1/</link>
+      <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/2015/06/httpservletwrapper-3.1/</guid>
+      <description>&lt;p&gt;A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;isFinished&lt;/li&gt;
+&lt;li&gt;isReady&lt;/li&gt;
+&lt;li&gt;setReadListener&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;import com.google.common.primitives.Bytes;
+import javax.servlet.ReadListener;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+
+public class AuthenticationRequestWrapper extends HttpServletRequestWrapper {
+
+    // tag::variables[]
+    private byte[] requestBody = new byte[0];
+    private boolean bufferFilled = false;
+    // end::variables[]
+
+    /**
+     - Constructs a request object wrapping the given request.
+     *
+     - @param request The request to wrap
+     - @throws IllegalArgumentException if the request is null
+     */
+    public AuthenticationRequestWrapper(HttpServletRequest request) {
+        super(request);
+    }
+
+
+    // tag::getRequestBody[]
+    public byte[] getRequestBody() throws IOException {
+        if (bufferFilled) {
+            return Arrays.copyOf(requestBody, requestBody.length);
+        }
+
+        InputStream inputStream = super.getInputStream();
+
+        byte[] buffer = new byte[102400]; // 100kb buffer
+
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            requestBody = Bytes.concat(this.requestBody, Arrays.copyOfRange(buffer, 0, bytesRead)); // &amp;lt;1&amp;gt;
+        }
+
+        bufferFilled = true;
+
+        return requestBody;
+    }
+    // end::getRequestBody[]
+
+    // tag::getInputStream[]
+    @Override
+    public ServletInputStream getInputStream() throws IOException {
+        return new CustomServletInputStream(getRequestBody()); // &amp;lt;1&amp;gt;
+    }
+    // end::getInputStream[]
+
+    private static class CustomServletInputStream extends ServletInputStream {
+
+        private ByteArrayInputStream buffer;
+
+        public CustomServletInputStream(byte[] contents) {
+            this.buffer = new ByteArrayInputStream(contents);
+        }
+
+        @Override
+        public int read() throws IOException {
+            return buffer.read();
+        }
+
+        @Override
+        public boolean isFinished() {
+            return buffer.available() == 0;
+        }
+
+        @Override
+        public boolean isReady() {
+            return true;
+        }
+
+        @Override
+        public void setReadListener(ReadListener listener) {
+            throw new RuntimeException(&amp;quot;Not implemented&amp;quot;);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
@@ -567,25 +670,6 @@ println &amp;quot;--------------------------------------------------------------
 // - END: CONFIGURATION FILE LOADING ---------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Loading external Configuration files in a Grails application</title>
-      <link>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files/</link>
-      <pubDate>Sun, 16 Sep 2012 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files/</guid>
-      <description>&lt;p&gt;The use of &amp;lsquo;Config.groovy&amp;rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &amp;lsquo;Config.groovy&amp;rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.&lt;/p&gt;
-
-&lt;p&gt;A simple mechanism to load these property files is to place a short snippet of code in the &amp;lsquo;Config.groovy&amp;rsquo; that will load a specific configuration file from the filesystem, depending on the availability.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;grails.config.locations = [&amp;quot;classpath:application-config.properties&amp;quot;, &amp;quot;file:./application-config.properties&amp;quot;]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This snippet will first try to load the property file from the classpath and if that fails you have a backup on the filesystem. This opens opportunities to load a different property file during development! When you deploy the application you can place the &amp;lsquo;application-config.properties&amp;rsquo; file inside a folder which is available in the classpath. For Apache Tomcat this would be the &amp;lsquo;lib&amp;rsquo; folder!&lt;/p&gt;
-
-&lt;p&gt;This gives the opportunity to configure the application outside the &amp;lsquo;Config.groovy&amp;rsquo; file so any changes made the the property file will be reflected in your environment.&lt;/p&gt;
 </description>
     </item>
     

@@ -5,8 +5,111 @@
     <link>http://mpas.github.io/categories/development/</link>
     <description>Recent content in Development on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 05 Jun 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 10 Jun 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/categories/development/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
+      <link>http://mpas.github.io/post/2015/06/httpservletwrapper-3.1/</link>
+      <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/2015/06/httpservletwrapper-3.1/</guid>
+      <description>&lt;p&gt;A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;isFinished&lt;/li&gt;
+&lt;li&gt;isReady&lt;/li&gt;
+&lt;li&gt;setReadListener&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;import com.google.common.primitives.Bytes;
+import javax.servlet.ReadListener;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+
+public class AuthenticationRequestWrapper extends HttpServletRequestWrapper {
+
+    // tag::variables[]
+    private byte[] requestBody = new byte[0];
+    private boolean bufferFilled = false;
+    // end::variables[]
+
+    /**
+     - Constructs a request object wrapping the given request.
+     *
+     - @param request The request to wrap
+     - @throws IllegalArgumentException if the request is null
+     */
+    public AuthenticationRequestWrapper(HttpServletRequest request) {
+        super(request);
+    }
+
+
+    // tag::getRequestBody[]
+    public byte[] getRequestBody() throws IOException {
+        if (bufferFilled) {
+            return Arrays.copyOf(requestBody, requestBody.length);
+        }
+
+        InputStream inputStream = super.getInputStream();
+
+        byte[] buffer = new byte[102400]; // 100kb buffer
+
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            requestBody = Bytes.concat(this.requestBody, Arrays.copyOfRange(buffer, 0, bytesRead)); // &amp;lt;1&amp;gt;
+        }
+
+        bufferFilled = true;
+
+        return requestBody;
+    }
+    // end::getRequestBody[]
+
+    // tag::getInputStream[]
+    @Override
+    public ServletInputStream getInputStream() throws IOException {
+        return new CustomServletInputStream(getRequestBody()); // &amp;lt;1&amp;gt;
+    }
+    // end::getInputStream[]
+
+    private static class CustomServletInputStream extends ServletInputStream {
+
+        private ByteArrayInputStream buffer;
+
+        public CustomServletInputStream(byte[] contents) {
+            this.buffer = new ByteArrayInputStream(contents);
+        }
+
+        @Override
+        public int read() throws IOException {
+            return buffer.read();
+        }
+
+        @Override
+        public boolean isFinished() {
+            return buffer.available() == 0;
+        }
+
+        @Override
+        public boolean isReady() {
+            return true;
+        }
+
+        @Override
+        public void setReadListener(ReadListener listener) {
+            throw new RuntimeException(&amp;quot;Not implemented&amp;quot;);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
@@ -620,18 +723,6 @@ println &amp;quot;--------------------------------------------------------------
 &lt;li&gt;using the &lt;a href=&#34;http://gothick.org.uk/2010/08/04/installing-markdown-as-a-os-x-service-using-automator-in-snow-leopard/&#34;&gt;Installing Markdown as OSX Service&lt;/a&gt; creates a service to use Markdown&lt;/li&gt;
 &lt;li&gt;You are done… :)&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Introduction to Groovy &amp; Grails</title>
-      <link>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails/</link>
-      <pubDate>Wed, 12 Sep 2012 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/2012/09/introduction-groovy-and-grails/</guid>
-      <description>&lt;p&gt;Recently i had the opportunity to show an exciting crowd a presentation about &lt;a href=&#34;http://groovy.codehaus.org/&#34;&gt;Groovy&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://www.grails.org/&#34;&gt;Grails&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This happend during the &lt;a href=&#34;http://www.devnology.nl/&#34;&gt;Devnology&lt;/a&gt; Community Event at Baarn. If you want to view the presentation &amp;ndash;&amp;gt; &lt;a href=&#34;http://slidesha.re/cfL3eH&#34;&gt;check it out here!&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     

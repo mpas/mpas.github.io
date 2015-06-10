@@ -56,6 +56,73 @@
 		<div class="row">
 			
 			<div class="col-md-offset-1 col-md-10">
+				<h3><a href="http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog/">Grails migrations and &#39;Waiting for changelog lock&#39;</a></h3>
+					<span class="label label-primary">Thu Feb 28, 2013</span> in 
+					
+						
+						<a href="/categories/development">Development</a>
+					 using tags 			 
+					
+						
+						<a href="/tags/grails">grails</a>
+					
+						 , 
+						<a href="/tags/migrations">migrations</a>
+					
+				</small>
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
+				<br> 
+				<p>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.</p>
+
+<pre><code>...
+Waiting for changelog lock....
+Waiting for changelog lock....
+Waiting for changelog lock....
+...
+</code></pre>
+
+<p>To solve this take the following steps:</p>
+
+<ul>
+<li>Stop the application container (example: Tomcat)</li>
+<li>In the database look for a table called <code>DATABASECHANGELOGLOCK</code></li>
+
+<li><p>In the table there is a record with id=1, change the following values:</p>
+
+<pre><code>locked -&gt; 0
+lockgranted -&gt; null
+lockedby -&gt; null
+</code></pre></li>
+
+<li><p>After updating this record start the application container</p></li>
+</ul>
+
+<p><strong>Notes:</strong><br />
+To see who has locked the database (normally the local machine):</p>
+
+<pre><code>select * from DATABASECHANGELOGLOCK;
+To update the record
+update DATABASECHANGELOGLOCK 
+set locked=0, lockgranted=null, lockedby=null 
+where id=1
+</code></pre>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr>
+			</div>
+		</div>
+	
+        
+            	
+		<div class="row">
+			
+			<div class="col-md-offset-1 col-md-10">
 				<h3><a href="http://mpas.github.io/post/2013/01/testing-constraints-with-build-test-data/">Testing constraints with Build Test Data</a></h3>
 					<span class="label label-primary">Sun Jan 13, 2013</span> in 
 					
@@ -591,62 +658,6 @@ println &quot;------------------------------------------------------------------
 				<p>Recently i had the opportunity to show an exciting crowd a presentation about <a href="http://groovy.codehaus.org/">Groovy</a> &amp; <a href="http://www.grails.org/">Grails</a>.</p>
 
 <p>This happend during the <a href="http://www.devnology.nl/">Devnology</a> Community Event at Baarn. If you want to view the presentation &ndash;&gt; <a href="http://slidesha.re/cfL3eH">check it out here!</a></p>
-
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<hr>
-			</div>
-		</div>
-	
-        
-            	
-		<div class="row">
-			
-			<div class="col-md-offset-1 col-md-10">
-				<h3><a href="http://mpas.github.io/post/2012/09/grails-change-default-homepage/">Change default homepage for a Grails application</a></h3>
-					<span class="label label-primary">Tue Sep 11, 2012</span> in 
-					
-						
-						<a href="/categories/development">Development</a>
-					 using tags 			 
-					
-						
-						<a href="/tags/grails">grails</a>
-					
-				</small>
-			</div>
-		</div>	
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">
-				<br> 
-				<p>You can set the default homepage for a Grails application by modifying the <code>grails-app/conf/UrlMappings.groovy</code> file. In a new Grails application this file will look like</p>
-
-<pre><code>class UrlMappings {
- static mappings = {
-  &quot;/$controller/$action?/$id?&quot;{
-   constraints {
-    // apply constraints here
-   }
-  }
-  &quot;/&quot;(view:&quot;/index&quot;)
-  &quot;500&quot;(view:'/error')
- }
-}
-</code></pre>
-
-<p>Replace the line:</p>
-
-<pre><code>&quot;/&quot;(view:&quot;/index&quot;)
-</code></pre>
-
-<p>with:</p>
-
-<pre><code>&quot;/&quot;(controller:'home', action:&quot;/index&quot;)
-</code></pre>
-
-<p>This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the <strong>HomeController</strong> and corresponding <strong>index</strong> action related to that controller.</p>
 
 			</div>
 		</div>
