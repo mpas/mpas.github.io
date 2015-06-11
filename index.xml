@@ -77,6 +77,24 @@ rabbitmq-server $@
     </item>
     
     <item>
+      <title>Run a Grails 3 generated Fat Jar file in production mode</title>
+      <link>http://mpas.github.io/post/2015/06/run-grails-war-in-production-mode/</link>
+      <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/2015/06/run-grails-war-in-production-mode/</guid>
+      <description>&lt;p&gt;When creating a Grails WAR/JAR file using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails war
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The resulting artifact can be run in production mode using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ java -Dgrails.env=prod -Dserver.port=9000 -jar &amp;lt;name-of-jar-file&amp;gt;.jar
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
       <link>http://mpas.github.io/post/2015/06/httpservletwrapper-3.1/</link>
       <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
@@ -607,52 +625,6 @@ To update the record
 update DATABASECHANGELOGLOCK 
 set locked=0, lockgranted=null, lockedby=null 
 where id=1
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Testing constraints with Build Test Data</title>
-      <link>http://mpas.github.io/post/2013/01/testing-constraints-with-build-test-data/</link>
-      <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/2013/01/testing-constraints-with-build-test-data/</guid>
-      <description>&lt;p&gt;The &lt;a href=&#34;http://grails.org/plugin/spock&#34;&gt;Spock&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://grails.org/plugin/build-test-data&#34;&gt;Build Test Data&lt;/a&gt; plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!&lt;/p&gt;
-
-&lt;p&gt;When testing constraints on an object it can be used as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Foo {
-    String name   // name of foo
-    Integer age   // age of foo
-
-    static constraints = {
-     name nullable: false, blank: false // name may never be nullable or blank
-     age nullable: true
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And the Spock test&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@Build(Foo)
-@TestFor(Foo)
-class FooSpec extends Specification {
-
-    def &amp;quot;Name of Foo must exist&amp;quot;() {
-        given: &amp;quot;setting up the constraints&amp;quot;
-        mockForConstraintsTests(Foo)
-
-        when: &amp;quot;creating a Foo&amp;quot;
-        Foo foo = Foo.buildWithoutSave()
-
-        then: &amp;quot;validation should trigger&amp;quot;
-        assertFalse foo.validate()
-
-        and: &amp;quot;validation error should be on the value field&amp;quot;
-        assert foo.errors.allErrors.first().field == &amp;quot;name&amp;quot;
-    }
-
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

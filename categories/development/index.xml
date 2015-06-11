@@ -180,6 +180,24 @@ public class AuthenticationRequestWrapper extends HttpServletRequestWrapper {
     </item>
     
     <item>
+      <title>Run a Grails 3 generated Fat Jar file in production mode</title>
+      <link>http://mpas.github.io/post/2015/06/run-grails-war-in-production-mode/</link>
+      <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/2015/06/run-grails-war-in-production-mode/</guid>
+      <description>&lt;p&gt;When creating a Grails WAR/JAR file using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails war
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The resulting artifact can be run in production mode using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ java -Dgrails.env=prod -Dserver.port=9000 -jar &amp;lt;name-of-jar-file&amp;gt;.jar
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
       <link>http://mpas.github.io/post/2015/06/docker-setup-registry/</link>
       <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
@@ -727,45 +745,6 @@ println &amp;quot;--------------------------------------------------------------
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Installing Vimball plugins when using Pathogen</title>
-      <link>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen/</link>
-      <pubDate>Fri, 14 Sep 2012 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen/</guid>
-      <description>
-
-&lt;p&gt;No need to discuss that &lt;a href=&#34;http://www.vim.org/&#34;&gt;Vim&lt;/a&gt; is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the &lt;a href=&#34;http://www.installationwiki.org/Installing_Vim_Scripts&#34;&gt;wiki&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h4 id=&#34;pathogen:465ac0ac6e9c686b7282c35f1b598e35&#34;&gt;Pathogen&lt;/h4&gt;
-
-&lt;p&gt;When you instal a plugin one may copy the files to the plugin directory. In a later stage you also want to delete a plugin and then the hunt for files starts. You need to track down which files belong to the specific plugin you want to delete. &lt;a href=&#34;http://tammersaleh.com/posts/the-modern-vim-config-with-pathogen&#34;&gt;Pathogen&lt;/a&gt; to the rescue :)&lt;/p&gt;
-
-&lt;p&gt;Pathogen enables you to create sub-folders inside a bundle-folder which will acts a place holder for all your plugins nicely separated in a ‘folder per plugin’ structure. So if you need to delete a plugin then you just delete the correct plugin-folder and everything is gone.&lt;/p&gt;
-
-&lt;p&gt;Normal installation of a Vim script is standard, you create a sub-folder below the bundle-folder, copy the Vim script and all is ok. BUT when you want to use a &lt;a href=&#34;http://www.vim.org/scripts/script.php?script_id=1502&#34;&gt;vimball&lt;/a&gt; then you need to do some additional steps.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Create a folder in which you want to later on extract the vimball. Preferably below the ‘bundle’ folder.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;mkdir ~/.vim/bundle/align
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Open the vimball with command ‘:e &amp;lsquo;location of your vimball’/‘name of your vimball&amp;rsquo;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;:e ~/Downloads/Align.vba
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Tell Vim to use the vimball by issuing command ‘:UseVimball &amp;lsquo;location to extract’&amp;rsquo;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;:UseVimball ~/.vim/bundle/align
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Restart your Vim and your plugin should be available.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
 </description>
     </item>
     
