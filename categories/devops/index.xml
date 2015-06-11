@@ -18,6 +18,8 @@
 
 &lt;p&gt;The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.&lt;/p&gt;
 
+&lt;p&gt;It involves a init.sh script that is used to create the users and vhosts.&lt;/p&gt;
+
 &lt;p&gt;The Docker File&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;FROM rabbitmq:3-management
