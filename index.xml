@@ -5,8 +5,74 @@
     <link>http://mpas.github.io/</link>
     <description>Recent content on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 10 Jun 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
+      <link>http://mpas.github.io/post/2015/06/docker-rabbitmq-default-users/</link>
+      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/2015/06/docker-rabbitmq-default-users/</guid>
+      <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;
+
+&lt;p&gt;The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.&lt;/p&gt;
+
+&lt;p&gt;The Docker File&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM rabbitmq:3-management
+
+# Add script to create default users / vhosts
+ADD init.sh /init.sh
+
+# Set correct executable permissions
+RUN chmod +x /init.sh
+
+# Define default command
+CMD [&amp;quot;/init.sh&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The init.sh script&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/sh
+
+# Create Default RabbitMQ setup
+( sleep 10 ; \
+
+# Create users
+# rabbitmqctl add_user &amp;lt;username&amp;gt; &amp;lt;password&amp;gt;
+rabbitmqctl add_user test_user test_user ; \
+
+# Set user rights
+# rabbitmqctl set_user_tags &amp;lt;username&amp;gt; &amp;lt;tag&amp;gt;
+rabbitmqctl set_user_tags test_user administrator ; \
+
+# Create vhosts
+# rabbitmqctl add_vhost &amp;lt;vhostname&amp;gt;
+rabbitmqctl add_vhost dummy ; \
+
+# Set vhost permissions
+# rabbitmqctl set_permissions -p &amp;lt;vhostname&amp;gt; &amp;lt;username&amp;gt; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot;
+rabbitmqctl set_permissions -p dummy test_user &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot; ; \
+) &amp;amp;    
+rabbitmq-server $@
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Place both of these files in a directory and build your image:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ docker build -t my_rabbitmq_image .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Start a container based on the image using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ docker run --rm=true --name my_rabbitmq_container -p 5672:5672 -p 15672:15672  my_rabbitmq_image
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then in your browser navigate to &lt;a href=&#34;http://localhost:15672&#34;&gt;http://localhost:15672&lt;/a&gt; and see if all is ok!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; When using Boot2Docker make sure to replace the localhost with the correct IP.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
@@ -298,11 +364,11 @@ $ sudo service docker start
     </item>
     
     <item>
-      <title>Resume</title>
-      <link>http://mpas.github.io/page/resume/</link>
+      <title>About</title>
+      <link>http://mpas.github.io/page/about/</link>
       <pubDate>Thu, 01 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/page/resume/</guid>
+      <guid>http://mpas.github.io/page/about/</guid>
       <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus hendrerit venenatis. Vivamus tempus dui eu magna interdum, sed lobortis metus elementum. Vivamus eu est pretium, congue turpis eget, luctus augue. Vivamus sed dignissim risus, quis scelerisque purus. Sed feugiat justo at orci porttitor, at porta nunc egestas. Maecenas malesuada vitae mauris et lobortis. Vivamus consequat dictum lobortis.&lt;/p&gt;
 
 &lt;p&gt;Nulla nec gravida purus. Nullam a diam id erat vehicula imperdiet. Vivamus eget dignissim magna, in vulputate magna. Quisque condimentum pretium ligula, at sollicitudin dolor facilisis nec. Nullam at ultrices risus, nec ultricies ligula. Duis convallis commodo vestibulum. Donec mi ligula, blandit quis cursus eget, dictum quis ante. Proin nec tincidunt ipsum. Ut id urna dolor. Nunc fringilla velit urna, quis aliquet erat pellentesque in. Vivamus lacinia elementum diam, quis laoreet dolor blandit nec. Nam ut urna id dolor ultricies lacinia nec at neque. Donec porta consequat convallis.&lt;/p&gt;
@@ -316,11 +382,11 @@ $ sudo service docker start
     </item>
     
     <item>
-      <title>About</title>
-      <link>http://mpas.github.io/page/about/</link>
+      <title>Resume</title>
+      <link>http://mpas.github.io/page/resume/</link>
       <pubDate>Thu, 01 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/page/about/</guid>
+      <guid>http://mpas.github.io/page/resume/</guid>
       <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus hendrerit venenatis. Vivamus tempus dui eu magna interdum, sed lobortis metus elementum. Vivamus eu est pretium, congue turpis eget, luctus augue. Vivamus sed dignissim risus, quis scelerisque purus. Sed feugiat justo at orci porttitor, at porta nunc egestas. Maecenas malesuada vitae mauris et lobortis. Vivamus consequat dictum lobortis.&lt;/p&gt;
 
 &lt;p&gt;Nulla nec gravida purus. Nullam a diam id erat vehicula imperdiet. Vivamus eget dignissim magna, in vulputate magna. Quisque condimentum pretium ligula, at sollicitudin dolor facilisis nec. Nullam at ultrices risus, nec ultricies ligula. Duis convallis commodo vestibulum. Donec mi ligula, blandit quis cursus eget, dictum quis ante. Proin nec tincidunt ipsum. Ut id urna dolor. Nunc fringilla velit urna, quis aliquet erat pellentesque in. Vivamus lacinia elementum diam, quis laoreet dolor blandit nec. Nam ut urna id dolor ultricies lacinia nec at neque. Donec porta consequat convallis.&lt;/p&gt;
@@ -586,21 +652,6 @@ class FooSpec extends Specification {
 
 }
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Getting the Enum from a String value</title>
-      <link>http://mpas.github.io/post/2013/01/getting-enum-from-string-value/</link>
-      <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/2013/01/getting-enum-from-string-value/</guid>
-      <description>&lt;p&gt;Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Enum.valueOf(YourClassName.class, &amp;quot;String Value&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html&#34;&gt;http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     

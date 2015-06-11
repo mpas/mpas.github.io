@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rabbitmq on CodeVerse</title>
+    <link>http://mpas.github.io/tags/rabbitmq/</link>
+    <description>Recent content in Rabbitmq on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 11 Jun 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/rabbitmq/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
+      <link>http://mpas.github.io/post/2015/06/docker-rabbitmq-default-users/</link>
+      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/2015/06/docker-rabbitmq-default-users/</guid>
+      <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;
+
+&lt;p&gt;The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.&lt;/p&gt;
+
+&lt;p&gt;The Docker File&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM rabbitmq:3-management
+
+# Add script to create default users / vhosts
+ADD init.sh /init.sh
+
+# Set correct executable permissions
+RUN chmod +x /init.sh
+
+# Define default command
+CMD [&amp;quot;/init.sh&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The init.sh script&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/sh
+
+# Create Default RabbitMQ setup
+( sleep 10 ; \
+
+# Create users
+# rabbitmqctl add_user &amp;lt;username&amp;gt; &amp;lt;password&amp;gt;
+rabbitmqctl add_user test_user test_user ; \
+
+# Set user rights
+# rabbitmqctl set_user_tags &amp;lt;username&amp;gt; &amp;lt;tag&amp;gt;
+rabbitmqctl set_user_tags test_user administrator ; \
+
+# Create vhosts
+# rabbitmqctl add_vhost &amp;lt;vhostname&amp;gt;
+rabbitmqctl add_vhost dummy ; \
+
+# Set vhost permissions
+# rabbitmqctl set_permissions -p &amp;lt;vhostname&amp;gt; &amp;lt;username&amp;gt; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot;
+rabbitmqctl set_permissions -p dummy test_user &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot; ; \
+) &amp;amp;    
+rabbitmq-server $@
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Place both of these files in a directory and build your image:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ docker build -t my_rabbitmq_image .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Start a container based on the image using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ docker run --rm=true --name my_rabbitmq_container -p 5672:5672 -p 15672:15672  my_rabbitmq_image
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then in your browser navigate to &lt;a href=&#34;http://localhost:15672&#34;&gt;http://localhost:15672&lt;/a&gt; and see if all is ok!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; When using Boot2Docker make sure to replace the localhost with the correct IP.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

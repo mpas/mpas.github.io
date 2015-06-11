@@ -5,8 +5,74 @@
     <link>http://mpas.github.io/post/</link>
     <description>Recent content in Posts on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 10 Jun 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
+      <link>http://mpas.github.io/post/2015/06/docker-rabbitmq-default-users/</link>
+      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/2015/06/docker-rabbitmq-default-users/</guid>
+      <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;
+
+&lt;p&gt;The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.&lt;/p&gt;
+
+&lt;p&gt;The Docker File&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM rabbitmq:3-management
+
+# Add script to create default users / vhosts
+ADD init.sh /init.sh
+
+# Set correct executable permissions
+RUN chmod +x /init.sh
+
+# Define default command
+CMD [&amp;quot;/init.sh&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The init.sh script&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/sh
+
+# Create Default RabbitMQ setup
+( sleep 10 ; \
+
+# Create users
+# rabbitmqctl add_user &amp;lt;username&amp;gt; &amp;lt;password&amp;gt;
+rabbitmqctl add_user test_user test_user ; \
+
+# Set user rights
+# rabbitmqctl set_user_tags &amp;lt;username&amp;gt; &amp;lt;tag&amp;gt;
+rabbitmqctl set_user_tags test_user administrator ; \
+
+# Create vhosts
+# rabbitmqctl add_vhost &amp;lt;vhostname&amp;gt;
+rabbitmqctl add_vhost dummy ; \
+
+# Set vhost permissions
+# rabbitmqctl set_permissions -p &amp;lt;vhostname&amp;gt; &amp;lt;username&amp;gt; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot;
+rabbitmqctl set_permissions -p dummy test_user &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot; ; \
+) &amp;amp;    
+rabbitmq-server $@
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Place both of these files in a directory and build your image:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ docker build -t my_rabbitmq_image .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Start a container based on the image using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ docker run --rm=true --name my_rabbitmq_container -p 5672:5672 -p 15672:15672  my_rabbitmq_image
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then in your browser navigate to &lt;a href=&#34;http://localhost:15672&#34;&gt;http://localhost:15672&lt;/a&gt; and see if all is ok!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; When using Boot2Docker make sure to replace the localhost with the correct IP.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
@@ -593,83 +659,6 @@ chmod the folder that the ftp user comes in to as he first login (root folder) b
 &lt;p&gt;You will &lt;strong&gt;NOT&lt;/strong&gt; be able to write in the root folder itself from the ftp with the chmod a-w, so that is the reason for the subfolder, there you can.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update&#34;&gt;http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Loading Grails configuration files update!</title>
-      <link>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files-update/</link>
-      <pubDate>Mon, 17 Sep 2012 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/2012/09/grails-load-external-configuration-files-update/</guid>
-      <description>&lt;p&gt;We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;You cannot deal with all Grails Mail settings in the configuration file&lt;/li&gt;
-&lt;li&gt;You cannot use the log4j DSL to extract the logging configuration outside your application&lt;/li&gt;
-&lt;li&gt;etc..&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this &lt;a href=&#34;http://www.baselogic.com/blog/development/java-javaee-j2ee/getting-grails-external-configuration-working-in-the-real-world/&#34;&gt;blogpost&lt;/a&gt; which was the start for our implementation of loading the external configuration files.&lt;/p&gt;
-
-&lt;p&gt;We modified some small things and added a way of loading a configuration file that is resident in the root of a Grails project. So when developing with IntelliJ for example the config file is at your fingertips in the root of the application project structure. We must also note that we are very happy with the fact that the Grails community was more then helpfull in helping us out here!&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// -------------------------------------------------------------------------------- //
-// - START: CONFIGURATION FILE LOADING -------------------------------------------- //
-// -------------------------------------------------------------------------------- //
-// locations to search for config files that get merged into the main config
-// config files can either be Java properties files or ConfigSlurper scripts
-def ENV_NAME = &amp;quot;${appName}.config.location&amp;quot;
-if(!grails.config.locations || !(grails.config.locations instanceof List)) {
-    grails.config.locations = []
-}
-println &amp;quot;--------------------------------------------------------------------------------&amp;quot;
-println &amp;quot;- Loading configuration file                                                   -&amp;quot;
-println &amp;quot;--------------------------------------------------------------------------------&amp;quot;
-// 1: check for environment variable that has been set! This variable must point to the
-// configuration file that must be used. Can be a .groovy or .properties file!
-if(System.getenv(ENV_NAME) &amp;amp;&amp;amp; new File(System.getenv(ENV_NAME)).exists()) {
-    println(&amp;quot;Including System Environment configuration file: &amp;quot; + System.getenv(ENV_NAME))
-    grails.config.locations &amp;lt;&amp;lt; &amp;quot;file:&amp;quot; + System.getenv(ENV_NAME)
-
-// 2: check for commandline properties!
-// Use it like (examples):
-//      grails -D[name of app].config.location=/tmp/[name of config file].groovy run-app
-// or
-//      grails -D[name of app].config.location=/tmp/[name of config file].properties run-app
-//
-} else if(System.getProperty(ENV_NAME) &amp;amp;&amp;amp; new File(System.getProperty(ENV_NAME)).exists()) {
-    println &amp;quot;Including configuration file specified on command line: &amp;quot; + System.getProperty(ENV_NAME)
-    grails.config.locations &amp;lt;&amp;lt; &amp;quot;file:&amp;quot; + System.getProperty(ENV_NAME)
-
-// 3: check on local project config file in the project root directory
-} else if (new File(&amp;quot;./${appName}-config.groovy&amp;quot;).exists()) {
-    println &amp;quot;*** User defined config: file:./${appName}-config.groovy ***&amp;quot;
-    grails.config.locations = [&amp;quot;file:./${appName}-config.groovy&amp;quot;]
-} else if (new File(&amp;quot;./${appName}-config.properties&amp;quot;).exists()) {
-    println &amp;quot;*** User defined config: file:./${appName}-config.properties ***&amp;quot;
-    grails.config.locations = [&amp;quot;file:./${appName}-config.groovy&amp;quot;]
-
-// 4: check on local project config file in ${userHome}/.grails/...
-} else if (new File(&amp;quot;${userHome}/.grails/${appName}-config.groovy&amp;quot;).exists()) {
-    println &amp;quot;*** User defined config: file:${userHome}/.grails/${appName}-config.groovy ***&amp;quot;
-    grails.config.locations = [&amp;quot;file:${userHome}/.grails/${appName}-config.groovy&amp;quot;]
-} else if (new File(&amp;quot;${userHome}/.grails/${appName}-config.properties&amp;quot;).exists()) {
-    println &amp;quot;*** User defined config: file:${userHome}/.grails/${appName}-config.properties ***&amp;quot;
-    grails.config.locations = [&amp;quot;file:${userHome}/.grails/${appName}-config.properties&amp;quot;]
-
-// 5: we have problem!!
-} else {
-    println &amp;quot;********************************************************************************&amp;quot;
-    println &amp;quot;* No external configuration file defined                                       *&amp;quot;
-    println &amp;quot;********************************************************************************&amp;quot;
-}
-println &amp;quot;(*) grails.config.locations = ${grails.config.locations}&amp;quot;
-println &amp;quot;--------------------------------------------------------------------------------&amp;quot;
-// -------------------------------------------------------------------------------- //
-// - END: CONFIGURATION FILE LOADING ---------------------------------------------- //
-// -------------------------------------------------------------------------------- //
-&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     

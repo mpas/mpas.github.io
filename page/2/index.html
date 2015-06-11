@@ -56,6 +56,60 @@
 		<div class="row">
 			
 			<div class="col-md-offset-1 col-md-10">
+				<h3><a href="http://mpas.github.io/post/2013/05/simple-helloworld-verticle/">Simple Helloworld verticle</a></h3>
+					<span class="label label-primary">Thu May 16, 2013</span> in 
+					
+						
+						<a href="/categories/development">Development</a>
+					 using tags 			 
+					
+						
+						<a href="/tags/java">java</a>
+					
+						 , 
+						<a href="/tags/vertx">vertx</a>
+					
+				</small>
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
+				<br> 
+				<p>Sourcecode:</p>
+
+<pre><code>package helloworld;
+
+import org.vertx.java.core.Handler;
+import org.vertx.java.core.http.HttpServerRequest;
+import org.vertx.java.deploy.Verticle;
+
+public class Server extends Verticle {
+
+    public void start() {
+        vertx.createHttpServer().requestHandler(new Handler&lt;HttpServerRequest&gt;() {
+            public void handle(HttpServerRequest req) {
+            req.response.headers().put(&quot;Content-Type&quot;, &quot;text/html; charset-UTF-8&quot;);
+            req.response.end(&quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;);
+            }
+        }).listen(8080);
+    }
+
+}
+</code></pre>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr>
+			</div>
+		</div>
+	
+        
+            	
+		<div class="row">
+			
+			<div class="col-md-offset-1 col-md-10">
 				<h3><a href="http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog/">Grails migrations and &#39;Waiting for changelog lock&#39;</a></h3>
 					<span class="label label-primary">Thu Feb 28, 2013</span> in 
 					
@@ -622,42 +676,6 @@ println &quot;------------------------------------------------------------------
 <li>using the <a href="http://gothick.org.uk/2010/08/04/installing-markdown-as-a-os-x-service-using-automator-in-snow-leopard/">Installing Markdown as OSX Service</a> creates a service to use Markdown</li>
 <li>You are done… :)</li>
 </ul>
-
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<hr>
-			</div>
-		</div>
-	
-        
-            	
-		<div class="row">
-			
-			<div class="col-md-offset-1 col-md-10">
-				<h3><a href="http://mpas.github.io/post/2012/09/introduction-groovy-and-grails/">Introduction to Groovy &amp; Grails</a></h3>
-					<span class="label label-primary">Wed Sep 12, 2012</span> in 
-					
-						
-						<a href="/categories/development">Development</a>
-					 using tags 			 
-					
-						
-						<a href="/tags/grails">grails</a>
-					
-						 , 
-						<a href="/tags/presentation">presentation</a>
-					
-				</small>
-			</div>
-		</div>	
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">
-				<br> 
-				<p>Recently i had the opportunity to show an exciting crowd a presentation about <a href="http://groovy.codehaus.org/">Groovy</a> &amp; <a href="http://www.grails.org/">Grails</a>.</p>
-
-<p>This happend during the <a href="http://www.devnology.nl/">Devnology</a> Community Event at Baarn. If you want to view the presentation &ndash;&gt; <a href="http://slidesha.re/cfL3eH">check it out here!</a></p>
 
 			</div>
 		</div>

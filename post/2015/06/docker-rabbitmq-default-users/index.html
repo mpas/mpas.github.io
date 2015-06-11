@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="Docker">
+    <meta name="description" content="Setting up Docker RabbitMQ with predefined users/vhosts">
     <meta name="author" content="Marco Pas">
 
     <meta name="keyword" content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Tags | CodeVerse</title>
+    <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
 
  	
 	<link rel="stylesheet" href="http://mpas.github.io//css/journal.css">
@@ -25,7 +25,7 @@
     <script src="http://mpas.github.io//js/bootstrap.min-3.3.4.js"></script>
 
     
-    <link href="http://mpas.github.io/tags/docker/index.xml" rel="alternate" type="application/rss+xml" title="CodeVerse" />
+    <link href="" rel="alternate" type="application/rss+xml" title="CodeVerse" />
 </head>
 <body lang="en">
     
@@ -48,37 +48,98 @@
     </div>
 </div>
 
+
+<div class="container">	
 	<div class="row">
-		<div class="text-center">
-			<h3>Posts</h3>
-	    </div>
-    </div>
+		<div class="col-md-offset-1 col-md-10">
+			<h3>Setting up Docker RabbitMQ with predefined users/vhosts</h3>
+				<span class="label label-primary">Thu Jun 11, 2015</span> in 
+				
+					
+					<a href="/categories/development">Development</a>
+				
+					 , 
+					<a href="/categories/devops">DevOps</a>
+				 using tags 			 
+				
+					
+					<a href="/tags/docker">docker</a>
+				
+					 , 
+					<a href="/tags/rabbitmq">rabbitmq</a>
+				
+			</small>
+		</div>
+	</div>
 	<div class="row">
-		<ul>
-		    
-		        <div class="row">
-	<div class="col-md-offset-2 col-md-6 col-md-offset-2 col-md-6">
-		<h4><a href="http://mpas.github.io/post/2015/06/docker-rabbitmq-default-users/">Setting up Docker RabbitMQ with predefined users/vhosts</a></h4>
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			<p>When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.</p>
+
+<p>The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.</p>
+
+<p>The Docker File</p>
+
+<pre><code>FROM rabbitmq:3-management
+
+# Add script to create default users / vhosts
+ADD init.sh /init.sh
+
+# Set correct executable permissions
+RUN chmod +x /init.sh
+
+# Define default command
+CMD [&quot;/init.sh&quot;]
+</code></pre>
+
+<p>The init.sh script</p>
+
+<pre><code>#!/bin/sh
+
+# Create Default RabbitMQ setup
+( sleep 10 ; \
+
+# Create users
+# rabbitmqctl add_user &lt;username&gt; &lt;password&gt;
+rabbitmqctl add_user test_user test_user ; \
+
+# Set user rights
+# rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;
+rabbitmqctl set_user_tags test_user administrator ; \
+
+# Create vhosts
+# rabbitmqctl add_vhost &lt;vhostname&gt;
+rabbitmqctl add_vhost dummy ; \
+
+# Set vhost permissions
+# rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;
+rabbitmqctl set_permissions -p dummy test_user &quot;.*&quot; &quot;.*&quot; &quot;.*&quot; ; \
+) &amp;    
+rabbitmq-server $@
+</code></pre>
+
+<p>Place both of these files in a directory and build your image:</p>
+
+<pre><code>$ docker build -t my_rabbitmq_image .
+</code></pre>
+
+<p>Start a container based on the image using:</p>
+
+<pre><code>$ docker run --rm=true --name my_rabbitmq_container -p 5672:5672 -p 15672:15672  my_rabbitmq_image
+</code></pre>
+
+<p>Then in your browser navigate to <a href="http://localhost:15672">http://localhost:15672</a> and see if all is ok!</p>
+
+<p><strong>Note:</strong> When using Boot2Docker make sure to replace the localhost with the correct IP.</p>
+
+		</div>
 	</div>
-	<div class="col-md-4 col-md-4">
-		<h4>Thu Jun 11, 2015</h4>
-	</div>
-</div>
-		    
-		        <div class="row">
-	<div class="col-md-offset-2 col-md-6 col-md-offset-2 col-md-6">
-		<h4><a href="http://mpas.github.io/post/2015/06/docker-setup-registry/">Installing Docker Registry 2.0.1 using self signed certificates</a></h4>
-	</div>
-	<div class="col-md-4 col-md-4">
-		<h4>Fri Jun 5, 2015</h4>
-	</div>
-</div>
-		    
-	    </ul>
-    </div>
 	<div class="row">
-		<hr>
+		<div class="col-md-12">
+			<hr>
+		</div>
 	</div>	
+</div>
 
     <div class="container">
         <div class="row col-md-12">
@@ -108,7 +169,7 @@
                         <i class="fa fa-delicious fa-2x"></i></a>
                                     
 
-                        <a href="http://mpas.github.io/tags/docker/index.xml" target="_blank">
+                        <a href="" target="_blank">
                         <i class="fa fa-rss-square fa-2x"></i></a>
                 </div>
             </footer>

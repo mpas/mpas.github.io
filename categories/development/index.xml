@@ -5,8 +5,74 @@
     <link>http://mpas.github.io/categories/development/</link>
     <description>Recent content in Development on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 10 Jun 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/categories/development/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
+      <link>http://mpas.github.io/post/2015/06/docker-rabbitmq-default-users/</link>
+      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/2015/06/docker-rabbitmq-default-users/</guid>
+      <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;
+
+&lt;p&gt;The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.&lt;/p&gt;
+
+&lt;p&gt;The Docker File&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FROM rabbitmq:3-management
+
+# Add script to create default users / vhosts
+ADD init.sh /init.sh
+
+# Set correct executable permissions
+RUN chmod +x /init.sh
+
+# Define default command
+CMD [&amp;quot;/init.sh&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The init.sh script&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/sh
+
+# Create Default RabbitMQ setup
+( sleep 10 ; \
+
+# Create users
+# rabbitmqctl add_user &amp;lt;username&amp;gt; &amp;lt;password&amp;gt;
+rabbitmqctl add_user test_user test_user ; \
+
+# Set user rights
+# rabbitmqctl set_user_tags &amp;lt;username&amp;gt; &amp;lt;tag&amp;gt;
+rabbitmqctl set_user_tags test_user administrator ; \
+
+# Create vhosts
+# rabbitmqctl add_vhost &amp;lt;vhostname&amp;gt;
+rabbitmqctl add_vhost dummy ; \
+
+# Set vhost permissions
+# rabbitmqctl set_permissions -p &amp;lt;vhostname&amp;gt; &amp;lt;username&amp;gt; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot;
+rabbitmqctl set_permissions -p dummy test_user &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot; ; \
+) &amp;amp;    
+rabbitmq-server $@
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Place both of these files in a directory and build your image:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ docker build -t my_rabbitmq_image .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Start a container based on the image using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ docker run --rm=true --name my_rabbitmq_container -p 5672:5672 -p 15672:15672  my_rabbitmq_image
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then in your browser navigate to &lt;a href=&#34;http://localhost:15672&#34;&gt;http://localhost:15672&lt;/a&gt; and see if all is ok!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; When using Boot2Docker make sure to replace the localhost with the correct IP.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
@@ -697,31 +763,6 @@ println &amp;quot;--------------------------------------------------------------
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Restart your Vim and your plugin should be available.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Installing Markdown on OSX and use it inside VIM</title>
-      <link>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim/</link>
-      <pubDate>Thu, 13 Sep 2012 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim/</guid>
-      <description>
-
-&lt;p&gt;Back again to one of my favorites which is called &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;Markdown&lt;/a&gt;. Once every now and then i forget how easy it is. Normally i use &lt;a href=&#34;http://macromates.com/&#34;&gt;Textmate&lt;/a&gt; to do all my writing, but recently i have picked up &lt;a href=&#34;http://www.vim.org/&#34;&gt;VIM&lt;/a&gt; to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)&lt;/p&gt;
-
-&lt;p&gt;Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different. But anything is different when using VIM :)&lt;/p&gt;
-
-&lt;h4 id=&#34;steps:df388b59527c9e4ae9e161df01c6cd12&#34;&gt;Steps&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;download Markdown from - &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;The home of Markdown&lt;/a&gt;, It’s usual place as this is a Perl script you need to put it somewhere so OSX is able to execute it.&lt;/li&gt;
-&lt;li&gt;start your terminal and create a directory inside &lt;code&gt;usr/local/bin&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;extract the downloaded file and put the &lt;code&gt;Markdown.pl&lt;/code&gt; file * inside the &lt;code&gt;user/local/bin&lt;/code&gt; directory&lt;/li&gt;
-&lt;li&gt;inside the terminal chmod the &lt;code&gt;Markdown.pl&lt;/code&gt; to 777&lt;/li&gt;
-&lt;li&gt;using the &lt;a href=&#34;http://gothick.org.uk/2010/08/04/installing-markdown-as-a-os-x-service-using-automator-in-snow-leopard/&#34;&gt;Installing Markdown as OSX Service&lt;/a&gt; creates a service to use Markdown&lt;/li&gt;
-&lt;li&gt;You are done… :)&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>
