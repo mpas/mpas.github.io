@@ -33,7 +33,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Create a WebSocket configuration class that hold the configuration&lt;/li&gt;
+&lt;li&gt;Create a WebSocket configuration class that holds the configuration&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;pre&gt;&lt;code&gt;@Configuration
