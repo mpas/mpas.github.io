@@ -18,8 +18,6 @@
 
 &lt;p&gt;The following example will enable a server to send messages to a WebSocket/Stomp client.&lt;/p&gt;
 
-&lt;p&gt;The following steps will enable Web Sockets support in a Spring Boot application.&lt;/p&gt;
-
 &lt;ul&gt;
 &lt;li&gt;Modify &lt;code&gt;build.gradle&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
