@@ -56,6 +56,69 @@
 		<div class="row">
 			
 			<div class="col-md-offset-1 col-md-10">
+				<h3><a href="http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen/">Installing Vimball plugins when using Pathogen</a></h3>
+					<span class="label label-primary">Fri Sep 14, 2012</span> in 
+					
+						
+						<a href="/categories/development">Development</a>
+					 using tags 			 
+					
+						
+						<a href="/tags/vim">vim</a>
+					
+						 , 
+						<a href="/tags/pathogen">pathogen</a>
+					
+				</small>
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
+				<br> 
+				
+
+<p>No need to discuss that <a href="http://www.vim.org/">Vim</a> is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the <a href="http://www.installationwiki.org/Installing_Vim_Scripts">wiki</a>.</p>
+
+<h4 id="pathogen:465ac0ac6e9c686b7282c35f1b598e35">Pathogen</h4>
+
+<p>When you instal a plugin one may copy the files to the plugin directory. In a later stage you also want to delete a plugin and then the hunt for files starts. You need to track down which files belong to the specific plugin you want to delete. <a href="http://tammersaleh.com/posts/the-modern-vim-config-with-pathogen">Pathogen</a> to the rescue :)</p>
+
+<p>Pathogen enables you to create sub-folders inside a bundle-folder which will acts a place holder for all your plugins nicely separated in a ‘folder per plugin’ structure. So if you need to delete a plugin then you just delete the correct plugin-folder and everything is gone.</p>
+
+<p>Normal installation of a Vim script is standard, you create a sub-folder below the bundle-folder, copy the Vim script and all is ok. BUT when you want to use a <a href="http://www.vim.org/scripts/script.php?script_id=1502">vimball</a> then you need to do some additional steps.</p>
+
+<ul>
+<li><p>Create a folder in which you want to later on extract the vimball. Preferably below the ‘bundle’ folder.</p>
+
+<pre><code>mkdir ~/.vim/bundle/align
+</code></pre></li>
+
+<li><p>Open the vimball with command ‘:e &lsquo;location of your vimball’/‘name of your vimball&rsquo;</p>
+
+<pre><code>:e ~/Downloads/Align.vba
+</code></pre></li>
+
+<li><p>Tell Vim to use the vimball by issuing command ‘:UseVimball &lsquo;location to extract’&rsquo;</p>
+
+<pre><code>:UseVimball ~/.vim/bundle/align
+</code></pre></li>
+
+<li><p>Restart your Vim and your plugin should be available.</p></li>
+</ul>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr>
+			</div>
+		</div>
+	
+        
+            	
+		<div class="row">
+			
+			<div class="col-md-offset-1 col-md-10">
 				<h3><a href="http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim/">Installing Markdown on OSX and use it inside VIM</a></h3>
 					<span class="label label-primary">Thu Sep 13, 2012</span> in 
 					

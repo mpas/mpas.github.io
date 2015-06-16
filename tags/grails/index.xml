@@ -5,13 +5,13 @@
     <link>http://mpas.github.io/tags/grails/</link>
     <description>Recent content in Grails on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 10 Jun 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/grails/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Run a Grails 3 generated Fat Jar file in production mode</title>
       <link>http://mpas.github.io/post/2015/06/run-grails-war-in-production-mode/</link>
-      <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/post/2015/06/run-grails-war-in-production-mode/</guid>
       <description>&lt;p&gt;When creating a Grails WAR/JAR file using:&lt;/p&gt;

@@ -56,6 +56,146 @@
 		<div class="row">
 			
 			<div class="col-md-offset-1 col-md-10">
+				<h3><a href="http://mpas.github.io/post/2015/06/springboot-websocket-support/">Adding WebSocket/Stomp support to a Spring Boot application</a></h3>
+					<span class="label label-primary">Tue Jun 16, 2015</span> in 
+					
+						
+						<a href="/categories/development">Development</a>
+					 using tags 			 
+					
+						
+						<a href="/tags/spring-boot">spring-boot</a>
+					
+						 , 
+						<a href="/tags/websocket">websocket</a>
+					
+				</small>
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
+				<br> 
+				<p>Adding support for <a href="https://en.wikipedia.org/wiki/WebSocket">WebSockets</a> / <a href="https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol">Stomp</a>in a <a href="http://projects.spring.io/spring-boot/">Spring Boot</a> application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.</p>
+
+<p>The following example will enable a server to send messages to a WebSocket/Stomp client.</p>
+
+<p>The following steps will enable Web Sockets support in a Spring Boot application.</p>
+
+<ul>
+<li>Modify <code>build.gradle</code></li>
+</ul>
+
+<pre><code>dependencies {
+    compile(&quot;org.springframework.boot:spring-boot-starter-web&quot;)
+    compile(&quot;org.springframework.boot:spring-boot-starter-websocket&quot;)
+    compile(&quot;org.springframework:spring-messaging&quot;)
+    testCompile(&quot;junit:junit&quot;)
+}
+</code></pre>
+
+<ul>
+<li>Create a WebSocket configuration class that hold the configuration</li>
+</ul>
+
+<pre><code>@Configuration
+@EnableWebSocketMessageBroker
+public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // the endpoint for websocket connections
+        registry.addEndpoint(&quot;/stomp&quot;).withSockJS();
+    }
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        // use the /topic prefix for outgoing WebSocket communication
+        config.enableSimpleBroker(&quot;/topic&quot;);
+
+        // use the /app prefix for others
+        config.setApplicationDestinationPrefixes(&quot;/app&quot;);
+    }
+}
+</code></pre>
+
+<p>Now a client that connects to <code>/stomp</code> endpoint is able to receive WebSocket messages.</p>
+
+<ul>
+<li>Create a service that is going to send the data to a WebSocket endpoint</li>
+</ul>
+
+<pre><code>@Service
+public class ScheduleTask {
+
+    @Autowired
+    private SimpMessagingTemplate template;
+
+    // this will send a message to an endpoint on which a client can subscribe
+    @Scheduled(fixedRate = 5000)
+    public void trigger() {
+        // sends the message to /topic/message
+        this.template.convertAndSend(&quot;/topic/message&quot;, &quot;Date: &quot; + new Date());
+    }
+
+}
+</code></pre>
+
+<ul>
+<li>Create a client that is able to receive the message</li>
+</ul>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;WebSocket Stomp Receiving Example&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div&gt;
+        &lt;h3&gt;Messages:&lt;/h3&gt;
+        &lt;ol id=&quot;messages&quot;&gt;&lt;/ol&gt;
+    &lt;/div&gt;
+
+    &lt;script type=&quot;text/javascript&quot; src=&quot;//cdn.jsdelivr.net/jquery/1.11.2/jquery.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js&quot;&gt;&lt;/script&gt;
+
+    &lt;script type=&quot;text/javascript&quot;&gt;
+        $(document).ready(function() {
+            var messageList = $(&quot;#messages&quot;);
+
+            // defined a connection to a new socket endpoint
+            var socket = new SockJS('/stomp');
+
+            var stompClient = Stomp.over(socket);
+
+            stompClient.connect({ }, function(frame) {
+                // subscribe to the /topic/message endpoint
+                stompClient.subscribe(&quot;/topic/message&quot;, function(data) {
+                    var message = data.body;
+                    messageList.append(&quot;&lt;li&gt;&quot; + message + &quot;&lt;/li&gt;&quot;);
+                });
+            });
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>The whole example project  can be downloaded <a href="https://github.com/mpas/spring-boot-websocket-stomp-server-send-example">https://github.com/mpas/spring-boot-websocket-stomp-server-send-example</a></p>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr>
+			</div>
+		</div>
+	
+        
+            	
+		<div class="row">
+			
+			<div class="col-md-offset-1 col-md-10">
 				<h3><a href="http://mpas.github.io/post/2015/06/docker-rabbitmq-default-users/">Setting up Docker RabbitMQ with predefined users/vhosts</a></h3>
 					<span class="label label-primary">Thu Jun 11, 2015</span> in 
 					
@@ -152,7 +292,7 @@ rabbitmq-server $@
 			
 			<div class="col-md-offset-1 col-md-10">
 				<h3><a href="http://mpas.github.io/post/2015/06/run-grails-war-in-production-mode/">Run a Grails 3 generated Fat Jar file in production mode</a></h3>
-					<span class="label label-primary">Wed Jun 10, 2015</span> in 
+					<span class="label label-primary">Thu Jun 11, 2015</span> in 
 					
 						
 						<a href="/categories/development">Development</a>
@@ -737,42 +877,6 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
 
 <pre><code>$ mount -a
 </code></pre>
-
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<hr>
-			</div>
-		</div>
-	
-        
-            	
-		<div class="row">
-			
-			<div class="col-md-offset-1 col-md-10">
-				<h3><a href="http://mpas.github.io/post/2013/05/grails-to-power-your-electric-car/">Using Grails to power your Electric Car</a></h3>
-					<span class="label label-primary">Sat May 25, 2013</span> in 
-					
-						
-						<a href="/categories/development">Development</a>
-					 using tags 			 
-					
-						
-						<a href="/tags/gr8conf">gr8conf</a>
-					
-						 , 
-						<a href="/tags/grails">grails</a>
-					
-				</small>
-			</div>
-		</div>	
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">
-				<br> 
-				<p>Past week I really enjoyed visiting &amp; speaking at the <a href="http://gr8conf.org/">Grails Conference (GR8Conf 2013)</a>. The organisation made it possible that for me to host a talk about &ldquo;Using Grails to power your Electric Car&rdquo;.</p>
-
-<p><a href="http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car">Using Grails to power your Electric Car</a></p>
 
 			</div>
 		</div>

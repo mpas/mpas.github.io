@@ -5,8 +5,124 @@
     <link>http://mpas.github.io/</link>
     <description>Recent content on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 11 Jun 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Adding WebSocket/Stomp support to a Spring Boot application</title>
+      <link>http://mpas.github.io/post/2015/06/springboot-websocket-support/</link>
+      <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/2015/06/springboot-websocket-support/</guid>
+      <description>&lt;p&gt;Adding support for &lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34;&gt;WebSockets&lt;/a&gt; / &lt;a href=&#34;https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol&#34;&gt;Stomp&lt;/a&gt;in a &lt;a href=&#34;http://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.&lt;/p&gt;
+
+&lt;p&gt;The following example will enable a server to send messages to a WebSocket/Stomp client.&lt;/p&gt;
+
+&lt;p&gt;The following steps will enable Web Sockets support in a Spring Boot application.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Modify &lt;code&gt;build.gradle&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;dependencies {
+    compile(&amp;quot;org.springframework.boot:spring-boot-starter-web&amp;quot;)
+    compile(&amp;quot;org.springframework.boot:spring-boot-starter-websocket&amp;quot;)
+    compile(&amp;quot;org.springframework:spring-messaging&amp;quot;)
+    testCompile(&amp;quot;junit:junit&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Create a WebSocket configuration class that hold the configuration&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;@Configuration
+@EnableWebSocketMessageBroker
+public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // the endpoint for websocket connections
+        registry.addEndpoint(&amp;quot;/stomp&amp;quot;).withSockJS();
+    }
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        // use the /topic prefix for outgoing WebSocket communication
+        config.enableSimpleBroker(&amp;quot;/topic&amp;quot;);
+
+        // use the /app prefix for others
+        config.setApplicationDestinationPrefixes(&amp;quot;/app&amp;quot;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now a client that connects to &lt;code&gt;/stomp&lt;/code&gt; endpoint is able to receive WebSocket messages.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Create a service that is going to send the data to a WebSocket endpoint&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;@Service
+public class ScheduleTask {
+
+    @Autowired
+    private SimpMessagingTemplate template;
+
+    // this will send a message to an endpoint on which a client can subscribe
+    @Scheduled(fixedRate = 5000)
+    public void trigger() {
+        // sends the message to /topic/message
+        this.template.convertAndSend(&amp;quot;/topic/message&amp;quot;, &amp;quot;Date: &amp;quot; + new Date());
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Create a client that is able to receive the message&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+    &amp;lt;title&amp;gt;WebSocket Stomp Receiving Example&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+    &amp;lt;div&amp;gt;
+        &amp;lt;h3&amp;gt;Messages:&amp;lt;/h3&amp;gt;
+        &amp;lt;ol id=&amp;quot;messages&amp;quot;&amp;gt;&amp;lt;/ol&amp;gt;
+    &amp;lt;/div&amp;gt;
+
+    &amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;//cdn.jsdelivr.net/jquery/1.11.2/jquery.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;script type=&amp;quot;text/javascript&amp;quot; src=&amp;quot;//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+
+    &amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;
+        $(document).ready(function() {
+            var messageList = $(&amp;quot;#messages&amp;quot;);
+
+            // defined a connection to a new socket endpoint
+            var socket = new SockJS(&#39;/stomp&#39;);
+
+            var stompClient = Stomp.over(socket);
+
+            stompClient.connect({ }, function(frame) {
+                // subscribe to the /topic/message endpoint
+                stompClient.subscribe(&amp;quot;/topic/message&amp;quot;, function(data) {
+                    var message = data.body;
+                    messageList.append(&amp;quot;&amp;lt;li&amp;gt;&amp;quot; + message + &amp;quot;&amp;lt;/li&amp;gt;&amp;quot;);
+                });
+            });
+        });
+    &amp;lt;/script&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The whole example project  can be downloaded &lt;a href=&#34;https://github.com/mpas/spring-boot-websocket-stomp-server-send-example&#34;&gt;https://github.com/mpas/spring-boot-websocket-stomp-server-send-example&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
@@ -79,7 +195,7 @@ rabbitmq-server $@
     <item>
       <title>Run a Grails 3 generated Fat Jar file in production mode</title>
       <link>http://mpas.github.io/post/2015/06/run-grails-war-in-production-mode/</link>
-      <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/post/2015/06/run-grails-war-in-production-mode/</guid>
       <description>&lt;p&gt;When creating a Grails WAR/JAR file using:&lt;/p&gt;
@@ -582,49 +698,6 @@ public class Server extends Verticle {
     }
 
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Grails migrations and &#39;Waiting for changelog lock&#39;</title>
-      <link>http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog/</link>
-      <pubDate>Thu, 28 Feb 2013 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog/</guid>
-      <description>&lt;p&gt;Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;...
-Waiting for changelog lock....
-Waiting for changelog lock....
-Waiting for changelog lock....
-...
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;To solve this take the following steps:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Stop the application container (example: Tomcat)&lt;/li&gt;
-&lt;li&gt;In the database look for a table called &lt;code&gt;DATABASECHANGELOGLOCK&lt;/code&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;In the table there is a record with id=1, change the following values:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;locked -&amp;gt; 0
-lockgranted -&amp;gt; null
-lockedby -&amp;gt; null
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;After updating this record start the application container&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;Notes:&lt;/strong&gt;&lt;br /&gt;
-To see who has locked the database (normally the local machine):&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;select * from DATABASECHANGELOGLOCK;
-To update the record
-update DATABASECHANGELOGLOCK 
-set locked=0, lockgranted=null, lockedby=null 
-where id=1
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
