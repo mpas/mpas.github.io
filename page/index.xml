@@ -32,15 +32,105 @@
       <pubDate>Thu, 01 Jan 2015 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/page/resume/</guid>
-      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus hendrerit venenatis. Vivamus tempus dui eu magna interdum, sed lobortis metus elementum. Vivamus eu est pretium, congue turpis eget, luctus augue. Vivamus sed dignissim risus, quis scelerisque purus. Sed feugiat justo at orci porttitor, at porta nunc egestas. Maecenas malesuada vitae mauris et lobortis. Vivamus consequat dictum lobortis.&lt;/p&gt;
+      <description>
 
-&lt;p&gt;Nulla nec gravida purus. Nullam a diam id erat vehicula imperdiet. Vivamus eget dignissim magna, in vulputate magna. Quisque condimentum pretium ligula, at sollicitudin dolor facilisis nec. Nullam at ultrices risus, nec ultricies ligula. Duis convallis commodo vestibulum. Donec mi ligula, blandit quis cursus eget, dictum quis ante. Proin nec tincidunt ipsum. Ut id urna dolor. Nunc fringilla velit urna, quis aliquet erat pellentesque in. Vivamus lacinia elementum diam, quis laoreet dolor blandit nec. Nam ut urna id dolor ultricies lacinia nec at neque. Donec porta consequat convallis.&lt;/p&gt;
+&lt;h1 id=&#34;johnny-coder:c59a67a3c7bc5faa453847420267045e&#34;&gt;Johnny Coder&lt;/h1&gt;
 
-&lt;p&gt;Phasellus vitae magna vel dolor posuere scelerisque in quis nulla. Nunc vel sapien vel tellus commodo placerat. Morbi non egestas diam, ac condimentum orci. Morbi rutrum nulla mi, non fringilla leo consectetur eget. Nulla vestibulum, lectus non iaculis hendrerit, orci dolor congue nibh, nec commodo velit sapien vitae urna. Nam nisl lacus, tristique eget libero ac, commodo lobortis ante. Cras cursus malesuada nulla, nec eleifend ligula consequat eu. Nullam varius augue sit amet ipsum mollis, in viverra massa varius. Sed a orci commodo, ornare justo gravida, venenatis est. Morbi bibendum nunc dui, ac tincidunt orci mollis sed. Cras nec erat non metus dignissim euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc sit amet dui at metus posuere volutpat. Nunc id faucibus nisi.&lt;/p&gt;
+&lt;hr /&gt;
 
-&lt;p&gt;Morbi pharetra viverra nisl, sed imperdiet urna consequat aliquam. In euismod, quam a consectetur imperdiet, diam ante sollicitudin augue, ac sollicitudin urna lorem quis libero. In id luctus tortor, et auctor enim. Maecenas tincidunt placerat tincidunt. Morbi tortor ligula, congue sit amet vulputate nec, porttitor quis libero. Quisque imperdiet pretium viverra. Praesent non odio turpis. In fringilla a enim quis accumsan. Pellentesque id porttitor magna. Curabitur tincidunt purus turpis, accumsan mollis metus dignissim ac. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce malesuada leo nec est tincidunt semper.&lt;/p&gt;
+&lt;p&gt;1 MyAddress                        email@example.com
+MyTown 1000                          @twitter_handle
+MyCountry                           1800 my-phone-nr&lt;/p&gt;
 
-&lt;p&gt;Donec elementum neque vel ligula blandit, ut semper metus vulputate. Integer vulputate, neque vel aliquet suscipit, elit arcu mattis dui, fermentum venenatis mi mauris non risus. Curabitur at metus non urna condimentum pharetra. Phasellus facilisis odio vestibulum leo sodales, sed fermentum turpis interdum. Vestibulum faucibus venenatis nisl, eu laoreet odio tempor in. In accumsan metus tortor, sit amet imperdiet ante mollis at. Cras lacinia mi leo, eu sollicitudin est convallis quis. Integer congue leo vitae fermentum posuere. Curabitur posuere, est sed condimentum tristique, sem nibh consequat ligula, at vestibulum dui nisi nec ante. Duis porta nisi sit amet nunc viverra, quis tincidunt tellus faucibus.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;education:c59a67a3c7bc5faa453847420267045e&#34;&gt;Education&lt;/h2&gt;
+
+&lt;p&gt;2010-2014 (expected)
+:   &lt;strong&gt;PhD, Computer Science&lt;/strong&gt;; Awesome University (MyTown)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;*Thesis title: Deep Learning Approaches to the Self-Awesomeness
+ Estimation Problem*
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2007-2010
+:   &lt;strong&gt;BSc, Computer Science and Electrical Engineering&lt;/strong&gt;; University of
+    HomeTown (HomeTown)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;*Minor: Awesomeology*
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;experience:c59a67a3c7bc5faa453847420267045e&#34;&gt;Experience&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Your Most Recent Work Experience:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Short text containing the type of work done, results obtained,
+lessons learned and other remarks. Can also include lists and
+links:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;First item&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Item with &lt;a href=&#34;http://www.example.com&#34;&gt;link&lt;/a&gt;. Links will work both in
+the html and pdf versions.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;That Other Job You Had&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Also with a short description.&lt;/p&gt;
+
+&lt;h2 id=&#34;technical-experience:c59a67a3c7bc5faa453847420267045e&#34;&gt;Technical Experience&lt;/h2&gt;
+
+&lt;p&gt;My Cool Side Project
+:   For items which don&amp;rsquo;t have a clear time ordering, a definition
+    list can be used to have named items.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;* These items can also contain lists, but you need to mind the
+  indentation levels in the markdown source.
+* Second item.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Open Source
+:   List open source contributions here, perhaps placing emphasis on
+    the project names, for example the &lt;strong&gt;Linux Kernel&lt;/strong&gt;, where you
+    implemented multithreading over a long weekend, or &lt;strong&gt;node.js&lt;/strong&gt;
+    (with &lt;a href=&#34;http://nodejs.org&#34;&gt;link&lt;/a&gt;) which was actually totally
+    your idea&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Programming Languages
+:   &lt;strong&gt;first-lang:&lt;/strong&gt; Here, we have an itemization, where we only want
+    to add descriptions to the first few items, but still want to
+    mention some others together at the end. A format that works well
+    here is a description list where the first few items have their
+    first word emphasized, and the last item contains the final few
+    emphasized terms. Notice the reasonably nice page break in the pdf
+    version, which wouldn&amp;rsquo;t happen if we generated the pdf via html.&lt;/p&gt;
+
+&lt;p&gt;:   &lt;strong&gt;second-lang:&lt;/strong&gt; Description of your experience with second-lang,
+    perhaps again including a &lt;a href=&#34;https://github.com/githubuser/superlongprojectname&#34;&gt;link&lt;/a&gt;, this time placing the url
+    reference elsewhere in the document to reduce clutter (see source
+    file).&lt;/p&gt;
+
+&lt;p&gt;:   &lt;strong&gt;obscure-but-impressive-lang:&lt;/strong&gt; We both know this one&amp;rsquo;s pushing
+    it.&lt;/p&gt;
+
+&lt;p&gt;:   Basic knowledge of &lt;strong&gt;C&lt;/strong&gt;, &lt;strong&gt;x86 assembly&lt;/strong&gt;, &lt;strong&gt;forth&lt;/strong&gt;, &lt;strong&gt;Common Lisp&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;extra-section-call-it-whatever-you-want:c59a67a3c7bc5faa453847420267045e&#34;&gt;Extra Section, Call it Whatever You Want&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Human Languages:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;English (native speaker)&lt;/li&gt;
+&lt;li&gt;???&lt;/li&gt;
+&lt;li&gt;This is what a nested list looks like.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Random tidbit&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Other sort of impressive-sounding thing you did&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     

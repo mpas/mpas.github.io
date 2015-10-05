@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Loading Grails configuration files update!">
+    <meta name="author" content="Marco Pas">
+
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Loading Grails configuration files update!</title>
+
+   	
+    
+        <link rel="stylesheet" href="http://mpas.github.io//css/theme/journal.css">
+    
+
+    <link rel="stylesheet" href="http://mpas.github.io//css/font-awesome.min.css">
+
+   	
+   	<link rel="stylesheet" href="http://mpas.github.io//css/style.css">
+
+
+    
+    <script src="http://mpas.github.io//js/jquery.min-2.1.4.js"></script>
+    <script src="http://mpas.github.io//js/bootstrap.min-3.3.5.js"></script>
+
+    
+    <link href="" rel="alternate" type="application/rss+xml" title="CodeVerse" />
+</head>
+<body lang="en">
+    
+    <div class="container">
+    <div class="row">
+        <div class="navbar navbar-default " role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="http://mpas.github.io/">CodeVerse</a>
+            </div>
+            <div class="navbar-collapse collapse navbar-responsive-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="http://mpas.github.io/">Home</a></li>
+                    <li><a href="http://mpas.github.io//page/about/">About</a></li>
+                    <li><a href="http://mpas.github.io//page/resume/">Resume</a></li>
+                    <li><a href="http://mpas.github.io//post/">Blog</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>Loading Grails configuration files update!</h3>
+				<span class="label label-primary">Mon Sep 17, 2012</span> in 
+				
+					
+					<a href="/categories/development">Development</a>
+				 using tags 			 
+				
+					
+					<a href="/tags/grails">grails</a>
+				
+					 , 
+					<a href="/tags/configuration">configuration</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			<p>We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.</p>
+
+<ul>
+<li>You cannot deal with all Grails Mail settings in the configuration file</li>
+<li>You cannot use the log4j DSL to extract the logging configuration outside your application</li>
+<li>etc..</li>
+</ul>
+
+<p>In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this <a href="http://www.baselogic.com/blog/development/java-javaee-j2ee/getting-grails-external-configuration-working-in-the-real-world/">blogpost</a> which was the start for our implementation of loading the external configuration files.</p>
+
+<p>We modified some small things and added a way of loading a configuration file that is resident in the root of a Grails project. So when developing with IntelliJ for example the config file is at your fingertips in the root of the application project structure. We must also note that we are very happy with the fact that the Grails community was more then helpfull in helping us out here!</p>
+
+<pre><code>// -------------------------------------------------------------------------------- //
+// - START: CONFIGURATION FILE LOADING -------------------------------------------- //
+// -------------------------------------------------------------------------------- //
+// locations to search for config files that get merged into the main config
+// config files can either be Java properties files or ConfigSlurper scripts
+def ENV_NAME = &quot;${appName}.config.location&quot;
+if(!grails.config.locations || !(grails.config.locations instanceof List)) {
+    grails.config.locations = []
+}
+println &quot;--------------------------------------------------------------------------------&quot;
+println &quot;- Loading configuration file                                                   -&quot;
+println &quot;--------------------------------------------------------------------------------&quot;
+// 1: check for environment variable that has been set! This variable must point to the
+// configuration file that must be used. Can be a .groovy or .properties file!
+if(System.getenv(ENV_NAME) &amp;&amp; new File(System.getenv(ENV_NAME)).exists()) {
+    println(&quot;Including System Environment configuration file: &quot; + System.getenv(ENV_NAME))
+    grails.config.locations &lt;&lt; &quot;file:&quot; + System.getenv(ENV_NAME)
+
+// 2: check for commandline properties!
+// Use it like (examples):
+//      grails -D[name of app].config.location=/tmp/[name of config file].groovy run-app
+// or
+//      grails -D[name of app].config.location=/tmp/[name of config file].properties run-app
+//
+} else if(System.getProperty(ENV_NAME) &amp;&amp; new File(System.getProperty(ENV_NAME)).exists()) {
+    println &quot;Including configuration file specified on command line: &quot; + System.getProperty(ENV_NAME)
+    grails.config.locations &lt;&lt; &quot;file:&quot; + System.getProperty(ENV_NAME)
+
+// 3: check on local project config file in the project root directory
+} else if (new File(&quot;./${appName}-config.groovy&quot;).exists()) {
+    println &quot;*** User defined config: file:./${appName}-config.groovy ***&quot;
+    grails.config.locations = [&quot;file:./${appName}-config.groovy&quot;]
+} else if (new File(&quot;./${appName}-config.properties&quot;).exists()) {
+    println &quot;*** User defined config: file:./${appName}-config.properties ***&quot;
+    grails.config.locations = [&quot;file:./${appName}-config.groovy&quot;]
+
+// 4: check on local project config file in ${userHome}/.grails/...
+} else if (new File(&quot;${userHome}/.grails/${appName}-config.groovy&quot;).exists()) {
+    println &quot;*** User defined config: file:${userHome}/.grails/${appName}-config.groovy ***&quot;
+    grails.config.locations = [&quot;file:${userHome}/.grails/${appName}-config.groovy&quot;]
+} else if (new File(&quot;${userHome}/.grails/${appName}-config.properties&quot;).exists()) {
+    println &quot;*** User defined config: file:${userHome}/.grails/${appName}-config.properties ***&quot;
+    grails.config.locations = [&quot;file:${userHome}/.grails/${appName}-config.properties&quot;]
+
+// 5: we have problem!!
+} else {
+    println &quot;********************************************************************************&quot;
+    println &quot;* No external configuration file defined                                       *&quot;
+    println &quot;********************************************************************************&quot;
+}
+println &quot;(*) grails.config.locations = ${grails.config.locations}&quot;
+println &quot;--------------------------------------------------------------------------------&quot;
+// -------------------------------------------------------------------------------- //
+// - END: CONFIGURATION FILE LOADING ---------------------------------------------- //
+// -------------------------------------------------------------------------------- //
+</code></pre>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+</div>
+
+    <div class="container">
+        <div class="row col-md-12">
+            <footer>
+                <div class="pull-left">
+                    <p>
+                        &copy; 2014 Marco Pas ~ Powered By <a href="http://hugo.spf13.com">Hugo</a> - version: 0.14 ~ Copyright © 2015 <a href="http://mpas.github.io//license">License</a>
+                    </p>
+                </div>
+
+                
+                <div class="pull-right">
+                    
+                        <a href="https://www.facebook.com/marco.pasopas" target="_blank">
+                        <i class="fa fa-facebook-square fa-2x"></i></a>
+                    
+                    
+                        <a href="https://twitter.com/marcopas" target="_blank">
+                        <i class="fa fa-twitter-square fa-2x"></i></a>
+                    
+                    
+                        <a href="https://github.com/mpas" target="_blank">
+                        <i class="fa fa-github-square fa-2x"></i></a>
+                    
+                    
+                        <a href="https://delicious.com/marcopas" target="_blank">
+                        <i class="fa fa-delicious fa-2x"></i></a>
+                    
+                        <a href="" target="_blank">
+                        <i class="fa fa-rss-square fa-2x"></i></a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    </body>
+</html>

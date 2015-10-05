@@ -10,15 +10,15 @@
     
     <item>
       <title>Installing Vimball plugins when using Pathogen</title>
-      <link>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen/</link>
+      <link>http://mpas.github.io/blog/2012/09/14/installing-vimball-plugins-when-using-pathogen/</link>
       <pubDate>Fri, 14 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/installing-vimball-plugins-using-pathogen/</guid>
+      <guid>http://mpas.github.io/blog/2012/09/14/installing-vimball-plugins-when-using-pathogen/</guid>
       <description>
 
 &lt;p&gt;No need to discuss that &lt;a href=&#34;http://www.vim.org/&#34;&gt;Vim&lt;/a&gt; is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the &lt;a href=&#34;http://www.installationwiki.org/Installing_Vim_Scripts&#34;&gt;wiki&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h4 id=&#34;pathogen:465ac0ac6e9c686b7282c35f1b598e35&#34;&gt;Pathogen&lt;/h4&gt;
+&lt;h4 id=&#34;pathogen:b6a7c71c12b42011c4ba8c411b554927&#34;&gt;Pathogen&lt;/h4&gt;
 
 &lt;p&gt;When you instal a plugin one may copy the files to the plugin directory. In a later stage you also want to delete a plugin and then the hunt for files starts. You need to track down which files belong to the specific plugin you want to delete. &lt;a href=&#34;http://tammersaleh.com/posts/the-modern-vim-config-with-pathogen&#34;&gt;Pathogen&lt;/a&gt; to the rescue :)&lt;/p&gt;
 
@@ -49,17 +49,17 @@
     
     <item>
       <title>Installing Markdown on OSX and use it inside VIM</title>
-      <link>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim/</link>
+      <link>http://mpas.github.io/blog/2012/09/13/installing-markdown-on-osx-and-use-it-inside-vim/</link>
       <pubDate>Thu, 13 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/installing-markdown-on-osx-use-it-inside-vim/</guid>
+      <guid>http://mpas.github.io/blog/2012/09/13/installing-markdown-on-osx-and-use-it-inside-vim/</guid>
       <description>
 
 &lt;p&gt;Back again to one of my favorites which is called &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;Markdown&lt;/a&gt;. Once every now and then i forget how easy it is. Normally i use &lt;a href=&#34;http://macromates.com/&#34;&gt;Textmate&lt;/a&gt; to do all my writing, but recently i have picked up &lt;a href=&#34;http://www.vim.org/&#34;&gt;VIM&lt;/a&gt; to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)&lt;/p&gt;
 
 &lt;p&gt;Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different. But anything is different when using VIM :)&lt;/p&gt;
 
-&lt;h4 id=&#34;steps:df388b59527c9e4ae9e161df01c6cd12&#34;&gt;Steps&lt;/h4&gt;
+&lt;h4 id=&#34;steps:08c9d4ccfa46d9b400b18dad960cc9fa&#34;&gt;Steps&lt;/h4&gt;
 
 &lt;ul&gt;
 &lt;li&gt;download Markdown from - &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;The home of Markdown&lt;/a&gt;, It’s usual place as this is a Perl script you need to put it somewhere so OSX is able to execute it.&lt;/li&gt;

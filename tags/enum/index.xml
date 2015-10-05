@@ -10,10 +10,10 @@
     
     <item>
       <title>Getting the Enum from a String value</title>
-      <link>http://mpas.github.io/post/2013/01/getting-enum-from-string-value/</link>
+      <link>http://mpas.github.io/blog/2013/01/03/getting-the-enum-from-a-string-value/</link>
       <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/01/getting-enum-from-string-value/</guid>
+      <guid>http://mpas.github.io/blog/2013/01/03/getting-the-enum-from-a-string-value/</guid>
       <description>&lt;p&gt;Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;Enum.valueOf(YourClassName.class, &amp;quot;String Value&amp;quot;)

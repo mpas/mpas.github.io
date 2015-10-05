@@ -10,10 +10,10 @@
     
     <item>
       <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
-      <link>http://mpas.github.io/post/2015/06/docker-rabbitmq-default-users/</link>
+      <link>http://mpas.github.io/blog/2015/06/11/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</link>
       <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2015/06/docker-rabbitmq-default-users/</guid>
+      <guid>http://mpas.github.io/blog/2015/06/11/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</guid>
       <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;
 
 &lt;p&gt;The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.&lt;/p&gt;
@@ -78,10 +78,10 @@ rabbitmq-server $@
     
     <item>
       <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
-      <link>http://mpas.github.io/post/2015/06/docker-setup-registry/</link>
+      <link>http://mpas.github.io/blog/2015/06/05/installing-docker-registry-2.0.1-using-self-signed-certificates/</link>
       <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2015/06/docker-setup-registry/</guid>
+      <guid>http://mpas.github.io/blog/2015/06/05/installing-docker-registry-2.0.1-using-self-signed-certificates/</guid>
       <description>
 
 &lt;p&gt;The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.&lt;/p&gt;
@@ -98,7 +98,7 @@ rabbitmq-server $@
 
 &lt;p&gt;So spin up your AMI and install Docker!&lt;/p&gt;
 
-&lt;h2 id=&#34;installing-docker:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Installing docker&lt;/h2&gt;
+&lt;h2 id=&#34;installing-docker:ab1188eade750d80f5d5f89b3d4b29c6&#34;&gt;Installing docker&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;login into your Amazon AMI&lt;/li&gt;
@@ -125,7 +125,7 @@ $ sudo wget -qO- https://get.docker.com/ | sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;create-docker-registry-data-and-configuration-directories:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Create Docker Registry data and configuration directories&lt;/h2&gt;
+&lt;h2 id=&#34;create-docker-registry-data-and-configuration-directories:ab1188eade750d80f5d5f89b3d4b29c6&#34;&gt;Create Docker Registry data and configuration directories&lt;/h2&gt;
 
 &lt;p&gt;We are going to store the registry image data inside &lt;code&gt;/opt/docker/registry/data&lt;/code&gt; and configuration files such as the ssl certificates and user login inside &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt;.&lt;/p&gt;
 
@@ -137,7 +137,7 @@ $ sudo mkdir -p /opt/docker/registry/conf
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;run-the-docker-registry:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Run the Docker Registry&lt;/h2&gt;
+&lt;h2 id=&#34;run-the-docker-registry:ab1188eade750d80f5d5f89b3d4b29c6&#34;&gt;Run the Docker Registry&lt;/h2&gt;
 
 &lt;p&gt;Now we are able to run the Docker Registry, the data for images that will be pushed are going to be stored in &lt;code&gt;/opt/docker/registry/data&lt;/code&gt; and the container will be named &lt;code&gt;docker-registry&lt;/code&gt;&lt;/p&gt;
 
@@ -156,7 +156,7 @@ $ sudo mkdir -p /opt/docker/registry/conf
 
 &lt;p&gt;&lt;strong&gt;So now we have a running Docker Registry, but still no SSL proxy and no user accounts to get access to the registry.&lt;/strong&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;generate-self-signed-certificates-for-our-ssl-proxy:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Generate self signed certificates for our SSL proxy&lt;/h2&gt;
+&lt;h2 id=&#34;generate-self-signed-certificates-for-our-ssl-proxy:ab1188eade750d80f5d5f89b3d4b29c6&#34;&gt;Generate self signed certificates for our SSL proxy&lt;/h2&gt;
 
 &lt;p&gt;The result of the certificate generation will be placed in &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt; and named &lt;code&gt;docker-registry.crt&lt;/code&gt; and &lt;code&gt;docker-registry.key&lt;/code&gt;.&lt;/p&gt;
 
@@ -173,7 +173,7 @@ $ sudo mkdir -p /opt/docker/registry/conf
 
 &lt;p&gt;Accept all defaults and make sure you give the correct FQDN /DNS name = &lt;code&gt;&amp;lt;domain-name&amp;gt;&lt;/code&gt;.&lt;/p&gt;
 
-&lt;h2 id=&#34;create-passwords-for-access-to-the-docker-registry:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Create passwords for access to the Docker Registry&lt;/h2&gt;
+&lt;h2 id=&#34;create-passwords-for-access-to-the-docker-registry:ab1188eade750d80f5d5f89b3d4b29c6&#34;&gt;Create passwords for access to the Docker Registry&lt;/h2&gt;
 
 &lt;p&gt;In order to let users login into the registry we need to create users  (user1/user2). This will be done by using &lt;code&gt;htpasswd&lt;/code&gt;. The user data will be stored in &lt;code&gt;docker-registry.htpasswd&lt;/code&gt; file and placed in the &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt; directory.&lt;/p&gt;
 
@@ -192,7 +192,7 @@ $ sudo htpasswd /opt/docker/registry/conf/docker-registry.htpasswd user2
 
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; when creating the second user omit the &lt;code&gt;-c&lt;/code&gt; otherwise the docker-registry.htpasswd file will be get overwritten!&lt;/p&gt;
 
-&lt;h2 id=&#34;run-the-nginx-proxy:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Run the NGINX Proxy&lt;/h2&gt;
+&lt;h2 id=&#34;run-the-nginx-proxy:ab1188eade750d80f5d5f89b3d4b29c6&#34;&gt;Run the NGINX Proxy&lt;/h2&gt;
 
 &lt;p&gt;As mentioned we are going to use the image from &lt;a href=&#34;http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/&#34;&gt;Container Solutions&lt;/a&gt; to run our NGINX proxy.&lt;/p&gt;
 
@@ -212,7 +212,7 @@ $ sudo htpasswd /opt/docker/registry/conf/docker-registry.htpasswd user2
 
 &lt;p&gt;To test this navigate to your registry by using a browser (Chrome) and access: &lt;code&gt;https://&amp;lt;domain-name&amp;gt;:443/v2/&lt;/code&gt;. After accepting the security warning provide a username/password and the output should be &lt;code&gt;{}&lt;/code&gt;.&lt;/p&gt;
 
-&lt;h2 id=&#34;configure-the-local-docker-client:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Configure the local Docker client&lt;/h2&gt;
+&lt;h2 id=&#34;configure-the-local-docker-client:ab1188eade750d80f5d5f89b3d4b29c6&#34;&gt;Configure the local Docker client&lt;/h2&gt;
 
 &lt;p&gt;Now that we have a running secured Docker Registry we can configure the Docker client on our machine that is going to access the remote Registry. For this we need a copy of the earlier &lt;code&gt;docker-registry.crt&lt;/code&gt; file.&lt;/p&gt;
 
@@ -220,7 +220,7 @@ $ sudo htpasswd /opt/docker/registry/conf/docker-registry.htpasswd user2
 &lt;li&gt;copy the &lt;code&gt;docker-registry.crt&lt;/code&gt; file from our server to your local machine. This file is located in &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt;. Put the copy in a place where you can find it.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;ubuntu-docker-client:ac57001e20ffdfa2c0e77a21bc36418c&#34;&gt;Ubuntu Docker Client&lt;/h3&gt;
+&lt;h3 id=&#34;ubuntu-docker-client:ab1188eade750d80f5d5f89b3d4b29c6&#34;&gt;Ubuntu Docker Client&lt;/h3&gt;
 
 &lt;p&gt;In order to get the local client working, we need to install Docker and register the &lt;code&gt;docker-registry.crt&lt;/code&gt; certificate file!&lt;/p&gt;
 

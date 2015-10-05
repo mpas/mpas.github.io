@@ -10,10 +10,10 @@
     
     <item>
       <title>Grails migrations and &#39;Waiting for changelog lock&#39;</title>
-      <link>http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog/</link>
+      <link>http://mpas.github.io/blog/2013/02/28/grails-migrations-and-waiting-for-changelog-lock/</link>
       <pubDate>Thu, 28 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/02/grails-migrations-and-waiting-for-changelog/</guid>
+      <guid>http://mpas.github.io/blog/2013/02/28/grails-migrations-and-waiting-for-changelog-lock/</guid>
       <description>&lt;p&gt;Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;...

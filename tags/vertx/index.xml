@@ -10,10 +10,10 @@
     
     <item>
       <title>Bookreview : Instant Vert.x</title>
-      <link>http://mpas.github.io/post/2013/11/bookreview-instant-vertx/</link>
+      <link>http://mpas.github.io/blog/2013/11/27/bookreview--instant-vert.x/</link>
       <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/11/bookreview-instant-vertx/</guid>
+      <guid>http://mpas.github.io/blog/2013/11/27/bookreview--instant-vert.x/</guid>
       <description>&lt;p&gt;For those who have not yet got into contact with &lt;a href=&#34;http://vertx.io/&#34;&gt;Vert.x&lt;/a&gt;, the book &lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Instant Vert.x&lt;/a&gt; (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.&lt;/p&gt;
 
 &lt;p&gt;As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.&lt;/p&gt;
@@ -33,10 +33,10 @@
     
     <item>
       <title>Simple Helloworld verticle</title>
-      <link>http://mpas.github.io/post/2013/05/simple-helloworld-verticle/</link>
+      <link>http://mpas.github.io/blog/2013/05/16/simple-helloworld-verticle/</link>
       <pubDate>Thu, 16 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/05/simple-helloworld-verticle/</guid>
+      <guid>http://mpas.github.io/blog/2013/05/16/simple-helloworld-verticle/</guid>
       <description>&lt;p&gt;Sourcecode:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;package helloworld;
