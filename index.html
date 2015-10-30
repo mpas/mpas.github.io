@@ -59,6 +59,56 @@
 		<div class="row">
 			
 			<div class="col-md-offset-1 col-md-10">
+				<h3><a href="http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/">Cleaning Grails Domain Objects in a Spock Test</a></h3>
+					<span class="label label-primary">Fri Oct 30, 2015</span> in 
+					
+						
+						<a href="/categories/development">Development</a>
+					 using tags 			 
+					
+						
+						<a href="/tags/grails">grails</a>
+					
+						 , 
+						<a href="/tags/spock">spock</a>
+					
+				</small>
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
+				<br> 
+				<p>Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.</p>
+
+<p>Spock provides a <code>setup()</code> and <code>cleanup()</code> method.</p>
+
+<p>When you want to remove your domain objects after each feature test has run you can execute the following:</p>
+
+<pre><code>def setup() { ... }
+
+def cleanup() {
+        // make sure to clear out the database on after test
+        &lt;YourDomainObject&gt;.withNewSession {
+            &lt;YourDomainObject&gt;.findAll().each { it.delete(flush: true) }
+        }
+}
+</code></pre>
+
+<p>We need the <code>.withNewSession</code> because there is no Hibernate session provided in the <code>setup()</code> and <code>cleanup()</code> methods.</p>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr>
+			</div>
+		</div>
+	
+        
+            	
+		<div class="row">
+			
+			<div class="col-md-offset-1 col-md-10">
 				<h3><a href="http://mpas.github.io/blog/2015/06/16/adding-websocket/stomp-support-to-a-spring-boot-application/">Adding WebSocket/Stomp support to a Spring Boot application</a></h3>
 					<span class="label label-primary">Tue Jun 16, 2015</span> in 
 					
@@ -197,45 +247,6 @@ public class ScheduleTask {
 		<div class="row">
 			
 			<div class="col-md-offset-1 col-md-10">
-				<h3><a href="http://mpas.github.io/blog/2015/06/11/run-a-grails-3-generated-fat-jar-file-in-production-mode/">Run a Grails 3 generated Fat Jar file in production mode</a></h3>
-					<span class="label label-primary">Thu Jun 11, 2015</span> in 
-					
-						
-						<a href="/categories/development">Development</a>
-					 using tags 			 
-					
-						
-						<a href="/tags/grails">grails</a>
-					
-				</small>
-			</div>
-		</div>	
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">
-				<br> 
-				<p>When creating a Grails WAR/JAR file using:</p>
-
-<pre><code>$ grails war
-</code></pre>
-
-<p>The resulting artifact can be run in production mode using:</p>
-
-<pre><code>$ java -Dgrails.env=prod -Dserver.port=9000 -jar &lt;name-of-jar-file&gt;.jar
-</code></pre>
-
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<hr>
-			</div>
-		</div>
-	
-        
-            	
-		<div class="row">
-			
-			<div class="col-md-offset-1 col-md-10">
 				<h3><a href="http://mpas.github.io/blog/2015/06/11/setting-up-docker-rabbitmq-with-predefined-users/vhosts/">Setting up Docker RabbitMQ with predefined users/vhosts</a></h3>
 					<span class="label label-primary">Thu Jun 11, 2015</span> in 
 					
@@ -317,6 +328,45 @@ rabbitmq-server $@
 <p>Then in your browser navigate to <a href="http://localhost:15672">http://localhost:15672</a> and see if all is ok!</p>
 
 <p><strong>Note:</strong> When using Boot2Docker make sure to replace the localhost with the correct IP.</p>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr>
+			</div>
+		</div>
+	
+        
+            	
+		<div class="row">
+			
+			<div class="col-md-offset-1 col-md-10">
+				<h3><a href="http://mpas.github.io/blog/2015/06/11/run-a-grails-3-generated-fat-jar-file-in-production-mode/">Run a Grails 3 generated Fat Jar file in production mode</a></h3>
+					<span class="label label-primary">Thu Jun 11, 2015</span> in 
+					
+						
+						<a href="/categories/development">Development</a>
+					 using tags 			 
+					
+						
+						<a href="/tags/grails">grails</a>
+					
+				</small>
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
+				<br> 
+				<p>When creating a Grails WAR/JAR file using:</p>
+
+<pre><code>$ grails war
+</code></pre>
+
+<p>The resulting artifact can be run in production mode using:</p>
+
+<pre><code>$ java -Dgrails.env=prod -Dserver.port=9000 -jar &lt;name-of-jar-file&gt;.jar
+</code></pre>
 
 			</div>
 		</div>
@@ -830,54 +880,6 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
 <ul>
 <li><a href="https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en">https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en</a></li>
 </ul>
-
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<hr>
-			</div>
-		</div>
-	
-        
-            	
-		<div class="row">
-			
-			<div class="col-md-offset-1 col-md-10">
-				<h3><a href="http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/">Automount NTFS volume under Linux (Mint)</a></h3>
-					<span class="label label-primary">Tue May 28, 2013</span> in 
-					
-						
-						<a href="/categories/operating-systems">Operating Systems</a>
-					 using tags 			 
-					
-						
-						<a href="/tags/linux">linux</a>
-					
-						 , 
-						<a href="/tags/mint">mint</a>
-					
-				</small>
-			</div>
-		</div>	
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">
-				<br> 
-				<p>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file.</p>
-
-<pre><code>$ sudo pico /etc/fstab
-</code></pre>
-
-<p>Add a line in the /etc/fstab file:</p>
-
-<pre><code># custom mount point
-/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
-</code></pre>
-
-<p>And take the mount into effect.</p>
-
-<pre><code>$ mount -a
-</code></pre>
 
 			</div>
 		</div>

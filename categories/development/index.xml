@@ -5,8 +5,34 @@
     <link>http://mpas.github.io/categories/development/</link>
     <description>Recent content in Development on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 16 Jun 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/categories/development/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Cleaning Grails Domain Objects in a Spock Test</title>
+      <link>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</link>
+      <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</guid>
+      <description>&lt;p&gt;Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.&lt;/p&gt;
+
+&lt;p&gt;Spock provides a &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;When you want to remove your domain objects after each feature test has run you can execute the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def setup() { ... }
+
+def cleanup() {
+        // make sure to clear out the database on after test
+        &amp;lt;YourDomainObject&amp;gt;.withNewSession {
+            &amp;lt;YourDomainObject&amp;gt;.findAll().each { it.delete(flush: true) }
+        }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We need the &lt;code&gt;.withNewSession&lt;/code&gt; because there is no Hibernate session provided in the &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; methods.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Adding WebSocket/Stomp support to a Spring Boot application</title>
@@ -786,25 +812,6 @@ println &amp;quot;--------------------------------------------------------------
 // - END: CONFIGURATION FILE LOADING ---------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Loading external Configuration files in a Grails application</title>
-      <link>http://mpas.github.io/blog/2012/09/16/loading-external-configuration-files-in-a-grails-application/</link>
-      <pubDate>Sun, 16 Sep 2012 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/blog/2012/09/16/loading-external-configuration-files-in-a-grails-application/</guid>
-      <description>&lt;p&gt;The use of &amp;lsquo;Config.groovy&amp;rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &amp;lsquo;Config.groovy&amp;rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.&lt;/p&gt;
-
-&lt;p&gt;A simple mechanism to load these property files is to place a short snippet of code in the &amp;lsquo;Config.groovy&amp;rsquo; that will load a specific configuration file from the filesystem, depending on the availability.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;grails.config.locations = [&amp;quot;classpath:application-config.properties&amp;quot;, &amp;quot;file:./application-config.properties&amp;quot;]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This snippet will first try to load the property file from the classpath and if that fails you have a backup on the filesystem. This opens opportunities to load a different property file during development! When you deploy the application you can place the &amp;lsquo;application-config.properties&amp;rsquo; file inside a folder which is available in the classpath. For Apache Tomcat this would be the &amp;lsquo;lib&amp;rsquo; folder!&lt;/p&gt;
-
-&lt;p&gt;This gives the opportunity to configure the application outside the &amp;lsquo;Config.groovy&amp;rsquo; file so any changes made the the property file will be reflected in your environment.&lt;/p&gt;
 </description>
     </item>
     

@@ -5,8 +5,34 @@
     <link>http://mpas.github.io/post/</link>
     <description>Recent content in Posts on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 16 Jun 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Cleaning Grails Domain Objects in a Spock Test</title>
+      <link>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</link>
+      <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</guid>
+      <description>&lt;p&gt;Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.&lt;/p&gt;
+
+&lt;p&gt;Spock provides a &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;When you want to remove your domain objects after each feature test has run you can execute the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def setup() { ... }
+
+def cleanup() {
+        // make sure to clear out the database on after test
+        &amp;lt;YourDomainObject&amp;gt;.withNewSession {
+            &amp;lt;YourDomainObject&amp;gt;.findAll().each { it.delete(flush: true) }
+        }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We need the &lt;code&gt;.withNewSession&lt;/code&gt; because there is no Hibernate session provided in the &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; methods.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Adding WebSocket/Stomp support to a Spring Boot application</title>
@@ -703,52 +729,6 @@ To update the record
 update DATABASECHANGELOGLOCK 
 set locked=0, lockgranted=null, lockedby=null 
 where id=1
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Testing constraints with Build Test Data</title>
-      <link>http://mpas.github.io/blog/2013/01/13/testing-constraints-with-build-test-data/</link>
-      <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/blog/2013/01/13/testing-constraints-with-build-test-data/</guid>
-      <description>&lt;p&gt;The &lt;a href=&#34;http://grails.org/plugin/spock&#34;&gt;Spock&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://grails.org/plugin/build-test-data&#34;&gt;Build Test Data&lt;/a&gt; plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!&lt;/p&gt;
-
-&lt;p&gt;When testing constraints on an object it can be used as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Foo {
-    String name   // name of foo
-    Integer age   // age of foo
-
-    static constraints = {
-     name nullable: false, blank: false // name may never be nullable or blank
-     age nullable: true
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And the Spock test&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@Build(Foo)
-@TestFor(Foo)
-class FooSpec extends Specification {
-
-    def &amp;quot;Name of Foo must exist&amp;quot;() {
-        given: &amp;quot;setting up the constraints&amp;quot;
-        mockForConstraintsTests(Foo)
-
-        when: &amp;quot;creating a Foo&amp;quot;
-        Foo foo = Foo.buildWithoutSave()
-
-        then: &amp;quot;validation should trigger&amp;quot;
-        assertFalse foo.validate()
-
-        and: &amp;quot;validation error should be on the value field&amp;quot;
-        assert foo.errors.allErrors.first().field == &amp;quot;name&amp;quot;
-    }
-
-}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

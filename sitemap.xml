@@ -3,8 +3,13 @@
   
   <url>
     <loc>http://mpas.github.io/</loc>
-    <lastmod>2015-06-16T00:00:00+00:00</lastmod>
+    <lastmod>2015-10-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</loc>
+    <lastmod>2015-10-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -13,12 +18,12 @@
   </url>
   
   <url>
-    <loc>http://mpas.github.io/blog/2015/06/11/run-a-grails-3-generated-fat-jar-file-in-production-mode/</loc>
+    <loc>http://mpas.github.io/blog/2015/06/11/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</loc>
     <lastmod>2015-06-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/blog/2015/06/11/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</loc>
+    <loc>http://mpas.github.io/blog/2015/06/11/run-a-grails-3-generated-fat-jar-file-in-production-mode/</loc>
     <lastmod>2015-06-11T00:00:00+00:00</lastmod>
   </url>
   
@@ -33,12 +38,12 @@
   </url>
   
   <url>
-    <loc>http://mpas.github.io/page/about/</loc>
+    <loc>http://mpas.github.io/page/resume/</loc>
     <lastmod>2015-01-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/page/resume/</loc>
+    <loc>http://mpas.github.io/page/about/</loc>
     <lastmod>2015-01-01T00:00:00+00:00</lastmod>
   </url>
   

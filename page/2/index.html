@@ -59,6 +59,54 @@
 		<div class="row">
 			
 			<div class="col-md-offset-1 col-md-10">
+				<h3><a href="http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/">Automount NTFS volume under Linux (Mint)</a></h3>
+					<span class="label label-primary">Tue May 28, 2013</span> in 
+					
+						
+						<a href="/categories/operating-systems">Operating Systems</a>
+					 using tags 			 
+					
+						
+						<a href="/tags/linux">linux</a>
+					
+						 , 
+						<a href="/tags/mint">mint</a>
+					
+				</small>
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
+				<br> 
+				<p>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file.</p>
+
+<pre><code>$ sudo pico /etc/fstab
+</code></pre>
+
+<p>Add a line in the /etc/fstab file:</p>
+
+<pre><code># custom mount point
+/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
+</code></pre>
+
+<p>And take the mount into effect.</p>
+
+<pre><code>$ mount -a
+</code></pre>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<hr>
+			</div>
+		</div>
+	
+        
+            	
+		<div class="row">
+			
+			<div class="col-md-offset-1 col-md-10">
 				<h3><a href="http://mpas.github.io/blog/2013/05/25/using-grails-to-power-your-electric-car/">Using Grails to power your Electric Car</a></h3>
 					<span class="label label-primary">Sat May 25, 2013</span> in 
 					
@@ -561,84 +609,6 @@ println &quot;------------------------------------------------------------------
 <p>This snippet will first try to load the property file from the classpath and if that fails you have a backup on the filesystem. This opens opportunities to load a different property file during development! When you deploy the application you can place the &lsquo;application-config.properties&rsquo; file inside a folder which is available in the classpath. For Apache Tomcat this would be the &lsquo;lib&rsquo; folder!</p>
 
 <p>This gives the opportunity to configure the application outside the &lsquo;Config.groovy&rsquo; file so any changes made the the property file will be reflected in your environment.</p>
-
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<hr>
-			</div>
-		</div>
-	
-        
-            	
-		<div class="row">
-			
-			<div class="col-md-offset-1 col-md-10">
-				<h3><a href="http://mpas.github.io/blog/2012/09/15/combining-imagemagick-and-grails/">Combining ImageMagick and Grails</a></h3>
-					<span class="label label-primary">Sat Sep 15, 2012</span> in 
-					
-						
-						<a href="/categories/development">Development</a>
-					 using tags 			 
-					
-						
-						<a href="/tags/grails">grails</a>
-					
-						 , 
-						<a href="/tags/imagemagick">imagemagick</a>
-					
-				</small>
-			</div>
-		</div>	
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">
-				<br> 
-				<p>When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.</p>
-
-<p><strong>Steps:</strong></p>
-
-<ul>
-<li>Install ImageMagick according to the installation instructions.</li>
-<li>It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc. So remember where this utility is installed on your system!</li>
-<li>Make sure that ImageMagick is installed correctly be converting an image to a thumbnail by using the following command in a terminal.</li>
-</ul>
-
-<p><b></b></p>
-
-<pre><code>/opt/local/bin/convert &lt;filename&gt; -thumbnail 70x70 &lt;thumbnail-filename&gt;
-</code></pre>
-
-<p><strong>example:</strong></p>
-
-<pre><code>/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg
-</code></pre>
-
-<p>Create some code that calls the ImageMagick convert utility with the correct parameters to enable you to achieve what you want. Something like below:</p>
-
-<pre><code>def createThumbnail(File file) {
-   def command = &quot;/opt/local/bin/convert ${file.canonicalPath} &quot; +
-                 &quot;-thumbnail 70x70 &quot; +
-                 &quot;/images/thumbs&quot; + File.separator + &quot;${file.name}&quot;
-   def proc = Runtime.getRuntime().exec(command)
-   int exitStatus;
-   while (true) {
-       try {
-           exitStatus = proc.waitFor();
-           break;
-       } catch (java.lang.InterruptedException e) {
-           log.debug(&quot;Creating thumbnail - Interrupted: Ignoring and waiting&quot;)
-       }
-   }
-    if (exitStatus != 0) {
-        log.error(&quot;Error executing command: exitStatus=[${exitStatus}]&quot;)
-    }
-    log.debug(&quot;Succesfully created thumbnail&quot;)
-    return (exitStatus == 0);
-}
-</code></pre>
-
-<p>The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.</p>
 
 			</div>
 		</div>

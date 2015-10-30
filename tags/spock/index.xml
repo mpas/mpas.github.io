@@ -5,8 +5,34 @@
     <link>http://mpas.github.io/tags/spock/</link>
     <description>Recent content in Spock on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 13 Jan 2013 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Oct 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/spock/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Cleaning Grails Domain Objects in a Spock Test</title>
+      <link>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</link>
+      <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</guid>
+      <description>&lt;p&gt;Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.&lt;/p&gt;
+
+&lt;p&gt;Spock provides a &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;When you want to remove your domain objects after each feature test has run you can execute the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def setup() { ... }
+
+def cleanup() {
+        // make sure to clear out the database on after test
+        &amp;lt;YourDomainObject&amp;gt;.withNewSession {
+            &amp;lt;YourDomainObject&amp;gt;.findAll().each { it.delete(flush: true) }
+        }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We need the &lt;code&gt;.withNewSession&lt;/code&gt; because there is no Hibernate session provided in the &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; methods.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Testing constraints with Build Test Data</title>
