@@ -8,13 +8,15 @@
     <lastBuildDate>Sun, 09 Sep 2012 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/deployment/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Distributed Deployment with Hudson &amp; SSH</title>
-      <link>http://mpas.github.io/blog/2012/09/09/distributed-deployment-with-hudson--ssh/</link>
-      <pubDate>Sun, 09 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/blog/2012/09/09/distributed-deployment-with-hudson--ssh/</guid>
-      <description>
+        
+          <item>
+            <title>Distributed Deployment with Hudson &amp; SSH</title>
+            <link>http://mpas.github.io/blog/2012/09/09/distributed-deployment-with-hudson--ssh/</link>
+            <pubDate>Sun, 09 Sep 2012 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2012/09/09/distributed-deployment-with-hudson--ssh/</guid>
+            <description>
 
 &lt;p&gt;Have you already implemented an multi-server artifact deployment using a &lt;a href=&#34;http://en.wikipedia.org/wiki/Continuous_integration&#34;&gt;Continuous Integration&lt;/a&gt; Engine? If not, then read ahead and maybe this article is of help.&lt;/p&gt;
 
@@ -211,7 +213,9 @@ SET DESTINATION=%JBOSSDIR%/deploy
 &lt;p&gt;The given examples can be easily modified so that after a succesfull build the artifact deployment to all of your servers can be done in a very simple and easy way.
 Notes&lt;/p&gt;
 </description>
-    </item>
+          </item>
+        
+      
     
   </channel>
 </rss>

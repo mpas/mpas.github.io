@@ -5,16 +5,163 @@
     <link>http://mpas.github.io/tags/spock/</link>
     <description>Recent content in Spock on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 30 Oct 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/spock/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Cleaning Grails Domain Objects in a Spock Test</title>
-      <link>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</link>
-      <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</guid>
-      <description>&lt;p&gt;Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.&lt;/p&gt;
+        
+          <item>
+            <title>Functional Rest API Testing with Grails/Rest Client Builder</title>
+            <link>http://mpas.github.io/blog/2015/11/19/functional-rest-api-testing-with-grails/rest-client-builder/</link>
+            <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/11/19/functional-rest-api-testing-with-grails/rest-client-builder/</guid>
+            <description>&lt;p&gt;Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.&lt;/p&gt;
+
+&lt;p&gt;When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Scenario:&lt;/strong&gt;&lt;br&gt;
+Performing a GET request on a url (&lt;a href=&#34;http://localhost:8080/helloworld&#34;&gt;http://localhost:8080/helloworld&lt;/a&gt;) should return a &lt;code&gt;HTTP Status 200&lt;/code&gt; and data with a json payload &lt;code&gt;{&amp;quot;message&amp;quot;:&amp;quot;helloworld&amp;quot;}&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;So lets get started!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a Grails application&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails create-app RestHelloWorld
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Update your &lt;code&gt;build.gradle&lt;/code&gt; to include the Rest Client Builder dependencies which we will need later on&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dependencies {
+    // add the following line to the &#39;dependencies&#39; section
+    testCompile &amp;quot;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Create an Integration Test&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails create-integration-test HelloWorld
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a test method inside the integration test&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Open up the created HelloWorldControllerSpec inside the &lt;code&gt;/src/integration-test/groovy/resthelloworld/&lt;/code&gt; package&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package resthelloworld
+
+import grails.test.mixin.integration.Integration
+import grails.transaction.*
+import spock.lang.*
+import grails.plugins.rest.client.RestBuilder
+import grails.plugins.rest.client.RestResponse
+
+@Integration
+@Rollback
+class HelloWorldSpec extends Specification {
+
+    def setup() { 
+    }
+
+    def cleanup() { 
+    }
+
+    def &amp;quot;Ask for a nice HelloWorld&amp;quot;() {
+        given:
+        RestBuilder rest = new RestBuilder()
+
+        when:
+        RestResponse response = rest.get(&amp;quot;http://localhost:8080/helloworld/&amp;quot;)
+
+        then:
+        response.status == 200
+
+        and:
+        response.json.message == &amp;quot;helloworld&amp;quot;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Run your test&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails test-app
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Offcourse this will fail as we do not have implement the controller yet.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a Rest controller&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cd RestHelloWorld
+$ grails create-controller HelloWorld
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The generation of the controller also create a Unit Test for the controller, default this test will fail. We are going to delete the generated Unit Test as we do not need it now. This test is located under the &lt;code&gt;/src/test/&lt;/code&gt; groovy package.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    $ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Implement the controller function that will return data&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package resthelloworld
+
+class HelloWorldController {
+
+    def index() {
+        render(status: 200, contentType: &amp;quot;application/json&amp;quot;) {
+            [&amp;quot;message&amp;quot; : &amp;quot;helloworld&amp;quot;]
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Modify UrlMapping&lt;/strong&gt;
+In order to get our newly generated controller accesible via Rest we need to modify our UrlMappings.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class UrlMappings {
+
+    static mappings = {
+        &amp;quot;/$controller/$action?/$id?(.$format)?&amp;quot;{
+            constraints {
+                // apply constraints here
+            }
+        }
+
+        &amp;quot;/&amp;quot;(view:&amp;quot;/index&amp;quot;)
+        &amp;quot;500&amp;quot;(view:&#39;/error&#39;)
+        &amp;quot;404&amp;quot;(view:&#39;/notFound&#39;)
+
+        // add the line below
+        &amp;quot;/helloworld/&amp;quot;  (controller: &amp;quot;helloWorld&amp;quot;, action: &amp;quot;index&amp;quot;, method: &amp;quot;GET&amp;quot;)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Test your app&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails test-app
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You should find that your tests are fine now :)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails test-app
+BUILD SUCCESSFUL
+
+Total time: 2.054 secs
+| Tests PASSED
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+          </item>
+        
+      
+    
+      
+        
+          <item>
+            <title>Cleaning Grails Domain Objects in a Spock Test</title>
+            <link>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</link>
+            <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</guid>
+            <description>&lt;p&gt;Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.&lt;/p&gt;
 
 &lt;p&gt;Spock provides a &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; method.&lt;/p&gt;
 
@@ -32,15 +179,19 @@ def cleanup() {
 
 &lt;p&gt;We need the &lt;code&gt;.withNewSession&lt;/code&gt; because there is no Hibernate session provided in the &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; methods.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Testing constraints with Build Test Data</title>
-      <link>http://mpas.github.io/blog/2013/01/13/testing-constraints-with-build-test-data/</link>
-      <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2013/01/13/testing-constraints-with-build-test-data/</guid>
-      <description>&lt;p&gt;The &lt;a href=&#34;http://grails.org/plugin/spock&#34;&gt;Spock&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://grails.org/plugin/build-test-data&#34;&gt;Build Test Data&lt;/a&gt; plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Testing constraints with Build Test Data</title>
+            <link>http://mpas.github.io/blog/2013/01/13/testing-constraints-with-build-test-data/</link>
+            <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2013/01/13/testing-constraints-with-build-test-data/</guid>
+            <description>&lt;p&gt;The &lt;a href=&#34;http://grails.org/plugin/spock&#34;&gt;Spock&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://grails.org/plugin/build-test-data&#34;&gt;Build Test Data&lt;/a&gt; plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!&lt;/p&gt;
 
 &lt;p&gt;When testing constraints on an object it can be used as follows:&lt;/p&gt;
 
@@ -78,7 +229,9 @@ class FooSpec extends Specification {
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
+          </item>
+        
+      
     
   </channel>
 </rss>

@@ -8,13 +8,15 @@
     <lastBuildDate>Mon, 10 Sep 2012 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/coverage/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Funcional Code Coverage using Cobertura</title>
-      <link>http://mpas.github.io/blog/2012/09/10/funcional-code-coverage-using-cobertura/</link>
-      <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/blog/2012/09/10/funcional-code-coverage-using-cobertura/</guid>
-      <description>
+        
+          <item>
+            <title>Funcional Code Coverage using Cobertura</title>
+            <link>http://mpas.github.io/blog/2012/09/10/funcional-code-coverage-using-cobertura/</link>
+            <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2012/09/10/funcional-code-coverage-using-cobertura/</guid>
+            <description>
 
 &lt;p&gt;So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.&lt;/p&gt;
 
@@ -73,7 +75,9 @@ Note: By functional testing we mean that we are going to test via the Web layer 
 &lt;li&gt;&lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt; -&amp;gt; used to automatically build &amp;amp; test your software&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
+          </item>
+        
+      
     
   </channel>
 </rss>

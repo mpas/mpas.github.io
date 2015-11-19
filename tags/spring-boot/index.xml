@@ -8,13 +8,15 @@
     <lastBuildDate>Tue, 16 Jun 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/spring-boot/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Adding WebSocket/Stomp support to a Spring Boot application</title>
-      <link>http://mpas.github.io/blog/2015/06/16/adding-websocket/stomp-support-to-a-spring-boot-application/</link>
-      <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/blog/2015/06/16/adding-websocket/stomp-support-to-a-spring-boot-application/</guid>
-      <description>&lt;p&gt;Adding support for &lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34;&gt;WebSockets&lt;/a&gt; / &lt;a href=&#34;https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol&#34;&gt;Stomp&lt;/a&gt; in a &lt;a href=&#34;http://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.&lt;/p&gt;
+        
+          <item>
+            <title>Adding WebSocket/Stomp support to a Spring Boot application</title>
+            <link>http://mpas.github.io/blog/2015/06/16/adding-websocket/stomp-support-to-a-spring-boot-application/</link>
+            <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/06/16/adding-websocket/stomp-support-to-a-spring-boot-application/</guid>
+            <description>&lt;p&gt;Adding support for &lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34;&gt;WebSockets&lt;/a&gt; / &lt;a href=&#34;https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol&#34;&gt;Stomp&lt;/a&gt; in a &lt;a href=&#34;http://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.&lt;/p&gt;
 
 &lt;p&gt;The following example will enable a server to send messages to a WebSocket/Stomp client.&lt;/p&gt;
 
@@ -120,7 +122,9 @@ public class ScheduleTask {
 
 &lt;p&gt;The whole example project  can be downloaded &lt;a href=&#34;https://github.com/mpas/spring-boot-websocket-stomp-server-send-example&#34;&gt;https://github.com/mpas/spring-boot-websocket-stomp-server-send-example&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
+          </item>
+        
+      
     
   </channel>
 </rss>

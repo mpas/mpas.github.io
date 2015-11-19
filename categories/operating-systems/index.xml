@@ -8,13 +8,15 @@
     <lastBuildDate>Tue, 28 May 2013 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/categories/operating-systems/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Automount NTFS volume under Linux (Mint)</title>
-      <link>http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/</link>
-      <pubDate>Tue, 28 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/</guid>
-      <description>&lt;p&gt;When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file.&lt;/p&gt;
+        
+          <item>
+            <title>Automount NTFS volume under Linux (Mint)</title>
+            <link>http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/</link>
+            <pubDate>Tue, 28 May 2013 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/</guid>
+            <description>&lt;p&gt;When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$ sudo pico /etc/fstab
 &lt;/code&gt;&lt;/pre&gt;
@@ -30,7 +32,9 @@
 &lt;pre&gt;&lt;code&gt;$ mount -a
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
+          </item>
+        
+      
     
   </channel>
 </rss>

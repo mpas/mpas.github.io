@@ -8,13 +8,15 @@
     <lastBuildDate>Thu, 11 Jun 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
-      <link>http://mpas.github.io/blog/2015/06/11/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</link>
-      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/blog/2015/06/11/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</guid>
-      <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;
+        
+          <item>
+            <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
+            <link>http://mpas.github.io/blog/2015/06/11/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</link>
+            <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/06/11/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</guid>
+            <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;
 
 &lt;p&gt;The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.&lt;/p&gt;
 
@@ -74,15 +76,19 @@ rabbitmq-server $@
 
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; When using Boot2Docker make sure to replace the localhost with the correct IP.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
-      <link>http://mpas.github.io/blog/2015/06/05/installing-docker-registry-2.0.1-using-self-signed-certificates/</link>
-      <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2015/06/05/installing-docker-registry-2.0.1-using-self-signed-certificates/</guid>
-      <description>
+    
+      
+        
+          <item>
+            <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
+            <link>http://mpas.github.io/blog/2015/06/05/installing-docker-registry-2.0.1-using-self-signed-certificates/</link>
+            <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/06/05/installing-docker-registry-2.0.1-using-self-signed-certificates/</guid>
+            <description>
 
 &lt;p&gt;The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.&lt;/p&gt;
 
@@ -260,7 +266,9 @@ $ sudo service docker start
 
 &lt;p&gt;Now we have a remote Docker Registry and the Docker Client is able to connect!&lt;/p&gt;
 </description>
-    </item>
+          </item>
+        
+      
     
   </channel>
 </rss>

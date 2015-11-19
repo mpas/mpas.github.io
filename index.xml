@@ -5,16 +5,213 @@
     <link>http://mpas.github.io/</link>
     <description>Recent content on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 30 Oct 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Cleaning Grails Domain Objects in a Spock Test</title>
-      <link>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</link>
-      <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</guid>
-      <description>&lt;p&gt;Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.&lt;/p&gt;
+        
+          <item>
+            <title>Functional Rest API Testing with Grails/Rest Client Builder</title>
+            <link>http://mpas.github.io/blog/2015/11/19/functional-rest-api-testing-with-grails/rest-client-builder/</link>
+            <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/11/19/functional-rest-api-testing-with-grails/rest-client-builder/</guid>
+            <description>&lt;p&gt;Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.&lt;/p&gt;
+
+&lt;p&gt;When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Scenario:&lt;/strong&gt;&lt;br&gt;
+Performing a GET request on a url (&lt;a href=&#34;http://localhost:8080/helloworld&#34;&gt;http://localhost:8080/helloworld&lt;/a&gt;) should return a &lt;code&gt;HTTP Status 200&lt;/code&gt; and data with a json payload &lt;code&gt;{&amp;quot;message&amp;quot;:&amp;quot;helloworld&amp;quot;}&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;So lets get started!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a Grails application&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails create-app RestHelloWorld
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Update your &lt;code&gt;build.gradle&lt;/code&gt; to include the Rest Client Builder dependencies which we will need later on&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dependencies {
+    // add the following line to the &#39;dependencies&#39; section
+    testCompile &amp;quot;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Create an Integration Test&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails create-integration-test HelloWorld
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a test method inside the integration test&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Open up the created HelloWorldControllerSpec inside the &lt;code&gt;/src/integration-test/groovy/resthelloworld/&lt;/code&gt; package&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package resthelloworld
+
+import grails.test.mixin.integration.Integration
+import grails.transaction.*
+import spock.lang.*
+import grails.plugins.rest.client.RestBuilder
+import grails.plugins.rest.client.RestResponse
+
+@Integration
+@Rollback
+class HelloWorldSpec extends Specification {
+
+    def setup() { 
+    }
+
+    def cleanup() { 
+    }
+
+    def &amp;quot;Ask for a nice HelloWorld&amp;quot;() {
+        given:
+        RestBuilder rest = new RestBuilder()
+
+        when:
+        RestResponse response = rest.get(&amp;quot;http://localhost:8080/helloworld/&amp;quot;)
+
+        then:
+        response.status == 200
+
+        and:
+        response.json.message == &amp;quot;helloworld&amp;quot;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Run your test&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails test-app
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Offcourse this will fail as we do not have implement the controller yet.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a Rest controller&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cd RestHelloWorld
+$ grails create-controller HelloWorld
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The generation of the controller also create a Unit Test for the controller, default this test will fail. We are going to delete the generated Unit Test as we do not need it now. This test is located under the &lt;code&gt;/src/test/&lt;/code&gt; groovy package.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    $ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Implement the controller function that will return data&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package resthelloworld
+
+class HelloWorldController {
+
+    def index() {
+        render(status: 200, contentType: &amp;quot;application/json&amp;quot;) {
+            [&amp;quot;message&amp;quot; : &amp;quot;helloworld&amp;quot;]
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Modify UrlMapping&lt;/strong&gt;
+In order to get our newly generated controller accesible via Rest we need to modify our UrlMappings.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class UrlMappings {
+
+    static mappings = {
+        &amp;quot;/$controller/$action?/$id?(.$format)?&amp;quot;{
+            constraints {
+                // apply constraints here
+            }
+        }
+
+        &amp;quot;/&amp;quot;(view:&amp;quot;/index&amp;quot;)
+        &amp;quot;500&amp;quot;(view:&#39;/error&#39;)
+        &amp;quot;404&amp;quot;(view:&#39;/notFound&#39;)
+
+        // add the line below
+        &amp;quot;/helloworld/&amp;quot;  (controller: &amp;quot;helloWorld&amp;quot;, action: &amp;quot;index&amp;quot;, method: &amp;quot;GET&amp;quot;)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Test your app&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails test-app
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You should find that your tests are fine now :)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails test-app
+BUILD SUCCESSFUL
+
+Total time: 2.054 secs
+| Tests PASSED
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+          </item>
+        
+      
+    
+      
+        
+          <item>
+            <title>Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</title>
+            <link>http://mpas.github.io/blog/2015/11/17/using-davmail-gateway-as-a-mail-proxy-for-microsoft-exchange-owa/</link>
+            <pubDate>Tue, 17 Nov 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/11/17/using-davmail-gateway-as-a-mail-proxy-for-microsoft-exchange-owa/</guid>
+            <description>
+
+&lt;p&gt;If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific &lt;a href=&#34;http://www.postbox-inc.com&#34;&gt;PostBox&lt;/a&gt; mail client.&lt;/p&gt;
+
+&lt;p&gt;As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.&lt;/p&gt;
+
+&lt;p&gt;Enter the use of &lt;a href=&#34;http://davmail.sourceforge.net/&#34;&gt;DavMail&lt;/a&gt;!&lt;/p&gt;
+
+&lt;h4 id=&#34;davmail-gateway:ac833d132ae827d5f416733bf8613037&#34;&gt;Davmail Gateway&lt;/h4&gt;
+
+&lt;p&gt;Davmail is a local mail proxy that can work together with Microsoft Exchange [OWA] in a way that DavMail is actually connecting to a Exchange OWA and your mail client connects to DavMail as a proxy.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/davmail-sequence.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-davmail:ac833d132ae827d5f416733bf8613037&#34;&gt;Configure Davmail&lt;/h4&gt;
+
+&lt;p&gt;In order to get DavMail working correctly you need to provide the correct settings so it can use the OWA endpoint.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/davmail-settings-main.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-postbox:ac833d132ae827d5f416733bf8613037&#34;&gt;Configure PostBox&lt;/h4&gt;
+
+&lt;p&gt;In order to get PostBox working with DavMail you need to create an outgoing mail server and an account that will use that outgoing mailserver.&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-postbox-outgoing-mailserver:ac833d132ae827d5f416733bf8613037&#34;&gt;Configure PostBox - Outgoing mailserver&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/postbox-outgoing-mailserver.png&#34; width=&#34;400&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-postbox-account-setup:ac833d132ae827d5f416733bf8613037&#34;&gt;Configure PostBox - Account setup&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/postbox-account-setup.png&#34; width=&#34;800&#34; class=&#34;center&#34;&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-postbox-identity-setup:ac833d132ae827d5f416733bf8613037&#34;&gt;Configure PostBox - Identity setup&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/postbox-identity-setup.png&#34; width=&#34;800&#34; class=&#34;center&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;Now you are ready to send mail using your PostBox Client using DavMail and OWA.&lt;/p&gt;
+</description>
+          </item>
+        
+      
+    
+      
+        
+          <item>
+            <title>Cleaning Grails Domain Objects in a Spock Test</title>
+            <link>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</link>
+            <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</guid>
+            <description>&lt;p&gt;Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.&lt;/p&gt;
 
 &lt;p&gt;Spock provides a &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; method.&lt;/p&gt;
 
@@ -32,15 +229,23 @@ def cleanup() {
 
 &lt;p&gt;We need the &lt;code&gt;.withNewSession&lt;/code&gt; because there is no Hibernate session provided in the &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; methods.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Adding WebSocket/Stomp support to a Spring Boot application</title>
-      <link>http://mpas.github.io/blog/2015/06/16/adding-websocket/stomp-support-to-a-spring-boot-application/</link>
-      <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2015/06/16/adding-websocket/stomp-support-to-a-spring-boot-application/</guid>
-      <description>&lt;p&gt;Adding support for &lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34;&gt;WebSockets&lt;/a&gt; / &lt;a href=&#34;https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol&#34;&gt;Stomp&lt;/a&gt; in a &lt;a href=&#34;http://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.&lt;/p&gt;
+    
+      
+        
+      
+    
+      
+        
+          <item>
+            <title>Adding WebSocket/Stomp support to a Spring Boot application</title>
+            <link>http://mpas.github.io/blog/2015/06/16/adding-websocket/stomp-support-to-a-spring-boot-application/</link>
+            <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/06/16/adding-websocket/stomp-support-to-a-spring-boot-application/</guid>
+            <description>&lt;p&gt;Adding support for &lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34;&gt;WebSockets&lt;/a&gt; / &lt;a href=&#34;https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol&#34;&gt;Stomp&lt;/a&gt; in a &lt;a href=&#34;http://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.&lt;/p&gt;
 
 &lt;p&gt;The following example will enable a server to send messages to a WebSocket/Stomp client.&lt;/p&gt;
 
@@ -146,15 +351,19 @@ public class ScheduleTask {
 
 &lt;p&gt;The whole example project  can be downloaded &lt;a href=&#34;https://github.com/mpas/spring-boot-websocket-stomp-server-send-example&#34;&gt;https://github.com/mpas/spring-boot-websocket-stomp-server-send-example&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
-      <link>http://mpas.github.io/blog/2015/06/11/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</link>
-      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2015/06/11/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</guid>
-      <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
+            <link>http://mpas.github.io/blog/2015/06/11/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</link>
+            <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/06/11/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</guid>
+            <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;
 
 &lt;p&gt;The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.&lt;/p&gt;
 
@@ -214,15 +423,19 @@ rabbitmq-server $@
 
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; When using Boot2Docker make sure to replace the localhost with the correct IP.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Run a Grails 3 generated Fat Jar file in production mode</title>
-      <link>http://mpas.github.io/blog/2015/06/11/run-a-grails-3-generated-fat-jar-file-in-production-mode/</link>
-      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2015/06/11/run-a-grails-3-generated-fat-jar-file-in-production-mode/</guid>
-      <description>&lt;p&gt;When creating a Grails WAR/JAR file using:&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Run a Grails 3 generated Fat Jar file in production mode</title>
+            <link>http://mpas.github.io/blog/2015/06/11/run-a-grails-3-generated-fat-jar-file-in-production-mode/</link>
+            <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/06/11/run-a-grails-3-generated-fat-jar-file-in-production-mode/</guid>
+            <description>&lt;p&gt;When creating a Grails WAR/JAR file using:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$ grails war
 &lt;/code&gt;&lt;/pre&gt;
@@ -232,15 +445,19 @@ rabbitmq-server $@
 &lt;pre&gt;&lt;code&gt;$ java -Dgrails.env=prod -Dserver.port=9000 -jar &amp;lt;name-of-jar-file&amp;gt;.jar
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
-      <link>http://mpas.github.io/blog/2015/06/10/httpservletrequestwrapper-for-servletinputstream-3.1/</link>
-      <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2015/06/10/httpservletrequestwrapper-for-servletinputstream-3.1/</guid>
-      <description>&lt;p&gt;A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
+            <link>http://mpas.github.io/blog/2015/06/10/httpservletrequestwrapper-for-servletinputstream-3.1/</link>
+            <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/06/10/httpservletrequestwrapper-for-servletinputstream-3.1/</guid>
+            <description>&lt;p&gt;A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;isFinished&lt;/li&gt;
@@ -335,15 +552,19 @@ public class AuthenticationRequestWrapper extends HttpServletRequestWrapper {
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
-      <link>http://mpas.github.io/blog/2015/06/05/installing-docker-registry-2.0.1-using-self-signed-certificates/</link>
-      <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2015/06/05/installing-docker-registry-2.0.1-using-self-signed-certificates/</guid>
-      <description>
+    
+      
+        
+          <item>
+            <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
+            <link>http://mpas.github.io/blog/2015/06/05/installing-docker-registry-2.0.1-using-self-signed-certificates/</link>
+            <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/06/05/installing-docker-registry-2.0.1-using-self-signed-certificates/</guid>
+            <description>
 
 &lt;p&gt;The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.&lt;/p&gt;
 
@@ -521,145 +742,21 @@ $ sudo service docker start
 
 &lt;p&gt;Now we have a remote Docker Registry and the Docker Client is able to connect!&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Curriculum Vitae</title>
-      <link>http://mpas.github.io/page/resume/</link>
-      <pubDate>Thu, 01 Jan 2015 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/page/resume/</guid>
-      <description>
-
-&lt;hr class=&#34;style-one&#34;&gt;
-
-&lt;div class=&#34;row&#34;&gt;
-  &lt;div class=&#34;col-sm-6&#34;&gt;
-      &lt;h1 style=&#34;margin:0;&#34;&gt;Marco Pas&lt;/h1&gt;
-  &lt;/div&gt;
-  &lt;div class=&#34;col-sm-6&#34;&gt;
-    &lt;span class=&#34;pull-right&#34; style=&#34;text-align:right;&#34;&gt;
-      +31 - 6 188 08 521&lt;br&gt;
-      marco.pasopas@gmail.com&lt;br&gt;
-      30-01-1973&lt;br&gt;
-      &lt;a href=&#34;http://mpas.github.io&#34;&gt;GitHub&lt;/a&gt; • &lt;a href=&#34;https://twitter.com/marcopas&#34;&gt;Twitter&lt;/a&gt; • &lt;a href=&#34;https://nl.linkedin.com/in/marcopas&#34;&gt;LinkedIn&lt;/a&gt; • &lt;a href=&#34;https://www.facebook.com/marco.pasopas&#34;&gt;Facebook&lt;/a&gt;
-    &lt;/span&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;hr class=&#34;style-one&#34;&gt;
-
-&lt;h4 id=&#34;short-summary:c59a67a3c7bc5faa453847420267045e&#34;&gt;Short Summary&lt;/h4&gt;
-
-&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p&gt;
-
-&lt;hr class=&#34;style-one&#34;&gt;
-
-&lt;div class=&#34;row&#34;&gt;
-    &lt;div class=&#34;col-sm-2&#34; &gt;
-      &lt;span class=&#34;text-primary&#34;&gt;
-        &lt;strong&gt;&lt;i&gt;Interests&lt;/i&gt;&lt;/strong&gt;
-      &lt;/span&gt;
-    &lt;/div&gt;
-    &lt;div class=&#34;col-sm-10&#34;&gt;
-      Web &amp; Mobile Application Development • Cloud Infrastructure • DevOps
-    &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-
-&lt;div class=&#34;row&#34;&gt;
-    &lt;div class=&#34;col-sm-2&#34;&gt;
-      &lt;span class=&#34;text-primary&#34;&gt;    
-        &lt;strong&gt;&lt;i&gt;Skills&lt;/i&gt;&lt;/strong&gt;
-      &lt;/span&gt;
-    &lt;/div&gt;
-    &lt;div class=&#34;col-sm-10&#34;&gt;
-        &lt;strong&gt;Programming Languages&lt;/strong&gt;&lt;br&gt;
-          Java • Groovy • HTML(5) • CSS(3) • JavaScript
-          &lt;br&gt;&lt;br&gt;
-        &lt;strong&gt;Frameworks&lt;/strong&gt;&lt;br&gt;
-        Grails • Spring • Spring Cloud • Spring Boot
-    &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-
-&lt;div class=&#34;row&#34;&gt;
-    &lt;div class=&#34;col-sm-2&#34;&gt;
-      &lt;span class=&#34;text-primary&#34;&gt;    
-        &lt;strong&gt;&lt;i&gt;Education&lt;/i&gt;&lt;/strong&gt;
-      &lt;/span&gt;
-    &lt;/div&gt;
-    &lt;div class=&#34;col-sm-10&#34;&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-
-&lt;div class=&#34;row&#34;&gt;
-    &lt;div class=&#34;col-sm-2&#34;&gt;
-      &lt;span class=&#34;text-primary&#34;&gt;    
-        &lt;strong&gt;&lt;i&gt;Professional Experience&lt;/i&gt;&lt;/strong&gt;
-      &lt;/span&gt;
-    &lt;/div&gt;
-    &lt;div class=&#34;col-sm-10&#34;&gt;
-    &lt;/div&gt;
-&lt;/div&gt;  
-
-&lt;hr class=&#34;style-one&#34;&gt;
-
-&lt;h4 id=&#34;work-experience:c59a67a3c7bc5faa453847420267045e&#34;&gt;Work Experience&lt;/h4&gt;
-
-&lt;h5 id=&#34;software-designer-architect-at-philips-research:c59a67a3c7bc5faa453847420267045e&#34;&gt;Software Designer / Architect at Philips Research&lt;/h5&gt;
-
-&lt;p&gt;&lt;strong&gt;Position Title (include alternate titles in parentheses)&lt;/strong&gt; (Start Date - End Date)&lt;/p&gt;
-
-&lt;p&gt;Summary of your role&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Accomplishment that contains &lt;strong&gt;bold text&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Accomplishment&lt;/li&gt;
-&lt;li&gt;Accomplishment&lt;/li&gt;
-&lt;li&gt;Accomplishment&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h5 id=&#34;software-designer-architect-at-ihomer:c59a67a3c7bc5faa453847420267045e&#34;&gt;Software Designer / Architect at IHomer&lt;/h5&gt;
-
-&lt;p&gt;&lt;a href=&#34;h&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
     
-    <item>
-      <title>About</title>
-      <link>http://mpas.github.io/page/about/</link>
-      <pubDate>Thu, 01 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/page/about/</guid>
-      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus hendrerit venenatis. Vivamus tempus dui eu magna interdum, sed lobortis metus elementum. Vivamus eu est pretium, congue turpis eget, luctus augue. Vivamus sed dignissim risus, quis scelerisque purus. Sed feugiat justo at orci porttitor, at porta nunc egestas. Maecenas malesuada vitae mauris et lobortis. Vivamus consequat dictum lobortis.&lt;/p&gt;
-
-&lt;p&gt;Nulla nec gravida purus. Nullam a diam id erat vehicula imperdiet. Vivamus eget dignissim magna, in vulputate magna. Quisque condimentum pretium ligula, at sollicitudin dolor facilisis nec. Nullam at ultrices risus, nec ultricies ligula. Duis convallis commodo vestibulum. Donec mi ligula, blandit quis cursus eget, dictum quis ante. Proin nec tincidunt ipsum. Ut id urna dolor. Nunc fringilla velit urna, quis aliquet erat pellentesque in. Vivamus lacinia elementum diam, quis laoreet dolor blandit nec. Nam ut urna id dolor ultricies lacinia nec at neque. Donec porta consequat convallis.&lt;/p&gt;
-
-&lt;p&gt;Phasellus vitae magna vel dolor posuere scelerisque in quis nulla. Nunc vel sapien vel tellus commodo placerat. Morbi non egestas diam, ac condimentum orci. Morbi rutrum nulla mi, non fringilla leo consectetur eget. Nulla vestibulum, lectus non iaculis hendrerit, orci dolor congue nibh, nec commodo velit sapien vitae urna. Nam nisl lacus, tristique eget libero ac, commodo lobortis ante. Cras cursus malesuada nulla, nec eleifend ligula consequat eu. Nullam varius augue sit amet ipsum mollis, in viverra massa varius. Sed a orci commodo, ornare justo gravida, venenatis est. Morbi bibendum nunc dui, ac tincidunt orci mollis sed. Cras nec erat non metus dignissim euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nunc sit amet dui at metus posuere volutpat. Nunc id faucibus nisi.&lt;/p&gt;
-
-&lt;p&gt;Morbi pharetra viverra nisl, sed imperdiet urna consequat aliquam. In euismod, quam a consectetur imperdiet, diam ante sollicitudin augue, ac sollicitudin urna lorem quis libero. In id luctus tortor, et auctor enim. Maecenas tincidunt placerat tincidunt. Morbi tortor ligula, congue sit amet vulputate nec, porttitor quis libero. Quisque imperdiet pretium viverra. Praesent non odio turpis. In fringilla a enim quis accumsan. Pellentesque id porttitor magna. Curabitur tincidunt purus turpis, accumsan mollis metus dignissim ac. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce malesuada leo nec est tincidunt semper.&lt;/p&gt;
-
-&lt;p&gt;Donec elementum neque vel ligula blandit, ut semper metus vulputate. Integer vulputate, neque vel aliquet suscipit, elit arcu mattis dui, fermentum venenatis mi mauris non risus. Curabitur at metus non urna condimentum pharetra. Phasellus facilisis odio vestibulum leo sodales, sed fermentum turpis interdum. Vestibulum faucibus venenatis nisl, eu laoreet odio tempor in. In accumsan metus tortor, sit amet imperdiet ante mollis at. Cras lacinia mi leo, eu sollicitudin est convallis quis. Integer congue leo vitae fermentum posuere. Curabitur posuere, est sed condimentum tristique, sem nibh consequat ligula, at vestibulum dui nisi nec ante. Duis porta nisi sit amet nunc viverra, quis tincidunt tellus faucibus.&lt;/p&gt;
-</description>
-    </item>
     
-    <item>
-      <title>Upgrading from Grails 2.3.8 to 2.4.2</title>
-      <link>http://mpas.github.io/blog/2014/07/04/upgrading-from-grails-2.3.8-to-2.4.2/</link>
-      <pubDate>Fri, 04 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/blog/2014/07/04/upgrading-from-grails-2.3.8-to-2.4.2/</guid>
-      <description>&lt;p&gt;When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.&lt;/p&gt;
+        
+          <item>
+            <title>Upgrading from Grails 2.3.8 to 2.4.2</title>
+            <link>http://mpas.github.io/blog/2014/07/04/upgrading-from-grails-2.3.8-to-2.4.2/</link>
+            <pubDate>Fri, 04 Jul 2014 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2014/07/04/upgrading-from-grails-2.3.8-to-2.4.2/</guid>
+            <description>&lt;p&gt;When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.&lt;/p&gt;
 
 &lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;p&amp;gt;Error creating bean with name ‘grailsApplication’ defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean ‘grailsResourceLoader’ while setting bean property ‘grailsResourceLoader’;&amp;lt;/p&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -676,15 +773,19 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p&g
 
 &lt;p&gt;And you should be up and running quickly.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Skip a contenttype/section to be renderend</title>
-      <link>http://mpas.github.io/blog/2014/06/09/skip-a-contenttype/section-to-be-renderend/</link>
-      <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2014/06/09/skip-a-contenttype/section-to-be-renderend/</guid>
-      <description>&lt;p&gt;When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Skip a contenttype/section to be renderend</title>
+            <link>http://mpas.github.io/blog/2014/06/09/skip-a-contenttype/section-to-be-renderend/</link>
+            <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2014/06/09/skip-a-contenttype/section-to-be-renderend/</guid>
+            <description>&lt;p&gt;When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.&lt;/p&gt;
 
 &lt;p&gt;Example:
 You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the following code in your template:&lt;/p&gt;
@@ -697,15 +798,19 @@ You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the followin
 {{ end }}
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Bookreview : Instant Vert.x</title>
-      <link>http://mpas.github.io/blog/2013/11/27/bookreview--instant-vert.x/</link>
-      <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2013/11/27/bookreview--instant-vert.x/</guid>
-      <description>&lt;p&gt;For those who have not yet got into contact with &lt;a href=&#34;http://vertx.io/&#34;&gt;Vert.x&lt;/a&gt;, the book &lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Instant Vert.x&lt;/a&gt; (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Bookreview : Instant Vert.x</title>
+            <link>http://mpas.github.io/blog/2013/11/27/bookreview--instant-vert.x/</link>
+            <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2013/11/27/bookreview--instant-vert.x/</guid>
+            <description>&lt;p&gt;For those who have not yet got into contact with &lt;a href=&#34;http://vertx.io/&#34;&gt;Vert.x&lt;/a&gt;, the book &lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Instant Vert.x&lt;/a&gt; (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.&lt;/p&gt;
 
 &lt;p&gt;As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.&lt;/p&gt;
 
@@ -720,29 +825,37 @@ You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the followin
 &lt;li&gt;&lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Get the book at Pack Publishing&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Use backspace key to go back in Google Chrome</title>
-      <link>http://mpas.github.io/blog/2013/05/30/use-backspace-key-to-go-back-in-google-chrome/</link>
-      <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2013/05/30/use-backspace-key-to-go-back-in-google-chrome/</guid>
-      <description>&lt;p&gt;When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Use backspace key to go back in Google Chrome</title>
+            <link>http://mpas.github.io/blog/2013/05/30/use-backspace-key-to-go-back-in-google-chrome/</link>
+            <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2013/05/30/use-backspace-key-to-go-back-in-google-chrome/</guid>
+            <description>&lt;p&gt;When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&#34;&gt;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Automount NTFS volume under Linux (Mint)</title>
-      <link>http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/</link>
-      <pubDate>Tue, 28 May 2013 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/</guid>
-      <description>&lt;p&gt;When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Automount NTFS volume under Linux (Mint)</title>
+            <link>http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/</link>
+            <pubDate>Tue, 28 May 2013 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/</guid>
+            <description>&lt;p&gt;When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$ sudo pico /etc/fstab
 &lt;/code&gt;&lt;/pre&gt;
@@ -758,37 +871,9 @@ You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the followin
 &lt;pre&gt;&lt;code&gt;$ mount -a
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Using Grails to power your Electric Car</title>
-      <link>http://mpas.github.io/blog/2013/05/25/using-grails-to-power-your-electric-car/</link>
-      <pubDate>Sat, 25 May 2013 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2013/05/25/using-grails-to-power-your-electric-car/</guid>
-      <description>&lt;p&gt;Past week I really enjoyed visiting &amp;amp; speaking at the &lt;a href=&#34;http://gr8conf.org/&#34;&gt;Grails Conference (GR8Conf 2013)&lt;/a&gt;. The organisation made it possible that for me to host a talk about &amp;ldquo;Using Grails to power your Electric Car&amp;rdquo;.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car&#34;&gt;Using Grails to power your Electric Car&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Google Chrome not synchronizing extensions</title>
-      <link>http://mpas.github.io/blog/2013/05/24/google-chrome-not-synchronizing-extensions/</link>
-      <pubDate>Fri, 24 May 2013 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/blog/2013/05/24/google-chrome-not-synchronizing-extensions/</guid>
-      <description>&lt;p&gt;When installing a fresh version of Chrome it may occur that all Bookmarks sync ok but the extensions not. The following solution worked for my system.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Open Google Chrome&lt;/li&gt;
-&lt;li&gt;Goto &amp;ldquo;Settings&amp;rdquo;&lt;/li&gt;
-&lt;li&gt;Open &amp;ldquo;Advanced Settings&amp;rdquo;&lt;/li&gt;
-&lt;li&gt;Check &amp;ldquo;Developer mode&amp;rdquo;&lt;/li&gt;
-&lt;li&gt;Press &amp;ldquo;Update extensions now&amp;rdquo;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
     
   </channel>
 </rss>

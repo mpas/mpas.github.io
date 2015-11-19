@@ -8,27 +8,33 @@
     <lastBuildDate>Thu, 30 May 2013 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Use backspace key to go back in Google Chrome</title>
-      <link>http://mpas.github.io/blog/2013/05/30/use-backspace-key-to-go-back-in-google-chrome/</link>
-      <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/blog/2013/05/30/use-backspace-key-to-go-back-in-google-chrome/</guid>
-      <description>&lt;p&gt;When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:&lt;/p&gt;
+        
+          <item>
+            <title>Use backspace key to go back in Google Chrome</title>
+            <link>http://mpas.github.io/blog/2013/05/30/use-backspace-key-to-go-back-in-google-chrome/</link>
+            <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2013/05/30/use-backspace-key-to-go-back-in-google-chrome/</guid>
+            <description>&lt;p&gt;When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&#34;&gt;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Automount NTFS volume under Linux (Mint)</title>
-      <link>http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/</link>
-      <pubDate>Tue, 28 May 2013 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/</guid>
-      <description>&lt;p&gt;When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Automount NTFS volume under Linux (Mint)</title>
+            <link>http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/</link>
+            <pubDate>Tue, 28 May 2013 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2013/05/28/automount-ntfs-volume-under-linux-mint/</guid>
+            <description>&lt;p&gt;When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$ sudo pico /etc/fstab
 &lt;/code&gt;&lt;/pre&gt;
@@ -44,15 +50,19 @@
 &lt;pre&gt;&lt;code&gt;$ mount -a
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Troubles getting vsftpd user logged in?</title>
-      <link>http://mpas.github.io/blog/2012/09/18/troubles-getting-vsftpd-user-logged-in/</link>
-      <pubDate>Tue, 18 Sep 2012 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2012/09/18/troubles-getting-vsftpd-user-logged-in/</guid>
-      <description>&lt;p&gt;Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message:
+    
+      
+        
+          <item>
+            <title>Troubles getting vsftpd user logged in?</title>
+            <link>http://mpas.github.io/blog/2012/09/18/troubles-getting-vsftpd-user-logged-in/</link>
+            <pubDate>Tue, 18 Sep 2012 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2012/09/18/troubles-getting-vsftpd-user-logged-in/</guid>
+            <description>&lt;p&gt;Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message:
 500 OOPS: vsftpd: refusing to run with writable root inside chroot()&lt;/p&gt;
 
 &lt;p&gt;After some googling around i found the following fix..
@@ -72,7 +82,9 @@ chmod the folder that the ftp user comes in to as he first login (root folder) b
 
 &lt;p&gt;&lt;a href=&#34;http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update&#34;&gt;http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
+          </item>
+        
+      
     
   </channel>
 </rss>

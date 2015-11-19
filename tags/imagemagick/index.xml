@@ -8,13 +8,15 @@
     <lastBuildDate>Sat, 15 Sep 2012 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/imagemagick/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Combining ImageMagick and Grails</title>
-      <link>http://mpas.github.io/blog/2012/09/15/combining-imagemagick-and-grails/</link>
-      <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/blog/2012/09/15/combining-imagemagick-and-grails/</guid>
-      <description>&lt;p&gt;When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.&lt;/p&gt;
+        
+          <item>
+            <title>Combining ImageMagick and Grails</title>
+            <link>http://mpas.github.io/blog/2012/09/15/combining-imagemagick-and-grails/</link>
+            <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2012/09/15/combining-imagemagick-and-grails/</guid>
+            <description>&lt;p&gt;When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Steps:&lt;/strong&gt;&lt;/p&gt;
 
@@ -60,7 +62,9 @@
 
 &lt;p&gt;The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.&lt;/p&gt;
 </description>
-    </item>
+          </item>
+        
+      
     
   </channel>
 </rss>

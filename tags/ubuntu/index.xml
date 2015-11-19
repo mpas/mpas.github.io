@@ -8,13 +8,15 @@
     <lastBuildDate>Tue, 18 Sep 2012 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Troubles getting vsftpd user logged in?</title>
-      <link>http://mpas.github.io/blog/2012/09/18/troubles-getting-vsftpd-user-logged-in/</link>
-      <pubDate>Tue, 18 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/blog/2012/09/18/troubles-getting-vsftpd-user-logged-in/</guid>
-      <description>&lt;p&gt;Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message:
+        
+          <item>
+            <title>Troubles getting vsftpd user logged in?</title>
+            <link>http://mpas.github.io/blog/2012/09/18/troubles-getting-vsftpd-user-logged-in/</link>
+            <pubDate>Tue, 18 Sep 2012 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2012/09/18/troubles-getting-vsftpd-user-logged-in/</guid>
+            <description>&lt;p&gt;Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message:
 500 OOPS: vsftpd: refusing to run with writable root inside chroot()&lt;/p&gt;
 
 &lt;p&gt;After some googling around i found the following fix..
@@ -34,7 +36,9 @@ chmod the folder that the ftp user comes in to as he first login (root folder) b
 
 &lt;p&gt;&lt;a href=&#34;http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update&#34;&gt;http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
+          </item>
+        
+      
     
   </channel>
 </rss>

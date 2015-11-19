@@ -8,17 +8,21 @@
     <lastBuildDate>Sat, 25 May 2013 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/gr8conf/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Using Grails to power your Electric Car</title>
-      <link>http://mpas.github.io/blog/2013/05/25/using-grails-to-power-your-electric-car/</link>
-      <pubDate>Sat, 25 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/blog/2013/05/25/using-grails-to-power-your-electric-car/</guid>
-      <description>&lt;p&gt;Past week I really enjoyed visiting &amp;amp; speaking at the &lt;a href=&#34;http://gr8conf.org/&#34;&gt;Grails Conference (GR8Conf 2013)&lt;/a&gt;. The organisation made it possible that for me to host a talk about &amp;ldquo;Using Grails to power your Electric Car&amp;rdquo;.&lt;/p&gt;
+        
+          <item>
+            <title>Using Grails to power your Electric Car</title>
+            <link>http://mpas.github.io/blog/2013/05/25/using-grails-to-power-your-electric-car/</link>
+            <pubDate>Sat, 25 May 2013 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2013/05/25/using-grails-to-power-your-electric-car/</guid>
+            <description>&lt;p&gt;Past week I really enjoyed visiting &amp;amp; speaking at the &lt;a href=&#34;http://gr8conf.org/&#34;&gt;Grails Conference (GR8Conf 2013)&lt;/a&gt;. The organisation made it possible that for me to host a talk about &amp;ldquo;Using Grails to power your Electric Car&amp;rdquo;.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car&#34;&gt;Using Grails to power your Electric Car&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
+          </item>
+        
+      
     
   </channel>
 </rss>

@@ -5,16 +5,163 @@
     <link>http://mpas.github.io/tags/grails/</link>
     <description>Recent content in Grails on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 30 Oct 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/grails/index.xml" rel="self" type="application/rss+xml" />
     
-    <item>
-      <title>Cleaning Grails Domain Objects in a Spock Test</title>
-      <link>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</link>
-      <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</guid>
-      <description>&lt;p&gt;Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.&lt;/p&gt;
+        
+          <item>
+            <title>Functional Rest API Testing with Grails/Rest Client Builder</title>
+            <link>http://mpas.github.io/blog/2015/11/19/functional-rest-api-testing-with-grails/rest-client-builder/</link>
+            <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/11/19/functional-rest-api-testing-with-grails/rest-client-builder/</guid>
+            <description>&lt;p&gt;Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.&lt;/p&gt;
+
+&lt;p&gt;When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Scenario:&lt;/strong&gt;&lt;br&gt;
+Performing a GET request on a url (&lt;a href=&#34;http://localhost:8080/helloworld&#34;&gt;http://localhost:8080/helloworld&lt;/a&gt;) should return a &lt;code&gt;HTTP Status 200&lt;/code&gt; and data with a json payload &lt;code&gt;{&amp;quot;message&amp;quot;:&amp;quot;helloworld&amp;quot;}&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;So lets get started!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a Grails application&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails create-app RestHelloWorld
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Update your &lt;code&gt;build.gradle&lt;/code&gt; to include the Rest Client Builder dependencies which we will need later on&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dependencies {
+    // add the following line to the &#39;dependencies&#39; section
+    testCompile &amp;quot;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Create an Integration Test&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails create-integration-test HelloWorld
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a test method inside the integration test&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Open up the created HelloWorldControllerSpec inside the &lt;code&gt;/src/integration-test/groovy/resthelloworld/&lt;/code&gt; package&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package resthelloworld
+
+import grails.test.mixin.integration.Integration
+import grails.transaction.*
+import spock.lang.*
+import grails.plugins.rest.client.RestBuilder
+import grails.plugins.rest.client.RestResponse
+
+@Integration
+@Rollback
+class HelloWorldSpec extends Specification {
+
+    def setup() { 
+    }
+
+    def cleanup() { 
+    }
+
+    def &amp;quot;Ask for a nice HelloWorld&amp;quot;() {
+        given:
+        RestBuilder rest = new RestBuilder()
+
+        when:
+        RestResponse response = rest.get(&amp;quot;http://localhost:8080/helloworld/&amp;quot;)
+
+        then:
+        response.status == 200
+
+        and:
+        response.json.message == &amp;quot;helloworld&amp;quot;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Run your test&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails test-app
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Offcourse this will fail as we do not have implement the controller yet.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a Rest controller&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cd RestHelloWorld
+$ grails create-controller HelloWorld
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The generation of the controller also create a Unit Test for the controller, default this test will fail. We are going to delete the generated Unit Test as we do not need it now. This test is located under the &lt;code&gt;/src/test/&lt;/code&gt; groovy package.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    $ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Implement the controller function that will return data&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package resthelloworld
+
+class HelloWorldController {
+
+    def index() {
+        render(status: 200, contentType: &amp;quot;application/json&amp;quot;) {
+            [&amp;quot;message&amp;quot; : &amp;quot;helloworld&amp;quot;]
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Modify UrlMapping&lt;/strong&gt;
+In order to get our newly generated controller accesible via Rest we need to modify our UrlMappings.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class UrlMappings {
+
+    static mappings = {
+        &amp;quot;/$controller/$action?/$id?(.$format)?&amp;quot;{
+            constraints {
+                // apply constraints here
+            }
+        }
+
+        &amp;quot;/&amp;quot;(view:&amp;quot;/index&amp;quot;)
+        &amp;quot;500&amp;quot;(view:&#39;/error&#39;)
+        &amp;quot;404&amp;quot;(view:&#39;/notFound&#39;)
+
+        // add the line below
+        &amp;quot;/helloworld/&amp;quot;  (controller: &amp;quot;helloWorld&amp;quot;, action: &amp;quot;index&amp;quot;, method: &amp;quot;GET&amp;quot;)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Test your app&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails test-app
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You should find that your tests are fine now :)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grails test-app
+BUILD SUCCESSFUL
+
+Total time: 2.054 secs
+| Tests PASSED
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+          </item>
+        
+      
+    
+      
+        
+          <item>
+            <title>Cleaning Grails Domain Objects in a Spock Test</title>
+            <link>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</link>
+            <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/10/30/cleaning-grails-domain-objects-in-a-spock-test/</guid>
+            <description>&lt;p&gt;Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.&lt;/p&gt;
 
 &lt;p&gt;Spock provides a &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; method.&lt;/p&gt;
 
@@ -32,15 +179,19 @@ def cleanup() {
 
 &lt;p&gt;We need the &lt;code&gt;.withNewSession&lt;/code&gt; because there is no Hibernate session provided in the &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; methods.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Run a Grails 3 generated Fat Jar file in production mode</title>
-      <link>http://mpas.github.io/blog/2015/06/11/run-a-grails-3-generated-fat-jar-file-in-production-mode/</link>
-      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2015/06/11/run-a-grails-3-generated-fat-jar-file-in-production-mode/</guid>
-      <description>&lt;p&gt;When creating a Grails WAR/JAR file using:&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Run a Grails 3 generated Fat Jar file in production mode</title>
+            <link>http://mpas.github.io/blog/2015/06/11/run-a-grails-3-generated-fat-jar-file-in-production-mode/</link>
+            <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/06/11/run-a-grails-3-generated-fat-jar-file-in-production-mode/</guid>
+            <description>&lt;p&gt;When creating a Grails WAR/JAR file using:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$ grails war
 &lt;/code&gt;&lt;/pre&gt;
@@ -50,15 +201,19 @@ def cleanup() {
 &lt;pre&gt;&lt;code&gt;$ java -Dgrails.env=prod -Dserver.port=9000 -jar &amp;lt;name-of-jar-file&amp;gt;.jar
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Upgrading from Grails 2.3.8 to 2.4.2</title>
-      <link>http://mpas.github.io/blog/2014/07/04/upgrading-from-grails-2.3.8-to-2.4.2/</link>
-      <pubDate>Fri, 04 Jul 2014 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2014/07/04/upgrading-from-grails-2.3.8-to-2.4.2/</guid>
-      <description>&lt;p&gt;When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Upgrading from Grails 2.3.8 to 2.4.2</title>
+            <link>http://mpas.github.io/blog/2014/07/04/upgrading-from-grails-2.3.8-to-2.4.2/</link>
+            <pubDate>Fri, 04 Jul 2014 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2014/07/04/upgrading-from-grails-2.3.8-to-2.4.2/</guid>
+            <description>&lt;p&gt;When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.&lt;/p&gt;
 
 &lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;p&amp;gt;Error creating bean with name ‘grailsApplication’ defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean ‘grailsResourceLoader’ while setting bean property ‘grailsResourceLoader’;&amp;lt;/p&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -75,27 +230,35 @@ def cleanup() {
 
 &lt;p&gt;And you should be up and running quickly.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Using Grails to power your Electric Car</title>
-      <link>http://mpas.github.io/blog/2013/05/25/using-grails-to-power-your-electric-car/</link>
-      <pubDate>Sat, 25 May 2013 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2013/05/25/using-grails-to-power-your-electric-car/</guid>
-      <description>&lt;p&gt;Past week I really enjoyed visiting &amp;amp; speaking at the &lt;a href=&#34;http://gr8conf.org/&#34;&gt;Grails Conference (GR8Conf 2013)&lt;/a&gt;. The organisation made it possible that for me to host a talk about &amp;ldquo;Using Grails to power your Electric Car&amp;rdquo;.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Using Grails to power your Electric Car</title>
+            <link>http://mpas.github.io/blog/2013/05/25/using-grails-to-power-your-electric-car/</link>
+            <pubDate>Sat, 25 May 2013 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2013/05/25/using-grails-to-power-your-electric-car/</guid>
+            <description>&lt;p&gt;Past week I really enjoyed visiting &amp;amp; speaking at the &lt;a href=&#34;http://gr8conf.org/&#34;&gt;Grails Conference (GR8Conf 2013)&lt;/a&gt;. The organisation made it possible that for me to host a talk about &amp;ldquo;Using Grails to power your Electric Car&amp;rdquo;.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car&#34;&gt;Using Grails to power your Electric Car&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Grails migrations and &#39;Waiting for changelog lock&#39;</title>
-      <link>http://mpas.github.io/blog/2013/02/28/grails-migrations-and-waiting-for-changelog-lock/</link>
-      <pubDate>Thu, 28 Feb 2013 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2013/02/28/grails-migrations-and-waiting-for-changelog-lock/</guid>
-      <description>&lt;p&gt;Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Grails migrations and &#39;Waiting for changelog lock&#39;</title>
+            <link>http://mpas.github.io/blog/2013/02/28/grails-migrations-and-waiting-for-changelog-lock/</link>
+            <pubDate>Thu, 28 Feb 2013 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2013/02/28/grails-migrations-and-waiting-for-changelog-lock/</guid>
+            <description>&lt;p&gt;Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;...
 Waiting for changelog lock....
@@ -130,15 +293,19 @@ set locked=0, lockgranted=null, lockedby=null
 where id=1
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Testing constraints with Build Test Data</title>
-      <link>http://mpas.github.io/blog/2013/01/13/testing-constraints-with-build-test-data/</link>
-      <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2013/01/13/testing-constraints-with-build-test-data/</guid>
-      <description>&lt;p&gt;The &lt;a href=&#34;http://grails.org/plugin/spock&#34;&gt;Spock&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://grails.org/plugin/build-test-data&#34;&gt;Build Test Data&lt;/a&gt; plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Testing constraints with Build Test Data</title>
+            <link>http://mpas.github.io/blog/2013/01/13/testing-constraints-with-build-test-data/</link>
+            <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2013/01/13/testing-constraints-with-build-test-data/</guid>
+            <description>&lt;p&gt;The &lt;a href=&#34;http://grails.org/plugin/spock&#34;&gt;Spock&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://grails.org/plugin/build-test-data&#34;&gt;Build Test Data&lt;/a&gt; plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!&lt;/p&gt;
 
 &lt;p&gt;When testing constraints on an object it can be used as follows:&lt;/p&gt;
 
@@ -176,15 +343,19 @@ class FooSpec extends Specification {
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Loading Grails configuration files update!</title>
-      <link>http://mpas.github.io/blog/2012/09/17/loading-grails-configuration-files-update/</link>
-      <pubDate>Mon, 17 Sep 2012 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2012/09/17/loading-grails-configuration-files-update/</guid>
-      <description>&lt;p&gt;We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Loading Grails configuration files update!</title>
+            <link>http://mpas.github.io/blog/2012/09/17/loading-grails-configuration-files-update/</link>
+            <pubDate>Mon, 17 Sep 2012 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2012/09/17/loading-grails-configuration-files-update/</guid>
+            <description>&lt;p&gt;We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;You cannot deal with all Grails Mail settings in the configuration file&lt;/li&gt;
@@ -253,15 +424,19 @@ println &amp;quot;--------------------------------------------------------------
 // -------------------------------------------------------------------------------- //
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Loading external Configuration files in a Grails application</title>
-      <link>http://mpas.github.io/blog/2012/09/16/loading-external-configuration-files-in-a-grails-application/</link>
-      <pubDate>Sun, 16 Sep 2012 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2012/09/16/loading-external-configuration-files-in-a-grails-application/</guid>
-      <description>&lt;p&gt;The use of &amp;lsquo;Config.groovy&amp;rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &amp;lsquo;Config.groovy&amp;rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Loading external Configuration files in a Grails application</title>
+            <link>http://mpas.github.io/blog/2012/09/16/loading-external-configuration-files-in-a-grails-application/</link>
+            <pubDate>Sun, 16 Sep 2012 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2012/09/16/loading-external-configuration-files-in-a-grails-application/</guid>
+            <description>&lt;p&gt;The use of &amp;lsquo;Config.groovy&amp;rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &amp;lsquo;Config.groovy&amp;rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.&lt;/p&gt;
 
 &lt;p&gt;A simple mechanism to load these property files is to place a short snippet of code in the &amp;lsquo;Config.groovy&amp;rsquo; that will load a specific configuration file from the filesystem, depending on the availability.&lt;/p&gt;
 
@@ -272,15 +447,19 @@ println &amp;quot;--------------------------------------------------------------
 
 &lt;p&gt;This gives the opportunity to configure the application outside the &amp;lsquo;Config.groovy&amp;rsquo; file so any changes made the the property file will be reflected in your environment.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Combining ImageMagick and Grails</title>
-      <link>http://mpas.github.io/blog/2012/09/15/combining-imagemagick-and-grails/</link>
-      <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2012/09/15/combining-imagemagick-and-grails/</guid>
-      <description>&lt;p&gt;When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Combining ImageMagick and Grails</title>
+            <link>http://mpas.github.io/blog/2012/09/15/combining-imagemagick-and-grails/</link>
+            <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2012/09/15/combining-imagemagick-and-grails/</guid>
+            <description>&lt;p&gt;When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Steps:&lt;/strong&gt;&lt;/p&gt;
 
@@ -326,27 +505,35 @@ println &amp;quot;--------------------------------------------------------------
 
 &lt;p&gt;The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Introduction to Groovy &amp; Grails</title>
-      <link>http://mpas.github.io/blog/2012/09/12/introduction-to-groovy--grails/</link>
-      <pubDate>Wed, 12 Sep 2012 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2012/09/12/introduction-to-groovy--grails/</guid>
-      <description>&lt;p&gt;Recently i had the opportunity to show an exciting crowd a presentation about &lt;a href=&#34;http://groovy.codehaus.org/&#34;&gt;Groovy&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://www.grails.org/&#34;&gt;Grails&lt;/a&gt;.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Introduction to Groovy &amp; Grails</title>
+            <link>http://mpas.github.io/blog/2012/09/12/introduction-to-groovy--grails/</link>
+            <pubDate>Wed, 12 Sep 2012 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2012/09/12/introduction-to-groovy--grails/</guid>
+            <description>&lt;p&gt;Recently i had the opportunity to show an exciting crowd a presentation about &lt;a href=&#34;http://groovy.codehaus.org/&#34;&gt;Groovy&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://www.grails.org/&#34;&gt;Grails&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;This happend during the &lt;a href=&#34;http://www.devnology.nl/&#34;&gt;Devnology&lt;/a&gt; Community Event at Baarn. If you want to view the presentation &amp;ndash;&amp;gt; &lt;a href=&#34;http://slidesha.re/cfL3eH&#34;&gt;check it out here!&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Change default homepage for a Grails application</title>
-      <link>http://mpas.github.io/blog/2012/09/11/change-default-homepage-for-a-grails-application/</link>
-      <pubDate>Tue, 11 Sep 2012 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2012/09/11/change-default-homepage-for-a-grails-application/</guid>
-      <description>&lt;p&gt;You can set the default homepage for a Grails application by modifying the &lt;code&gt;grails-app/conf/UrlMappings.groovy&lt;/code&gt; file. In a new Grails application this file will look like&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Change default homepage for a Grails application</title>
+            <link>http://mpas.github.io/blog/2012/09/11/change-default-homepage-for-a-grails-application/</link>
+            <pubDate>Tue, 11 Sep 2012 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2012/09/11/change-default-homepage-for-a-grails-application/</guid>
+            <description>&lt;p&gt;You can set the default homepage for a Grails application by modifying the &lt;code&gt;grails-app/conf/UrlMappings.groovy&lt;/code&gt; file. In a new Grails application this file will look like&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;class UrlMappings {
  static mappings = {
@@ -373,15 +560,19 @@ println &amp;quot;--------------------------------------------------------------
 
 &lt;p&gt;This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the &lt;strong&gt;HomeController&lt;/strong&gt; and corresponding &lt;strong&gt;index&lt;/strong&gt; action related to that controller.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Using MySQL instead of in-memory database for a Grails application</title>
-      <link>http://mpas.github.io/blog/2012/09/05/using-mysql-instead-of-in-memory-database-for-a-grails-application/</link>
-      <pubDate>Wed, 05 Sep 2012 00:00:00 +0000</pubDate>
+          </item>
+        
       
-      <guid>http://mpas.github.io/blog/2012/09/05/using-mysql-instead-of-in-memory-database-for-a-grails-application/</guid>
-      <description>&lt;p&gt;A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.&lt;/p&gt;
+    
+      
+        
+          <item>
+            <title>Using MySQL instead of in-memory database for a Grails application</title>
+            <link>http://mpas.github.io/blog/2012/09/05/using-mysql-instead-of-in-memory-database-for-a-grails-application/</link>
+            <pubDate>Wed, 05 Sep 2012 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2012/09/05/using-mysql-instead-of-in-memory-database-for-a-grails-application/</guid>
+            <description>&lt;p&gt;A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Download the MySQL JDBC driver [called a connector] from the MySQL website&lt;/li&gt;
@@ -404,7 +595,9 @@ println &amp;quot;--------------------------------------------------------------
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
+          </item>
+        
+      
     
   </channel>
 </rss>

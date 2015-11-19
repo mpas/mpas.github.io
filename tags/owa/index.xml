@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Owa on CodeVerse</title>
+    <link>http://mpas.github.io/tags/owa/</link>
+    <description>Recent content in Owa on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 17 Nov 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/owa/index.xml" rel="self" type="application/rss+xml" />
+    
+      
+        
+          <item>
+            <title>Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</title>
+            <link>http://mpas.github.io/blog/2015/11/17/using-davmail-gateway-as-a-mail-proxy-for-microsoft-exchange-owa/</link>
+            <pubDate>Tue, 17 Nov 2015 00:00:00 +0000</pubDate>
+            
+            <guid>http://mpas.github.io/blog/2015/11/17/using-davmail-gateway-as-a-mail-proxy-for-microsoft-exchange-owa/</guid>
+            <description>
+
+&lt;p&gt;If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific &lt;a href=&#34;http://www.postbox-inc.com&#34;&gt;PostBox&lt;/a&gt; mail client.&lt;/p&gt;
+
+&lt;p&gt;As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.&lt;/p&gt;
+
+&lt;p&gt;Enter the use of &lt;a href=&#34;http://davmail.sourceforge.net/&#34;&gt;DavMail&lt;/a&gt;!&lt;/p&gt;
+
+&lt;h4 id=&#34;davmail-gateway:ac833d132ae827d5f416733bf8613037&#34;&gt;Davmail Gateway&lt;/h4&gt;
+
+&lt;p&gt;Davmail is a local mail proxy that can work together with Microsoft Exchange [OWA] in a way that DavMail is actually connecting to a Exchange OWA and your mail client connects to DavMail as a proxy.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/davmail-sequence.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-davmail:ac833d132ae827d5f416733bf8613037&#34;&gt;Configure Davmail&lt;/h4&gt;
+
+&lt;p&gt;In order to get DavMail working correctly you need to provide the correct settings so it can use the OWA endpoint.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/davmail-settings-main.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-postbox:ac833d132ae827d5f416733bf8613037&#34;&gt;Configure PostBox&lt;/h4&gt;
+
+&lt;p&gt;In order to get PostBox working with DavMail you need to create an outgoing mail server and an account that will use that outgoing mailserver.&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-postbox-outgoing-mailserver:ac833d132ae827d5f416733bf8613037&#34;&gt;Configure PostBox - Outgoing mailserver&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/postbox-outgoing-mailserver.png&#34; width=&#34;400&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-postbox-account-setup:ac833d132ae827d5f416733bf8613037&#34;&gt;Configure PostBox - Account setup&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/postbox-account-setup.png&#34; width=&#34;800&#34; class=&#34;center&#34;&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-postbox-identity-setup:ac833d132ae827d5f416733bf8613037&#34;&gt;Configure PostBox - Identity setup&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/postbox-identity-setup.png&#34; width=&#34;800&#34; class=&#34;center&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;Now you are ready to send mail using your PostBox Client using DavMail and OWA.&lt;/p&gt;
+</description>
+          </item>
+        
+      
+    
+  </channel>
+</rss>
