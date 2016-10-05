@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Migrations on CodeVerse</title>
+    <link>http://mpas.github.io/tags/migrations/</link>
+    <description>Recent content in Migrations on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 28 Feb 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/migrations/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Grails migrations and &#39;Waiting for changelog lock&#39;</title>
+      <link>http://mpas.github.io/post/20130228_grails-migrations-and-waiting-for-changelog/</link>
+      <pubDate>Thu, 28 Feb 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20130228_grails-migrations-and-waiting-for-changelog/</guid>
+      <description>&lt;p&gt;Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;...
+Waiting for changelog lock....
+Waiting for changelog lock....
+Waiting for changelog lock....
+...
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To solve this take the following steps:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Stop the application container (example: Tomcat)&lt;/li&gt;
+&lt;li&gt;In the database look for a table called &lt;code&gt;DATABASECHANGELOGLOCK&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;In the table there is a record with id=1, change the following values:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;locked -&amp;gt; 0
+lockgranted -&amp;gt; null
+lockedby -&amp;gt; null
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;After updating this record start the application container&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Notes:&lt;/strong&gt;&lt;br /&gt;
+To see who has locked the database (normally the local machine):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;select&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;DATABASECHANGELOGLOCK;&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;To&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;update&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;the&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;record&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;update&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;DATABASECHANGELOGLOCK&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;set&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;locked&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;lockgranted&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;null&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;lockedby&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;null&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;where&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
