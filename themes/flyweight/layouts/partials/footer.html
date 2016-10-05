@@ -1,0 +1,45 @@
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    {{ with .Site.Params.twitter }}
+                        <a title="Twitter" href="{{ . }}">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    {{ end }}
+                    {{ with .Site.Params.linkedin }}
+                        <a title="LinkedIn" href="{{ . }}">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    {{ end }}
+                    {{ with .Site.Params.github }}
+                        <a title="GitHub" href="{{ . }}">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    {{ end }}
+                    {{ with .Site.Params.stackoverflow }}
+                        <a title="StackOverflow" href="{{ . }}">
+                            <i class="fa fa-stack-overflow"></i>
+                        </a>
+                    {{ end }}
+                    {{ with .Site.Params.flickr }}
+                        <a title="Flickr" href="{{ . }}">
+                            <i class="fa fa-flickr"></i>
+                        </a>
+                    {{ end }}
+                    {{ with .Site.Params.facebook }}
+                        <a title="Facebook" href="{{ . }}">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    {{ end }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; {{ .Site.LastChange.Format "2006" }} ~ {{ .Site.Title }} / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

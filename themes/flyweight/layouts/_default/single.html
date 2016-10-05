@@ -1,0 +1,22 @@
+{{ partial "header.html" . }}
+{{ partial "navbar.html" . }}
+  {{ if eq .Type "post" }}
+    <div class="container">
+        <div class="row">
+            <div class="post-content">
+                {{ partial "post.html" . }}
+            </div>
+        </div>
+    </div>
+  {{ else if eq .Type "page" }}
+    <div class="container">
+        <div class="row">
+            <div class="page-content">
+                {{ partial "page.html" . }}
+            </div>
+        </div>
+    </div>
+  {{ else }}
+    NO MATCHING PARTIAL
+  {{ end }}
+{{ partial "footer.html" . }}

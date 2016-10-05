@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  
+  <meta charset="utf-8">
+  <title>CodeVerse - CodeVerse</title>
+  <meta name="description" content="">
+  <meta name="author" content="Marco Pas">
+
+  <meta name="generator" content="" />
+  <meta name="robots" content="index,follow">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  
+  <link rel="stylesheet" href="http://mpas.github.iocss/normalize.css">
+  <link rel="stylesheet" href="http://mpas.github.iocss/skeleton.css">
+  <link rel="stylesheet" href="http://mpas.github.iocss/custom.css">
+  <link rel="stylesheet" href="http://mpas.github.iocss/pygments.css">
+  <link rel="stylesheet" href="http://mpas.github.iocss/font-awesome.min.css">
+
+  
+  
+
+  
+  <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="http://mpas.github.io">CodeVerse</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        
+                        
+                            <li class="current"><a href="/">Blog 1</a></li>
+                        
+                            <li ><a href="/post">Post List 2</a></li>
+                        
+                            <li ><a href="/page/about/">About 3</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="post-list">
+        
+        
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Functional Rest API Testing with Grails/Rest Client Builder</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.</p>
+
+<p>When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.</p>
+
+<p><strong>Scenario:</strong><br>
+Performing a GET request on a url (<a href="http://localhost:8080/helloworld">http://localhost:8080/helloworld</a>) should return a <code>HTTP Status 200</code> and data with a json payload</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">{</span><span style="color: #f92672">&quot;message&quot;</span><span style="color: #f8f8f2">:</span><span style="color: #e6db74">&quot;helloworld&quot;</span><span style="color: #f8f8f2">}</span>
+</pre></div>
+
+<p>So lets get started!</p>
+
+<p><strong>Create a Grails application</strong></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails create-app RestHelloWorld
+</pre></div>
+
+<p><strong>Update your <code>build.gradle</code> to include the Rest Client Builder dependencies which we will need later on</strong></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">dependencies</span> <span style="color: #f92672">{</span>
+    <span style="color: #75715e">// add the following line to the &#39;dependencies&#39; section</span>
+    <span style="color: #f8f8f2">testCompile</span> <span style="color: #e6db74">&quot;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&quot;</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+<p><strong>Create an Integration Test</strong></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails create-integration-test HelloWorld
+</pre></div>
+
+<p><strong>Create a test method inside the integration test</strong></p>
+
+<p>Open up the created HelloWorldControllerSpec inside the <code>/src/integration-test/groovy/resthelloworld/</code> package</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">package</span> <span style="color: #f8f8f2">resthelloworld</span>
+
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">grails.test.mixin.integration.Integration</span>
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">grails.transaction.*</span>
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">spock.lang.*</span>
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">grails.plugins.rest.client.RestBuilder</span>
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">grails.plugins.rest.client.RestResponse</span>
+
+<span style="color: #a6e22e">@Integration</span>
+<span style="color: #a6e22e">@Rollback</span>
+<span style="color: #66d9ef">class</span> <span style="color: #a6e22e">HelloWorldSpec</span> <span style="color: #66d9ef">extends</span> <span style="color: #f8f8f2">Specification</span> <span style="color: #f92672">{</span>
+
+    <span style="color: #66d9ef">def</span> <span style="color: #a6e22e">setup</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
+    <span style="color: #f92672">}</span>
+
+    <span style="color: #66d9ef">def</span> <span style="color: #a6e22e">cleanup</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
+    <span style="color: #f92672">}</span>
+
+    <span style="color: #66d9ef">def</span> <span style="color: #e6db74">&quot;Ask for a nice HelloWorld&quot;</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
+        <span style="color: #f8f8f2">given:</span>
+        <span style="color: #f8f8f2">RestBuilder</span> <span style="color: #f8f8f2">rest</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">RestBuilder</span><span style="color: #f92672">()</span>
+
+        <span style="color: #f8f8f2">when:</span>
+        <span style="color: #f8f8f2">RestResponse</span> <span style="color: #f8f8f2">response</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">rest</span><span style="color: #f92672">.</span><span style="color: #a6e22e">get</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;http://localhost:8080/helloworld/&quot;</span><span style="color: #f92672">)</span>
+
+        <span style="color: #f8f8f2">then:</span>
+        <span style="color: #f8f8f2">response</span><span style="color: #f92672">.</span><span style="color: #a6e22e">status</span> <span style="color: #f92672">==</span> <span style="color: #ae81ff">200</span>
+
+        <span style="color: #f8f8f2">and:</span>
+        <span style="color: #f8f8f2">response</span><span style="color: #f92672">.</span><span style="color: #a6e22e">json</span><span style="color: #f92672">.</span><span style="color: #a6e22e">message</span> <span style="color: #f92672">==</span> <span style="color: #e6db74">&quot;helloworld&quot;</span>
+    <span style="color: #f92672">}</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+<p><strong>Run your test</strong></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails test-app
+</pre></div>
+
+<p>Offcourse this will fail as we do not have implement the controller yet.</p>
+
+<p><strong>Create a Rest controller</strong></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ <span style="color: #f8f8f2">cd</span> RestHelloWorld
+$ grails create-controller HelloWorld
+</pre></div>
+
+<p><strong>Note:</strong> The generation of the controller also create a Unit Test for the controller, default this test will fail. We are going to delete the generated Unit Test as we do not need it now. This test is located under the <code>/src/test/</code> groovy package.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy
+</pre></div>
+
+<p><strong>Implement the controller function that will return data</strong></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">package</span> <span style="color: #f8f8f2">resthelloworld</span>
+
+<span style="color: #66d9ef">class</span> <span style="color: #a6e22e">HelloWorldController</span> <span style="color: #f92672">{</span>
+
+    <span style="color: #66d9ef">def</span> <span style="color: #a6e22e">index</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
+        <span style="color: #f8f8f2">render</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">status:</span> <span style="color: #ae81ff">200</span><span style="color: #f92672">,</span> <span style="color: #f8f8f2">contentType:</span> <span style="color: #e6db74">&quot;application/json&quot;</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
+            <span style="color: #f92672">[</span><span style="color: #e6db74">&quot;message&quot;</span> <span style="color: #f92672">:</span> <span style="color: #e6db74">&quot;helloworld&quot;</span><span style="color: #f92672">]</span>
+        <span style="color: #f92672">}</span>
+    <span style="color: #f92672">}</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+<p><strong>Modify UrlMapping</strong></p>
+
+<p>In order to get our newly generated controller accessible via Rest we need to modify our UrlMappings.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">class</span> <span style="color: #a6e22e">UrlMappings</span> <span style="color: #f92672">{</span>
+
+    <span style="color: #66d9ef">static</span> <span style="color: #f8f8f2">mappings</span> <span style="color: #f92672">=</span> <span style="color: #f92672">{</span>
+        <span style="color: #e6db74">&quot;/$controller/$action?/$id?(.$format)?&quot;</span><span style="color: #f92672">{</span>
+            <span style="color: #f8f8f2">constraints</span> <span style="color: #f92672">{</span>
+                <span style="color: #75715e">// apply constraints here</span>
+            <span style="color: #f92672">}</span>
+        <span style="color: #f92672">}</span>
+
+        <span style="color: #e6db74">&quot;/&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&quot;/index&quot;</span><span style="color: #f92672">)</span>
+        <span style="color: #e6db74">&quot;500&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&#39;/error&#39;</span><span style="color: #f92672">)</span>
+        <span style="color: #e6db74">&quot;404&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&#39;/notFound&#39;</span><span style="color: #f92672">)</span>
+
+        <span style="color: #75715e">// add the line below</span>
+        <span style="color: #e6db74">&quot;/helloworld/&quot;</span>  <span style="color: #f92672">(</span><span style="color: #f8f8f2">controller:</span> <span style="color: #e6db74">&quot;helloWorld&quot;</span><span style="color: #f92672">,</span> <span style="color: #f8f8f2">action:</span> <span style="color: #e6db74">&quot;index&quot;</span><span style="color: #f92672">,</span> <span style="color: #f8f8f2">method:</span> <span style="color: #e6db74">&quot;GET&quot;</span><span style="color: #f92672">)</span>
+    <span style="color: #f92672">}</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+<p><strong>Test your app</strong></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails test-app
+</pre></div>
+
+<p>You should find that your tests are fine now :)</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails test-app
+BUILD SUCCESSFUL
+
+Total time: 2.054 secs
+| Tests PASSED
+</pre></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Thu, Nov 19, 2015
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>, <a href="/tags/rest">rest</a>, <a href="/tags/testing">testing</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            
+
+<p>If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific <a href="http://www.postbox-inc.com">PostBox</a> mail client.</p>
+
+<p>As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.</p>
+
+<p>Enter the use of <a href="http://davmail.sourceforge.net/">DavMail</a>!</p>
+
+<h4 id="davmail-gateway">Davmail Gateway</h4>
+
+<p>Davmail is a local mail proxy that can work together with Microsoft Exchange [OWA] in a way that DavMail is actually connecting to a Exchange OWA and your mail client connects to DavMail as a proxy.</p>
+
+<p><img src="/images/201511/davmail-sequence.png" width="800" class="postimage"></p>
+
+<h4 id="configure-davmail">Configure Davmail</h4>
+
+<p>In order to get DavMail working correctly you need to provide the correct settings so it can use the OWA endpoint.</p>
+
+<p><img src="/images/201511/davmail-settings-main.png" width="800" class="postimage"></p>
+
+<h4 id="configure-postbox">Configure PostBox</h4>
+
+<p>In order to get PostBox working with DavMail you need to create an outgoing mail server and an account that will use that outgoing mailserver.</p>
+
+<h4 id="configure-postbox-outgoing-mailserver">Configure PostBox - Outgoing mailserver</h4>
+
+<p><img src="/images/201511/postbox-outgoing-mailserver.png" width="400" class="postimage"></p>
+
+<h4 id="configure-postbox-account-setup">Configure PostBox - Account setup</h4>
+
+<p><img src="/images/201511/postbox-account-setup.png" width="800" class="postimage"></p>
+
+<h4 id="configure-postbox-identity-setup">Configure PostBox - Identity setup</h4>
+
+<p><img src="/images/201511/postbox-identity-setup.png" width="800" class="postimage"></p>
+
+<p>Now you are ready to send mail using your PostBox Client using DavMail and OWA.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Tue, Nov 17, 2015
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/davmail">davmail</a>, <a href="/tags/exchange">exchange</a>, <a href="/tags/owa">owa</a>, <a href="/tags/postbox">postbox</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="twelve columns">
+        
+            <ul class="pager">
+            
+            
+                <li>
+                <a class="button" href="/page/2">Older Posts &rarr;</a>
+                </li>
+            
+            </ul>
+        
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    
+                        <a title="Twitter" href="https://twitter.com/marcopas">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    
+                    
+                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    
+                    
+                        <a title="GitHub" href="https://github.com/mpas">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    
+                    
+                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
+                            <i class="fa fa-stack-overflow"></i>
+                        </a>
+                    
+                    
+                        <a title="Flickr" href="https://www.flickr.com/photos/marcopas/">
+                            <i class="fa fa-flickr"></i>
+                        </a>
+                    
+                    
+                        <a title="Facebook" href="https://www.facebook.com/marco.pasopas">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; 2015 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+

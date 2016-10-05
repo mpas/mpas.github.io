@@ -1,0 +1,851 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CodeVerse</title>
+    <link>http://mpas.github.io/</link>
+    <description>Recent content on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 19 Nov 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Functional Rest API Testing with Grails/Rest Client Builder</title>
+      <link>http://mpas.github.io/post/20151119_functional_rest_api_testing/</link>
+      <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20151119_functional_rest_api_testing/</guid>
+      <description>&lt;p&gt;Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.&lt;/p&gt;
+
+&lt;p&gt;When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Scenario:&lt;/strong&gt;&lt;br&gt;
+Performing a GET request on a url (&lt;a href=&#34;http://localhost:8080/helloworld&#34;&gt;http://localhost:8080/helloworld&lt;/a&gt;) should return a &lt;code&gt;HTTP Status 200&lt;/code&gt; and data with a json payload&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;&amp;quot;message&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;helloworld&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;So lets get started!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a Grails application&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails create-app RestHelloWorld
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Update your &lt;code&gt;build.gradle&lt;/code&gt; to include the Rest Client Builder dependencies which we will need later on&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;dependencies&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color: #75715e&#34;&gt;// add the following line to the &amp;#39;dependencies&amp;#39; section&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;testCompile&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Create an Integration Test&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails create-integration-test HelloWorld
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a test method inside the integration test&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Open up the created HelloWorldControllerSpec inside the &lt;code&gt;/src/integration-test/groovy/resthelloworld/&lt;/code&gt; package&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;resthelloworld&lt;/span&gt;
+
+&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;grails.test.mixin.integration.Integration&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;grails.transaction.*&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;spock.lang.*&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;grails.plugins.rest.client.RestBuilder&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;grails.plugins.rest.client.RestResponse&lt;/span&gt;
+
+&lt;span style=&#34;color: #a6e22e&#34;&gt;@Integration&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;@Rollback&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;HelloWorldSpec&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;extends&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Specification&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;setup&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;cleanup&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;Ask for a nice HelloWorld&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;given:&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;RestBuilder&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;rest&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;RestBuilder&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt;
+
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;when:&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;RestResponse&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;response&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;rest&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;get&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;http://localhost:8080/helloworld/&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
+
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;then:&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;response&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;status&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;200&lt;/span&gt;
+
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;and:&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;response&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;json&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;message&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;helloworld&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Run your test&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails test-app
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Offcourse this will fail as we do not have implement the controller yet.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Create a Rest controller&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span style=&#34;color: #f8f8f2&#34;&gt;cd&lt;/span&gt; RestHelloWorld
+$ grails create-controller HelloWorld
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The generation of the controller also create a Unit Test for the controller, default this test will fail. We are going to delete the generated Unit Test as we do not need it now. This test is located under the &lt;code&gt;/src/test/&lt;/code&gt; groovy package.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Implement the controller function that will return data&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;resthelloworld&lt;/span&gt;
+
+&lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;HelloWorldController&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;index&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;render&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;status:&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;200&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;contentType:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;application/json&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;message&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;helloworld&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;]&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Modify UrlMapping&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;In order to get our newly generated controller accessible via Rest we need to modify our UrlMappings.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;UrlMappings&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;mappings&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;/$controller/$action?/$id?(.$format)?&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;constraints&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+                &lt;span style=&#34;color: #75715e&#34;&gt;// apply constraints here&lt;/span&gt;
+            &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+        &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;view:&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;/index&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
+        &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;500&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;view:&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;/error&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
+        &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;404&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;view:&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;/notFound&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
+
+        &lt;span style=&#34;color: #75715e&#34;&gt;// add the line below&lt;/span&gt;
+        &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;/helloworld/&amp;quot;&lt;/span&gt;  &lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;controller:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;helloWorld&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;action:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;index&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;method:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;GET&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Test your app&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails test-app
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You should find that your tests are fine now :)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails test-app
+BUILD SUCCESSFUL
+
+Total time: 2.054 secs
+| Tests PASSED
+&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</title>
+      <link>http://mpas.github.io/post/20151117_davmail/</link>
+      <pubDate>Tue, 17 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20151117_davmail/</guid>
+      <description>
+
+&lt;p&gt;If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific &lt;a href=&#34;http://www.postbox-inc.com&#34;&gt;PostBox&lt;/a&gt; mail client.&lt;/p&gt;
+
+&lt;p&gt;As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.&lt;/p&gt;
+
+&lt;p&gt;Enter the use of &lt;a href=&#34;http://davmail.sourceforge.net/&#34;&gt;DavMail&lt;/a&gt;!&lt;/p&gt;
+
+&lt;h4 id=&#34;davmail-gateway&#34;&gt;Davmail Gateway&lt;/h4&gt;
+
+&lt;p&gt;Davmail is a local mail proxy that can work together with Microsoft Exchange [OWA] in a way that DavMail is actually connecting to a Exchange OWA and your mail client connects to DavMail as a proxy.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/davmail-sequence.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-davmail&#34;&gt;Configure Davmail&lt;/h4&gt;
+
+&lt;p&gt;In order to get DavMail working correctly you need to provide the correct settings so it can use the OWA endpoint.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/davmail-settings-main.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-postbox&#34;&gt;Configure PostBox&lt;/h4&gt;
+
+&lt;p&gt;In order to get PostBox working with DavMail you need to create an outgoing mail server and an account that will use that outgoing mailserver.&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-postbox-outgoing-mailserver&#34;&gt;Configure PostBox - Outgoing mailserver&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/postbox-outgoing-mailserver.png&#34; width=&#34;400&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-postbox-account-setup&#34;&gt;Configure PostBox - Account setup&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/postbox-account-setup.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;configure-postbox-identity-setup&#34;&gt;Configure PostBox - Identity setup&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/postbox-identity-setup.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;Now you are ready to send mail using your PostBox Client using DavMail and OWA.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>http://mpas.github.io/page/about/</link>
+      <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/page/about/</guid>
+      <description>
+
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/marco-pas-profile-picture.jpg&#34; width=&#34;150&#34; style=&#34;margin: 0px 15px 0px 0px; float:left;&#34;&gt;
+&lt;p&gt;
+Hi there, let me please introduce myself. My name is Marco Pas and live in the surroundings of Breda (Netherlands). To be more specific you can find me in a small place called &lt;a href=&#34;https://www.google.nl/maps/place/4891+Rijsbergen/@51.5138148,4.6080621,12z/data=!3m1!4b1!4m2!3m1!1s0x47c41e71ba78dad5:0x999721ff9144c8d2&#34;&gt;Rijsbergen&lt;/a&gt;. I am proud father of 3 beautifull children, married, love to travel and watch movies. So nothing special :)&lt;/p&gt;
+
+&lt;p&gt;Where can you find me:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.linkedin.com/in/marcopas&#34;&gt;LinkedIn&lt;/a&gt; ~ &lt;a href=&#34;https://twitter.com/marcopas&#34;&gt;Twitter&lt;/a&gt; ~ &lt;a href=&#34;https://www.flickr.com/photos/marcopas/&#34;&gt;Flickr&lt;/a&gt; ~ &lt;a href=&#34;https://delicious.com/marcopas&#34;&gt;Delicious&lt;/a&gt; ~ &lt;a href=&#34;https://www.facebook.com/marco.pasopas&#34;&gt;FaceBook&lt;/a&gt; ~ &lt;a href=&#34;https://github.com/mpas&#34;&gt;GitHub&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;experience&#34;&gt;Experience&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Technology&lt;/p&gt;
+
+&lt;h3 id=&#34;architect-developer-software-engineer-doing-fun-things&#34;&gt;Architect/Developer/Software Engineer/Doing fun things&lt;/h3&gt;
+
+&lt;p&gt;Currently i am&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;professional-career&#34;&gt;Professional career&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;h4 id=&#34;2013-present-philips-research&#34;&gt;2013 - present : Philips Research&lt;/h4&gt;
+
+&lt;h4 id=&#34;2008-2013-ihomer&#34;&gt;2008 - 2013: IHomer&lt;/h4&gt;
+
+&lt;h4 id=&#34;1997-2008-cmg-logicacmg-logica&#34;&gt;1997 - 2008: CMG / LogicaCMG / Logica&lt;/h4&gt;
+
+&lt;h4 id=&#34;1995-1997-jan-de-rijk-logistics&#34;&gt;1995 - 1997: Jan de Rijk Logistics&lt;/h4&gt;
+
+&lt;hr /&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Cleaning Grails Domain Objects in a Spock Test</title>
+      <link>http://mpas.github.io/post/20151030_grails-spock-clean-domain/</link>
+      <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20151030_grails-spock-clean-domain/</guid>
+      <description>&lt;p&gt;Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.&lt;/p&gt;
+
+&lt;p&gt;Spock provides a &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;When you want to remove your domain objects after each feature test has run you can execute the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;setup&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;...&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+&lt;span style=&#34;color: #66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;cleanup&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;// make sure to clear out the database on after test&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;YourDomainObject&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;&amp;gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;withNewSession&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;YourDomainObject&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;&amp;gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;findAll&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;().&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;each&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;it&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;delete&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;flush:&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We need the &lt;code&gt;.withNewSession&lt;/code&gt; because there is no Hibernate session provided in the &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; methods.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Adding WebSocket/Stomp support to a Spring Boot application</title>
+      <link>http://mpas.github.io/post/20150616_springboot-websocket-support/</link>
+      <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20150616_springboot-websocket-support/</guid>
+      <description>&lt;p&gt;Adding support for &lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34;&gt;WebSockets&lt;/a&gt; / &lt;a href=&#34;https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol&#34;&gt;Stomp&lt;/a&gt; in a &lt;a href=&#34;http://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.&lt;/p&gt;
+
+&lt;p&gt;The following example will enable a server to send messages to a WebSocket/Stomp client.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Modify &lt;code&gt;build.gradle&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;dependencies&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;compile&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;org.springframework.boot:spring-boot-starter-web&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;compile&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;org.springframework.boot:spring-boot-starter-websocket&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;compile&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;org.springframework:spring-messaging&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;testCompile&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;junit:junit&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Create a WebSocket configuration class that holds the configuration&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;@Configuration&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;@EnableWebSocketMessageBroker&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;WebSocketConfig&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;extends&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;AbstractWebSocketMessageBrokerConfigurer&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+
+    &lt;span style=&#34;color: #a6e22e&#34;&gt;@Override&lt;/span&gt;
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;registerStompEndpoints&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;StompEndpointRegistry&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;registry&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;// the endpoint for websocket connections&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;registry&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;addEndpoint&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;/stomp&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;).&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;withSockJS&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;();&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+    &lt;span style=&#34;color: #a6e22e&#34;&gt;@Override&lt;/span&gt;
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;configureMessageBroker&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;MessageBrokerRegistry&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;config&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;// use the /topic prefix for outgoing WebSocket communication&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;config&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;enableSimpleBroker&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;/topic&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;);&lt;/span&gt;
+
+        &lt;span style=&#34;color: #75715e&#34;&gt;// use the /app prefix for others&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;config&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;setApplicationDestinationPrefixes&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;/app&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;);&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now a client that connects to &lt;code&gt;/stomp&lt;/code&gt; endpoint is able to receive WebSocket messages.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Create a service that is going to send the data to a WebSocket endpoint&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;@Service&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;ScheduleTask&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+
+    &lt;span style=&#34;color: #a6e22e&#34;&gt;@Autowired&lt;/span&gt;
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;SimpMessagingTemplate&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;template&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+
+    &lt;span style=&#34;color: #75715e&#34;&gt;// this will send a message to an endpoint on which a client can subscribe&lt;/span&gt;
+    &lt;span style=&#34;color: #a6e22e&#34;&gt;@Scheduled&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;fixedRate&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;5000&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;trigger&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;// sends the message to /topic/message&lt;/span&gt;
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;template&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;convertAndSend&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;/topic/message&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;Date: &amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Date&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;());&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Create a client that is able to receive the message&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #75715e&#34;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;html&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;head&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;title&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;WebSocket Stomp Receiving Example&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;title&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;head&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;body&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;div&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;h3&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;Messages:&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;h3&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;ol&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;messages&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;ol&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;div&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;script&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;src&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;//cdn.jsdelivr.net/jquery/1.11.2/jquery.min.js&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;script&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;script&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;src&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;script&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;script&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;src&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;script&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;script&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span style=&#34;color: #a6e22e&#34;&gt;$&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;(document).&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;ready&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;function&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;messageList&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;$&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;#messages&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;);&lt;/span&gt;
+
+            &lt;span style=&#34;color: #75715e&#34;&gt;// defined a connection to a new socket endpoint&lt;/span&gt;
+            &lt;span style=&#34;color: #66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;socket&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;SockJS&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;/stomp&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;);&lt;/span&gt;
+
+            &lt;span style=&#34;color: #66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;stompClient&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;Stomp&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;over&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;socket&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;);&lt;/span&gt;
+
+            &lt;span style=&#34;color: #a6e22e&#34;&gt;stompClient&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;connect&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;({&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;},&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;function&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;frame&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;{&lt;/span&gt;
+                &lt;span style=&#34;color: #75715e&#34;&gt;// subscribe to the /topic/message endpoint&lt;/span&gt;
+                &lt;span style=&#34;color: #a6e22e&#34;&gt;stompClient&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;subscribe&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;/topic/message&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;function&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;data&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;{&lt;/span&gt;
+                    &lt;span style=&#34;color: #66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;message&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;data&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;body&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;;&lt;/span&gt;
+                    &lt;span style=&#34;color: #a6e22e&#34;&gt;messageList&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;append&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;lt;li&amp;gt;&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;message&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;lt;/li&amp;gt;&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;);&lt;/span&gt;
+                &lt;span style=&#34;color: #f8f8f2&#34;&gt;});&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;});&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;});&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;script&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;body&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;html&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The whole example project  can be downloaded &lt;a href=&#34;https://github.com/mpas/spring-boot-websocket-stomp-server-send-example&#34;&gt;https://github.com/mpas/spring-boot-websocket-stomp-server-send-example&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Run a Grails 3 generated Fat Jar file in production mode</title>
+      <link>http://mpas.github.io/post/20150611_run-grails-war-in-production-mode/</link>
+      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20150611_run-grails-war-in-production-mode/</guid>
+      <description>&lt;p&gt;When creating a Grails WAR/JAR file using:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails war
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The resulting artifact can be run in production mode using:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ java -Dgrails.env&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;prod -Dserver.port&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #ae81ff&#34;&gt;9000&lt;/span&gt; -jar &amp;lt;name-of-jar-file&amp;gt;.jar
+&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
+      <link>http://mpas.github.io/post/20150611_docker-rabbitmq-default-users/</link>
+      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20150611_docker-rabbitmq-default-users/</guid>
+      <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;
+
+&lt;p&gt;The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.&lt;/p&gt;
+
+&lt;p&gt;It involves a init.sh script that is used to create the users and vhosts.&lt;/p&gt;
+
+&lt;p&gt;The Docker File&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt; rabbitmq:3-management&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# Add script to create default users / vhosts&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;ADD&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt; init.sh /init.sh&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# Set correct executable permissions&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;RUN&lt;/span&gt; chmod +x /init.sh
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# Define default command&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;CMD&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt; [&amp;quot;/init.sh&amp;quot;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The init.sh script&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #75715e&#34;&gt;#!/bin/sh&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# Create Default RabbitMQ setup&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt; sleep &lt;span style=&#34;color: #ae81ff&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# Create users&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;# rabbitmqctl add_user &amp;lt;username&amp;gt; &amp;lt;password&amp;gt;&lt;/span&gt;
+rabbitmqctl add_user test_user test_user &lt;span style=&#34;color: #f8f8f2&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# Set user rights&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;# rabbitmqctl set_user_tags &amp;lt;username&amp;gt; &amp;lt;tag&amp;gt;&lt;/span&gt;
+rabbitmqctl set_user_tags test_user administrator &lt;span style=&#34;color: #f8f8f2&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# Create vhosts&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;# rabbitmqctl add_vhost &amp;lt;vhostname&amp;gt;&lt;/span&gt;
+rabbitmqctl add_vhost dummy &lt;span style=&#34;color: #f8f8f2&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# Set vhost permissions&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;# rabbitmqctl set_permissions -p &amp;lt;vhostname&amp;gt; &amp;lt;username&amp;gt; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot; &amp;quot;.*&amp;quot;&lt;/span&gt;
+rabbitmqctl set_permissions -p dummy test_user &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;.*&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;.*&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;.*&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;amp;&lt;/span&gt;    
+rabbitmq-server &lt;span style=&#34;color: #f8f8f2&#34;&gt;$@&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Place both of these files in a directory and build your image:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ docker build -t my_rabbitmq_image .
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Start a container based on the image using:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;$&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;docker&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;run&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;--&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;rm&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;--&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;my_rabbitmq_container&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;p&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;5672&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color: #ae81ff&#34;&gt;5672&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;p&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;15672&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color: #ae81ff&#34;&gt;15672&lt;/span&gt;  &lt;span style=&#34;color: #f8f8f2&#34;&gt;my_rabbitmq_image&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then in your browser navigate to &lt;a href=&#34;http://localhost:15672&#34;&gt;http://localhost:15672&lt;/a&gt; and see if all is ok!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; When using Boot2Docker make sure to replace the localhost with the correct IP.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
+      <link>http://mpas.github.io/post/20150610_httpservletwrapper-3.1/</link>
+      <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20150610_httpservletwrapper-3.1/</guid>
+      <description>&lt;p&gt;A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;isFinished&lt;/li&gt;
+&lt;li&gt;isReady&lt;/li&gt;
+&lt;li&gt;setReadListener&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;com.google.common.primitives.Bytes&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;javax.servlet.ReadListener&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;javax.servlet.ServletInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;javax.servlet.http.HttpServletRequest&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;javax.servlet.http.HttpServletRequestWrapper&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;java.io.ByteArrayInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;java.io.IOException&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;java.io.InputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;java.util.Arrays&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+
+&lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;AuthenticationRequestWrapper&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;extends&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;HttpServletRequestWrapper&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+
+    &lt;span style=&#34;color: #75715e&#34;&gt;// tag::variables[]&lt;/span&gt;
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;byte&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;[]&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;requestBody&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;byte&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;];&lt;/span&gt;
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;boolean&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;bufferFilled&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+    &lt;span style=&#34;color: #75715e&#34;&gt;// end::variables[]&lt;/span&gt;
+
+    &lt;span style=&#34;color: #75715e&#34;&gt;/**&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;     - Constructs a request object wrapping the given request.&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;     *&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;     - @param request The request to wrap&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;     - @throws IllegalArgumentException if the request is null&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;     */&lt;/span&gt;
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;AuthenticationRequestWrapper&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;HttpServletRequest&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;request&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;super&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;request&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;);&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+
+    &lt;span style=&#34;color: #75715e&#34;&gt;// tag::getRequestBody[]&lt;/span&gt;
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;byte&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;[]&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;getRequestBody&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;throws&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;IOException&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;bufferFilled&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Arrays&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;copyOf&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;requestBody&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;requestBody&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;length&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;);&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;InputStream&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;inputStream&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;super&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;getInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;();&lt;/span&gt;
+
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;byte&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;[]&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;buffer&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;byte&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #ae81ff&#34;&gt;102400&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;];&lt;/span&gt; &lt;span style=&#34;color: #75715e&#34;&gt;// 100kb buffer&lt;/span&gt;
+
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;bytesRead&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;((&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;bytesRead&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;inputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;read&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;buffer&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;))&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;requestBody&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Bytes&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;concat&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;requestBody&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Arrays&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;copyOfRange&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;buffer&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;bytesRead&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;));&lt;/span&gt; &lt;span style=&#34;color: #75715e&#34;&gt;// &amp;lt;1&amp;gt;&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;bufferFilled&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;requestBody&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+    &lt;span style=&#34;color: #75715e&#34;&gt;// end::getRequestBody[]&lt;/span&gt;
+
+    &lt;span style=&#34;color: #75715e&#34;&gt;// tag::getInputStream[]&lt;/span&gt;
+    &lt;span style=&#34;color: #a6e22e&#34;&gt;@Override&lt;/span&gt;
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;ServletInputStream&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;getInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;throws&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;IOException&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;CustomServletInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;getRequestBody&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;());&lt;/span&gt; &lt;span style=&#34;color: #75715e&#34;&gt;// &amp;lt;1&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+    &lt;span style=&#34;color: #75715e&#34;&gt;// end::getInputStream[]&lt;/span&gt;
+
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;CustomServletInputStream&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;extends&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;ServletInputStream&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;ByteArrayInputStream&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;buffer&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;CustomServletInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;byte&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;[]&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;contents&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #66d9ef&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;buffer&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;ByteArrayInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;contents&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;);&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+        &lt;span style=&#34;color: #a6e22e&#34;&gt;@Override&lt;/span&gt;
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;read&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;throws&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;IOException&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;buffer&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;read&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;();&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+        &lt;span style=&#34;color: #a6e22e&#34;&gt;@Override&lt;/span&gt;
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;boolean&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;isFinished&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;buffer&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;available&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+        &lt;span style=&#34;color: #a6e22e&#34;&gt;@Override&lt;/span&gt;
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;boolean&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;isReady&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+        &lt;span style=&#34;color: #a6e22e&#34;&gt;@Override&lt;/span&gt;
+        &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;setReadListener&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;ReadListener&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;listener&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #66d9ef&#34;&gt;throw&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;RuntimeException&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;Not implemented&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;);&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
+      <link>http://mpas.github.io/post/20150605_docker-setup-registry/</link>
+      <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20150605_docker-setup-registry/</guid>
+      <description>
+
+&lt;p&gt;The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.&lt;/p&gt;
+
+&lt;p&gt;So the setup will be that we install the Docker Registry and proxy the SSL user access via self signed certificates using an NGINX proxy image provided by Container Solutions. &lt;a href=&#34;http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/&#34;&gt;Check here for more information&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Installation of the remote docker registry will be done by using on an Amazon EC2 (Linux AMI). Currently the free tier Amazon Linux AMI 2015.03 (HVM), SSD Volume Type - ami-a10897d6. So spin up the Amazon AMI and let&amp;rsquo;s install Docker.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; when you spin up your Amazon AMI make sure to remember the FQDN/DNS name! We need this name to generate the SSL certificates!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Example:
+&amp;lt;domain-name&amp;gt; = ec2-52-16-247-220.eu-west-1.compute.amazonaws.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So spin up your AMI and install Docker!&lt;/p&gt;
+
+&lt;h2 id=&#34;installing-docker&#34;&gt;Installing docker&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;login into your Amazon AMI&lt;/li&gt;
+&lt;li&gt;update the system and install Docker&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo yum update -y
+$ sudo wget -qO- https://get.docker.com/ &lt;span style=&#34;color: #f8f8f2&#34;&gt;|&lt;/span&gt; sh
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;add the ec2-user to the &lt;code&gt;docker&lt;/code&gt; group (optional)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo usermod -aG docker ec2-user
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;start Docker&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo service docker start
+&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;make sure Docker can run the basic &amp;ldquo;hello-world&amp;rdquo;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo docker run hello-world
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;create-docker-registry-data-and-configuration-directories&#34;&gt;Create Docker Registry data and configuration directories&lt;/h2&gt;
+
+&lt;p&gt;We are going to store the registry image data inside &lt;code&gt;/opt/docker/registry/data&lt;/code&gt; and configuration files such as the ssl certificates and user login inside &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;create data folders for Docker Registry data and configuration&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo mkdir -p /opt/docker/registry/data
+$ sudo mkdir -p /opt/docker/registry/conf
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;run-the-docker-registry&#34;&gt;Run the Docker Registry&lt;/h2&gt;
+
+&lt;p&gt;Now we are able to run the Docker Registry, the data for images that will be pushed are going to be stored in &lt;code&gt;/opt/docker/registry/data&lt;/code&gt; and the container will be named &lt;code&gt;docker-registry&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;run the registry and name it &lt;code&gt;docker-registry&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo docker run -d -v /opt/docker/registry/data:/tmp/registry-dev &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+--name docker-registry registry:2.0.1
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;test if the registry is actually running&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo docker ps
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;So now we have a running Docker Registry, but still no SSL proxy and no user accounts to get access to the registry.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;generate-self-signed-certificates-for-our-ssl-proxy&#34;&gt;Generate self signed certificates for our SSL proxy&lt;/h2&gt;
+
+&lt;p&gt;The result of the certificate generation will be placed in &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt; and named &lt;code&gt;docker-registry.crt&lt;/code&gt; and &lt;code&gt;docker-registry.key&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The &lt;code&gt;docker-registry.crt&lt;/code&gt; file is important, we will need this later on to configure our local Docker client on the machine that is going to access the remote registry. So after generating the &lt;code&gt;docker-registry.crt&lt;/code&gt; file, grab this and store it on your local machine in a place where you can find it.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;generate the certificates&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo openssl req -x509 -nodes -days &lt;span style=&#34;color: #ae81ff&#34;&gt;365&lt;/span&gt; -newkey rsa:2048 &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+-keyout /opt/docker/registry/conf/docker-registry.key \
+-out /opt/docker/registry/conf/docker-registry.crt
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Accept all defaults and make sure you give the correct FQDN /DNS name = &lt;code&gt;&amp;lt;domain-name&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;create-passwords-for-access-to-the-docker-registry&#34;&gt;Create passwords for access to the Docker Registry&lt;/h2&gt;
+
+&lt;p&gt;In order to let users login into the registry we need to create users  (user1/user2). This will be done by using &lt;code&gt;htpasswd&lt;/code&gt;. The user data will be stored in &lt;code&gt;docker-registry.htpasswd&lt;/code&gt; file and placed in the &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt; directory.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;install htpasswd&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo yum install httpd-tools -y
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;create the users&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo htpasswd -c /opt/docker/registry/conf/docker-registry.htpasswd user1
+$ sudo htpasswd /opt/docker/registry/conf/docker-registry.htpasswd user2
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; when creating the second user omit the &lt;code&gt;-c&lt;/code&gt; otherwise the docker-registry.htpasswd file will be get overwritten!&lt;/p&gt;
+
+&lt;h2 id=&#34;run-the-nginx-proxy&#34;&gt;Run the NGINX Proxy&lt;/h2&gt;
+
+&lt;p&gt;As mentioned we are going to use the image from &lt;a href=&#34;http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/&#34;&gt;Container Solutions&lt;/a&gt; to run our NGINX proxy.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;start the NGINX proxy and name it &lt;code&gt;docker-registry-proxy&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo docker run -d -p 443:443  &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+-e REGISTRY_HOST=&amp;quot;docker-registry&amp;quot; -e REGISTRY_PORT=&amp;quot;5000&amp;quot; -e SERVER_NAME=&amp;quot;localhost&amp;quot; \
+--link docker-registry:docker-registry \
+-v /opt/docker/registry/conf/docker-registry.htpasswd:/etc/nginx/.htpasswd:ro \
+-v /opt/docker/registry/conf:/etc/nginx/ssl:ro \
+--name docker-registry-proxy containersol/docker-registry-proxy
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After this step we have a running Docker Registry which is secured using Self Signed certificates and users are able to login using their username/password.&lt;/p&gt;
+
+&lt;p&gt;To test this navigate to your registry by using a browser (Chrome) and access: &lt;code&gt;https://&amp;lt;domain-name&amp;gt;:443/v2/&lt;/code&gt;. After accepting the security warning provide a username/password and the output should be &lt;code&gt;{}&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;configure-the-local-docker-client&#34;&gt;Configure the local Docker client&lt;/h2&gt;
+
+&lt;p&gt;Now that we have a running secured Docker Registry we can configure the Docker client on our machine that is going to access the remote Registry. For this we need a copy of the earlier &lt;code&gt;docker-registry.crt&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;copy the &lt;code&gt;docker-registry.crt&lt;/code&gt; file from our server to your local machine. This file is located in &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt;. Put the copy in a place where you can find it.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;ubuntu-docker-client&#34;&gt;Ubuntu Docker Client&lt;/h3&gt;
+
+&lt;p&gt;In order to get the local client working, we need to install Docker and register the &lt;code&gt;docker-registry.crt&lt;/code&gt; certificate file!&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;install docker&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo wget -qO- https://get.docker.com/ &lt;span style=&#34;color: #f8f8f2&#34;&gt;|&lt;/span&gt; sh
+$ sudo service docker start
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;create a directory holding our extra certificates&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo mkdir /usr/share/ca-certificates/extra
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;copy the &lt;code&gt;docker-registry.crt&lt;/code&gt; file to the directory &lt;code&gt;/usr/share/ca-certificates/extra&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;register the certificate&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo dpkg-reconfigure ca-certificates
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you are almost ready!&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;restart the local Docker client&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo service docker restart
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;login onto your remote registry using&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ docker login &amp;lt;domain-name&amp;gt;:port
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we have a remote Docker Registry and the Docker Client is able to connect!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Upgrading from Grails 2.3.8 to 2.4.2</title>
+      <link>http://mpas.github.io/post/20140724_upgrade-grails-2.4.2/</link>
+      <pubDate>Fri, 04 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20140724_upgrade-grails-2.4.2/</guid>
+      <description>&lt;p&gt;When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;Error creating bean with name &amp;#39;grailsApplication&amp;#39; defined in ServletContext resource
+[/WEB-INF/applicationContext.xml]: Cannot resolve reference to
+bean &amp;#39;grailsResourceLoader&amp;#39; while setting bean property &amp;#39;grailsResourceLoader&amp;#39;;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To solve this issue you need to delete some lines in the &lt;code&gt;&amp;lt;grails-app&amp;gt;/web-app/WEB-INF/applicationContext.xml&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;Delete the following lines:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;&amp;lt;property&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;name=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;grailsResourceLoader&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;ref=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;grailsResourceLoader&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
+
+&lt;span style=&#34;color: #f92672&#34;&gt;&amp;lt;bean&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;id=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;grailsResourceLoader&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;class=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And you should be up and running quickly.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Skip a contenttype/section to be renderend</title>
+      <link>http://mpas.github.io/post/20140609_hugo-skip-certain-content-to-be-rendered/</link>
+      <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20140609_hugo-skip-certain-content-to-be-rendered/</guid>
+      <description>&lt;p&gt;When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.&lt;/p&gt;
+
+&lt;p&gt;Example:
+You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the following code in your template:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;{{&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;eq&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;Type&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;post&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;}}&lt;/span&gt;
+
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;{{&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;Title&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;}}&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;{{&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;Content&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;}}&lt;/span&gt;
+
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;{{&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;end&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;}}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bookreview : Instant Vert.x</title>
+      <link>http://mpas.github.io/post/20131127_bookreview-instant-vertx/</link>
+      <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20131127_bookreview-instant-vertx/</guid>
+      <description>&lt;p&gt;For those who have not yet got into contact with &lt;a href=&#34;http://vertx.io/&#34;&gt;Vert.x&lt;/a&gt;, the book &lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Instant Vert.x&lt;/a&gt; (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.&lt;/p&gt;
+
+&lt;p&gt;As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.&lt;/p&gt;
+
+&lt;p&gt;For those who have not yet had the opportunity to learn about Vert.x, I would not immediately recommend this book. The online documentation section on Vertx.io contains the same information. But if you like a book with information nicely put into digestible chapters then this book is a good fit.&lt;/p&gt;
+
+&lt;p&gt;Personally i hoped to get some more technical information and how-to information from this book but it is really targeted towards people that are just starting or have a beginning interest in Vert.x.&lt;/p&gt;
+
+&lt;p&gt;Overall, I really liked the compactness and pace of the book. It is an easy read and you quickly gain knowledge on the high level concepts of Vert.x. While noted earlier you can get the information also on Vertx.io website or other places, it&amp;rsquo;s is nice to have all information aggregated in one place. This book is a good start in your journey to learn about Vert.x.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://vertx.io/&#34;&gt;Go to the Vert.x website&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Get the book at Pack Publishing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Use backspace key to go back in Google Chrome</title>
+      <link>http://mpas.github.io/post/20130530_backspace-mint/</link>
+      <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20130530_backspace-mint/</guid>
+      <description>&lt;p&gt;When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&#34;&gt;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Automount NTFS volume under Linux (Mint)</title>
+      <link>http://mpas.github.io/post/20130528_automount-ntfs-mint/</link>
+      <pubDate>Tue, 28 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20130528_automount-ntfs-mint/</guid>
+      <description>&lt;p&gt;When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo pico /etc/fstab
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Add a line in the /etc/fstab file:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;# custom mount point
+/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And take the mount into effect.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ mount -a
+&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Using Grails to power your Electric Car</title>
+      <link>http://mpas.github.io/post/20130525_grails-to-power-your-electric-car/</link>
+      <pubDate>Sat, 25 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20130525_grails-to-power-your-electric-car/</guid>
+      <description>&lt;p&gt;Past week I really enjoyed visiting &amp;amp; speaking at the &lt;a href=&#34;http://gr8conf.org/&#34;&gt;Grails Conference (GR8Conf 2013)&lt;/a&gt;. The organisation made it possible that for me to host a talk about &amp;ldquo;Using Grails to power your Electric Car&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car&#34;&gt;Using Grails to power your Electric Car&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

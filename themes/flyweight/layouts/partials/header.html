@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Params.languagecode }}">
+<head>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>{{ .Site.Title }} - {{ .Title }}</title>
+  <meta name="description" content="{{ if ne .Description "" }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <meta name="author" content="{{ .Site.Params.author }}">
+
+  <meta name="generator" content="{{ .Hugo.Generator }}" />
+  <meta name="robots" content="index,follow">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="{{ .Site.BaseURL }}css/normalize.css">
+  <link rel="stylesheet" href="{{ .Site.BaseURL }}css/skeleton.css">
+  <link rel="stylesheet" href="{{ .Site.BaseURL }}css/custom.css">
+  <link rel="stylesheet" href="{{ .Site.BaseURL }}css/pygments.css">
+  <link rel="stylesheet" href="{{ .Site.BaseURL }}css/font-awesome.min.css">
+
+  <!-- Prism Syntax highlighting http://www.http://prismjs.com/
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <!-- <link rel="stylesheet" href="{{ .Site.BaseURL }}css/prism.css">
+  <script src="{{ .Site.BaseURL }}js/prism.js"></script> -->
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
