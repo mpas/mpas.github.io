@@ -1,0 +1,47 @@
+baseurl = "http://mpas.github.io"
+languageCode = "en-us"
+title = "CodeVerse"
+theme = "flyweight"
+paginate = 2
+
+PygmentsCodeFences = true
+PygmentsStyle = "monokai"
+PygmentsUseClasses = false
+
+[Taxonomies]
+    tag = "tags"
+
+[Params]
+    # language code for your website
+    languagecode = "en-US"
+
+    # name of the site author; used in header meta information
+    author = "Marco Pas"
+
+    # social links; used in footer, these must be full URLs!
+    twitter = "https://twitter.com/marcopas"
+    github = "https://github.com/mpas"
+    stackoverflow = "http://stackoverflow.com/users/185432/marco"
+    facebook = "https://www.facebook.com/marco.pasopas"
+    linkedin = "https://www.linkedin.com/in/marcopas"
+    flickr =  "https://www.flickr.com/photos/marcopas/"
+
+[[menu.main]]
+    name = "Blog"
+    url = "/"
+    weight = 1
+
+[[menu.main]]
+    name = "Post List"
+    url = "/post"
+    weight = 2
+
+[[menu.main]]
+    name = "About"
+    url = "/page/about/"
+    weight = 3
+    identifier = "/page/about/"
+
+[params.strings]
+    # used date format
+    date_format = '02.01.2006'

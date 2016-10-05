@@ -1,0 +1,21 @@
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="{{.Site.BaseURL}}">{{ .Site.Title }}</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        {{ $currentNode := . }}
+                        {{ range .Site.Menus.main }}
+                            <li {{if $currentNode.IsMenuCurrent "main" . }}class="current"{{ end }}><a href="{{ .URL }}">{{ .Name }} {{ .Weight }}</a></li>
+                        {{ end }}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

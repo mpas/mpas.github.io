@@ -1,0 +1,33 @@
+{{ partial "header.html" . }}
+{{ partial "navbar.html" . }}
+
+<div class="container">
+    <article class="post-list">
+        <div class="row">
+            <div class="twelve columns">
+                <div class="list-heading">
+                    <h1>Post List</h1>
+                </div>
+            </div>
+        </div>
+
+        {{ range .Data.Pages }}
+            <div class="row">
+                <div class="eight columns">
+                    <a href="{{.Permalink}}"><h6>{{ .Title }}</h6></a>
+                </div>
+                <div class="four columns">
+                    <div class="u-pull-right">
+                        {{ if .Site.Params.strings.date_format }}
+                            {{ .Date.Format .Site.Params.strings.date_format }}
+                        {{ else }}
+                            {{ .Date.Format "Mon, Jan 2, 2006" }}
+                        {{ end }}
+                        </div>
+                </div>
+            </div>
+        {{ end }}
+    </article>
+</div>
+
+{{ partial "footer.html" . }}

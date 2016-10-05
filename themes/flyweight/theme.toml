@@ -1,0 +1,13 @@
+name = "Flyweight"
+license = "MIT"
+licenselink = "http://sm.mit-license.org/"
+description = "A clean and simple single column theme for [hugo](http://hugo.spf13.com/)"
+homepage = "https://github.com/mpas"
+tags = ["blog", "category"]
+features = ["blog", "technical", "personal"]
+min_version = 0.15
+paginate=10
+
+[author]
+  name = "Marco Pas"
+  homepage = "https://github.com/mpas"
