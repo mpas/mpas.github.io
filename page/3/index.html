@@ -66,6 +66,53 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Troubles getting vsftpd user logged in?</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message:
+500 OOPS: vsftpd: refusing to run with writable root inside chroot()</p>
+
+<p>After some googling around i found the following fix..
+chmod the folder that the ftp user comes in to as he first login (root folder) by using in terminal:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>sudo chmod a-w /home/user
+</pre></div>
+
+<p>Create a subfolder within the folder, either by the use of GUI or if you only have terminal it&rsquo;s:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>sudo mkdir /home/user/newfolder
+</pre></div>
+
+<p>Now you should be able to log in and read write within the &ldquo;newfolder&rdquo;.</p>
+
+<p>You will <strong>NOT</strong> be able to write in the root folder itself from the ftp with the chmod a-w, so that is the reason for the subfolder, there you can.</p>
+
+<p><a href="http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update">http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update</a></p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Tue, Sep 18, 2012
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/ftps">ftps</a>, <a href="/tags/linux">linux</a>, <a href="/tags/ubuntu">ubuntu</a>, <a href="/tags/vsftpd">vsftpd</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Loading Grails configuration files update!</h1>
         </div>
     </div>
@@ -769,55 +816,6 @@ Notes</p>
 </article>
 
         
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Using MySQL instead of in-memory database for a Grails application</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.</p>
-
-<ul>
-<li>Download the MySQL JDBC driver [called a connector] from the MySQL website</li>
-<li>Extract the zip or tar archive</li>
-<li>Copy the driver (at this time of writing called <code>mysql-connector-java-5.1.13-bin.jar</code> into the <code>grails-app/lib</code> directory</li>
-<li>Configure your application datasource in file <code>grails-app/conf/DataSource.groovy</code><br /></li>
-</ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">development</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">dataSource</span> <span style="color: #f92672">{</span>
-       <span style="color: #f8f8f2">dbCreate</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;create-drop&quot;</span> <span style="color: #75715e">// one of &#39;create&#39;, &#39;create-drop&#39;,&#39;update&#39;</span>
-       <span style="color: #f8f8f2">url</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;jdbc:mysql://localhost:&lt;port&gt;/&lt;database&gt;&quot;</span>
-       <span style="color: #f8f8f2">driverClassName</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;com.mysql.jdbc.Driver&quot;</span>
-       <span style="color: #f8f8f2">port</span> <span style="color: #f92672">=</span>  <span style="color: #75715e">// default 3306</span>
-       <span style="color: #f8f8f2">username</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;&lt;username&gt;&quot;</span>
-       <span style="color: #f8f8f2">password</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;&lt;password&gt;&quot;</span>
-    <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    Wed, Sep 5, 2012
-                
-                <span class="post-meta-info-taxonomy">
-                    in categories:
-                        
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/mysql">mysql</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
         </div>
     </div>
 </div>
@@ -833,6 +831,10 @@ Notes</p>
                 <a class="button" href="/page/2">&larr; Newer Posts</a>
                 </li>
             
+            
+                <li>
+                <a class="button" href="/page/4">Older Posts &rarr;</a>
+                </li>
             
             </ul>
         
@@ -875,11 +877,16 @@ Notes</p>
                             <i class="fa fa-facebook"></i>
                         </a>
                     
+                    
+                        <a title="Facebook" href="mailto:marco.pasopas@gmail.com">
+                            <i class="fa fa-envelope-o"></i>
+                        </a>
+                    
             </div>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2015 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2016 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

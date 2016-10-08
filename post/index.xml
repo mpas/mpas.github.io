@@ -6,8 +6,33 @@
     <description>Recent content in Posts on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 19 Nov 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 09 Oct 2016 00:42:58 +0200</lastBuildDate>
     <atom:link href="http://mpas.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Terraform to the rescue</title>
+      <link>http://mpas.github.io/post/20161009_terraform_to_the_rescue/</link>
+      <pubDate>Sun, 09 Oct 2016 00:42:58 +0200</pubDate>
+      
+      <guid>http://mpas.github.io/post/20161009_terraform_to_the_rescue/</guid>
+      <description>&lt;p&gt;Getting exposed to &lt;a href=&#34;https://aws.amazon.com/&#34;&gt;Amazon Web Services&lt;/a&gt; is fun! Certainly when you see that the infrastructure is growing and supporting the daily need of developers and the business. You slowly start adding services and try to keep everything in a state so that it is repeatable and maintainable. At a certain moment it becomes clear that you need the concept of &lt;a href=&#34;https://en.wikipedia.org/wiki/Infrastructure_as_Code&#34;&gt;Infrastructure As Code&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The Amazon way of doing this is by using &lt;a href=&#34;https://aws.amazon.com/cloudformation/&#34;&gt;AWS CloudFormation&lt;/a&gt;. This enables you to define the infrastructure in a JSON/YAML format and apply the changes to the infrastructure.&lt;/p&gt;
+
+&lt;p&gt;Our team manages a bunch of environments using services like AWS ECS, EC2, ElasticSearch, RDS and more.. Maintaining this infrastructure in CloudFormation seemed the standard way of doing things until we started a proof-of-concept with &lt;a href=&#34;https://www.terraform.io/&#34;&gt;Terraform&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Why did we start this proof-of-concept??&lt;/strong&gt; Mainly because the overwhelming pieces of code that we needed to maintain in CloudFormation became unmaintainable. The use of Terraform was so successful that we decide to rewrite our entire infrastructure codebase using Terraform.&lt;/p&gt;
+
+&lt;p&gt;The advantages when using Terraform are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;less code to maintain because Terraform is less verbose&lt;/li&gt;
+&lt;li&gt;when using Terraform an infrastructure change can be planned, this shows what is going to be changed before actually executing the change&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Currently we have our entire Infrastructure in Terraform and we could never be more happier. Terraform came to our rescue!&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Functional Rest API Testing with Grails/Rest Client Builder</title>
@@ -797,24 +822,6 @@ You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the followin
       <description>&lt;p&gt;Past week I really enjoyed visiting &amp;amp; speaking at the &lt;a href=&#34;http://gr8conf.org/&#34;&gt;Grails Conference (GR8Conf 2013)&lt;/a&gt;. The organisation made it possible that for me to host a talk about &amp;ldquo;Using Grails to power your Electric Car&amp;rdquo;.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car&#34;&gt;Using Grails to power your Electric Car&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Google Chrome not synchronizing extensions</title>
-      <link>http://mpas.github.io/post/20130524_chrome-not-synchronizing-extensions/</link>
-      <pubDate>Fri, 24 May 2013 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/20130524_chrome-not-synchronizing-extensions/</guid>
-      <description>&lt;p&gt;When installing a fresh version of Chrome it may occur that all Bookmarks sync ok but the extensions not. The following solution worked for my system.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Open Google Chrome&lt;/li&gt;
-&lt;li&gt;Goto &amp;ldquo;Settings&amp;rdquo;&lt;/li&gt;
-&lt;li&gt;Open &amp;ldquo;Advanced Settings&amp;rdquo;&lt;/li&gt;
-&lt;li&gt;Check &amp;ldquo;Developer mode&amp;rdquo;&lt;/li&gt;
-&lt;li&gt;Press &amp;ldquo;Update extensions now&amp;rdquo;&lt;/li&gt;
-&lt;/ul&gt;
 </description>
     </item>
     

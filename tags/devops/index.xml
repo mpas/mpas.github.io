@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Devops on CodeVerse</title>
+    <link>http://mpas.github.io/tags/devops/</link>
+    <description>Recent content in Devops on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 09 Oct 2016 00:42:58 +0200</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/devops/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Terraform to the rescue</title>
+      <link>http://mpas.github.io/post/20161009_terraform_to_the_rescue/</link>
+      <pubDate>Sun, 09 Oct 2016 00:42:58 +0200</pubDate>
+      
+      <guid>http://mpas.github.io/post/20161009_terraform_to_the_rescue/</guid>
+      <description>&lt;p&gt;Getting exposed to &lt;a href=&#34;https://aws.amazon.com/&#34;&gt;Amazon Web Services&lt;/a&gt; is fun! Certainly when you see that the infrastructure is growing and supporting the daily need of developers and the business. You slowly start adding services and try to keep everything in a state so that it is repeatable and maintainable. At a certain moment it becomes clear that you need the concept of &lt;a href=&#34;https://en.wikipedia.org/wiki/Infrastructure_as_Code&#34;&gt;Infrastructure As Code&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The Amazon way of doing this is by using &lt;a href=&#34;https://aws.amazon.com/cloudformation/&#34;&gt;AWS CloudFormation&lt;/a&gt;. This enables you to define the infrastructure in a JSON/YAML format and apply the changes to the infrastructure.&lt;/p&gt;
+
+&lt;p&gt;Our team manages a bunch of environments using services like AWS ECS, EC2, ElasticSearch, RDS and more.. Maintaining this infrastructure in CloudFormation seemed the standard way of doing things until we started a proof-of-concept with &lt;a href=&#34;https://www.terraform.io/&#34;&gt;Terraform&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Why did we start this proof-of-concept??&lt;/strong&gt; Mainly because the overwhelming pieces of code that we needed to maintain in CloudFormation became unmaintainable. The use of Terraform was so successful that we decide to rewrite our entire infrastructure codebase using Terraform.&lt;/p&gt;
+
+&lt;p&gt;The advantages when using Terraform are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;less code to maintain because Terraform is less verbose&lt;/li&gt;
+&lt;li&gt;when using Terraform an infrastructure change can be planned, this shows what is going to be changed before actually executing the change&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Currently we have our entire Infrastructure in Terraform and we could never be more happier. Terraform came to our rescue!&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

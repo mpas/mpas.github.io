@@ -6,8 +6,33 @@
     <description>Recent content on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 19 Nov 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 09 Oct 2016 00:42:58 +0200</lastBuildDate>
     <atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Terraform to the rescue</title>
+      <link>http://mpas.github.io/post/20161009_terraform_to_the_rescue/</link>
+      <pubDate>Sun, 09 Oct 2016 00:42:58 +0200</pubDate>
+      
+      <guid>http://mpas.github.io/post/20161009_terraform_to_the_rescue/</guid>
+      <description>&lt;p&gt;Getting exposed to &lt;a href=&#34;https://aws.amazon.com/&#34;&gt;Amazon Web Services&lt;/a&gt; is fun! Certainly when you see that the infrastructure is growing and supporting the daily need of developers and the business. You slowly start adding services and try to keep everything in a state so that it is repeatable and maintainable. At a certain moment it becomes clear that you need the concept of &lt;a href=&#34;https://en.wikipedia.org/wiki/Infrastructure_as_Code&#34;&gt;Infrastructure As Code&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The Amazon way of doing this is by using &lt;a href=&#34;https://aws.amazon.com/cloudformation/&#34;&gt;AWS CloudFormation&lt;/a&gt;. This enables you to define the infrastructure in a JSON/YAML format and apply the changes to the infrastructure.&lt;/p&gt;
+
+&lt;p&gt;Our team manages a bunch of environments using services like AWS ECS, EC2, ElasticSearch, RDS and more.. Maintaining this infrastructure in CloudFormation seemed the standard way of doing things until we started a proof-of-concept with &lt;a href=&#34;https://www.terraform.io/&#34;&gt;Terraform&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Why did we start this proof-of-concept??&lt;/strong&gt; Mainly because the overwhelming pieces of code that we needed to maintain in CloudFormation became unmaintainable. The use of Terraform was so successful that we decide to rewrite our entire infrastructure codebase using Terraform.&lt;/p&gt;
+
+&lt;p&gt;The advantages when using Terraform are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;less code to maintain because Terraform is less verbose&lt;/li&gt;
+&lt;li&gt;when using Terraform an infrastructure change can be planned, this shows what is going to be changed before actually executing the change&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Currently we have our entire Infrastructure in Terraform and we could never be more happier. Terraform came to our rescue!&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Functional Rest API Testing with Grails/Rest Client Builder</title>
@@ -196,53 +221,49 @@ Total time: 2.054 secs
       <guid>http://mpas.github.io/page/about/</guid>
       <description>
 
-&lt;p&gt;A regular software geek and a hands on developer/system architect. Interested in all kinds of software related technologies (languages, architectures and methodologies). Strong believer in the fact that one should keep knowledge up-to-date, but also understand why you should choose a particular technology for a given problem. I’m focused on JVM related technologies, DevOps, Cloud Computing.&lt;/p&gt;
+&lt;p&gt;I am software geek and a hands on developer/system architect. Interested in all kinds of software related technologies (languages, architectures and methodologies). Strong believer in the fact that one should keep knowledge up-to-date, but also understand why you should choose a particular technology for a given problem. I’m focused on JVM related technologies, DevOps &amp;amp; Cloud Computing.&lt;/p&gt;
+
+&lt;p&gt;Keeping knowledge up-to-date if fundamental and that is why regular visits to conferences like
+&lt;a href=&#34;http://www.qconferences.com/&#34;&gt;QCon&lt;/a&gt;, &lt;a href=&#34;https://www.devoxx.com/&#34;&gt;Devoxx&lt;/a&gt;, &lt;a href=&#34;http://www.buildstuff.lt/&#34;&gt;BuildStuf&lt;/a&gt; and various &lt;a href=&#34;https://www.meetup.com/&#34;&gt;Meetup communities&lt;/a&gt; are part of my working habbit. Supporting the developer community by organizing the yearly &lt;a href=&#34;http://www.nextbuild.nl&#34;&gt;NextBuild Conference&lt;/a&gt; for Developers and by Developers.&lt;/p&gt;
 
 &lt;p&gt;Born in 1973, living nearby Breda (Netherlands), father of 3 children. Hobbies include cooking, movies/series and enjoying life.&lt;/p&gt;
 
-&lt;p&gt;Where can you find me:&lt;/p&gt;
+&lt;p style=&#34;text-align: center;&#34;&gt;
+&lt;a href=&#34;http://stackoverflow.com/users/185432/marco&#34;&gt;
+&lt;img src=&#34;http://stackoverflow.com/users/flair/185432.png&#34; width=&#34;208&#34; height=&#34;58&#34; alt=&#34;profile for Marco at Stack Overflow, Q&amp;amp;A for professional and enthusiast programmers&#34; title=&#34;profile for Marco at Stack Overflow, Q&amp;amp;A for professional and enthusiast programmers&#34;&gt;
+&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://www.linkedin.com/in/marcopas&#34;&gt;LinkedIn&lt;/a&gt; ~ &lt;a href=&#34;https://twitter.com/marcopas&#34;&gt;Twitter&lt;/a&gt; ~ &lt;a href=&#34;https://www.flickr.com/photos/marcopas/&#34;&gt;Flickr&lt;/a&gt; ~ &lt;a href=&#34;http://stackoverflow.com/users/185432/marco&#34;&gt;StackOverflow&lt;/a&gt; ~  &lt;a href=&#34;https://www.facebook.com/marco.pasopas&#34;&gt;FaceBook&lt;/a&gt; ~ &lt;a href=&#34;https://github.com/mpas&#34;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;center&gt;
+Below are some place where you can find some more information about me:&lt;/p&gt;
 
-&lt;hr /&gt;
-
-&lt;h3 id=&#34;experience&#34;&gt;Experience&lt;/h3&gt;
-
-&lt;hr /&gt;
-
-&lt;h3 id=&#34;technology&#34;&gt;Technology&lt;/h3&gt;
-
-&lt;p&gt;&lt;u&gt;&lt;strong&gt;Languages&lt;/strong&gt;&lt;/u&gt;&lt;/p&gt;
-
-&lt;p&gt;Java, Groovy, Python, HTML, CSS&lt;/p&gt;
-
-&lt;p&gt;&lt;u&gt;&lt;strong&gt;Frameworks&lt;/strong&gt;&lt;/u&gt;&lt;/p&gt;
-
-&lt;p&gt;Grails, SpringBoot, BootStrap, Skeleton,&lt;/p&gt;
-
-&lt;p&gt;&lt;u&gt;&lt;strong&gt;DevOps&lt;/strong&gt;&lt;/u&gt;&lt;/p&gt;
-
-&lt;p&gt;Jenkins, CloudFormation, Terraform&lt;/p&gt;
-
-&lt;h3 id=&#34;architect-developer-software-engineer-doing-fun-things&#34;&gt;Architect/Developer/Software Engineer/Doing fun things&lt;/h3&gt;
-
-&lt;p&gt;Currently i am&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.linkedin.com/in/marcopas&#34;&gt;LinkedIn&lt;/a&gt; ~ &lt;a href=&#34;https://twitter.com/marcopas&#34;&gt;Twitter&lt;/a&gt; ~ &lt;a href=&#34;https://www.flickr.com/photos/marcopas/&#34;&gt;Flickr&lt;/a&gt; ~ &lt;a href=&#34;http://stackoverflow.com/users/185432/marco&#34;&gt;StackOverflow&lt;/a&gt; ~  &lt;a href=&#34;https://www.facebook.com/marco.pasopas&#34;&gt;FaceBook&lt;/a&gt; ~ &lt;a href=&#34;https://github.com/mpas&#34;&gt;GitHub&lt;/a&gt;
+&lt;/center&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;h3 id=&#34;professional-career&#34;&gt;Professional career&lt;/h3&gt;
+&lt;h1 id=&#34;technical-experience&#34;&gt;Technical Experience&lt;/h1&gt;
+
+&lt;p&gt;During various projects for clients I had the opportunity to get acquainted
+with a variety of technologies and methodologies such as :&lt;/p&gt;
+
+&lt;p&gt;DevOps, Continous Deployment/Delivery, Java, Groovy, Grails, Spock, SpringBoot,
+REST, Amazon Web Services, MicroServices, Eureka, Spring, RabbitMQ, Amazon Webservices, Jenkins, Test Driven Development, Neo4J, MongoDB, JSON, Apache Tomcat, SonarQube, JMeter, IntelliJ, Nexus, Gradle, Maven, GIT, PostgreSQL, MySQL, Terraform, CloudFormation, Twitter BootStrap, Skeleton CSS, JavaScript, DevOps and lots more..&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;h4 id=&#34;2013-present-philips-research&#34;&gt;2013 - present : Philips Research&lt;/h4&gt;
+&lt;h1 id=&#34;work-experience&#34;&gt;Work Experience&lt;/h1&gt;
 
-&lt;h4 id=&#34;2008-2013-ihomer&#34;&gt;2008 - 2013: IHomer&lt;/h4&gt;
+&lt;h2 id=&#34;2013-present-philips-research&#34;&gt;2013 - present : Philips Research&lt;/h2&gt;
 
-&lt;h4 id=&#34;1997-2008-cmg-logicacmg-logica&#34;&gt;1997 - 2008: CMG / LogicaCMG / Logica&lt;/h4&gt;
+&lt;h2 id=&#34;2008-2013-ihomer&#34;&gt;2008 - 2013: IHomer&lt;/h2&gt;
 
-&lt;h4 id=&#34;1995-1997-jan-de-rijk-logistics&#34;&gt;1995 - 1997: Jan de Rijk Logistics&lt;/h4&gt;
+&lt;h2 id=&#34;1997-2008-cmg-logicacmg-logica&#34;&gt;1997 - 2008: CMG / LogicaCMG / Logica&lt;/h2&gt;
+
+&lt;h2 id=&#34;1995-1997-jan-de-rijk-logistics&#34;&gt;1995 - 1997: Jan de Rijk Logistics&lt;/h2&gt;
 
 &lt;hr /&gt;
+
+&lt;h1 id=&#34;education&#34;&gt;Education&lt;/h1&gt;
 </description>
     </item>
     
@@ -843,18 +864,6 @@ You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the followin
 &lt;p&gt;And take the mount into effect.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ mount -a
 &lt;/pre&gt;&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Using Grails to power your Electric Car</title>
-      <link>http://mpas.github.io/post/20130525_grails-to-power-your-electric-car/</link>
-      <pubDate>Sat, 25 May 2013 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/20130525_grails-to-power-your-electric-car/</guid>
-      <description>&lt;p&gt;Past week I really enjoyed visiting &amp;amp; speaking at the &lt;a href=&#34;http://gr8conf.org/&#34;&gt;Grails Conference (GR8Conf 2013)&lt;/a&gt;. The organisation made it possible that for me to host a talk about &amp;ldquo;Using Grails to power your Electric Car&amp;rdquo;.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car&#34;&gt;Using Grails to power your Electric Car&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     

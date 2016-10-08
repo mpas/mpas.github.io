@@ -66,6 +66,47 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Skip a contenttype/section to be renderend</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.</p>
+
+<p>Example:
+You want to only render contenttype &lsquo;post&rsquo;  use the following code in your template:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">{{</span> <span style="color: #66d9ef">if</span> <span style="color: #a6e22e">eq</span> <span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Type</span> <span style="color: #e6db74">&quot;post&quot;</span> <span style="color: #f8f8f2">}}</span>
+
+    <span style="color: #f8f8f2">{{</span> <span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Title</span> <span style="color: #f8f8f2">}}</span>
+    <span style="color: #f8f8f2">{{</span> <span style="color: #f8f8f2">.</span><span style="color: #a6e22e">Content</span> <span style="color: #f8f8f2">}}</span>
+
+<span style="color: #f8f8f2">{{</span> <span style="color: #a6e22e">end</span> <span style="color: #f8f8f2">}}</span>
+</pre></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Mon, Jun 9, 2014
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/hugo">hugo</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Bookreview : Instant Vert.x</h1>
         </div>
     </div>
@@ -468,53 +509,6 @@ To see who has locked the database (normally the local machine):</p>
 </article>
 
         
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Troubles getting vsftpd user logged in?</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message:
-500 OOPS: vsftpd: refusing to run with writable root inside chroot()</p>
-
-<p>After some googling around i found the following fix..
-chmod the folder that the ftp user comes in to as he first login (root folder) by using in terminal:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>sudo chmod a-w /home/user
-</pre></div>
-
-<p>Create a subfolder within the folder, either by the use of GUI or if you only have terminal it&rsquo;s:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>sudo mkdir /home/user/newfolder
-</pre></div>
-
-<p>Now you should be able to log in and read write within the &ldquo;newfolder&rdquo;.</p>
-
-<p>You will <strong>NOT</strong> be able to write in the root folder itself from the ftp with the chmod a-w, so that is the reason for the subfolder, there you can.</p>
-
-<p><a href="http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update">http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update</a></p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    Tue, Sep 18, 2012
-                
-                <span class="post-meta-info-taxonomy">
-                    in categories:
-                        
-                    using tags:
-                        <a href="/tags/ftps">ftps</a>, <a href="/tags/linux">linux</a>, <a href="/tags/ubuntu">ubuntu</a>, <a href="/tags/vsftpd">vsftpd</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
         </div>
     </div>
 </div>
@@ -576,11 +570,16 @@ chmod the folder that the ftp user comes in to as he first login (root folder) b
                             <i class="fa fa-facebook"></i>
                         </a>
                     
+                    
+                        <a title="Facebook" href="mailto:marco.pasopas@gmail.com">
+                            <i class="fa fa-envelope-o"></i>
+                        </a>
+                    
             </div>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2015 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2016 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>
