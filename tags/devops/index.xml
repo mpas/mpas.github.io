@@ -29,6 +29,12 @@
 &lt;li&gt;less code to maintain because Terraform is less verbose&lt;/li&gt;
 &lt;li&gt;when using Terraform an infrastructure change can be planned, this shows what is going to be changed before actually executing the change&lt;/li&gt;
 &lt;/ul&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ terraform plan
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;See what the changes are and then when everything seems ok&amp;hellip;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ terraform apply
+&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Currently we have our entire Infrastructure in Terraform and we could never be more happier. Terraform came to our rescue!&lt;/p&gt;
 </description>
