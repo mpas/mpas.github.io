@@ -189,21 +189,20 @@ Total time: 2.054 secs
     </item>
     
     <item>
-      <title>About</title>
+      <title>About Me</title>
       <link>http://mpas.github.io/page/about/</link>
       <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/page/about/</guid>
       <description>
 
-&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/marco-pas-profile-picture.jpg&#34; width=&#34;150&#34; style=&#34;margin: 0px 15px 0px 0px; float:left;&#34;&gt;
-&lt;p&gt;
-Hi there, let me please introduce myself. My name is Marco Pas and live in the surroundings of Breda (Netherlands). To be more specific you can find me in a small place called &lt;a href=&#34;https://www.google.nl/maps/place/4891+Rijsbergen/@51.5138148,4.6080621,12z/data=!3m1!4b1!4m2!3m1!1s0x47c41e71ba78dad5:0x999721ff9144c8d2&#34;&gt;Rijsbergen&lt;/a&gt;. I am proud father of 3 beautifull children, married, love to travel and watch movies. So nothing special :)&lt;/p&gt;
+&lt;p&gt;A regular software geek and a hands on developer/system architect. Interested in all kinds of software related technologies (languages, architectures and methodologies). Strong believer in the fact that one should keep knowledge up-to-date, but also understand why you should choose a particular technology for a given problem. I’m focused on JVM related technologies, DevOps, Cloud Computing.&lt;/p&gt;
+
+&lt;p&gt;Born in 1973, living nearby Breda (Netherlands), father of 3 children. Hobbies include cooking, movies/series and enjoying life.&lt;/p&gt;
 
 &lt;p&gt;Where can you find me:&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://www.linkedin.com/in/marcopas&#34;&gt;LinkedIn&lt;/a&gt; ~ &lt;a href=&#34;https://twitter.com/marcopas&#34;&gt;Twitter&lt;/a&gt; ~ &lt;a href=&#34;https://www.flickr.com/photos/marcopas/&#34;&gt;Flickr&lt;/a&gt; ~ &lt;a href=&#34;https://delicious.com/marcopas&#34;&gt;Delicious&lt;/a&gt; ~ &lt;a href=&#34;https://www.facebook.com/marco.pasopas&#34;&gt;FaceBook&lt;/a&gt; ~ &lt;a href=&#34;https://github.com/mpas&#34;&gt;GitHub&lt;/a&gt;
-&lt;/p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.linkedin.com/in/marcopas&#34;&gt;LinkedIn&lt;/a&gt; ~ &lt;a href=&#34;https://twitter.com/marcopas&#34;&gt;Twitter&lt;/a&gt; ~ &lt;a href=&#34;https://www.flickr.com/photos/marcopas/&#34;&gt;Flickr&lt;/a&gt; ~ &lt;a href=&#34;http://stackoverflow.com/users/185432/marco&#34;&gt;StackOverflow&lt;/a&gt; ~  &lt;a href=&#34;https://www.facebook.com/marco.pasopas&#34;&gt;FaceBook&lt;/a&gt; ~ &lt;a href=&#34;https://github.com/mpas&#34;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -211,7 +210,19 @@ Hi there, let me please introduce myself. My name is Marco Pas and live in the s
 
 &lt;hr /&gt;
 
-&lt;p&gt;Technology&lt;/p&gt;
+&lt;h3 id=&#34;technology&#34;&gt;Technology&lt;/h3&gt;
+
+&lt;p&gt;&lt;u&gt;&lt;strong&gt;Languages&lt;/strong&gt;&lt;/u&gt;&lt;/p&gt;
+
+&lt;p&gt;Java, Groovy, Python, HTML, CSS&lt;/p&gt;
+
+&lt;p&gt;&lt;u&gt;&lt;strong&gt;Frameworks&lt;/strong&gt;&lt;/u&gt;&lt;/p&gt;
+
+&lt;p&gt;Grails, SpringBoot, BootStrap, Skeleton,&lt;/p&gt;
+
+&lt;p&gt;&lt;u&gt;&lt;strong&gt;DevOps&lt;/strong&gt;&lt;/u&gt;&lt;/p&gt;
+
+&lt;p&gt;Jenkins, CloudFormation, Terraform&lt;/p&gt;
 
 &lt;h3 id=&#34;architect-developer-software-engineer-doing-fun-things&#34;&gt;Architect/Developer/Software Engineer/Doing fun things&lt;/h3&gt;
 
