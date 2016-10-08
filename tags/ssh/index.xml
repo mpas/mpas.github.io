@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ssh on CodeVerse</title>
+    <link>http://mpas.github.io/tags/ssh/</link>
+    <description>Recent content in Ssh on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 10 Sep 2012 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Funcional Code Coverage using Cobertura</title>
+      <link>http://mpas.github.io/post/20120910_functional-code-coverage-using-cobertura/</link>
+      <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20120910_functional-code-coverage-using-cobertura/</guid>
+      <description>
+
+&lt;p&gt;So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.&lt;/p&gt;
+
+&lt;p&gt;One can start to complain :), stop working on the project or even better master the concept of &lt;a href=&#34;http://se-radio.net/podcast/2009-11/episode-148-software-archaeology-dave-thomas&#34;&gt;Software Archeology&lt;/a&gt;. An additional thing is to adopt the use of &lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; a code coverage tool which can easily be used to track down Functional Code Coverage. Normally the concept of Code Coverage is used to identify what code is executed during development and test phase. This to give an indication on how much code you cover with your testing strategy (often unit testing). This is &lt;strong&gt;IMHO&lt;/strong&gt; something you will always want to know! But in the case you do not have unit tests or creating them is impossible due to the technical/organisational nature of the project, you can rely on creating functional tests and still track down the &amp;lsquo;functional&amp;rsquo; coverage with tools like &lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; (or alternatives like &lt;a href=&#34;http://emma.sourceforge.net/&#34;&gt;Emma&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;This tackles several problems:&lt;/strong&gt;&lt;br /&gt;
+You are creating functional tests which can be used for regression testing
+You are creating awareness on how little is tested or is known about the system
+Note: By functional testing we mean that we are going to test via the Web layer of the JEE project To see an example on how the reporting looks like, check out this &lt;a href=&#34;http://cobertura.sourceforge.net/sample/&#34;&gt;sample&lt;/a&gt; report!&lt;/p&gt;
+
+&lt;h4 id=&#34;how-to-get-code-coverage-information&#34;&gt;How to get Code Coverage information&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;General process:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Compile your software&lt;/li&gt;
+&lt;li&gt;Instrument the compiled code&lt;/li&gt;
+&lt;li&gt;Deploy your instrumented code and start the application&lt;/li&gt;
+&lt;li&gt;Use the application or run automated functional tests&lt;/li&gt;
+&lt;li&gt;Shutdown the application&lt;/li&gt;
+&lt;li&gt;Generate your Code Coverage reports&lt;/li&gt;
+&lt;li&gt;no step 7! All done :)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The remaining part of this article is going to describe how you can get Functional Code Coverage information in the process of continously building, deploying and testing your software. Some elements are not explained due to the fact that other extensive information is given somewhere else on the web!&lt;/p&gt;
+
+&lt;h4 id=&#34;compile-instrument-and-build&#34;&gt;Compile, Instrument and Build&lt;/h4&gt;
+
+&lt;p&gt;The &lt;a href=&#34;http://maven.apache.org/&#34;&gt;Maven&lt;/a&gt; project enables you to build your software with great ease. Giving a few simple commands makes it able to build a project, deploy it and even integrate it with tools and technologies such as  Cobertura. There is a even a &lt;a href=&#34;http://mojo.codehaus.org/cobertura-maven-plugin/&#34;&gt;Cobertura Maven&lt;/a&gt; Plugin to easily use &lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; in a &lt;a href=&#34;http://maven.apache.org/&#34;&gt;Maven&lt;/a&gt; build. We need to use Cobertura in the build phase because it will instrument the compiled code and generate a small file called &amp;lsquo;cobertura.ser&amp;rsquo; which is used as a kind of database that stores each call to a piece of code. The instrumented code and the database file are crucial because they contains all information needed to generate code coverage reports later on.&lt;/p&gt;
+
+&lt;h4 id=&#34;run-and-test&#34;&gt;Run and Test&lt;/h4&gt;
+
+&lt;p&gt;After the code is succesfully instrumented you may deploy the build artifacts together with the &amp;lsquo;cobertura.ser&amp;rsquo; file inside a JBoss JEE container and run your application.&lt;/p&gt;
+
+&lt;p&gt;Note: In our project we used &lt;a href=&#34;http://www.jboss.org/&#34;&gt;JBoss&lt;/a&gt; but offcourse you can use other application servers!&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; project delivers an excellent tooling and technology which enables you to record your functional flow and lets you replay a scenario which was recorded earlier on. For more information on &lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; recording and usage, please check the &lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; project. But for now lets assume you have created a couple of functional tests, so you can execute them.&lt;/p&gt;
+
+&lt;h4 id=&#34;generate-coverage-reports&#34;&gt;Generate coverage reports&lt;/h4&gt;
+
+&lt;p&gt;After the functional tests have been executed, the modified database file &amp;lsquo;cobertura.ser&amp;rsquo; can be collected and reports can be generated. Cobertura has some nice predefined reporting templates. After these stepes you should have inisight on what code is actually executed during a functional flow and this may contribute to your understanding of the application.&lt;/p&gt;
+
+&lt;h4 id=&#34;not-once-but-do-it-always&#34;&gt;Not once but do it always!&lt;/h4&gt;
+
+&lt;p&gt;The process of compiling, instrumenting, deploying, testing and reporting can be fully automatized. The famous Hudson comes to the rescue! When corectly implemented Hudson will serve you all information that you need on the moments you need it!&lt;/p&gt;
+
+&lt;h4 id=&#34;tools-technologies&#34;&gt;Tools &amp;amp; Technologies&lt;/h4&gt;
+
+&lt;p&gt;The folowing list provides information on the tools that are used:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://maven.apache.org/&#34;&gt;Maven&lt;/a&gt; -&amp;gt; used info for compiling and instrumenting your code (alternative to &lt;a href=&#34;http://ant.apache.org/&#34;&gt;Ant&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; -&amp;gt; used to get Code Coverage information&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.jboss.org/&#34;&gt;JBoss&lt;/a&gt; -&amp;gt; used for running a JEE project&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; -&amp;gt; used to record and playback functional tests&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt; -&amp;gt; used to automatically build &amp;amp; test your software&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Distributed Deployment with Hudson &amp; SSH</title>
+      <link>http://mpas.github.io/post/20120909_distributed-deployment-with-hudson-and-ssh/</link>
+      <pubDate>Sun, 09 Sep 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/post/20120909_distributed-deployment-with-hudson-and-ssh/</guid>
+      <description>
+
+&lt;p&gt;Have you already implemented an multi-server artifact deployment using a &lt;a href=&#34;http://en.wikipedia.org/wiki/Continuous_integration&#34;&gt;Continuous Integration&lt;/a&gt; Engine? If not, then read ahead and maybe this article is of help.&lt;/p&gt;
+
+&lt;h4 id=&#34;the-need-for-continuous-integration&#34;&gt;The need for Continuous Integration&lt;/h4&gt;
+
+&lt;p&gt;A good practice in a software development methodology and lifecycle is the use of a &lt;a href=&#34;http://en.wikipedia.org/wiki/Continuous_integration&#34;&gt;Continuous Integration&lt;/a&gt; Engine. The adoption of &lt;a href=&#34;http://en.wikipedia.org/wiki/Continuous_integration&#34;&gt;Continuous Integration&lt;/a&gt; improves you software quality by quickly reporting failed builds so you can modify/correct your code. Popular Continuous Integration Engines can often be extended with software quality tooling so you can report on specific quality aspect of your software.&lt;/p&gt;
+
+&lt;p&gt;Thus informing developers and even other people who take an interest in the status of the latest build. &lt;strong&gt;IMHO&lt;/strong&gt; a failed build can also be identified as code that compiles but that does not meet the quality standards set by your organization. You are off-course totally free in defining what in your opinion a failed build actually means!&lt;/p&gt;
+
+&lt;p&gt;A good build compiles, quality requirements have been met and automatic functional and unit testing has been successful.&lt;/p&gt;
+
+&lt;p&gt;There a few popular &lt;a href=&#34;http://en.wikipedia.org/wiki/Continuous_integration&#34;&gt;Continuous Integration&lt;/a&gt; Engines available:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson Extensible Continuous Integration Server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://cruisecontrol.sourceforge.net/&#34;&gt;CruiseControl&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.atlassian.com/software/bamboo/&#34;&gt;Bamboo&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Probably there a some more, but for me needs the [Hudson Extensible Continuous Integration Server] works perfect.&lt;/p&gt;
+
+&lt;h4 id=&#34;my-needs&#34;&gt;My needs&lt;/h4&gt;
+
+&lt;p&gt;My Continuous Integration Engine:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Must support multiple programming languages Java/.Net/Ruby&lt;/li&gt;
+&lt;li&gt;Runs on multiple operating systems (Windows/Mac/Linux)&lt;/li&gt;
+&lt;li&gt;Pluggable in the sense that there must be integration with for example JUnit, JMeter, Cobertura, Checkstyle etc.&lt;/li&gt;
+&lt;li&gt;Must be able to send out notifications using email, twitter, Instant Messaging&lt;/li&gt;
+&lt;li&gt;Seemless integration with CVS/SubVersion and GIT&lt;/li&gt;
+&lt;li&gt;Simple and easy Configuration&lt;/li&gt;
+&lt;li&gt;Must support timed builds &amp;amp; trigger builds from &lt;a href=&#34;http://en.wikipedia.org/wiki/Revision_control&#34;&gt;SCM&lt;/a&gt; commits&lt;/li&gt;
+&lt;li&gt;Maintain a link between modified code and&lt;/li&gt;
+&lt;li&gt;and some more..&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;All of these requirements and more have been succesfully fulfilled by using &lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;hudson-and-automatic-deployment&#34;&gt;Hudson and automatic deployment&lt;/h4&gt;
+
+&lt;p&gt;In every project a recurring problem arises, artifacts of a software build have to be distributed accross different servers and environments. How are the build artifacts going to be distributed and deployed? Why not let the &lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt; server give a helping hand!!&lt;/p&gt;
+
+&lt;h4 id=&#34;deployment-scenario&#34;&gt;Deployment Scenario&lt;/h4&gt;
+
+&lt;p&gt;In the following scenario we will be distributing build artifacts from a central Hudson server to three different &lt;a href=&#34;http://www.jboss.org/&#34;&gt;JBoss&lt;/a&gt; application servers al running Windows 2003 Server as Operating System. Next to the &lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt; server we have a &lt;a href=&#34;http://subversion.tigris.org/&#34;&gt;Subversion&lt;/a&gt; system which is used for &lt;a href=&#34;http://en.wikipedia.org/wiki/Revision_control&#34;&gt;SCM&lt;/a&gt; purposes.&lt;/p&gt;
+
+&lt;h4 id=&#34;distribution-of-build-artifacts&#34;&gt;Distribution of build artifacts&lt;/h4&gt;
+
+&lt;p&gt;After a succesfull build, the artifacts have to be distributed to remote machines. Offcourse the latest code has been checked out from the SVN repository, compiled and tested. The distribution of the artifacts can be done in various ways. One can use Ftp, shared folders, SCM checkin etc..&lt;/p&gt;
+
+&lt;p&gt;For me the most easiest way to distribute build artifacts is using &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;Secure Shell access aka SSH&lt;/a&gt;. This is a secure and a standardized manner for distribution. Lets assume we have the build artifacts somewhere on our &lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt; server, we need a way of transfering them using &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;SSH&lt;/a&gt; to a remote machine.&lt;/p&gt;
+
+&lt;p&gt;To accomplish this we need SSH access to the remote machine. With the help off &lt;a href=&#34;http://www.itefix.no/i2/node/27&#34;&gt;CopSSH&lt;/a&gt; installing SSH is a breeze!&lt;/p&gt;
+
+&lt;h4 id=&#34;prepare-for-installation-of-ssh&#34;&gt;Prepare for installation of SSH&lt;/h4&gt;
+
+&lt;p&gt;Prepare yourself by downloading:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.itefix.no/i2/node/27&#34;&gt;CopSSH&lt;/a&gt; – &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;SSH&lt;/a&gt; service for Windows&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html&#34;&gt;Putty&lt;/a&gt; – &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;SSH&lt;/a&gt; client (used for connection to the SSH service)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html&#34;&gt;PSCP&lt;/a&gt; – &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;SSH&lt;/a&gt; client for file transfer&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html&#34;&gt;Plink&lt;/a&gt; – &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;SSH&lt;/a&gt; client for executing remote commands&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;installing-and-enable-remote-access-using-ssh&#34;&gt;Installing and enable remote access using SSH&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Install &lt;a href=&#34;http://www.itefix.no/i2/node/27&#34;&gt;CopSSH&lt;/a&gt; on the remote system&lt;/li&gt;
+&lt;li&gt;On the remote system enable a user for &lt;a href=&#34;http://en.wikipedia.org/wiki/Secure_Shell&#34;&gt;SSH&lt;/a&gt; access, see the installation guide of CopSSH&lt;/li&gt;
+&lt;li&gt;Start &lt;a href=&#34;http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html&#34;&gt;Putty&lt;/a&gt; on your local machine&lt;/li&gt;
+&lt;li&gt;Using Putty connect to the remote system and exchange security credentials&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You are now officially ready to remotely access the system using SSH
+If you want to enable the Hudson server to access the remote system, start Putty on the Hudson server and repeat step 4!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Make sure that your Hudson uses the same credentials then the account in which you exchange security credentials, otherwise remote access from Hudson server to the remote system will not work!&lt;/p&gt;
+
+&lt;h4 id=&#34;execute-remote-commands-and-exchange-files-using-ssh&#34;&gt;Execute remote commands and Exchange files using SSH&lt;/h4&gt;
+
+&lt;p&gt;If you can succesfully access the remote server using Putty, it is time to exchange files or execute remote commands. This can be done by using 2 small commandline utilities called PSCP for file transfer and Plink for executing remote commands such as remotely deleting files etc.&lt;/p&gt;
+
+&lt;p&gt;Make sure these are in you PATH settings so you can execute them everywhere!&lt;/p&gt;
+
+&lt;p&gt;Examples for executing a remote command (substitute the %parameters% with your own ones)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;#create a directory
+plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  mkdir C:/tmp
+
+#delete a directory
+plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  rm -rf C:/tmp
+
+#stop a windows service
+plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  net stop %SERVICENAME%
+
+#upload a file
+pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
+
+#upload multiple files
+pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4 id=&#34;the-return-of-the-bat-file&#34;&gt;The return of the .bat file&lt;/h4&gt;
+
+&lt;p&gt;So far we have enabled remote access using SSH / CopSSH, executed remote commands and transferred files. All the needed ingredients are in place to enable our Hudson server to remotely deploy build artifacts. In the job configuration of Hudson you can trigger a batch file after a succesfull build, so whenever a succesfull build occurs trigger a batch that executes a few commands to quickly deploy build artifacts to any number of remote servers.&lt;/p&gt;
+
+&lt;p&gt;In our case all deployment artifacts are copied to a central directory per project. So if we need to deploy a build, we can copy parts or the whole directory contents to a remote server.&lt;/p&gt;
+
+&lt;p&gt;To give an example see the following batch files: Main example for a batchfile that triggers stopping of the remote Windows Services gives the instruction on which files need to be remotely deployed and start the services again.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;-&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt; filename = upload-project-to-development.bat
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;CLS&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;ECHO&lt;/span&gt; OFF
+&lt;span style=&#34;color: #66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;USERNAME=%1&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;PASSWORD=%2&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;HOSTNAME=%3&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;JBOSSDIR=%4&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;SOURCEDIR=%5&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;ECHO&lt;/span&gt; : - start upload procedure
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;ECHO&lt;/span&gt; : -- stopping servers
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;plink -batch -pw &lt;span style=&#34;color: #f8f8f2&#34;&gt;%PASSWORD%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%USERNAME%&lt;/span&gt;@&lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; net stop JBoss
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;ECHO&lt;/span&gt; : -- uploading files CALL upload-files.bat &lt;span style=&#34;color: #f8f8f2&#34;&gt;%USERNAME%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%PASSWORD%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%JBOSSDIR%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%SOURCEDIR%&lt;/span&gt;\*.*
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;ECHO&lt;/span&gt; : -- starting servers
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;plink -batch -pw &lt;span style=&#34;color: #f8f8f2&#34;&gt;%PASSWORD%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%USERNAME%&lt;/span&gt;@&lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; net start JBoss
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;ECHO&lt;/span&gt; : - finished upload procedure
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The above script can be called easily by the Hudson server after a succesfull deployment.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;example:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;upload-project-to-development scott tiger 10.0.0.100 d:/java/server/jboss-v5.0 d:/build_artifacts/projectx
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;The example above:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Stops the JBoss server on the 10.0.0.100 host&lt;/li&gt;
+&lt;li&gt;Passes some parameters to a file called “upload-files.bat” script&lt;/li&gt;
+&lt;li&gt;Starts the JBoss servers again&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The script that executes the actual maintenance and uploads is the “upload-files.bat file”. All parameters are passed in by the calling script.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;-&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;gt;&lt;/span&gt; filename = upload-files.bat
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;ECHO&lt;/span&gt; OFF
+&lt;span style=&#34;color: #66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;USERNAME=%1&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;PASSWORD=%2&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;HOSTNAME=%3&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;JBOSSDIR=%4&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;SOURCE=%5&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;SET&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;DESTINATION=%JBOSSDIR%&lt;/span&gt;/deploy
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;ECHO&lt;/span&gt;  : - &lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; - starting file copy
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;ECHO&lt;/span&gt;  : -- &lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; - deleting JBOSS tmp
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;plink -batch -pw &lt;span style=&#34;color: #f8f8f2&#34;&gt;%PASSWORD%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%USERNAME%&lt;/span&gt;@&lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; rm -rf &lt;span style=&#34;color: #f8f8f2&#34;&gt;%JBOSSDIR%&lt;/span&gt;/tmp
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;plink -batch -pw &lt;span style=&#34;color: #f8f8f2&#34;&gt;%PASSWORD%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%USERNAME%&lt;/span&gt;@&lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; mkdir &lt;span style=&#34;color: #f8f8f2&#34;&gt;%JBOSSDIR%&lt;/span&gt;/tmp
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;ECHO&lt;/span&gt;  : -- &lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; - deleting JBOSS work
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;plink -batch -pw &lt;span style=&#34;color: #f8f8f2&#34;&gt;%PASSWORD%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%USERNAME%&lt;/span&gt;@&lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; rm -rf &lt;span style=&#34;color: #f8f8f2&#34;&gt;%JBOSSDIR%&lt;/span&gt;/work
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;plink -batch -pw &lt;span style=&#34;color: #f8f8f2&#34;&gt;%PASSWORD%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%USERNAME%&lt;/span&gt;@&lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; mkdir &lt;span style=&#34;color: #f8f8f2&#34;&gt;%JBOSSDIR%&lt;/span&gt;/work
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;ECHO&lt;/span&gt;  : -- &lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; - deleting previous ears + jars
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;plink -batch  -pw &lt;span style=&#34;color: #f8f8f2&#34;&gt;%PASSWORD%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%USERNAME%&lt;/span&gt;@&lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; rm &lt;span style=&#34;color: #f8f8f2&#34;&gt;%JBOSSDIR%&lt;/span&gt;/deploy/*.ear
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;plink -batch  -pw &lt;span style=&#34;color: #f8f8f2&#34;&gt;%PASSWORD%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%USERNAME%&lt;/span&gt;@&lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; rm &lt;span style=&#34;color: #f8f8f2&#34;&gt;%JBOSSDIR%&lt;/span&gt;/deploy/*.jar
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;ECHO&lt;/span&gt;  : -- &lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; - copy remote files
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;pscp -pw &lt;span style=&#34;color: #f8f8f2&#34;&gt;%PASSWORD%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%SOURCE%&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;%USERNAME%&lt;/span&gt;@&lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt;:&lt;span style=&#34;color: #f8f8f2&#34;&gt;%DESTINATION%&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;ECHO&lt;/span&gt;  : - &lt;span style=&#34;color: #f8f8f2&#34;&gt;%HOSTNAME%&lt;/span&gt; - finishing file copy
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;The example above:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Removes the JBoss tmp &amp;amp; work directory&lt;/li&gt;
+&lt;li&gt;Removes artifacts from previous builds&lt;/li&gt;
+&lt;li&gt;Copies the artifacts to the remote JBoss deploy directory&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;steps-taken&#34;&gt;Steps taken&lt;/h4&gt;
+
+&lt;p&gt;So the list of tasks executed by calling the batch files with the correct parameters are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Stopping the remote JBoss server&lt;/li&gt;
+&lt;li&gt;Removing the remote JBoss tmp &amp;amp; work directories&lt;/li&gt;
+&lt;li&gt;Removing the remote JBoss artifacts from previous deployments&lt;/li&gt;
+&lt;li&gt;Copy files to the remote JBoss server&lt;/li&gt;
+&lt;li&gt;Starting the JBoss server again&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;from-build-to-deployment&#34;&gt;From build to deployment&lt;/h4&gt;
+
+&lt;p&gt;So with a quick installation of SSH/Putty/Plink/PSCP we now have a modular and easy way of distributing files to remote systems. Offcourse there are lots of improvements to make, but for now it works without any problems!&lt;/p&gt;
+
+&lt;p&gt;The given examples can be easily modified so that after a succesfull build the artifact deployment to all of your servers can be done in a very simple and easy way.
+Notes&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
