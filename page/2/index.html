@@ -66,27 +66,25 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Cleaning Grails Domain Objects in a Spock Test</h1>
+            <h1 class="post-title">Bookreview : Instant Vert.x</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            <p>Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.</p>
+            <p>For those who have not yet got into contact with <a href="http://vertx.io/">Vert.x</a>, the book <a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Instant Vert.x</a> (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.</p>
 
-<p>Spock provides a <code>setup()</code> and <code>cleanup()</code> method.</p>
+<p>As the name suggests, you can read the book in &ldquo;an instant&rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.</p>
 
-<p>When you want to remove your domain objects after each feature test has run you can execute the following:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">def</span> <span style="color: #a6e22e">setup</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span> <span style="color: #f92672">...</span> <span style="color: #f92672">}</span>
+<p>For those who have not yet had the opportunity to learn about Vert.x, I would not immediately recommend this book. The online documentation section on Vertx.io contains the same information. But if you like a book with information nicely put into digestible chapters then this book is a good fit.</p>
 
-<span style="color: #66d9ef">def</span> <span style="color: #a6e22e">cleanup</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
-        <span style="color: #75715e">// make sure to clear out the database on after test</span>
-        <span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">YourDomainObject</span><span style="color: #f92672">&gt;.</span><span style="color: #a6e22e">withNewSession</span> <span style="color: #f92672">{</span>
-            <span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">YourDomainObject</span><span style="color: #f92672">&gt;.</span><span style="color: #a6e22e">findAll</span><span style="color: #f92672">().</span><span style="color: #a6e22e">each</span> <span style="color: #f92672">{</span> <span style="color: #f8f8f2">it</span><span style="color: #f92672">.</span><span style="color: #a6e22e">delete</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">flush:</span> <span style="color: #66d9ef">true</span><span style="color: #f92672">)</span> <span style="color: #f92672">}</span>
-        <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
-</pre></div>
+<p>Personally i hoped to get some more technical information and how-to information from this book but it is really targeted towards people that are just starting or have a beginning interest in Vert.x.</p>
 
-<p>We need the <code>.withNewSession</code> because there is no Hibernate session provided in the <code>setup()</code> and <code>cleanup()</code> methods.</p>
+<p>Overall, I really liked the compactness and pace of the book. It is an easy read and you quickly gain knowledge on the high level concepts of Vert.x. While noted earlier you can get the information also on Vertx.io website or other places, it&rsquo;s is nice to have all information aggregated in one place. This book is a good start in your journey to learn about Vert.x.</p>
+
+<ul>
+<li><a href="http://vertx.io/">Go to the Vert.x website</a></li>
+<li><a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Get the book at Pack Publishing</a></li>
+</ul>
 
         </div>
     </div>
@@ -95,13 +93,13 @@
             <div class="post-meta-info">
                 Published on
                 
-                    Fri, Oct 30, 2015
+                    Wed, Nov 27, 2013
                 
                 <span class="post-meta-info-taxonomy">
                     in categories:
                         
                     using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>
+                        <a href="/tags/vertx">vertx</a>, <a href="/tags/java">java</a>, <a href="/tags/review">review</a>
                 </span>
             </div>
         </div>
@@ -112,112 +110,16 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Adding WebSocket/Stomp support to a Spring Boot application</h1>
+            <h1 class="post-title">Use backspace key to go back in Google Chrome</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            <p>Adding support for <a href="https://en.wikipedia.org/wiki/WebSocket">WebSockets</a> / <a href="https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol">Stomp</a> in a <a href="http://projects.spring.io/spring-boot/">Spring Boot</a> application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.</p>
-
-<p>The following example will enable a server to send messages to a WebSocket/Stomp client.</p>
+            <p>When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:</p>
 
 <ul>
-<li>Modify <code>build.gradle</code></li>
+<li><a href="https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en">https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en</a></li>
 </ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">dependencies</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">compile</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;org.springframework.boot:spring-boot-starter-web&quot;</span><span style="color: #f92672">)</span>
-    <span style="color: #f8f8f2">compile</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;org.springframework.boot:spring-boot-starter-websocket&quot;</span><span style="color: #f92672">)</span>
-    <span style="color: #f8f8f2">compile</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;org.springframework:spring-messaging&quot;</span><span style="color: #f92672">)</span>
-    <span style="color: #f8f8f2">testCompile</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;junit:junit&quot;</span><span style="color: #f92672">)</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
-<ul>
-<li>Create a WebSocket configuration class that holds the configuration</li>
-</ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #a6e22e">@Configuration</span>
-<span style="color: #a6e22e">@EnableWebSocketMessageBroker</span>
-<span style="color: #66d9ef">public</span> <span style="color: #66d9ef">class</span> <span style="color: #a6e22e">WebSocketConfig</span> <span style="color: #66d9ef">extends</span> <span style="color: #f8f8f2">AbstractWebSocketMessageBrokerConfigurer</span> <span style="color: #f92672">{</span>
-
-    <span style="color: #a6e22e">@Override</span>
-    <span style="color: #66d9ef">public</span> <span style="color: #66d9ef">void</span> <span style="color: #a6e22e">registerStompEndpoints</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">StompEndpointRegistry</span> <span style="color: #f8f8f2">registry</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-        <span style="color: #75715e">// the endpoint for websocket connections</span>
-        <span style="color: #f8f8f2">registry</span><span style="color: #f92672">.</span><span style="color: #a6e22e">addEndpoint</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;/stomp&quot;</span><span style="color: #f92672">).</span><span style="color: #a6e22e">withSockJS</span><span style="color: #f92672">();</span>
-    <span style="color: #f92672">}</span>
-
-    <span style="color: #a6e22e">@Override</span>
-    <span style="color: #66d9ef">public</span> <span style="color: #66d9ef">void</span> <span style="color: #a6e22e">configureMessageBroker</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">MessageBrokerRegistry</span> <span style="color: #f8f8f2">config</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-        <span style="color: #75715e">// use the /topic prefix for outgoing WebSocket communication</span>
-        <span style="color: #f8f8f2">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">enableSimpleBroker</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;/topic&quot;</span><span style="color: #f92672">);</span>
-
-        <span style="color: #75715e">// use the /app prefix for others</span>
-        <span style="color: #f8f8f2">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">setApplicationDestinationPrefixes</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;/app&quot;</span><span style="color: #f92672">);</span>
-    <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
-<p>Now a client that connects to <code>/stomp</code> endpoint is able to receive WebSocket messages.</p>
-
-<ul>
-<li>Create a service that is going to send the data to a WebSocket endpoint</li>
-</ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #a6e22e">@Service</span>
-<span style="color: #66d9ef">public</span> <span style="color: #66d9ef">class</span> <span style="color: #a6e22e">ScheduleTask</span> <span style="color: #f92672">{</span>
-
-    <span style="color: #a6e22e">@Autowired</span>
-    <span style="color: #66d9ef">private</span> <span style="color: #f8f8f2">SimpMessagingTemplate</span> <span style="color: #f8f8f2">template</span><span style="color: #f92672">;</span>
-
-    <span style="color: #75715e">// this will send a message to an endpoint on which a client can subscribe</span>
-    <span style="color: #a6e22e">@Scheduled</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">fixedRate</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">5000</span><span style="color: #f92672">)</span>
-    <span style="color: #66d9ef">public</span> <span style="color: #66d9ef">void</span> <span style="color: #a6e22e">trigger</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
-        <span style="color: #75715e">// sends the message to /topic/message</span>
-        <span style="color: #66d9ef">this</span><span style="color: #f92672">.</span><span style="color: #a6e22e">template</span><span style="color: #f92672">.</span><span style="color: #a6e22e">convertAndSend</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;/topic/message&quot;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;Date: &quot;</span> <span style="color: #f92672">+</span> <span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">Date</span><span style="color: #f92672">());</span>
-    <span style="color: #f92672">}</span>
-
-<span style="color: #f92672">}</span>
-</pre></div>
-
-<ul>
-<li>Create a client that is able to receive the message</li>
-</ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #75715e">&lt;!DOCTYPE html&gt;</span>
-<span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">html</span><span style="color: #f8f8f2">&gt;</span>
-<span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">head</span><span style="color: #f8f8f2">&gt;</span>
-    <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">title</span><span style="color: #f8f8f2">&gt;</span>WebSocket Stomp Receiving Example<span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">title</span><span style="color: #f8f8f2">&gt;</span>
-<span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">head</span><span style="color: #f8f8f2">&gt;</span>
-<span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">body</span><span style="color: #f8f8f2">&gt;</span>
-    <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">div</span><span style="color: #f8f8f2">&gt;</span>
-        <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">h3</span><span style="color: #f8f8f2">&gt;</span>Messages:<span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">h3</span><span style="color: #f8f8f2">&gt;</span>
-        <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">ol</span> <span style="color: #a6e22e">id</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;messages&quot;</span><span style="color: #f8f8f2">&gt;&lt;/</span><span style="color: #f92672">ol</span><span style="color: #f8f8f2">&gt;</span>
-    <span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">div</span><span style="color: #f8f8f2">&gt;</span>
-
-    <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">script</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;text/javascript&quot;</span> <span style="color: #a6e22e">src</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;//cdn.jsdelivr.net/jquery/1.11.2/jquery.min.js&quot;</span><span style="color: #f8f8f2">&gt;&lt;/</span><span style="color: #f92672">script</span><span style="color: #f8f8f2">&gt;</span>
-    <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">script</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;text/javascript&quot;</span> <span style="color: #a6e22e">src</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js&quot;</span><span style="color: #f8f8f2">&gt;&lt;/</span><span style="color: #f92672">script</span><span style="color: #f8f8f2">&gt;</span>
-    <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">script</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;text/javascript&quot;</span> <span style="color: #a6e22e">src</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js&quot;</span><span style="color: #f8f8f2">&gt;&lt;/</span><span style="color: #f92672">script</span><span style="color: #f8f8f2">&gt;</span>
-
-    <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">script</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;text/javascript&quot;</span><span style="color: #f8f8f2">&gt;</span>
-        <span style="color: #a6e22e">$</span><span style="color: #f8f8f2">(document).</span><span style="color: #a6e22e">ready</span><span style="color: #f8f8f2">(</span><span style="color: #66d9ef">function</span><span style="color: #f8f8f2">()</span> <span style="color: #f8f8f2">{</span>
-            <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">messageList</span> <span style="color: #f92672">=</span> <span style="color: #a6e22e">$</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;#messages&quot;</span><span style="color: #f8f8f2">);</span>
-
-            <span style="color: #75715e">// defined a connection to a new socket endpoint</span>
-            <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">socket</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">new</span> <span style="color: #a6e22e">SockJS</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;/stomp&#39;</span><span style="color: #f8f8f2">);</span>
-
-            <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">stompClient</span> <span style="color: #f92672">=</span> <span style="color: #a6e22e">Stomp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">over</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">socket</span><span style="color: #f8f8f2">);</span>
-
-            <span style="color: #a6e22e">stompClient</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">connect</span><span style="color: #f8f8f2">({</span> <span style="color: #f8f8f2">},</span> <span style="color: #66d9ef">function</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">frame</span><span style="color: #f8f8f2">)</span> <span style="color: #f8f8f2">{</span>
-                <span style="color: #75715e">// subscribe to the /topic/message endpoint</span>
-                <span style="color: #a6e22e">stompClient</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">subscribe</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;/topic/message&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #66d9ef">function</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">data</span><span style="color: #f8f8f2">)</span> <span style="color: #f8f8f2">{</span>
-                    <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">message</span> <span style="color: #f92672">=</span> <span style="color: #a6e22e">data</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">body</span><span style="color: #f8f8f2">;</span>
-                    <span style="color: #a6e22e">messageList</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">append</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;&lt;li&gt;&quot;</span> <span style="color: #f92672">+</span> <span style="color: #a6e22e">message</span> <span style="color: #f92672">+</span> <span style="color: #e6db74">&quot;&lt;/li&gt;&quot;</span><span style="color: #f8f8f2">);</span>
-                <span style="color: #f8f8f2">});</span>
-            <span style="color: #f8f8f2">});</span>
-        <span style="color: #f8f8f2">});</span>
-    <span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">script</span><span style="color: #f8f8f2">&gt;</span>
-<span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">body</span><span style="color: #f8f8f2">&gt;</span>
-<span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">html</span><span style="color: #f8f8f2">&gt;</span>
-</pre></div>
-
-<p>The whole example project  can be downloaded <a href="https://github.com/mpas/spring-boot-websocket-stomp-server-send-example">https://github.com/mpas/spring-boot-websocket-stomp-server-send-example</a></p>
 
         </div>
     </div>
@@ -226,13 +128,386 @@
             <div class="post-meta-info">
                 Published on
                 
-                    Tue, Jun 16, 2015
+                    Thu, May 30, 2013
                 
                 <span class="post-meta-info-taxonomy">
                     in categories:
                         
                     using tags:
-                        <a href="/tags/spring-boot">spring-boot</a>, <a href="/tags/websocket">websocket</a>
+                        <a href="/tags/linux">linux</a>, <a href="/tags/mint">mint</a>, <a href="/tags/chrome">chrome</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Automount NTFS volume under Linux (Mint)</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ sudo pico /etc/fstab
+</pre></div>
+
+<p>Add a line in the /etc/fstab file:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span># custom mount point
+/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
+</pre></div>
+
+<p>And take the mount into effect.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ mount -a
+</pre></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Tue, May 28, 2013
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/linux">linux</a>, <a href="/tags/mint">mint</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Using Grails to power your Electric Car</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Past week I really enjoyed visiting &amp; speaking at the <a href="http://gr8conf.org/">Grails Conference (GR8Conf 2013)</a>. The organisation made it possible that for me to host a talk about &ldquo;Using Grails to power your Electric Car&rdquo;.</p>
+
+<p><a href="http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car">Using Grails to power your Electric Car</a></p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Sat, May 25, 2013
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/gr8conf">gr8conf</a>, <a href="/tags/grails">grails</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Google Chrome not synchronizing extensions</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When installing a fresh version of Chrome it may occur that all Bookmarks sync ok but the extensions not. The following solution worked for my system.</p>
+
+<ul>
+<li>Open Google Chrome</li>
+<li>Goto &ldquo;Settings&rdquo;</li>
+<li>Open &ldquo;Advanced Settings&rdquo;</li>
+<li>Check &ldquo;Developer mode&rdquo;</li>
+<li>Press &ldquo;Update extensions now&rdquo;</li>
+</ul>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Fri, May 24, 2013
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/chrome">chrome</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Simple Helloworld verticle</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Sourcecode:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">package</span> <span style="color: #f8f8f2">helloworld</span><span style="color: #f92672">;</span>
+
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">org.vertx.java.core.Handler</span><span style="color: #f92672">;</span>
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">org.vertx.java.core.http.HttpServerRequest</span><span style="color: #f92672">;</span>
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">org.vertx.java.deploy.Verticle</span><span style="color: #f92672">;</span>
+
+<span style="color: #66d9ef">public</span> <span style="color: #66d9ef">class</span> <span style="color: #a6e22e">Server</span> <span style="color: #66d9ef">extends</span> <span style="color: #f8f8f2">Verticle</span> <span style="color: #f92672">{</span>
+
+    <span style="color: #66d9ef">public</span> <span style="color: #66d9ef">void</span> <span style="color: #a6e22e">start</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
+        <span style="color: #f8f8f2">vertx</span><span style="color: #f92672">.</span><span style="color: #a6e22e">createHttpServer</span><span style="color: #f92672">().</span><span style="color: #a6e22e">requestHandler</span><span style="color: #f92672">(</span><span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">Handler</span><span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">HttpServerRequest</span><span style="color: #f92672">&gt;()</span> <span style="color: #f92672">{</span>
+            <span style="color: #66d9ef">public</span> <span style="color: #66d9ef">void</span> <span style="color: #a6e22e">handle</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">HttpServerRequest</span> <span style="color: #f8f8f2">req</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
+            <span style="color: #f8f8f2">req</span><span style="color: #f92672">.</span><span style="color: #a6e22e">response</span><span style="color: #f92672">.</span><span style="color: #a6e22e">headers</span><span style="color: #f92672">().</span><span style="color: #a6e22e">put</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Content-Type&quot;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;text/html; charset-UTF-8&quot;</span><span style="color: #f92672">);</span>
+            <span style="color: #f8f8f2">req</span><span style="color: #f92672">.</span><span style="color: #a6e22e">response</span><span style="color: #f92672">.</span><span style="color: #a6e22e">end</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span><span style="color: #f92672">);</span>
+            <span style="color: #f92672">}</span>
+        <span style="color: #f92672">}).</span><span style="color: #a6e22e">listen</span><span style="color: #f92672">(</span><span style="color: #ae81ff">8080</span><span style="color: #f92672">);</span>
+    <span style="color: #f92672">}</span>
+
+<span style="color: #f92672">}</span>
+</pre></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Thu, May 16, 2013
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/java">java</a>, <a href="/tags/vertx">vertx</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Grails migrations and &#39;Waiting for changelog lock&#39;</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>...
+Waiting for changelog lock....
+Waiting for changelog lock....
+Waiting for changelog lock....
+...
+</pre></div>
+
+<p>To solve this take the following steps:</p>
+
+<ul>
+<li>Stop the application container (example: Tomcat)</li>
+<li>In the database look for a table called <code>DATABASECHANGELOGLOCK</code></li>
+<li>In the table there is a record with id=1, change the following values:</li>
+</ul>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>locked -&gt; 0
+lockgranted -&gt; null
+lockedby -&gt; null
+</pre></div>
+
+<ul>
+<li>After updating this record start the application container</li>
+</ul>
+
+<p><strong>Notes:</strong><br />
+To see who has locked the database (normally the local machine):</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">select</span> <span style="color: #f92672">*</span> <span style="color: #66d9ef">from</span> <span style="color: #f8f8f2">DATABASECHANGELOGLOCK;</span>
+<span style="color: #66d9ef">To</span> <span style="color: #66d9ef">update</span> <span style="color: #f8f8f2">the</span> <span style="color: #f8f8f2">record</span>
+<span style="color: #66d9ef">update</span> <span style="color: #f8f8f2">DATABASECHANGELOGLOCK</span>
+<span style="color: #66d9ef">set</span> <span style="color: #f8f8f2">locked</span><span style="color: #f92672">=</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">lockgranted</span><span style="color: #f92672">=</span><span style="color: #66d9ef">null</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">lockedby</span><span style="color: #f92672">=</span><span style="color: #66d9ef">null</span>
+<span style="color: #66d9ef">where</span> <span style="color: #f8f8f2">id</span><span style="color: #f92672">=</span><span style="color: #ae81ff">1</span>
+</pre></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Thu, Feb 28, 2013
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/migrations">migrations</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Testing constraints with Build Test Data</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>The <a href="http://grails.org/plugin/spock">Spock</a> &amp; <a href="http://grails.org/plugin/build-test-data">Build Test Data</a> plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!</p>
+
+<p>When testing constraints on an object it can be used as follows:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">class</span> <span style="color: #a6e22e">Foo</span> <span style="color: #f92672">{</span>
+    <span style="color: #f8f8f2">String</span> <span style="color: #f8f8f2">name</span>   <span style="color: #75715e">// name of foo</span>
+    <span style="color: #f8f8f2">Integer</span> <span style="color: #f8f8f2">age</span>   <span style="color: #75715e">// age of foo</span>
+
+    <span style="color: #66d9ef">static</span> <span style="color: #f8f8f2">constraints</span> <span style="color: #f92672">=</span> <span style="color: #f92672">{</span>
+        <span style="color: #f8f8f2">name</span> <span style="color: #f8f8f2">nullable:</span> <span style="color: #66d9ef">false</span><span style="color: #f92672">,</span> <span style="color: #f8f8f2">blank:</span> <span style="color: #66d9ef">false</span> <span style="color: #75715e">// name may never be nullable or blank</span>
+        <span style="color: #f8f8f2">age</span> <span style="color: #f8f8f2">nullable:</span> <span style="color: #66d9ef">true</span>
+    <span style="color: #f92672">}</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+<p>And the Spock test</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #a6e22e">@Build</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">Foo</span><span style="color: #f92672">)</span>
+<span style="color: #a6e22e">@TestFor</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">Foo</span><span style="color: #f92672">)</span>
+<span style="color: #66d9ef">class</span> <span style="color: #a6e22e">FooSpec</span> <span style="color: #66d9ef">extends</span> <span style="color: #f8f8f2">Specification</span> <span style="color: #f92672">{</span>
+
+    <span style="color: #66d9ef">def</span> <span style="color: #e6db74">&quot;Name of Foo must exist&quot;</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
+        <span style="color: #f8f8f2">given:</span> <span style="color: #e6db74">&quot;setting up the constraints&quot;</span>
+        <span style="color: #f8f8f2">mockForConstraintsTests</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">Foo</span><span style="color: #f92672">)</span>
+
+        <span style="color: #f8f8f2">when:</span> <span style="color: #e6db74">&quot;creating a Foo&quot;</span>
+        <span style="color: #f8f8f2">Foo</span> <span style="color: #f8f8f2">foo</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Foo</span><span style="color: #f92672">.</span><span style="color: #a6e22e">buildWithoutSave</span><span style="color: #f92672">()</span>
+
+        <span style="color: #f8f8f2">then:</span> <span style="color: #e6db74">&quot;validation should trigger&quot;</span>
+        <span style="color: #f8f8f2">assertFalse</span> <span style="color: #f8f8f2">foo</span><span style="color: #f92672">.</span><span style="color: #a6e22e">validate</span><span style="color: #f92672">()</span>
+
+        <span style="color: #f8f8f2">and:</span> <span style="color: #e6db74">&quot;validation error should be on the value field&quot;</span>
+        <span style="color: #66d9ef">assert</span> <span style="color: #f8f8f2">foo</span><span style="color: #f92672">.</span><span style="color: #a6e22e">errors</span><span style="color: #f92672">.</span><span style="color: #a6e22e">allErrors</span><span style="color: #f92672">.</span><span style="color: #a6e22e">first</span><span style="color: #f92672">().</span><span style="color: #a6e22e">field</span> <span style="color: #f92672">==</span> <span style="color: #e6db74">&quot;name&quot;</span>
+    <span style="color: #f92672">}</span>
+
+<span style="color: #f92672">}</span>
+</pre></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Sun, Jan 13, 2013
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/build">build</a>, <a href="/tags/testdata">testdata</a>, <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>, <a href="/tags/test">test</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Getting the Enum from a String value</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">Enum</span><span style="color: #f92672">.</span><span style="color: #a6e22e">valueOf</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">YourClassName</span><span style="color: #f92672">.</span><span style="color: #a6e22e">class</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;String Value&quot;</span><span style="color: #f92672">)</span>
+</pre></div>
+
+<p><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html">http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html</a></p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Thu, Jan 3, 2013
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/enum">enum</a>, <a href="/tags/java">java</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Troubles getting vsftpd user logged in?</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message:
+500 OOPS: vsftpd: refusing to run with writable root inside chroot()</p>
+
+<p>After some googling around i found the following fix..
+chmod the folder that the ftp user comes in to as he first login (root folder) by using in terminal:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>sudo chmod a-w /home/user
+</pre></div>
+
+<p>Create a subfolder within the folder, either by the use of GUI or if you only have terminal it&rsquo;s:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>sudo mkdir /home/user/newfolder
+</pre></div>
+
+<p>Now you should be able to log in and read write within the &ldquo;newfolder&rdquo;.</p>
+
+<p>You will <strong>NOT</strong> be able to write in the root folder itself from the ftp with the chmod a-w, so that is the reason for the subfolder, there you can.</p>
+
+<p><a href="http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update">http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update</a></p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Tue, Sep 18, 2012
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/ftps">ftps</a>, <a href="/tags/linux">linux</a>, <a href="/tags/ubuntu">ubuntu</a>, <a href="/tags/vsftpd">vsftpd</a>
                 </span>
             </div>
         </div>

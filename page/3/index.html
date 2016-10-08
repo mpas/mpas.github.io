@@ -66,17 +66,77 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Run a Grails 3 generated Fat Jar file in production mode</h1>
+            <h1 class="post-title">Loading Grails configuration files update!</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            <p>When creating a Grails WAR/JAR file using:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails war
-</pre></div>
+            <p>We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.</p>
 
-<p>The resulting artifact can be run in production mode using:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ java -Dgrails.env<span style="color: #f92672">=</span>prod -Dserver.port<span style="color: #f92672">=</span><span style="color: #ae81ff">9000</span> -jar &lt;name-of-jar-file&gt;.jar
+<ul>
+<li>You cannot deal with all Grails Mail settings in the configuration file</li>
+<li>You cannot use the log4j DSL to extract the logging configuration outside your application</li>
+<li>etc..</li>
+</ul>
+
+<p>In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this <a href="http://www.baselogic.com/blog/development/java-javaee-j2ee/getting-grails-external-configuration-working-in-the-real-world/">blogpost</a> which was the start for our implementation of loading the external configuration files.</p>
+
+<p>We modified some small things and added a way of loading a configuration file that is resident in the root of a Grails project. So when developing with IntelliJ for example the config file is at your fingertips in the root of the application project structure. We must also note that we are very happy with the fact that the Grails community was more then helpfull in helping us out here!</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #75715e">// -------------------------------------------------------------------------------- //</span>
+<span style="color: #75715e">// - START: CONFIGURATION FILE LOADING -------------------------------------------- //</span>
+<span style="color: #75715e">// -------------------------------------------------------------------------------- //</span>
+<span style="color: #75715e">// locations to search for config files that get merged into the main config</span>
+<span style="color: #75715e">// config files can either be Java properties files or ConfigSlurper scripts</span>
+<span style="color: #66d9ef">def</span> <span style="color: #f8f8f2">ENV_NAME</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;${appName}.config.location&quot;</span>
+<span style="color: #66d9ef">if</span><span style="color: #f92672">(!</span><span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">||</span> <span style="color: #f92672">!(</span><span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #66d9ef">instanceof</span> <span style="color: #f8f8f2">List</span><span style="color: #f92672">))</span> <span style="color: #f92672">{</span>
+    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">=</span> <span style="color: #f92672">[]</span>
+<span style="color: #f92672">}</span>
+<span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;--------------------------------------------------------------------------------&quot;</span>
+<span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;- Loading configuration file                                                   -&quot;</span>
+<span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;--------------------------------------------------------------------------------&quot;</span>
+<span style="color: #75715e">// 1: check for environment variable that has been set! This variable must point to the</span>
+<span style="color: #75715e">// configuration file that must be used. Can be a .groovy or .properties file!</span>
+<span style="color: #66d9ef">if</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getenv</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)</span> <span style="color: #f92672">&amp;&amp;</span> <span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getenv</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)).</span><span style="color: #a6e22e">exists</span><span style="color: #f92672">())</span> <span style="color: #f92672">{</span>
+    <span style="color: #f8f8f2">println</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Including System Environment configuration file: &quot;</span> <span style="color: #f92672">+</span> <span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getenv</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">))</span>
+    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">&lt;&lt;</span> <span style="color: #e6db74">&quot;file:&quot;</span> <span style="color: #f92672">+</span> <span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getenv</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)</span>
+
+<span style="color: #75715e">// 2: check for commandline properties!</span>
+<span style="color: #75715e">// Use it like (examples):</span>
+<span style="color: #75715e">//      grails -D[name of app].config.location=/tmp/[name of config file].groovy run-app</span>
+<span style="color: #75715e">// or</span>
+<span style="color: #75715e">//      grails -D[name of app].config.location=/tmp/[name of config file].properties run-app</span>
+<span style="color: #75715e">//</span>
+<span style="color: #f92672">}</span> <span style="color: #66d9ef">else</span> <span style="color: #66d9ef">if</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getProperty</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)</span> <span style="color: #f92672">&amp;&amp;</span> <span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getProperty</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)).</span><span style="color: #a6e22e">exists</span><span style="color: #f92672">())</span> <span style="color: #f92672">{</span>
+    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;Including configuration file specified on command line: &quot;</span> <span style="color: #f92672">+</span> <span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getProperty</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)</span>
+    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">&lt;&lt;</span> <span style="color: #e6db74">&quot;file:&quot;</span> <span style="color: #f92672">+</span> <span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getProperty</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)</span>
+
+<span style="color: #75715e">// 3: check on local project config file in the project root directory</span>
+<span style="color: #f92672">}</span> <span style="color: #66d9ef">else</span> <span style="color: #66d9ef">if</span> <span style="color: #f92672">(</span><span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;./${appName}-config.groovy&quot;</span><span style="color: #f92672">).</span><span style="color: #a6e22e">exists</span><span style="color: #f92672">())</span> <span style="color: #f92672">{</span>
+    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;*** User defined config: file:./${appName}-config.groovy ***&quot;</span>
+    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">=</span> <span style="color: #f92672">[</span><span style="color: #e6db74">&quot;file:./${appName}-config.groovy&quot;</span><span style="color: #f92672">]</span>
+<span style="color: #f92672">}</span> <span style="color: #66d9ef">else</span> <span style="color: #66d9ef">if</span> <span style="color: #f92672">(</span><span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;./${appName}-config.properties&quot;</span><span style="color: #f92672">).</span><span style="color: #a6e22e">exists</span><span style="color: #f92672">())</span> <span style="color: #f92672">{</span>
+    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;*** User defined config: file:./${appName}-config.properties ***&quot;</span>
+    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">=</span> <span style="color: #f92672">[</span><span style="color: #e6db74">&quot;file:./${appName}-config.groovy&quot;</span><span style="color: #f92672">]</span>
+
+<span style="color: #75715e">// 4: check on local project config file in ${userHome}/.grails/...</span>
+<span style="color: #f92672">}</span> <span style="color: #66d9ef">else</span> <span style="color: #66d9ef">if</span> <span style="color: #f92672">(</span><span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;${userHome}/.grails/${appName}-config.groovy&quot;</span><span style="color: #f92672">).</span><span style="color: #a6e22e">exists</span><span style="color: #f92672">())</span> <span style="color: #f92672">{</span>
+    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;*** User defined config: file:${userHome}/.grails/${appName}-config.groovy ***&quot;</span>
+    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">=</span> <span style="color: #f92672">[</span><span style="color: #e6db74">&quot;file:${userHome}/.grails/${appName}-config.groovy&quot;</span><span style="color: #f92672">]</span>
+<span style="color: #f92672">}</span> <span style="color: #66d9ef">else</span> <span style="color: #66d9ef">if</span> <span style="color: #f92672">(</span><span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;${userHome}/.grails/${appName}-config.properties&quot;</span><span style="color: #f92672">).</span><span style="color: #a6e22e">exists</span><span style="color: #f92672">())</span> <span style="color: #f92672">{</span>
+    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;*** User defined config: file:${userHome}/.grails/${appName}-config.properties ***&quot;</span>
+    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">=</span> <span style="color: #f92672">[</span><span style="color: #e6db74">&quot;file:${userHome}/.grails/${appName}-config.properties&quot;</span><span style="color: #f92672">]</span>
+
+<span style="color: #75715e">// 5: we have problem!!</span>
+<span style="color: #f92672">}</span> <span style="color: #66d9ef">else</span> <span style="color: #f92672">{</span>
+    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;********************************************************************************&quot;</span>
+    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;* No external configuration file defined                                       *&quot;</span>
+    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;********************************************************************************&quot;</span>
+<span style="color: #f92672">}</span>
+<span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;(*) grails.config.locations = ${grails.config.locations}&quot;</span>
+<span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;--------------------------------------------------------------------------------&quot;</span>
+<span style="color: #75715e">// -------------------------------------------------------------------------------- //</span>
+<span style="color: #75715e">// - END: CONFIGURATION FILE LOADING ---------------------------------------------- //</span>
+<span style="color: #75715e">// -------------------------------------------------------------------------------- //</span>
 </pre></div>
 
         </div>
@@ -86,7 +146,306 @@
             <div class="post-meta-info">
                 Published on
                 
-                    Thu, Jun 11, 2015
+                    Mon, Sep 17, 2012
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/configuration">configuration</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Loading external Configuration files in a Grails application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>The use of &lsquo;Config.groovy&rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &lsquo;Config.groovy&rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.</p>
+
+<p>A simple mechanism to load these property files is to place a short snippet of code in the &lsquo;Config.groovy&rsquo; that will load a specific configuration file from the filesystem, depending on the availability.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">=</span> <span style="color: #f92672">[</span><span style="color: #e6db74">&quot;classpath:application-config.properties&quot;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;file:./application-config.properties&quot;</span><span style="color: #f92672">]</span>
+</pre></div>
+
+<p>This snippet will first try to load the property file from the classpath and if that fails you have a backup on the filesystem. This opens opportunities to load a different property file during development! When you deploy the application you can place the &lsquo;application-config.properties&rsquo; file inside a folder which is available in the classpath. For Apache Tomcat this would be the &lsquo;lib&rsquo; folder!</p>
+
+<p>This gives the opportunity to configure the application outside the &lsquo;Config.groovy&rsquo; file so any changes made the the property file will be reflected in your environment.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Sun, Sep 16, 2012
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/configuration">configuration</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Combining ImageMagick and Grails</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.</p>
+
+<p><strong>Steps:</strong></p>
+
+<ul>
+<li>Install ImageMagick according to the installation instructions.</li>
+<li>It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc. So remember where this utility is installed on your system!</li>
+<li>Make sure that ImageMagick is installed correctly be converting an image to a thumbnail by using the following command in a terminal.</li>
+</ul>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>/opt/local/bin/convert &lt;filename&gt; -thumbnail 70x70 &lt;thumbnail-filename&gt;
+</pre></div>
+
+<p><strong>example:</strong></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg
+</pre></div>
+
+<p>Create some code that calls the ImageMagick convert utility with the correct parameters to enable you to achieve what you want. Something like below:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">def</span> <span style="color: #a6e22e">createThumbnail</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">File</span> <span style="color: #f8f8f2">file</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
+   <span style="color: #66d9ef">def</span> <span style="color: #f8f8f2">command</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;/opt/local/bin/convert ${file.canonicalPath} &quot;</span> <span style="color: #f92672">+</span>
+                 <span style="color: #e6db74">&quot;-thumbnail 70x70 &quot;</span> <span style="color: #f92672">+</span>
+                 <span style="color: #e6db74">&quot;/images/thumbs&quot;</span> <span style="color: #f92672">+</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">.</span><span style="color: #a6e22e">separator</span> <span style="color: #f92672">+</span> <span style="color: #e6db74">&quot;${file.name}&quot;</span>
+   <span style="color: #66d9ef">def</span> <span style="color: #f8f8f2">proc</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Runtime</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getRuntime</span><span style="color: #f92672">().</span><span style="color: #a6e22e">exec</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">command</span><span style="color: #f92672">)</span>
+   <span style="color: #66d9ef">int</span> <span style="color: #f8f8f2">exitStatus</span><span style="color: #f92672">;</span>
+   <span style="color: #66d9ef">while</span> <span style="color: #f92672">(</span><span style="color: #66d9ef">true</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
+       <span style="color: #66d9ef">try</span> <span style="color: #f92672">{</span>
+           <span style="color: #f8f8f2">exitStatus</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">proc</span><span style="color: #f92672">.</span><span style="color: #a6e22e">waitFor</span><span style="color: #f92672">();</span>
+           <span style="color: #66d9ef">break</span><span style="color: #f92672">;</span>
+       <span style="color: #f92672">}</span> <span style="color: #66d9ef">catch</span> <span style="color: #f92672">(</span><span style="color: #f8f8f2">java</span><span style="color: #f92672">.</span><span style="color: #a6e22e">lang</span><span style="color: #f92672">.</span><span style="color: #a6e22e">InterruptedException</span> <span style="color: #f8f8f2">e</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
+           <span style="color: #f8f8f2">log</span><span style="color: #f92672">.</span><span style="color: #a6e22e">debug</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Creating thumbnail - Interrupted: Ignoring and waiting&quot;</span><span style="color: #f92672">)</span>
+       <span style="color: #f92672">}</span>
+   <span style="color: #f92672">}</span>
+    <span style="color: #66d9ef">if</span> <span style="color: #f92672">(</span><span style="color: #f8f8f2">exitStatus</span> <span style="color: #f92672">!=</span> <span style="color: #ae81ff">0</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
+        <span style="color: #f8f8f2">log</span><span style="color: #f92672">.</span><span style="color: #a6e22e">error</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Error executing command: exitStatus=[${exitStatus}]&quot;</span><span style="color: #f92672">)</span>
+    <span style="color: #f92672">}</span>
+    <span style="color: #f8f8f2">log</span><span style="color: #f92672">.</span><span style="color: #a6e22e">debug</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Succesfully created thumbnail&quot;</span><span style="color: #f92672">)</span>
+    <span style="color: #66d9ef">return</span> <span style="color: #f92672">(</span><span style="color: #f8f8f2">exitStatus</span> <span style="color: #f92672">==</span> <span style="color: #ae81ff">0</span><span style="color: #f92672">);</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+<p>The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Sat, Sep 15, 2012
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/imagemagick">imagemagick</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Installing Vimball plugins when using Pathogen</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            
+
+<p>No need to discuss that <a href="http://www.vim.org/">Vim</a> is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the <a href="http://www.installationwiki.org/Installing_Vim_Scripts">wiki</a>.</p>
+
+<h4 id="pathogen">Pathogen</h4>
+
+<p>When you instal a plugin one may copy the files to the plugin directory. In a later stage you also want to delete a plugin and then the hunt for files starts. You need to track down which files belong to the specific plugin you want to delete. <a href="http://tammersaleh.com/posts/the-modern-vim-config-with-pathogen">Pathogen</a> to the rescue :)</p>
+
+<p>Pathogen enables you to create sub-folders inside a bundle-folder which will acts a place holder for all your plugins nicely separated in a ‘folder per plugin’ structure. So if you need to delete a plugin then you just delete the correct plugin-folder and everything is gone.</p>
+
+<p>Normal installation of a Vim script is standard, you create a sub-folder below the bundle-folder, copy the Vim script and all is ok. BUT when you want to use a <a href="http://www.vim.org/scripts/script.php?script_id=1502">vimball</a> then you need to do some additional steps.</p>
+
+<ul>
+<li><p>Create a folder in which you want to later on extract the vimball. Preferably below the ‘bundle’ folder.
+<code>console
+mkdir ~/.vim/bundle/align
+</code>console</p></li>
+
+<li><p>Open the vimball with command ‘:e &lsquo;location of your vimball’/‘name of your vimball&rsquo;</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>:e ~/Downloads/Align.vba
+</pre></div></li>
+
+<li><p>Tell Vim to use the vimball by issuing command ‘:UseVimball &lsquo;location to extract’&rsquo;</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>:UseVimball ~/.vim/bundle/align
+</pre></div></li>
+
+<li><p>Restart your Vim and your plugin should be available.</p></li>
+</ul>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Fri, Sep 14, 2012
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/vim">vim</a>, <a href="/tags/pathogen">pathogen</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Installing Markdown on OSX and use it inside VIM</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            
+
+<p>Back again to one of my favorites which is called <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. Once every now and then i forget how easy it is. Normally i use <a href="http://macromates.com/">Textmate</a> to do all my writing, but recently i have picked up <a href="http://www.vim.org/">VIM</a> to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)</p>
+
+<p>Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different. But anything is different when using VIM :)</p>
+
+<h4 id="steps">Steps</h4>
+
+<ul>
+<li>download Markdown from - <a href="http://daringfireball.net/projects/markdown/">The home of Markdown</a>, It’s usual place as this is a Perl script you need to put it somewhere so OSX is able to execute it.</li>
+<li>start your terminal and create a directory inside <code>usr/local/bin</code></li>
+<li>extract the downloaded file and put the <code>Markdown.pl</code> file * inside the <code>user/local/bin</code> directory</li>
+<li>inside the terminal chmod the <code>Markdown.pl</code> to 777</li>
+<li>using the <a href="http://gothick.org.uk/2010/08/04/installing-markdown-as-a-os-x-service-using-automator-in-snow-leopard/">Installing Markdown as OSX Service</a> creates a service to use Markdown</li>
+<li>You are done… :)</li>
+</ul>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Thu, Sep 13, 2012
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/vim">vim</a>, <a href="/tags/markdown">markdown</a>, <a href="/tags/osx">osx</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Introduction to Groovy &amp; Grails</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Recently i had the opportunity to show an exciting crowd a presentation about <a href="http://groovy.codehaus.org/">Groovy</a> &amp; <a href="http://www.grails.org/">Grails</a>.</p>
+
+<p>This happend during the <a href="http://www.devnology.nl/">Devnology</a> Community Event at Baarn. If you want to view the presentation &ndash;&gt; <a href="http://slidesha.re/cfL3eH">check it out here!</a></p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Wed, Sep 12, 2012
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/presentation">presentation</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Change default homepage for a Grails application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>You can set the default homepage for a Grails application by modifying the <code>grails-app/conf/UrlMappings.groovy</code> file. In a new Grails application this file will look like</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">class</span> <span style="color: #a6e22e">UrlMappings</span> <span style="color: #f92672">{</span>
+    <span style="color: #66d9ef">static</span> <span style="color: #f8f8f2">mappings</span> <span style="color: #f92672">=</span> <span style="color: #f92672">{</span>
+        <span style="color: #e6db74">&quot;/$controller/$action?/$id?&quot;</span><span style="color: #f92672">{</span>
+            <span style="color: #f8f8f2">constraints</span> <span style="color: #f92672">{</span>
+                <span style="color: #75715e">// apply constraints here</span>
+            <span style="color: #f92672">}</span>
+        <span style="color: #f92672">}</span>
+        <span style="color: #e6db74">&quot;/&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&quot;/index&quot;</span><span style="color: #f92672">)</span>
+        <span style="color: #e6db74">&quot;500&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&#39;/error&#39;</span><span style="color: #f92672">)</span>
+    <span style="color: #f92672">}</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+<p>Replace the line:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #e6db74">&quot;/&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&quot;/index&quot;</span><span style="color: #f92672">)</span>
+</pre></div>
+
+<p>with:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #e6db74">&quot;/&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">controller:</span><span style="color: #e6db74">&#39;home&#39;</span><span style="color: #f92672">,</span> <span style="color: #f8f8f2">action:</span><span style="color: #e6db74">&quot;/index&quot;</span><span style="color: #f92672">)</span>
+</pre></div>
+
+<p>This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the <strong>HomeController</strong> and corresponding <strong>index</strong> action related to that controller.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Tue, Sep 11, 2012
                 
                 <span class="post-meta-info-taxonomy">
                     in categories:
@@ -103,66 +462,69 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Setting up Docker RabbitMQ with predefined users/vhosts</h1>
+            <h1 class="post-title">Funcional Code Coverage using Cobertura</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            <p>When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.</p>
+            
 
-<p>The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.</p>
+<p>So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.</p>
 
-<p>It involves a init.sh script that is used to create the users and vhosts.</p>
+<p>One can start to complain :), stop working on the project or even better master the concept of <a href="http://se-radio.net/podcast/2009-11/episode-148-software-archaeology-dave-thomas">Software Archeology</a>. An additional thing is to adopt the use of <a href="http://cobertura.sourceforge.net/">Cobertura</a> a code coverage tool which can easily be used to track down Functional Code Coverage. Normally the concept of Code Coverage is used to identify what code is executed during development and test phase. This to give an indication on how much code you cover with your testing strategy (often unit testing). This is <strong>IMHO</strong> something you will always want to know! But in the case you do not have unit tests or creating them is impossible due to the technical/organisational nature of the project, you can rely on creating functional tests and still track down the &lsquo;functional&rsquo; coverage with tools like <a href="http://cobertura.sourceforge.net/">Cobertura</a> (or alternatives like <a href="http://emma.sourceforge.net/">Emma</a>).</p>
 
-<p>The Docker File</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">FROM</span><span style="color: #e6db74"> rabbitmq:3-management</span>
+<p><strong>This tackles several problems:</strong><br />
+You are creating functional tests which can be used for regression testing
+You are creating awareness on how little is tested or is known about the system
+Note: By functional testing we mean that we are going to test via the Web layer of the JEE project To see an example on how the reporting looks like, check out this <a href="http://cobertura.sourceforge.net/sample/">sample</a> report!</p>
 
-<span style="color: #75715e"># Add script to create default users / vhosts</span>
-<span style="color: #66d9ef">ADD</span><span style="color: #e6db74"> init.sh /init.sh</span>
+<h4 id="how-to-get-code-coverage-information">How to get Code Coverage information</h4>
 
-<span style="color: #75715e"># Set correct executable permissions</span>
-<span style="color: #66d9ef">RUN</span> chmod +x /init.sh
+<p><strong>General process:</strong></p>
 
-<span style="color: #75715e"># Define default command</span>
-<span style="color: #66d9ef">CMD</span><span style="color: #e6db74"> [&quot;/init.sh&quot;]</span>
-</pre></div>
+<ul>
+<li>Compile your software</li>
+<li>Instrument the compiled code</li>
+<li>Deploy your instrumented code and start the application</li>
+<li>Use the application or run automated functional tests</li>
+<li>Shutdown the application</li>
+<li>Generate your Code Coverage reports</li>
+<li>no step 7! All done :)</li>
+</ul>
 
-<p>The init.sh script</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #75715e">#!/bin/sh</span>
+<p>The remaining part of this article is going to describe how you can get Functional Code Coverage information in the process of continously building, deploying and testing your software. Some elements are not explained due to the fact that other extensive information is given somewhere else on the web!</p>
 
-<span style="color: #75715e"># Create Default RabbitMQ setup</span>
-<span style="color: #f92672">(</span> sleep <span style="color: #ae81ff">10</span> <span style="color: #f8f8f2">;</span> <span style="color: #ae81ff">\</span>
+<h4 id="compile-instrument-and-build">Compile, Instrument and Build</h4>
 
-<span style="color: #75715e"># Create users</span>
-<span style="color: #75715e"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;</span>
-rabbitmqctl add_user test_user test_user <span style="color: #f8f8f2">;</span> <span style="color: #ae81ff">\</span>
+<p>The <a href="http://maven.apache.org/">Maven</a> project enables you to build your software with great ease. Giving a few simple commands makes it able to build a project, deploy it and even integrate it with tools and technologies such as  Cobertura. There is a even a <a href="http://mojo.codehaus.org/cobertura-maven-plugin/">Cobertura Maven</a> Plugin to easily use <a href="http://cobertura.sourceforge.net/">Cobertura</a> in a <a href="http://maven.apache.org/">Maven</a> build. We need to use Cobertura in the build phase because it will instrument the compiled code and generate a small file called &lsquo;cobertura.ser&rsquo; which is used as a kind of database that stores each call to a piece of code. The instrumented code and the database file are crucial because they contains all information needed to generate code coverage reports later on.</p>
 
-<span style="color: #75715e"># Set user rights</span>
-<span style="color: #75715e"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;</span>
-rabbitmqctl set_user_tags test_user administrator <span style="color: #f8f8f2">;</span> <span style="color: #ae81ff">\</span>
+<h4 id="run-and-test">Run and Test</h4>
 
-<span style="color: #75715e"># Create vhosts</span>
-<span style="color: #75715e"># rabbitmqctl add_vhost &lt;vhostname&gt;</span>
-rabbitmqctl add_vhost dummy <span style="color: #f8f8f2">;</span> <span style="color: #ae81ff">\</span>
+<p>After the code is succesfully instrumented you may deploy the build artifacts together with the &lsquo;cobertura.ser&rsquo; file inside a JBoss JEE container and run your application.</p>
 
-<span style="color: #75715e"># Set vhost permissions</span>
-<span style="color: #75715e"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span>
-rabbitmqctl set_permissions -p dummy test_user <span style="color: #e6db74">&quot;.*&quot;</span> <span style="color: #e6db74">&quot;.*&quot;</span> <span style="color: #e6db74">&quot;.*&quot;</span> <span style="color: #f8f8f2">;</span> <span style="color: #ae81ff">\</span>
-<span style="color: #f92672">)</span> <span style="color: #f8f8f2">&amp;</span>    
-rabbitmq-server <span style="color: #f8f8f2">$@</span>
-</pre></div>
+<p>Note: In our project we used <a href="http://www.jboss.org/">JBoss</a> but offcourse you can use other application servers!</p>
 
-<p>Place both of these files in a directory and build your image:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ docker build -t my_rabbitmq_image .
-</pre></div>
+<p>The <a href="http://jakarta.apache.org/jmeter/">JMeter</a> project delivers an excellent tooling and technology which enables you to record your functional flow and lets you replay a scenario which was recorded earlier on. For more information on <a href="http://jakarta.apache.org/jmeter/">JMeter</a> recording and usage, please check the <a href="http://jakarta.apache.org/jmeter/">JMeter</a> project. But for now lets assume you have created a couple of functional tests, so you can execute them.</p>
 
-<p>Start a container based on the image using:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">$</span> <span style="color: #f8f8f2">docker</span> <span style="color: #f8f8f2">run</span> <span style="color: #f92672">--</span><span style="color: #f8f8f2">rm</span><span style="color: #f92672">=</span><span style="color: #66d9ef">true</span> <span style="color: #f92672">--</span><span style="color: #f8f8f2">name</span> <span style="color: #f8f8f2">my_rabbitmq_container</span> <span style="color: #f92672">-</span><span style="color: #f8f8f2">p</span> <span style="color: #ae81ff">5672</span><span style="color: #f92672">:</span><span style="color: #ae81ff">5672</span> <span style="color: #f92672">-</span><span style="color: #f8f8f2">p</span> <span style="color: #ae81ff">15672</span><span style="color: #f92672">:</span><span style="color: #ae81ff">15672</span>  <span style="color: #f8f8f2">my_rabbitmq_image</span>
-</pre></div>
+<h4 id="generate-coverage-reports">Generate coverage reports</h4>
 
-<p>Then in your browser navigate to <a href="http://localhost:15672">http://localhost:15672</a> and see if all is ok!</p>
+<p>After the functional tests have been executed, the modified database file &lsquo;cobertura.ser&rsquo; can be collected and reports can be generated. Cobertura has some nice predefined reporting templates. After these stepes you should have inisight on what code is actually executed during a functional flow and this may contribute to your understanding of the application.</p>
 
-<p><strong>Note:</strong> When using Boot2Docker make sure to replace the localhost with the correct IP.</p>
+<h4 id="not-once-but-do-it-always">Not once but do it always!</h4>
+
+<p>The process of compiling, instrumenting, deploying, testing and reporting can be fully automatized. The famous Hudson comes to the rescue! When corectly implemented Hudson will serve you all information that you need on the moments you need it!</p>
+
+<h4 id="tools-technologies">Tools &amp; Technologies</h4>
+
+<p>The folowing list provides information on the tools that are used:</p>
+
+<ul>
+<li><a href="http://maven.apache.org/">Maven</a> -&gt; used info for compiling and instrumenting your code (alternative to <a href="http://ant.apache.org/">Ant</a>)</li>
+<li><a href="http://cobertura.sourceforge.net/">Cobertura</a> -&gt; used to get Code Coverage information</li>
+<li><a href="http://www.jboss.org/">JBoss</a> -&gt; used for running a JEE project</li>
+<li><a href="http://jakarta.apache.org/jmeter/">JMeter</a> -&gt; used to record and playback functional tests</li>
+<li><a href="http://hudson-ci.org/">Hudson</a> -&gt; used to automatically build &amp; test your software</li>
+</ul>
 
         </div>
     </div>
@@ -171,13 +533,284 @@ rabbitmq-server <span style="color: #f8f8f2">$@</span>
             <div class="post-meta-info">
                 Published on
                 
-                    Thu, Jun 11, 2015
+                    Mon, Sep 10, 2012
                 
                 <span class="post-meta-info-taxonomy">
                     in categories:
                         
                     using tags:
-                        <a href="/tags/docker">docker</a>, <a href="/tags/rabbitmq">rabbitmq</a>
+                        <a href="/tags/coverage">coverage</a>, <a href="/tags/testing">testing</a>, <a href="/tags/cobertura">cobertura</a>, <a href="/tags/continous-integration">continous integration</a>, <a href="/tags/hudson">hudson</a>, <a href="/tags/jenkins">jenkins</a>, <a href="/tags/ssh">ssh</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Distributed Deployment with Hudson &amp; SSH</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            
+
+<p>Have you already implemented an multi-server artifact deployment using a <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engine? If not, then read ahead and maybe this article is of help.</p>
+
+<h4 id="the-need-for-continuous-integration">The need for Continuous Integration</h4>
+
+<p>A good practice in a software development methodology and lifecycle is the use of a <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engine. The adoption of <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> improves you software quality by quickly reporting failed builds so you can modify/correct your code. Popular Continuous Integration Engines can often be extended with software quality tooling so you can report on specific quality aspect of your software.</p>
+
+<p>Thus informing developers and even other people who take an interest in the status of the latest build. <strong>IMHO</strong> a failed build can also be identified as code that compiles but that does not meet the quality standards set by your organization. You are off-course totally free in defining what in your opinion a failed build actually means!</p>
+
+<p>A good build compiles, quality requirements have been met and automatic functional and unit testing has been successful.</p>
+
+<p>There a few popular <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engines available:</p>
+
+<ul>
+<li><a href="http://hudson-ci.org/">Hudson Extensible Continuous Integration Server</a></li>
+<li><a href="http://cruisecontrol.sourceforge.net/">CruiseControl</a></li>
+<li><a href="http://www.atlassian.com/software/bamboo/">Bamboo</a></li>
+</ul>
+
+<p>Probably there a some more, but for me needs the [Hudson Extensible Continuous Integration Server] works perfect.</p>
+
+<h4 id="my-needs">My needs</h4>
+
+<p>My Continuous Integration Engine:</p>
+
+<ul>
+<li>Must support multiple programming languages Java/.Net/Ruby</li>
+<li>Runs on multiple operating systems (Windows/Mac/Linux)</li>
+<li>Pluggable in the sense that there must be integration with for example JUnit, JMeter, Cobertura, Checkstyle etc.</li>
+<li>Must be able to send out notifications using email, twitter, Instant Messaging</li>
+<li>Seemless integration with CVS/SubVersion and GIT</li>
+<li>Simple and easy Configuration</li>
+<li>Must support timed builds &amp; trigger builds from <a href="http://en.wikipedia.org/wiki/Revision_control">SCM</a> commits</li>
+<li>Maintain a link between modified code and</li>
+<li>and some more..</li>
+</ul>
+
+<p>All of these requirements and more have been succesfully fulfilled by using <a href="http://hudson-ci.org/">Hudson</a></p>
+
+<h4 id="hudson-and-automatic-deployment">Hudson and automatic deployment</h4>
+
+<p>In every project a recurring problem arises, artifacts of a software build have to be distributed accross different servers and environments. How are the build artifacts going to be distributed and deployed? Why not let the <a href="http://hudson-ci.org/">Hudson</a> server give a helping hand!!</p>
+
+<h4 id="deployment-scenario">Deployment Scenario</h4>
+
+<p>In the following scenario we will be distributing build artifacts from a central Hudson server to three different <a href="http://www.jboss.org/">JBoss</a> application servers al running Windows 2003 Server as Operating System. Next to the <a href="http://hudson-ci.org/">Hudson</a> server we have a <a href="http://subversion.tigris.org/">Subversion</a> system which is used for <a href="http://en.wikipedia.org/wiki/Revision_control">SCM</a> purposes.</p>
+
+<h4 id="distribution-of-build-artifacts">Distribution of build artifacts</h4>
+
+<p>After a succesfull build, the artifacts have to be distributed to remote machines. Offcourse the latest code has been checked out from the SVN repository, compiled and tested. The distribution of the artifacts can be done in various ways. One can use Ftp, shared folders, SCM checkin etc..</p>
+
+<p>For me the most easiest way to distribute build artifacts is using <a href="http://en.wikipedia.org/wiki/Secure_Shell">Secure Shell access aka SSH</a>. This is a secure and a standardized manner for distribution. Lets assume we have the build artifacts somewhere on our <a href="http://hudson-ci.org/">Hudson</a> server, we need a way of transfering them using <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to a remote machine.</p>
+
+<p>To accomplish this we need SSH access to the remote machine. With the help off <a href="http://www.itefix.no/i2/node/27">CopSSH</a> installing SSH is a breeze!</p>
+
+<h4 id="prepare-for-installation-of-ssh">Prepare for installation of SSH</h4>
+
+<p>Prepare yourself by downloading:</p>
+
+<ul>
+<li><a href="http://www.itefix.no/i2/node/27">CopSSH</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> service for Windows</li>
+<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Putty</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client (used for connection to the SSH service)</li>
+<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PSCP</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client for file transfer</li>
+<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Plink</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client for executing remote commands</li>
+</ul>
+
+<h4 id="installing-and-enable-remote-access-using-ssh">Installing and enable remote access using SSH</h4>
+
+<ul>
+<li>Install <a href="http://www.itefix.no/i2/node/27">CopSSH</a> on the remote system</li>
+<li>On the remote system enable a user for <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> access, see the installation guide of CopSSH</li>
+<li>Start <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Putty</a> on your local machine</li>
+<li>Using Putty connect to the remote system and exchange security credentials</li>
+</ul>
+
+<p>You are now officially ready to remotely access the system using SSH
+If you want to enable the Hudson server to access the remote system, start Putty on the Hudson server and repeat step 4!</p>
+
+<p><strong>Note</strong>: Make sure that your Hudson uses the same credentials then the account in which you exchange security credentials, otherwise remote access from Hudson server to the remote system will not work!</p>
+
+<h4 id="execute-remote-commands-and-exchange-files-using-ssh">Execute remote commands and Exchange files using SSH</h4>
+
+<p>If you can succesfully access the remote server using Putty, it is time to exchange files or execute remote commands. This can be done by using 2 small commandline utilities called PSCP for file transfer and Plink for executing remote commands such as remotely deleting files etc.</p>
+
+<p>Make sure these are in you PATH settings so you can execute them everywhere!</p>
+
+<p>Examples for executing a remote command (substitute the %parameters% with your own ones)</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>#create a directory
+plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  mkdir C:/tmp
+
+#delete a directory
+plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  rm -rf C:/tmp
+
+#stop a windows service
+plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  net stop %SERVICENAME%
+
+#upload a file
+pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
+
+#upload multiple files
+pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
+</pre></div>
+
+<h4 id="the-return-of-the-bat-file">The return of the .bat file</h4>
+
+<p>So far we have enabled remote access using SSH / CopSSH, executed remote commands and transferred files. All the needed ingredients are in place to enable our Hudson server to remotely deploy build artifacts. In the job configuration of Hudson you can trigger a batch file after a succesfull build, so whenever a succesfull build occurs trigger a batch that executes a few commands to quickly deploy build artifacts to any number of remote servers.</p>
+
+<p>In our case all deployment artifacts are copied to a central directory per project. So if we need to deploy a build, we can copy parts or the whole directory contents to a remote server.</p>
+
+<p>To give an example see the following batch files: Main example for a batchfile that triggers stopping of the remote Windows Services gives the instruction on which files need to be remotely deployed and start the services again.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>-<span style="color: #f8f8f2">&gt;</span> filename = upload-project-to-development.bat
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">CLS</span>
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> OFF
+<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">USERNAME=%1</span>
+<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">PASSWORD=%2</span>
+<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">HOSTNAME=%3</span>
+<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">JBOSSDIR=%4</span>
+<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">SOURCEDIR=%5</span>
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : - start upload procedure
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : -- stopping servers
+<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> net stop JBoss
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : -- uploading files CALL upload-files.bat <span style="color: #f8f8f2">%USERNAME%</span> <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%HOSTNAME%</span> <span style="color: #f8f8f2">%JBOSSDIR%</span> <span style="color: #f8f8f2">%SOURCEDIR%</span>\*.*
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : -- starting servers
+<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> net start JBoss
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : - finished upload procedure
+</pre></div>
+
+<p>The above script can be called easily by the Hudson server after a succesfull deployment.</p>
+
+<p><strong>example:</strong></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>upload-project-to-development scott tiger 10.0.0.100 d:/java/server/jboss-v5.0 d:/build_artifacts/projectx
+</pre></div>
+
+<p><strong>The example above:</strong></p>
+
+<ul>
+<li>Stops the JBoss server on the 10.0.0.100 host</li>
+<li>Passes some parameters to a file called “upload-files.bat” script</li>
+<li>Starts the JBoss servers again</li>
+</ul>
+
+<p>The script that executes the actual maintenance and uploads is the “upload-files.bat file”. All parameters are passed in by the calling script.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>-<span style="color: #f8f8f2">&gt;</span> filename = upload-files.bat
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> OFF
+<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">USERNAME=%1</span>
+<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">PASSWORD=%2</span>
+<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">HOSTNAME=%3</span>
+<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">JBOSSDIR=%4</span>
+<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">SOURCE=%5</span>
+<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">DESTINATION=%JBOSSDIR%</span>/deploy
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : - <span style="color: #f8f8f2">%HOSTNAME%</span> - starting file copy
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : -- <span style="color: #f8f8f2">%HOSTNAME%</span> - deleting JBOSS tmp
+<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> rm -rf <span style="color: #f8f8f2">%JBOSSDIR%</span>/tmp
+<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> mkdir <span style="color: #f8f8f2">%JBOSSDIR%</span>/tmp
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : -- <span style="color: #f8f8f2">%HOSTNAME%</span> - deleting JBOSS work
+<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> rm -rf <span style="color: #f8f8f2">%JBOSSDIR%</span>/work
+<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> mkdir <span style="color: #f8f8f2">%JBOSSDIR%</span>/work
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : -- <span style="color: #f8f8f2">%HOSTNAME%</span> - deleting previous ears + jars
+<span style="color: #f8f8f2">@</span>plink -batch  -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> rm <span style="color: #f8f8f2">%JBOSSDIR%</span>/deploy/*.ear
+<span style="color: #f8f8f2">@</span>plink -batch  -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> rm <span style="color: #f8f8f2">%JBOSSDIR%</span>/deploy/*.jar
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : -- <span style="color: #f8f8f2">%HOSTNAME%</span> - copy remote files
+<span style="color: #f8f8f2">@</span>pscp -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%SOURCE%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span>:<span style="color: #f8f8f2">%DESTINATION%</span>
+<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : - <span style="color: #f8f8f2">%HOSTNAME%</span> - finishing file copy
+</pre></div>
+
+<p><strong>The example above:</strong></p>
+
+<ul>
+<li>Removes the JBoss tmp &amp; work directory</li>
+<li>Removes artifacts from previous builds</li>
+<li>Copies the artifacts to the remote JBoss deploy directory</li>
+</ul>
+
+<h4 id="steps-taken">Steps taken</h4>
+
+<p>So the list of tasks executed by calling the batch files with the correct parameters are:</p>
+
+<ul>
+<li>Stopping the remote JBoss server</li>
+<li>Removing the remote JBoss tmp &amp; work directories</li>
+<li>Removing the remote JBoss artifacts from previous deployments</li>
+<li>Copy files to the remote JBoss server</li>
+<li>Starting the JBoss server again</li>
+</ul>
+
+<h4 id="from-build-to-deployment">From build to deployment</h4>
+
+<p>So with a quick installation of SSH/Putty/Plink/PSCP we now have a modular and easy way of distributing files to remote systems. Offcourse there are lots of improvements to make, but for now it works without any problems!</p>
+
+<p>The given examples can be easily modified so that after a succesfull build the artifact deployment to all of your servers can be done in a very simple and easy way.
+Notes</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Sun, Sep 9, 2012
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/deployment">deployment</a>, <a href="/tags/continous-integration">continous integration</a>, <a href="/tags/hudson">hudson</a>, <a href="/tags/ssh">ssh</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Using MySQL instead of in-memory database for a Grails application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.</p>
+
+<ul>
+<li>Download the MySQL JDBC driver [called a connector] from the MySQL website</li>
+<li>Extract the zip or tar archive</li>
+<li>Copy the driver (at this time of writing called <code>mysql-connector-java-5.1.13-bin.jar</code> into the <code>grails-app/lib</code> directory</li>
+<li>Configure your application datasource in file <code>grails-app/conf/DataSource.groovy</code><br /></li>
+</ul>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">development</span> <span style="color: #f92672">{</span>
+    <span style="color: #f8f8f2">dataSource</span> <span style="color: #f92672">{</span>
+       <span style="color: #f8f8f2">dbCreate</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;create-drop&quot;</span> <span style="color: #75715e">// one of &#39;create&#39;, &#39;create-drop&#39;,&#39;update&#39;</span>
+       <span style="color: #f8f8f2">url</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;jdbc:mysql://localhost:&lt;port&gt;/&lt;database&gt;&quot;</span>
+       <span style="color: #f8f8f2">driverClassName</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;com.mysql.jdbc.Driver&quot;</span>
+       <span style="color: #f8f8f2">port</span> <span style="color: #f92672">=</span>  <span style="color: #75715e">// default 3306</span>
+       <span style="color: #f8f8f2">username</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;&lt;username&gt;&quot;</span>
+       <span style="color: #f8f8f2">password</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;&lt;password&gt;&quot;</span>
+    <span style="color: #f92672">}</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Wed, Sep 5, 2012
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/mysql">mysql</a>
                 </span>
             </div>
         </div>
@@ -200,10 +833,6 @@ rabbitmq-server <span style="color: #f8f8f2">$@</span>
                 <a class="button" href="/page/2">&larr; Newer Posts</a>
                 </li>
             
-            
-                <li>
-                <a class="button" href="/page/4">Older Posts &rarr;</a>
-                </li>
             
             </ul>
         
