@@ -11,10 +11,10 @@
     
     <item>
       <title>Functional Rest API Testing with Grails/Rest Client Builder</title>
-      <link>http://mpas.github.io/post/20151119_functional_rest_api_testing/</link>
+      <link>http://mpas.github.io/2015/11/19/20151119_functional_rest_api_testing/</link>
       <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20151119_functional_rest_api_testing/</guid>
+      <guid>http://mpas.github.io/2015/11/19/20151119_functional_rest_api_testing/</guid>
       <description>&lt;p&gt;Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.&lt;/p&gt;
 
 &lt;p&gt;When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.&lt;/p&gt;
@@ -144,10 +144,10 @@ Total time: 2.054 secs
     
     <item>
       <title>Funcional Code Coverage using Cobertura</title>
-      <link>http://mpas.github.io/post/20120910_functional-code-coverage-using-cobertura/</link>
+      <link>http://mpas.github.io/2012/09/10/20120910_functional-code-coverage-using-cobertura/</link>
       <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20120910_functional-code-coverage-using-cobertura/</guid>
+      <guid>http://mpas.github.io/2012/09/10/20120910_functional-code-coverage-using-cobertura/</guid>
       <description>
 
 &lt;p&gt;So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.&lt;/p&gt;

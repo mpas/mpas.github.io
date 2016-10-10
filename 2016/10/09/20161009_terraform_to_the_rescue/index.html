@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  
+  <meta charset="utf-8">
+  <title>CodeVerse - Terraform to the rescue</title>
+  <meta name="description" content="">
+  <meta name="author" content="Marco Pas">
+
+  <meta name="generator" content="" />
+  <meta name="robots" content="index,follow">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  
+  <link rel="stylesheet" href="http://mpas.github.io/css/normalize.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/skeleton.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/custom.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/pygments.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/font-awesome.min.css">
+
+  
+  <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="http://mpas.github.io">CodeVerse</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        
+                        
+                            <li >
+                                <a href="/">Blog</a></li>
+                        
+                            <li >
+                                <a href="/post">Post List</a></li>
+                        
+                            <li >
+                                <a href="/page/about/">About</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+    <div class="container">
+        <div class="row">
+            <div class="post-content">
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Terraform to the rescue</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Getting exposed to <a href="https://aws.amazon.com/">Amazon Web Services</a> is fun! Certainly when you see that the infrastructure is growing and supporting the daily need of developers and the business. You slowly start adding services and try to keep everything in a state so that it is repeatable and maintainable. At a certain moment it becomes clear that you need the concept of <a href="https://en.wikipedia.org/wiki/Infrastructure_as_Code">Infrastructure As Code</a>.</p>
+
+<p>The Amazon way of doing this is by using <a href="https://aws.amazon.com/cloudformation/">AWS CloudFormation</a>. This enables you to define the infrastructure in a JSON/YAML format and apply the changes to the infrastructure.</p>
+
+<p>Our team manages a bunch of environments using services like AWS ECS, EC2, ElasticSearch, RDS and more.. Maintaining this infrastructure in CloudFormation seemed the standard way of doing things until we started a proof-of-concept with <a href="https://www.terraform.io/">Terraform</a>.</p>
+
+<p><strong>Why did we start this proof-of-concept??</strong> Mainly because the overwhelming pieces of code that we needed to maintain in CloudFormation became unmaintainable. The use of Terraform was so successful that we decide to rewrite our entire infrastructure codebase using Terraform.</p>
+
+<p>The advantages when using Terraform are:</p>
+
+<ul>
+<li>less code to maintain because Terraform is less verbose</li>
+<li>when using Terraform an infrastructure change can be planned, this shows what is going to be changed before actually executing the change</li>
+</ul>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ terraform plan
+</pre></div>
+
+<p>See what the changes are and then when everything seems ok&hellip;</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ terraform apply
+</pre></div>
+
+<p>Currently we have our entire Infrastructure in Terraform and we could never be more happier. Terraform came to our rescue!</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Sun, Oct 9, 2016
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/devops">devops</a>, <a href="/tags/aws">aws</a>, <a href="/tags/terraform">terraform</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            </div>
+        </div>
+    </div>
+  
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    
+                        <a title="Twitter" href="https://twitter.com/marcopas">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    
+                    
+                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    
+                    
+                        <a title="GitHub" href="https://github.com/mpas">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    
+                    
+                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
+                            <i class="fa fa-stack-overflow"></i>
+                        </a>
+                    
+                    
+                        <a title="Flickr" href="https://www.flickr.com/photos/marcopas/">
+                            <i class="fa fa-flickr"></i>
+                        </a>
+                    
+                    
+                        <a title="Facebook" href="https://www.facebook.com/marco.pasopas">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    
+                    
+                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
+                            <i class="fa fa-envelope-o"></i>
+                        </a>
+                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; 2016 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+

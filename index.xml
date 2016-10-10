@@ -11,10 +11,10 @@
     
     <item>
       <title>Terraform to the rescue</title>
-      <link>http://mpas.github.io/post/20161009_terraform_to_the_rescue/</link>
+      <link>http://mpas.github.io/2016/10/09/20161009_terraform_to_the_rescue/</link>
       <pubDate>Sun, 09 Oct 2016 00:42:58 +0200</pubDate>
       
-      <guid>http://mpas.github.io/post/20161009_terraform_to_the_rescue/</guid>
+      <guid>http://mpas.github.io/2016/10/09/20161009_terraform_to_the_rescue/</guid>
       <description>&lt;p&gt;Getting exposed to &lt;a href=&#34;https://aws.amazon.com/&#34;&gt;Amazon Web Services&lt;/a&gt; is fun! Certainly when you see that the infrastructure is growing and supporting the daily need of developers and the business. You slowly start adding services and try to keep everything in a state so that it is repeatable and maintainable. At a certain moment it becomes clear that you need the concept of &lt;a href=&#34;https://en.wikipedia.org/wiki/Infrastructure_as_Code&#34;&gt;Infrastructure As Code&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;The Amazon way of doing this is by using &lt;a href=&#34;https://aws.amazon.com/cloudformation/&#34;&gt;AWS CloudFormation&lt;/a&gt;. This enables you to define the infrastructure in a JSON/YAML format and apply the changes to the infrastructure.&lt;/p&gt;
@@ -42,10 +42,10 @@
     
     <item>
       <title>Functional Rest API Testing with Grails/Rest Client Builder</title>
-      <link>http://mpas.github.io/post/20151119_functional_rest_api_testing/</link>
+      <link>http://mpas.github.io/2015/11/19/20151119_functional_rest_api_testing/</link>
       <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20151119_functional_rest_api_testing/</guid>
+      <guid>http://mpas.github.io/2015/11/19/20151119_functional_rest_api_testing/</guid>
       <description>&lt;p&gt;Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.&lt;/p&gt;
 
 &lt;p&gt;When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.&lt;/p&gt;
@@ -175,10 +175,10 @@ Total time: 2.054 secs
     
     <item>
       <title>Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</title>
-      <link>http://mpas.github.io/post/20151117_davmail/</link>
+      <link>http://mpas.github.io/2015/11/17/20151117_davmail/</link>
       <pubDate>Tue, 17 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20151117_davmail/</guid>
+      <guid>http://mpas.github.io/2015/11/17/20151117_davmail/</guid>
       <description>
 
 &lt;p&gt;If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific &lt;a href=&#34;http://www.postbox-inc.com&#34;&gt;PostBox&lt;/a&gt; mail client.&lt;/p&gt;
@@ -252,8 +252,8 @@ Below are some place where you can find some more information about me:&lt;/p&gt
 &lt;p&gt;During various projects for clients I had the opportunity to get acquainted
 with a variety of technologies and methodologies such as :&lt;/p&gt;
 
-&lt;p&gt;DevOps, Continous Deployment/Delivery, Java, Groovy, Grails, Spock, SpringBoot,
-REST, Amazon Web Services, MicroServices, Eureka, Spring, RabbitMQ, Amazon Webservices, Jenkins, Test Driven Development, Neo4J, MongoDB, JSON, Apache Tomcat, SonarQube, JMeter, IntelliJ, Nexus, Gradle, Maven, GIT, PostgreSQL, MySQL, Terraform, CloudFormation, Twitter BootStrap, Skeleton CSS, JavaScript, DevOps and lots more..&lt;/p&gt;
+&lt;p&gt;DevOps, Consul, Continous Deployment/Delivery, Java, Groovy, Grails, Spock, SpringBoot,
+REST, Amazon Web Services, ElasticSearch, Fluentd, Kibana, MicroServices, Eureka, Spring, RabbitMQ, Amazon Webservices, Jenkins, Test Driven Development, Neo4J, MongoDB, JSON, Apache Tomcat, SonarQube, JMeter, IntelliJ, Nexus, Gradle, Maven, GIT, PostgreSQL, MySQL, Terraform, CloudFormation, Twitter BootStrap, Skeleton CSS, JavaScript, DevOps and lots more..&lt;/p&gt;
 
 &lt;hr /&gt;
 
@@ -275,10 +275,10 @@ REST, Amazon Web Services, MicroServices, Eureka, Spring, RabbitMQ, Amazon Webse
     
     <item>
       <title>Cleaning Grails Domain Objects in a Spock Test</title>
-      <link>http://mpas.github.io/post/20151030_grails-spock-clean-domain/</link>
+      <link>http://mpas.github.io/2015/10/30/20151030_grails-spock-clean-domain/</link>
       <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20151030_grails-spock-clean-domain/</guid>
+      <guid>http://mpas.github.io/2015/10/30/20151030_grails-spock-clean-domain/</guid>
       <description>&lt;p&gt;Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.&lt;/p&gt;
 
 &lt;p&gt;Spock provides a &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; method.&lt;/p&gt;
@@ -300,10 +300,10 @@ REST, Amazon Web Services, MicroServices, Eureka, Spring, RabbitMQ, Amazon Webse
     
     <item>
       <title>Adding WebSocket/Stomp support to a Spring Boot application</title>
-      <link>http://mpas.github.io/post/20150616_springboot-websocket-support/</link>
+      <link>http://mpas.github.io/2015/06/16/20150616_springboot-websocket-support/</link>
       <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20150616_springboot-websocket-support/</guid>
+      <guid>http://mpas.github.io/2015/06/16/20150616_springboot-websocket-support/</guid>
       <description>&lt;p&gt;Adding support for &lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34;&gt;WebSockets&lt;/a&gt; / &lt;a href=&#34;https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol&#34;&gt;Stomp&lt;/a&gt; in a &lt;a href=&#34;http://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.&lt;/p&gt;
 
 &lt;p&gt;The following example will enable a server to send messages to a WebSocket/Stomp client.&lt;/p&gt;
@@ -410,10 +410,10 @@ REST, Amazon Web Services, MicroServices, Eureka, Spring, RabbitMQ, Amazon Webse
     
     <item>
       <title>Run a Grails 3 generated Fat Jar file in production mode</title>
-      <link>http://mpas.github.io/post/20150611_run-grails-war-in-production-mode/</link>
+      <link>http://mpas.github.io/2015/06/11/20150611_run-grails-war-in-production-mode/</link>
       <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20150611_run-grails-war-in-production-mode/</guid>
+      <guid>http://mpas.github.io/2015/06/11/20150611_run-grails-war-in-production-mode/</guid>
       <description>&lt;p&gt;When creating a Grails WAR/JAR file using:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails war
 &lt;/pre&gt;&lt;/div&gt;
@@ -426,10 +426,10 @@ REST, Amazon Web Services, MicroServices, Eureka, Spring, RabbitMQ, Amazon Webse
     
     <item>
       <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
-      <link>http://mpas.github.io/post/20150611_docker-rabbitmq-default-users/</link>
+      <link>http://mpas.github.io/2015/06/11/20150611_docker-rabbitmq-default-users/</link>
       <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20150611_docker-rabbitmq-default-users/</guid>
+      <guid>http://mpas.github.io/2015/06/11/20150611_docker-rabbitmq-default-users/</guid>
       <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;
 
 &lt;p&gt;The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.&lt;/p&gt;
@@ -490,10 +490,10 @@ rabbitmq-server &lt;span style=&#34;color: #f8f8f2&#34;&gt;$@&lt;/span&gt;
     
     <item>
       <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
-      <link>http://mpas.github.io/post/20150610_httpservletwrapper-3.1/</link>
+      <link>http://mpas.github.io/2015/06/10/20150610_httpservletwrapper-3.1/</link>
       <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20150610_httpservletwrapper-3.1/</guid>
+      <guid>http://mpas.github.io/2015/06/10/20150610_httpservletwrapper-3.1/</guid>
       <description>&lt;p&gt;A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -592,10 +592,10 @@ rabbitmq-server &lt;span style=&#34;color: #f8f8f2&#34;&gt;$@&lt;/span&gt;
     
     <item>
       <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
-      <link>http://mpas.github.io/post/20150605_docker-setup-registry/</link>
+      <link>http://mpas.github.io/2015/06/05/20150605_docker-setup-registry/</link>
       <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20150605_docker-setup-registry/</guid>
+      <guid>http://mpas.github.io/2015/06/05/20150605_docker-setup-registry/</guid>
       <description>
 
 &lt;p&gt;The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.&lt;/p&gt;
@@ -773,10 +773,10 @@ $ sudo service docker start
     
     <item>
       <title>Upgrading from Grails 2.3.8 to 2.4.2</title>
-      <link>http://mpas.github.io/post/20140724_upgrade-grails-2.4.2/</link>
+      <link>http://mpas.github.io/2014/07/04/20140724_upgrade-grails-2.4.2/</link>
       <pubDate>Fri, 04 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20140724_upgrade-grails-2.4.2/</guid>
+      <guid>http://mpas.github.io/2014/07/04/20140724_upgrade-grails-2.4.2/</guid>
       <description>&lt;p&gt;When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;Error creating bean with name &amp;#39;grailsApplication&amp;#39; defined in ServletContext resource
 [/WEB-INF/applicationContext.xml]: Cannot resolve reference to
@@ -797,10 +797,10 @@ bean &amp;#39;grailsResourceLoader&amp;#39; while setting bean property &amp;#39
     
     <item>
       <title>Skip a contenttype/section to be renderend</title>
-      <link>http://mpas.github.io/post/20140609_hugo-skip-certain-content-to-be-rendered/</link>
+      <link>http://mpas.github.io/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</link>
       <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20140609_hugo-skip-certain-content-to-be-rendered/</guid>
+      <guid>http://mpas.github.io/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</guid>
       <description>&lt;p&gt;When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.&lt;/p&gt;
 
 &lt;p&gt;Example:
@@ -817,10 +817,10 @@ You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the followin
     
     <item>
       <title>Bookreview : Instant Vert.x</title>
-      <link>http://mpas.github.io/post/20131127_bookreview-instant-vertx/</link>
+      <link>http://mpas.github.io/2013/11/27/20131127_bookreview-instant-vertx/</link>
       <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20131127_bookreview-instant-vertx/</guid>
+      <guid>http://mpas.github.io/2013/11/27/20131127_bookreview-instant-vertx/</guid>
       <description>&lt;p&gt;For those who have not yet got into contact with &lt;a href=&#34;http://vertx.io/&#34;&gt;Vert.x&lt;/a&gt;, the book &lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Instant Vert.x&lt;/a&gt; (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.&lt;/p&gt;
 
 &lt;p&gt;As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.&lt;/p&gt;
@@ -840,10 +840,10 @@ You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the followin
     
     <item>
       <title>Use backspace key to go back in Google Chrome</title>
-      <link>http://mpas.github.io/post/20130530_backspace-mint/</link>
+      <link>http://mpas.github.io/2013/05/30/20130530_backspace-mint/</link>
       <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20130530_backspace-mint/</guid>
+      <guid>http://mpas.github.io/2013/05/30/20130530_backspace-mint/</guid>
       <description>&lt;p&gt;When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -854,10 +854,10 @@ You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the followin
     
     <item>
       <title>Automount NTFS volume under Linux (Mint)</title>
-      <link>http://mpas.github.io/post/20130528_automount-ntfs-mint/</link>
+      <link>http://mpas.github.io/2013/05/28/20130528_automount-ntfs-mint/</link>
       <pubDate>Tue, 28 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20130528_automount-ntfs-mint/</guid>
+      <guid>http://mpas.github.io/2013/05/28/20130528_automount-ntfs-mint/</guid>
       <description>&lt;p&gt;When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo pico /etc/fstab
 &lt;/pre&gt;&lt;/div&gt;

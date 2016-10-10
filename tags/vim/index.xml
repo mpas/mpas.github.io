@@ -11,10 +11,10 @@
     
     <item>
       <title>Installing Vimball plugins when using Pathogen</title>
-      <link>http://mpas.github.io/post/20120914_installing-vimball-plugins-using-pathogen/</link>
+      <link>http://mpas.github.io/2012/09/14/20120914_installing-vimball-plugins-using-pathogen/</link>
       <pubDate>Fri, 14 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20120914_installing-vimball-plugins-using-pathogen/</guid>
+      <guid>http://mpas.github.io/2012/09/14/20120914_installing-vimball-plugins-using-pathogen/</guid>
       <description>
 
 &lt;p&gt;No need to discuss that &lt;a href=&#34;http://www.vim.org/&#34;&gt;Vim&lt;/a&gt; is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the &lt;a href=&#34;http://www.installationwiki.org/Installing_Vim_Scripts&#34;&gt;wiki&lt;/a&gt;.&lt;/p&gt;
@@ -48,10 +48,10 @@ mkdir ~/.vim/bundle/align
     
     <item>
       <title>Installing Markdown on OSX and use it inside VIM</title>
-      <link>http://mpas.github.io/post/20120913_installing-markdown-on-osx-use-it-inside-vim/</link>
+      <link>http://mpas.github.io/2012/09/13/20120913_installing-markdown-on-osx-use-it-inside-vim/</link>
       <pubDate>Thu, 13 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/20120913_installing-markdown-on-osx-use-it-inside-vim/</guid>
+      <guid>http://mpas.github.io/2012/09/13/20120913_installing-markdown-on-osx-use-it-inside-vim/</guid>
       <description>
 
 &lt;p&gt;Back again to one of my favorites which is called &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;Markdown&lt;/a&gt;. Once every now and then i forget how easy it is. Normally i use &lt;a href=&#34;http://macromates.com/&#34;&gt;Textmate&lt;/a&gt; to do all my writing, but recently i have picked up &lt;a href=&#34;http://www.vim.org/&#34;&gt;VIM&lt;/a&gt; to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)&lt;/p&gt;

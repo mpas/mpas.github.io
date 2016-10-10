@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  
+  <meta charset="utf-8">
+  <title>CodeVerse - Cleaning Grails Domain Objects in a Spock Test</title>
+  <meta name="description" content="">
+  <meta name="author" content="Marco Pas">
+
+  <meta name="generator" content="" />
+  <meta name="robots" content="index,follow">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  
+  <link rel="stylesheet" href="http://mpas.github.io/css/normalize.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/skeleton.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/custom.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/pygments.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/font-awesome.min.css">
+
+  
+  <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="http://mpas.github.io">CodeVerse</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        
+                        
+                            <li >
+                                <a href="/">Blog</a></li>
+                        
+                            <li >
+                                <a href="/post">Post List</a></li>
+                        
+                            <li >
+                                <a href="/page/about/">About</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+    <div class="container">
+        <div class="row">
+            <div class="post-content">
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Cleaning Grails Domain Objects in a Spock Test</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.</p>
+
+<p>Spock provides a <code>setup()</code> and <code>cleanup()</code> method.</p>
+
+<p>When you want to remove your domain objects after each feature test has run you can execute the following:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">def</span> <span style="color: #a6e22e">setup</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span> <span style="color: #f92672">...</span> <span style="color: #f92672">}</span>
+
+<span style="color: #66d9ef">def</span> <span style="color: #a6e22e">cleanup</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
+        <span style="color: #75715e">// make sure to clear out the database on after test</span>
+        <span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">YourDomainObject</span><span style="color: #f92672">&gt;.</span><span style="color: #a6e22e">withNewSession</span> <span style="color: #f92672">{</span>
+            <span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">YourDomainObject</span><span style="color: #f92672">&gt;.</span><span style="color: #a6e22e">findAll</span><span style="color: #f92672">().</span><span style="color: #a6e22e">each</span> <span style="color: #f92672">{</span> <span style="color: #f8f8f2">it</span><span style="color: #f92672">.</span><span style="color: #a6e22e">delete</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">flush:</span> <span style="color: #66d9ef">true</span><span style="color: #f92672">)</span> <span style="color: #f92672">}</span>
+        <span style="color: #f92672">}</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+<p>We need the <code>.withNewSession</code> because there is no Hibernate session provided in the <code>setup()</code> and <code>cleanup()</code> methods.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Fri, Oct 30, 2015
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            </div>
+        </div>
+    </div>
+  
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    
+                        <a title="Twitter" href="https://twitter.com/marcopas">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    
+                    
+                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    
+                    
+                        <a title="GitHub" href="https://github.com/mpas">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    
+                    
+                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
+                            <i class="fa fa-stack-overflow"></i>
+                        </a>
+                    
+                    
+                        <a title="Flickr" href="https://www.flickr.com/photos/marcopas/">
+                            <i class="fa fa-flickr"></i>
+                        </a>
+                    
+                    
+                        <a title="Facebook" href="https://www.facebook.com/marco.pasopas">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    
+                    
+                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
+                            <i class="fa fa-envelope-o"></i>
+                        </a>
+                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; 2016 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+
