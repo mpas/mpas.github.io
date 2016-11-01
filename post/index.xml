@@ -6,8 +6,39 @@
     <description>Recent content in Posts on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Nov 2016 19:05:44 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 01 Nov 2016 19:44:16 +0100</lastBuildDate>
     <atom:link href="http://mpas.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Grails change the port of actuator endpoints</title>
+      <link>http://mpas.github.io/post/2016/11/01/20161101_grails_change_port_actuator_endpoint/</link>
+      <pubDate>Tue, 01 Nov 2016 19:44:16 +0100</pubDate>
+      
+      <guid>http://mpas.github.io/post/2016/11/01/20161101_grails_change_port_actuator_endpoint/</guid>
+      <description>&lt;p&gt;When using actuator endpoints to expose metrics, it may be useful to run the
+metrics on a different port.&lt;/p&gt;
+
+&lt;p&gt;Let us first enable the actuator endpoints&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;// File: grails-app/conf/application.yml
+
+# Spring Actuator Endpoints are Disabled by Default
+endpoints:
+    enabled: true
+    jmx:
+        enabled: true
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Change the port on which the metrics runs, add the lines below to the appl&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;// File: grails-app/conf/application.yml
+
+management:
+    port: 9000
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now when you start your Grails application it run on port &lt;code&gt;8080&lt;/code&gt; and the metrics
+are available on port &lt;code&gt;9090&lt;/code&gt;/metrics&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Accessing localhost from a Docker Container</title>
@@ -816,27 +847,6 @@ You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the followin
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&#34;&gt;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Automount NTFS volume under Linux (Mint)</title>
-      <link>http://mpas.github.io/post/2013/05/28/20130528_automount-ntfs-mint/</link>
-      <pubDate>Tue, 28 May 2013 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/2013/05/28/20130528_automount-ntfs-mint/</guid>
-      <description>&lt;p&gt;When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo pico /etc/fstab
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Add a line in the /etc/fstab file:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;# custom mount point
-/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And take the mount into effect.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ mount -a
-&lt;/pre&gt;&lt;/div&gt;
 </description>
     </item>
     

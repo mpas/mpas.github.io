@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Springboot on CodeVerse</title>
+    <link>http://mpas.github.io/tags/springboot/</link>
+    <description>Recent content in Springboot on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 01 Nov 2016 19:44:16 +0100</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Grails change the port of actuator endpoints</title>
+      <link>http://mpas.github.io/post/2016/11/01/20161101_grails_change_port_actuator_endpoint/</link>
+      <pubDate>Tue, 01 Nov 2016 19:44:16 +0100</pubDate>
+      
+      <guid>http://mpas.github.io/post/2016/11/01/20161101_grails_change_port_actuator_endpoint/</guid>
+      <description>&lt;p&gt;When using actuator endpoints to expose metrics, it may be useful to run the
+metrics on a different port.&lt;/p&gt;
+
+&lt;p&gt;Let us first enable the actuator endpoints&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;// File: grails-app/conf/application.yml
+
+# Spring Actuator Endpoints are Disabled by Default
+endpoints:
+    enabled: true
+    jmx:
+        enabled: true
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Change the port on which the metrics runs, add the lines below to the appl&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;// File: grails-app/conf/application.yml
+
+management:
+    port: 9000
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now when you start your Grails application it run on port &lt;code&gt;8080&lt;/code&gt; and the metrics
+are available on port &lt;code&gt;9090&lt;/code&gt;/metrics&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
