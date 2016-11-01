@@ -3,7 +3,7 @@
 <head>
   
   <meta charset="utf-8">
-  <title>CodeVerse - 20161101_access_localhost_using_native_docker_for_mac</title>
+  <title>CodeVerse - Accessing localhost from a Docker Container</title>
   <meta name="description" content="">
   <meta name="author" content="Marco Pas">
 
@@ -63,12 +63,23 @@
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">20161101_access_localhost_using_native_docker_for_mac</h1>
+            <h1 class="post-title">Accessing localhost from a Docker Container</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            <p>test</p>
+            <p>Ever had a need to access something from within a Docker that runs on the host system?</p>
+
+<p>When using native Docker on OSX you have bad luck. When configuring a container and pointing
+that to localhost will result in the fact the your software will be targeted at the localhost
+of the docker container.</p>
+
+<p>A solution for this isto define a new local loopback to your localhost</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ sudo ifconfig lo0 <span style="color: #f8f8f2">alias</span> 172.16.123.1
+</pre></div>
+
+<p>This will define a loopback network interface that points to your localhost.
+When you need to access the localhost you can use this ip.</p>
 
         </div>
     </div>
