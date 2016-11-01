@@ -10,11 +10,11 @@
     <atom:link href="http://mpas.github.io/tags/grails/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Grails change the port of actuator endpoints</title>
-      <link>http://mpas.github.io/post/2016/11/01/20161101_grails_change_port_actuator_endpoint/</link>
+      <title>Grails change port of actuator endpoint</title>
+      <link>http://mpas.github.io/post/2016/11/01/20161101_grails_change_of_port_actuator_endpoint/</link>
       <pubDate>Tue, 01 Nov 2016 19:44:16 +0100</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/11/01/20161101_grails_change_port_actuator_endpoint/</guid>
+      <guid>http://mpas.github.io/post/2016/11/01/20161101_grails_change_of_port_actuator_endpoint/</guid>
       <description>&lt;p&gt;When using actuator endpoints to expose metrics, it may be useful to run the
 metrics on a different port.&lt;/p&gt;
 
