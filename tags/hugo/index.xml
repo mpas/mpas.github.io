@@ -11,10 +11,10 @@
     
     <item>
       <title>Skip a contenttype/section to be renderend</title>
-      <link>http://mpas.github.io/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</link>
+      <link>http://mpas.github.io/post/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</link>
       <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</guid>
+      <guid>http://mpas.github.io/post/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</guid>
       <description>&lt;p&gt;When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.&lt;/p&gt;
 
 &lt;p&gt;Example:

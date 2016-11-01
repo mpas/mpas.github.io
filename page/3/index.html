@@ -66,6 +66,41 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Getting the Enum from a String value</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">Enum</span><span style="color: #f92672">.</span><span style="color: #a6e22e">valueOf</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">YourClassName</span><span style="color: #f92672">.</span><span style="color: #a6e22e">class</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;String Value&quot;</span><span style="color: #f92672">)</span>
+</pre></div>
+
+<p><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html">http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html</a></p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Thu, Jan 3, 2013
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/enum">enum</a>, <a href="/tags/java">java</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Troubles getting vsftpd user logged in?</h1>
         </div>
     </div>
@@ -587,228 +622,6 @@ Note: By functional testing we mean that we are going to test via the Web layer 
                         
                     using tags:
                         <a href="/tags/coverage">coverage</a>, <a href="/tags/testing">testing</a>, <a href="/tags/cobertura">cobertura</a>, <a href="/tags/continous-integration">continous integration</a>, <a href="/tags/hudson">hudson</a>, <a href="/tags/jenkins">jenkins</a>, <a href="/tags/ssh">ssh</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Distributed Deployment with Hudson &amp; SSH</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            
-
-<p>Have you already implemented an multi-server artifact deployment using a <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engine? If not, then read ahead and maybe this article is of help.</p>
-
-<h4 id="the-need-for-continuous-integration">The need for Continuous Integration</h4>
-
-<p>A good practice in a software development methodology and lifecycle is the use of a <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engine. The adoption of <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> improves you software quality by quickly reporting failed builds so you can modify/correct your code. Popular Continuous Integration Engines can often be extended with software quality tooling so you can report on specific quality aspect of your software.</p>
-
-<p>Thus informing developers and even other people who take an interest in the status of the latest build. <strong>IMHO</strong> a failed build can also be identified as code that compiles but that does not meet the quality standards set by your organization. You are off-course totally free in defining what in your opinion a failed build actually means!</p>
-
-<p>A good build compiles, quality requirements have been met and automatic functional and unit testing has been successful.</p>
-
-<p>There a few popular <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engines available:</p>
-
-<ul>
-<li><a href="http://hudson-ci.org/">Hudson Extensible Continuous Integration Server</a></li>
-<li><a href="http://cruisecontrol.sourceforge.net/">CruiseControl</a></li>
-<li><a href="http://www.atlassian.com/software/bamboo/">Bamboo</a></li>
-</ul>
-
-<p>Probably there a some more, but for me needs the [Hudson Extensible Continuous Integration Server] works perfect.</p>
-
-<h4 id="my-needs">My needs</h4>
-
-<p>My Continuous Integration Engine:</p>
-
-<ul>
-<li>Must support multiple programming languages Java/.Net/Ruby</li>
-<li>Runs on multiple operating systems (Windows/Mac/Linux)</li>
-<li>Pluggable in the sense that there must be integration with for example JUnit, JMeter, Cobertura, Checkstyle etc.</li>
-<li>Must be able to send out notifications using email, twitter, Instant Messaging</li>
-<li>Seemless integration with CVS/SubVersion and GIT</li>
-<li>Simple and easy Configuration</li>
-<li>Must support timed builds &amp; trigger builds from <a href="http://en.wikipedia.org/wiki/Revision_control">SCM</a> commits</li>
-<li>Maintain a link between modified code and</li>
-<li>and some more..</li>
-</ul>
-
-<p>All of these requirements and more have been succesfully fulfilled by using <a href="http://hudson-ci.org/">Hudson</a></p>
-
-<h4 id="hudson-and-automatic-deployment">Hudson and automatic deployment</h4>
-
-<p>In every project a recurring problem arises, artifacts of a software build have to be distributed accross different servers and environments. How are the build artifacts going to be distributed and deployed? Why not let the <a href="http://hudson-ci.org/">Hudson</a> server give a helping hand!!</p>
-
-<h4 id="deployment-scenario">Deployment Scenario</h4>
-
-<p>In the following scenario we will be distributing build artifacts from a central Hudson server to three different <a href="http://www.jboss.org/">JBoss</a> application servers al running Windows 2003 Server as Operating System. Next to the <a href="http://hudson-ci.org/">Hudson</a> server we have a <a href="http://subversion.tigris.org/">Subversion</a> system which is used for <a href="http://en.wikipedia.org/wiki/Revision_control">SCM</a> purposes.</p>
-
-<h4 id="distribution-of-build-artifacts">Distribution of build artifacts</h4>
-
-<p>After a succesfull build, the artifacts have to be distributed to remote machines. Offcourse the latest code has been checked out from the SVN repository, compiled and tested. The distribution of the artifacts can be done in various ways. One can use Ftp, shared folders, SCM checkin etc..</p>
-
-<p>For me the most easiest way to distribute build artifacts is using <a href="http://en.wikipedia.org/wiki/Secure_Shell">Secure Shell access aka SSH</a>. This is a secure and a standardized manner for distribution. Lets assume we have the build artifacts somewhere on our <a href="http://hudson-ci.org/">Hudson</a> server, we need a way of transfering them using <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to a remote machine.</p>
-
-<p>To accomplish this we need SSH access to the remote machine. With the help off <a href="http://www.itefix.no/i2/node/27">CopSSH</a> installing SSH is a breeze!</p>
-
-<h4 id="prepare-for-installation-of-ssh">Prepare for installation of SSH</h4>
-
-<p>Prepare yourself by downloading:</p>
-
-<ul>
-<li><a href="http://www.itefix.no/i2/node/27">CopSSH</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> service for Windows</li>
-<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Putty</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client (used for connection to the SSH service)</li>
-<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PSCP</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client for file transfer</li>
-<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Plink</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client for executing remote commands</li>
-</ul>
-
-<h4 id="installing-and-enable-remote-access-using-ssh">Installing and enable remote access using SSH</h4>
-
-<ul>
-<li>Install <a href="http://www.itefix.no/i2/node/27">CopSSH</a> on the remote system</li>
-<li>On the remote system enable a user for <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> access, see the installation guide of CopSSH</li>
-<li>Start <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Putty</a> on your local machine</li>
-<li>Using Putty connect to the remote system and exchange security credentials</li>
-</ul>
-
-<p>You are now officially ready to remotely access the system using SSH
-If you want to enable the Hudson server to access the remote system, start Putty on the Hudson server and repeat step 4!</p>
-
-<p><strong>Note</strong>: Make sure that your Hudson uses the same credentials then the account in which you exchange security credentials, otherwise remote access from Hudson server to the remote system will not work!</p>
-
-<h4 id="execute-remote-commands-and-exchange-files-using-ssh">Execute remote commands and Exchange files using SSH</h4>
-
-<p>If you can succesfully access the remote server using Putty, it is time to exchange files or execute remote commands. This can be done by using 2 small commandline utilities called PSCP for file transfer and Plink for executing remote commands such as remotely deleting files etc.</p>
-
-<p>Make sure these are in you PATH settings so you can execute them everywhere!</p>
-
-<p>Examples for executing a remote command (substitute the %parameters% with your own ones)</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>#create a directory
-plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  mkdir C:/tmp
-
-#delete a directory
-plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  rm -rf C:/tmp
-
-#stop a windows service
-plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  net stop %SERVICENAME%
-
-#upload a file
-pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
-
-#upload multiple files
-pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
-</pre></div>
-
-<h4 id="the-return-of-the-bat-file">The return of the .bat file</h4>
-
-<p>So far we have enabled remote access using SSH / CopSSH, executed remote commands and transferred files. All the needed ingredients are in place to enable our Hudson server to remotely deploy build artifacts. In the job configuration of Hudson you can trigger a batch file after a succesfull build, so whenever a succesfull build occurs trigger a batch that executes a few commands to quickly deploy build artifacts to any number of remote servers.</p>
-
-<p>In our case all deployment artifacts are copied to a central directory per project. So if we need to deploy a build, we can copy parts or the whole directory contents to a remote server.</p>
-
-<p>To give an example see the following batch files: Main example for a batchfile that triggers stopping of the remote Windows Services gives the instruction on which files need to be remotely deployed and start the services again.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>-<span style="color: #f8f8f2">&gt;</span> filename = upload-project-to-development.bat
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">CLS</span>
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> OFF
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">USERNAME=%1</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">PASSWORD=%2</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">HOSTNAME=%3</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">JBOSSDIR=%4</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">SOURCEDIR=%5</span>
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : - start upload procedure
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : -- stopping servers
-<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> net stop JBoss
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : -- uploading files CALL upload-files.bat <span style="color: #f8f8f2">%USERNAME%</span> <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%HOSTNAME%</span> <span style="color: #f8f8f2">%JBOSSDIR%</span> <span style="color: #f8f8f2">%SOURCEDIR%</span>\*.*
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : -- starting servers
-<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> net start JBoss
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : - finished upload procedure
-</pre></div>
-
-<p>The above script can be called easily by the Hudson server after a succesfull deployment.</p>
-
-<p><strong>example:</strong></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>upload-project-to-development scott tiger 10.0.0.100 d:/java/server/jboss-v5.0 d:/build_artifacts/projectx
-</pre></div>
-
-<p><strong>The example above:</strong></p>
-
-<ul>
-<li>Stops the JBoss server on the 10.0.0.100 host</li>
-<li>Passes some parameters to a file called “upload-files.bat” script</li>
-<li>Starts the JBoss servers again</li>
-</ul>
-
-<p>The script that executes the actual maintenance and uploads is the “upload-files.bat file”. All parameters are passed in by the calling script.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>-<span style="color: #f8f8f2">&gt;</span> filename = upload-files.bat
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> OFF
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">USERNAME=%1</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">PASSWORD=%2</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">HOSTNAME=%3</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">JBOSSDIR=%4</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">SOURCE=%5</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">DESTINATION=%JBOSSDIR%</span>/deploy
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : - <span style="color: #f8f8f2">%HOSTNAME%</span> - starting file copy
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : -- <span style="color: #f8f8f2">%HOSTNAME%</span> - deleting JBOSS tmp
-<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> rm -rf <span style="color: #f8f8f2">%JBOSSDIR%</span>/tmp
-<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> mkdir <span style="color: #f8f8f2">%JBOSSDIR%</span>/tmp
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : -- <span style="color: #f8f8f2">%HOSTNAME%</span> - deleting JBOSS work
-<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> rm -rf <span style="color: #f8f8f2">%JBOSSDIR%</span>/work
-<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> mkdir <span style="color: #f8f8f2">%JBOSSDIR%</span>/work
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : -- <span style="color: #f8f8f2">%HOSTNAME%</span> - deleting previous ears + jars
-<span style="color: #f8f8f2">@</span>plink -batch  -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> rm <span style="color: #f8f8f2">%JBOSSDIR%</span>/deploy/*.ear
-<span style="color: #f8f8f2">@</span>plink -batch  -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> rm <span style="color: #f8f8f2">%JBOSSDIR%</span>/deploy/*.jar
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : -- <span style="color: #f8f8f2">%HOSTNAME%</span> - copy remote files
-<span style="color: #f8f8f2">@</span>pscp -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%SOURCE%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span>:<span style="color: #f8f8f2">%DESTINATION%</span>
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : - <span style="color: #f8f8f2">%HOSTNAME%</span> - finishing file copy
-</pre></div>
-
-<p><strong>The example above:</strong></p>
-
-<ul>
-<li>Removes the JBoss tmp &amp; work directory</li>
-<li>Removes artifacts from previous builds</li>
-<li>Copies the artifacts to the remote JBoss deploy directory</li>
-</ul>
-
-<h4 id="steps-taken">Steps taken</h4>
-
-<p>So the list of tasks executed by calling the batch files with the correct parameters are:</p>
-
-<ul>
-<li>Stopping the remote JBoss server</li>
-<li>Removing the remote JBoss tmp &amp; work directories</li>
-<li>Removing the remote JBoss artifacts from previous deployments</li>
-<li>Copy files to the remote JBoss server</li>
-<li>Starting the JBoss server again</li>
-</ul>
-
-<h4 id="from-build-to-deployment">From build to deployment</h4>
-
-<p>So with a quick installation of SSH/Putty/Plink/PSCP we now have a modular and easy way of distributing files to remote systems. Offcourse there are lots of improvements to make, but for now it works without any problems!</p>
-
-<p>The given examples can be easily modified so that after a succesfull build the artifact deployment to all of your servers can be done in a very simple and easy way.
-Notes</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    Sun, Sep 9, 2012
-                
-                <span class="post-meta-info-taxonomy">
-                    in categories:
-                        
-                    using tags:
-                        <a href="/tags/deployment">deployment</a>, <a href="/tags/continous-integration">continous integration</a>, <a href="/tags/hudson">hudson</a>, <a href="/tags/ssh">ssh</a>
                 </span>
             </div>
         </div>

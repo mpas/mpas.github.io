@@ -66,6 +66,37 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">20161101_access_localhost_using_native_docker_for_mac</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>test</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Tue, Nov 1, 2016
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/docker">docker</a>, <a href="/tags/osx">osx</a>, <a href="/tags/mac">mac</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Terraform to the rescue</h1>
         </div>
     </div>
@@ -953,51 +984,6 @@ $ sudo service docker start
                         
                     using tags:
                         <a href="/tags/docker">docker</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Upgrading from Grails 2.3.8 to 2.4.2</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>Error creating bean with name &#39;grailsApplication&#39; defined in ServletContext resource
-[/WEB-INF/applicationContext.xml]: Cannot resolve reference to
-bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResourceLoader&#39;;
-</pre></div>
-
-<p>To solve this issue you need to delete some lines in the <code>&lt;grails-app&gt;/web-app/WEB-INF/applicationContext.xml</code> file.</p>
-
-<p>Delete the following lines:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">&lt;property</span> <span style="color: #a6e22e">name=</span><span style="color: #e6db74">&quot;grailsResourceLoader&quot;</span> <span style="color: #a6e22e">ref=</span><span style="color: #e6db74">&quot;grailsResourceLoader&quot;</span> <span style="color: #f92672">/&gt;</span>
-
-<span style="color: #f92672">&lt;bean</span> <span style="color: #a6e22e">id=</span><span style="color: #e6db74">&quot;grailsResourceLoader&quot;</span> <span style="color: #a6e22e">class=</span><span style="color: #e6db74">&quot;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&quot;</span> <span style="color: #f92672">/&gt;</span>
-</pre></div>
-
-<p>And you should be up and running quickly.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    Fri, Jul 4, 2014
-                
-                <span class="post-meta-info-taxonomy">
-                    in categories:
-                        
-                    using tags:
-                        <a href="/tags/grails">grails</a>
                 </span>
             </div>
         </div>

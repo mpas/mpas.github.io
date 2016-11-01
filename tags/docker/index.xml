@@ -6,15 +6,25 @@
     <description>Recent content in Docker on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 11 Jun 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 01 Nov 2016 19:05:44 +0100</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>20161101_access_localhost_using_native_docker_for_mac</title>
+      <link>http://mpas.github.io/post/2016/11/01/20161101_access_localhost_using_native_docker_for_mac/</link>
+      <pubDate>Tue, 01 Nov 2016 19:05:44 +0100</pubDate>
+      
+      <guid>http://mpas.github.io/post/2016/11/01/20161101_access_localhost_using_native_docker_for_mac/</guid>
+      <description>&lt;p&gt;test&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
-      <link>http://mpas.github.io/2015/06/11/20150611_docker-rabbitmq-default-users/</link>
+      <link>http://mpas.github.io/post/2015/06/11/20150611_docker-rabbitmq-default-users/</link>
       <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/2015/06/11/20150611_docker-rabbitmq-default-users/</guid>
+      <guid>http://mpas.github.io/post/2015/06/11/20150611_docker-rabbitmq-default-users/</guid>
       <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;
 
 &lt;p&gt;The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.&lt;/p&gt;
@@ -75,10 +85,10 @@ rabbitmq-server &lt;span style=&#34;color: #f8f8f2&#34;&gt;$@&lt;/span&gt;
     
     <item>
       <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
-      <link>http://mpas.github.io/2015/06/05/20150605_docker-setup-registry/</link>
+      <link>http://mpas.github.io/post/2015/06/05/20150605_docker-setup-registry/</link>
       <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/2015/06/05/20150605_docker-setup-registry/</guid>
+      <guid>http://mpas.github.io/post/2015/06/05/20150605_docker-setup-registry/</guid>
       <description>
 
 &lt;p&gt;The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.&lt;/p&gt;

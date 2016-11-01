@@ -11,10 +11,10 @@
     
     <item>
       <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
-      <link>http://mpas.github.io/2015/06/10/20150610_httpservletwrapper-3.1/</link>
+      <link>http://mpas.github.io/post/2015/06/10/20150610_httpservletwrapper-3.1/</link>
       <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/2015/06/10/20150610_httpservletwrapper-3.1/</guid>
+      <guid>http://mpas.github.io/post/2015/06/10/20150610_httpservletwrapper-3.1/</guid>
       <description>&lt;p&gt;A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -113,10 +113,10 @@
     
     <item>
       <title>Bookreview : Instant Vert.x</title>
-      <link>http://mpas.github.io/2013/11/27/20131127_bookreview-instant-vertx/</link>
+      <link>http://mpas.github.io/post/2013/11/27/20131127_bookreview-instant-vertx/</link>
       <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/2013/11/27/20131127_bookreview-instant-vertx/</guid>
+      <guid>http://mpas.github.io/post/2013/11/27/20131127_bookreview-instant-vertx/</guid>
       <description>&lt;p&gt;For those who have not yet got into contact with &lt;a href=&#34;http://vertx.io/&#34;&gt;Vert.x&lt;/a&gt;, the book &lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Instant Vert.x&lt;/a&gt; (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.&lt;/p&gt;
 
 &lt;p&gt;As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.&lt;/p&gt;
@@ -136,10 +136,10 @@
     
     <item>
       <title>Simple Helloworld verticle</title>
-      <link>http://mpas.github.io/2013/05/16/20130516_simple-helloworld-verticle/</link>
+      <link>http://mpas.github.io/post/2013/05/16/20130516_simple-helloworld-verticle/</link>
       <pubDate>Thu, 16 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/2013/05/16/20130516_simple-helloworld-verticle/</guid>
+      <guid>http://mpas.github.io/post/2013/05/16/20130516_simple-helloworld-verticle/</guid>
       <description>&lt;p&gt;Sourcecode:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;helloworld&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
 
@@ -165,10 +165,10 @@
     
     <item>
       <title>Getting the Enum from a String value</title>
-      <link>http://mpas.github.io/2013/01/03/20130103_getting-enum-from-string-value/</link>
+      <link>http://mpas.github.io/post/2013/01/03/20130103_getting-enum-from-string-value/</link>
       <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/2013/01/03/20130103_getting-enum-from-string-value/</guid>
+      <guid>http://mpas.github.io/post/2013/01/03/20130103_getting-enum-from-string-value/</guid>
       <description>&lt;p&gt;Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;Enum&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;valueOf&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;YourClassName&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;String Value&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;

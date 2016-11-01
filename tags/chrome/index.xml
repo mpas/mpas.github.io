@@ -11,10 +11,10 @@
     
     <item>
       <title>Use backspace key to go back in Google Chrome</title>
-      <link>http://mpas.github.io/2013/05/30/20130530_backspace-mint/</link>
+      <link>http://mpas.github.io/post/2013/05/30/20130530_backspace-mint/</link>
       <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/2013/05/30/20130530_backspace-mint/</guid>
+      <guid>http://mpas.github.io/post/2013/05/30/20130530_backspace-mint/</guid>
       <description>&lt;p&gt;When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -25,10 +25,10 @@
     
     <item>
       <title>Google Chrome not synchronizing extensions</title>
-      <link>http://mpas.github.io/2013/05/24/20130524_chrome-not-synchronizing-extensions/</link>
+      <link>http://mpas.github.io/post/2013/05/24/20130524_chrome-not-synchronizing-extensions/</link>
       <pubDate>Fri, 24 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/2013/05/24/20130524_chrome-not-synchronizing-extensions/</guid>
+      <guid>http://mpas.github.io/post/2013/05/24/20130524_chrome-not-synchronizing-extensions/</guid>
       <description>&lt;p&gt;When installing a fresh version of Chrome it may occur that all Bookmarks sync ok but the extensions not. The following solution worked for my system.&lt;/p&gt;
 
 &lt;ul&gt;
