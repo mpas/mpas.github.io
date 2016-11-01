@@ -10,13 +10,16 @@
     <atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Grails change port of actuator endpoint</title>
-      <link>http://mpas.github.io/post/2016/11/01/20161101_grails_change_port_of_actuator_endpoint/</link>
+      <title>Change port of actuator endpoint</title>
+      <link>http://mpas.github.io/post/2016/11/01/20161101_change_port_of_actuator_endpoint/</link>
       <pubDate>Tue, 01 Nov 2016 19:44:16 +0100</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/11/01/20161101_grails_change_port_of_actuator_endpoint/</guid>
-      <description>&lt;p&gt;When using actuator endpoints to expose metrics, it may be useful to run the
-metrics on a different port.&lt;/p&gt;
+      <guid>http://mpas.github.io/post/2016/11/01/20161101_change_port_of_actuator_endpoint/</guid>
+      <description>&lt;p&gt;When using actuator endpoints to expose metrics in a Grails (Spring Boot) application,
+it may be useful to run the metrics on a different port.&lt;/p&gt;
+
+&lt;p&gt;This enables you to hide the metrics for the public and use the different port in
+an AWS infrastucture so that the metrics are only available internal.&lt;/p&gt;
 
 &lt;p&gt;Let us first enable the actuator endpoints&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;// File: grails-app/conf/application.yml

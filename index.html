@@ -66,13 +66,16 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Grails change port of actuator endpoint</h1>
+            <h1 class="post-title">Change port of actuator endpoint</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            <p>When using actuator endpoints to expose metrics, it may be useful to run the
-metrics on a different port.</p>
+            <p>When using actuator endpoints to expose metrics in a Grails (Spring Boot) application,
+it may be useful to run the metrics on a different port.</p>
+
+<p>This enables you to hide the metrics for the public and use the different port in
+an AWS infrastucture so that the metrics are only available internal.</p>
 
 <p>Let us first enable the actuator endpoints</p>
 <div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>// File: grails-app/conf/application.yml
