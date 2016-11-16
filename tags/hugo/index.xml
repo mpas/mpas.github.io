@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hugo on CodeVerse</title>
-    <link>mpas.github.io/tags/hugo/</link>
+    <link>http://mpas.github.io/tags/hugo/</link>
     <description>Recent content in Hugo on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 09 Jun 2014 00:00:00 +0000</lastBuildDate>
-    <atom:link href="mpas.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://mpas.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Skip a contenttype/section to be renderend</title>
-      <link>/mpas.github.io/post/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</link>
+      <link>http://mpas.github.io/post/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</link>
       <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</guid>
+      <guid>http://mpas.github.io/post/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</guid>
       <description>&lt;p&gt;When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.&lt;/p&gt;
 
 &lt;p&gt;Example:

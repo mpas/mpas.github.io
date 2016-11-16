@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Cadvisor on CodeVerse</title>
-    <link>mpas.github.io/tags/cadvisor/</link>
+    <link>http://mpas.github.io/tags/cadvisor/</link>
     <description>Recent content in Cadvisor on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 16 Nov 2016 16:12:14 +0200</lastBuildDate>
-    <atom:link href="mpas.github.io/tags/cadvisor/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://mpas.github.io/tags/cadvisor/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Identifying Docker container outage using Prometheus</title>
-      <link>/mpas.github.io/post/2016/11/16/20161116_identifying_docker_container_outage_using_prometheus/</link>
+      <link>http://mpas.github.io/post/2016/11/16/20161116_identifying_docker_container_outage_using_prometheus/</link>
       <pubDate>Wed, 16 Nov 2016 16:12:14 +0200</pubDate>
       
-      <guid>/mpas.github.io/post/2016/11/16/20161116_identifying_docker_container_outage_using_prometheus/</guid>
+      <guid>http://mpas.github.io/post/2016/11/16/20161116_identifying_docker_container_outage_using_prometheus/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;https://prometheus.io/&#34;&gt;Prometheus&lt;/a&gt; is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach. The purpose of Prometheus is to give you insight in events that have occurred and visualize them using graphs or use Grafana so you can create nice dashboard for your events.&lt;/p&gt;

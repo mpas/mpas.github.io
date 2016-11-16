@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Review on CodeVerse</title>
-    <link>mpas.github.io/tags/review/</link>
+    <link>http://mpas.github.io/tags/review/</link>
     <description>Recent content in Review on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 27 Nov 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="mpas.github.io/tags/review/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://mpas.github.io/tags/review/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Bookreview : Instant Vert.x</title>
-      <link>/mpas.github.io/post/2013/11/27/20131127_bookreview-instant-vertx/</link>
+      <link>http://mpas.github.io/post/2013/11/27/20131127_bookreview-instant-vertx/</link>
       <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2013/11/27/20131127_bookreview-instant-vertx/</guid>
+      <guid>http://mpas.github.io/post/2013/11/27/20131127_bookreview-instant-vertx/</guid>
       <description>&lt;p&gt;For those who have not yet got into contact with &lt;a href=&#34;http://vertx.io/&#34;&gt;Vert.x&lt;/a&gt;, the book &lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Instant Vert.x&lt;/a&gt; (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.&lt;/p&gt;
 
 &lt;p&gt;As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.&lt;/p&gt;

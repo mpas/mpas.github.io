@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Spock on CodeVerse</title>
-    <link>mpas.github.io/tags/spock/</link>
+    <link>http://mpas.github.io/tags/spock/</link>
     <description>Recent content in Spock on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 19 Nov 2015 00:00:00 +0000</lastBuildDate>
-    <atom:link href="mpas.github.io/tags/spock/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://mpas.github.io/tags/spock/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Functional Rest API Testing with Grails/Rest Client Builder</title>
-      <link>/mpas.github.io/post/2015/11/19/20151119_functional_rest_api_testing/</link>
+      <link>http://mpas.github.io/post/2015/11/19/20151119_functional_rest_api_testing/</link>
       <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2015/11/19/20151119_functional_rest_api_testing/</guid>
+      <guid>http://mpas.github.io/post/2015/11/19/20151119_functional_rest_api_testing/</guid>
       <description>&lt;p&gt;Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.&lt;/p&gt;
 
 &lt;p&gt;When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.&lt;/p&gt;
@@ -144,10 +144,10 @@ Total time: 2.054 secs
     
     <item>
       <title>Cleaning Grails Domain Objects in a Spock Test</title>
-      <link>/mpas.github.io/post/2015/10/30/20151030_grails-spock-clean-domain/</link>
+      <link>http://mpas.github.io/post/2015/10/30/20151030_grails-spock-clean-domain/</link>
       <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2015/10/30/20151030_grails-spock-clean-domain/</guid>
+      <guid>http://mpas.github.io/post/2015/10/30/20151030_grails-spock-clean-domain/</guid>
       <description>&lt;p&gt;Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.&lt;/p&gt;
 
 &lt;p&gt;Spock provides a &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; method.&lt;/p&gt;
@@ -169,10 +169,10 @@ Total time: 2.054 secs
     
     <item>
       <title>Testing constraints with Build Test Data</title>
-      <link>/mpas.github.io/post/2013/01/13/20130113_testing-constraints-with-build-test-data/</link>
+      <link>http://mpas.github.io/post/2013/01/13/20130113_testing-constraints-with-build-test-data/</link>
       <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2013/01/13/20130113_testing-constraints-with-build-test-data/</guid>
+      <guid>http://mpas.github.io/post/2013/01/13/20130113_testing-constraints-with-build-test-data/</guid>
       <description>&lt;p&gt;The &lt;a href=&#34;http://grails.org/plugin/spock&#34;&gt;Spock&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://grails.org/plugin/build-test-data&#34;&gt;Build Test Data&lt;/a&gt; plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!&lt;/p&gt;
 
 &lt;p&gt;When testing constraints on an object it can be used as follows:&lt;/p&gt;

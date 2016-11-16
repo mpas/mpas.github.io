@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Migrations on CodeVerse</title>
-    <link>mpas.github.io/tags/migrations/</link>
+    <link>http://mpas.github.io/tags/migrations/</link>
     <description>Recent content in Migrations on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 28 Feb 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="mpas.github.io/tags/migrations/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://mpas.github.io/tags/migrations/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Grails migrations and &#39;Waiting for changelog lock&#39;</title>
-      <link>/mpas.github.io/post/2013/02/28/20130228_grails-migrations-and-waiting-for-changelog/</link>
+      <link>http://mpas.github.io/post/2013/02/28/20130228_grails-migrations-and-waiting-for-changelog/</link>
       <pubDate>Thu, 28 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2013/02/28/20130228_grails-migrations-and-waiting-for-changelog/</guid>
+      <guid>http://mpas.github.io/post/2013/02/28/20130228_grails-migrations-and-waiting-for-changelog/</guid>
       <description>&lt;p&gt;Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;...
 Waiting for changelog lock....

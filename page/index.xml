@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pages on CodeVerse</title>
-    <link>mpas.github.io/page/</link>
+    <link>http://mpas.github.io/page/</link>
     <description>Recent content in Pages on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 30 Oct 2015 00:00:00 +0000</lastBuildDate>
-    <atom:link href="mpas.github.io/page/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://mpas.github.io/page/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>About Me</title>
-      <link>/mpas.github.io/page/about/</link>
+      <link>http://mpas.github.io/page/about/</link>
       <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/page/about/</guid>
+      <guid>http://mpas.github.io/page/about/</guid>
       <description>
 
 &lt;p&gt;I am software geek and a hands on developer/system architect. Interested in all kinds of software related technologies (languages, architectures and methodologies). Strong believer in the fact that one should keep knowledge up-to-date, but also understand why you should choose a particular technology for a given problem. I’m focused on JVM related technologies, DevOps &amp;amp; Cloud Computing.&lt;/p&gt;

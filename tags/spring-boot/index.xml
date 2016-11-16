@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Spring Boot on CodeVerse</title>
-    <link>mpas.github.io/tags/spring-boot/</link>
+    <link>http://mpas.github.io/tags/spring-boot/</link>
     <description>Recent content in Spring Boot on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 16 Jun 2015 00:00:00 +0000</lastBuildDate>
-    <atom:link href="mpas.github.io/tags/spring-boot/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://mpas.github.io/tags/spring-boot/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Adding WebSocket/Stomp support to a Spring Boot application</title>
-      <link>/mpas.github.io/post/2015/06/16/20150616_springboot-websocket-support/</link>
+      <link>http://mpas.github.io/post/2015/06/16/20150616_springboot-websocket-support/</link>
       <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2015/06/16/20150616_springboot-websocket-support/</guid>
+      <guid>http://mpas.github.io/post/2015/06/16/20150616_springboot-websocket-support/</guid>
       <description>&lt;p&gt;Adding support for &lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34;&gt;WebSockets&lt;/a&gt; / &lt;a href=&#34;https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol&#34;&gt;Stomp&lt;/a&gt; in a &lt;a href=&#34;http://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.&lt;/p&gt;
 
 &lt;p&gt;The following example will enable a server to send messages to a WebSocket/Stomp client.&lt;/p&gt;

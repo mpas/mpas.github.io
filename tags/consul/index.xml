@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Consul on CodeVerse</title>
-    <link>mpas.github.io/tags/consul/</link>
+    <link>http://mpas.github.io/tags/consul/</link>
     <description>Recent content in Consul on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 16 Nov 2016 10:26:33 +0100</lastBuildDate>
-    <atom:link href="mpas.github.io/tags/consul/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://mpas.github.io/tags/consul/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Building a Consul cluster using Terraform/AWS</title>
-      <link>/mpas.github.io/post/2016/11/16/20161116_building_a_consul_cluster_using_terraform_aws/</link>
+      <link>http://mpas.github.io/post/2016/11/16/20161116_building_a_consul_cluster_using_terraform_aws/</link>
       <pubDate>Wed, 16 Nov 2016 10:26:33 +0100</pubDate>
       
-      <guid>/mpas.github.io/post/2016/11/16/20161116_building_a_consul_cluster_using_terraform_aws/</guid>
+      <guid>http://mpas.github.io/post/2016/11/16/20161116_building_a_consul_cluster_using_terraform_aws/</guid>
       <description>
 
 &lt;p&gt;&lt;img style=&#34;float: right;&#34; width=&#34;150&#34; src=&#34;https://www.consul.io/assets/images/logo_large-475cebb0.png&#34;&gt;

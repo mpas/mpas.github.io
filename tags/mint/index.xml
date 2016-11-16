@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Mint on CodeVerse</title>
-    <link>mpas.github.io/tags/mint/</link>
+    <link>http://mpas.github.io/tags/mint/</link>
     <description>Recent content in Mint on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 30 May 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="mpas.github.io/tags/mint/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://mpas.github.io/tags/mint/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Use backspace key to go back in Google Chrome</title>
-      <link>/mpas.github.io/post/2013/05/30/20130530_backspace-mint/</link>
+      <link>http://mpas.github.io/post/2013/05/30/20130530_backspace-mint/</link>
       <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2013/05/30/20130530_backspace-mint/</guid>
+      <guid>http://mpas.github.io/post/2013/05/30/20130530_backspace-mint/</guid>
       <description>&lt;p&gt;When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -25,10 +25,10 @@
     
     <item>
       <title>Automount NTFS volume under Linux (Mint)</title>
-      <link>/mpas.github.io/post/2013/05/28/20130528_automount-ntfs-mint/</link>
+      <link>http://mpas.github.io/post/2013/05/28/20130528_automount-ntfs-mint/</link>
       <pubDate>Tue, 28 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2013/05/28/20130528_automount-ntfs-mint/</guid>
+      <guid>http://mpas.github.io/post/2013/05/28/20130528_automount-ntfs-mint/</guid>
       <description>&lt;p&gt;When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo pico /etc/fstab
 &lt;/pre&gt;&lt;/div&gt;

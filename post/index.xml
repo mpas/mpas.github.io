@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on CodeVerse</title>
-    <link>mpas.github.io/post/</link>
+    <link>http://mpas.github.io/post/</link>
     <description>Recent content in Posts on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 16 Nov 2016 16:12:14 +0200</lastBuildDate>
-    <atom:link href="mpas.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://mpas.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Identifying Docker container outage using Prometheus</title>
-      <link>/mpas.github.io/post/2016/11/16/20161116_identifying_docker_container_outage_using_prometheus/</link>
+      <link>http://mpas.github.io/post/2016/11/16/20161116_identifying_docker_container_outage_using_prometheus/</link>
       <pubDate>Wed, 16 Nov 2016 16:12:14 +0200</pubDate>
       
-      <guid>/mpas.github.io/post/2016/11/16/20161116_identifying_docker_container_outage_using_prometheus/</guid>
+      <guid>http://mpas.github.io/post/2016/11/16/20161116_identifying_docker_container_outage_using_prometheus/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;https://prometheus.io/&#34;&gt;Prometheus&lt;/a&gt; is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach. The purpose of Prometheus is to give you insight in events that have occurred and visualize them using graphs or use Grafana so you can create nice dashboard for your events.&lt;/p&gt;
@@ -63,10 +63,10 @@
     
     <item>
       <title>Building a Consul cluster using Terraform/AWS</title>
-      <link>/mpas.github.io/post/2016/11/16/20161116_building_a_consul_cluster_using_terraform_aws/</link>
+      <link>http://mpas.github.io/post/2016/11/16/20161116_building_a_consul_cluster_using_terraform_aws/</link>
       <pubDate>Wed, 16 Nov 2016 10:26:33 +0100</pubDate>
       
-      <guid>/mpas.github.io/post/2016/11/16/20161116_building_a_consul_cluster_using_terraform_aws/</guid>
+      <guid>http://mpas.github.io/post/2016/11/16/20161116_building_a_consul_cluster_using_terraform_aws/</guid>
       <description>
 
 &lt;p&gt;&lt;img style=&#34;float: right;&#34; width=&#34;150&#34; src=&#34;https://www.consul.io/assets/images/logo_large-475cebb0.png&#34;&gt;
@@ -297,10 +297,10 @@ agent -server -bind&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;
     
     <item>
       <title>Change the port of actuator endpoint in a Grails application</title>
-      <link>/mpas.github.io/post/2016/11/01/20161101_change_the_port_of_actuator_endpoint/</link>
+      <link>http://mpas.github.io/post/2016/11/01/20161101_change_the_port_of_actuator_endpoint/</link>
       <pubDate>Tue, 01 Nov 2016 19:44:16 +0100</pubDate>
       
-      <guid>/mpas.github.io/post/2016/11/01/20161101_change_the_port_of_actuator_endpoint/</guid>
+      <guid>http://mpas.github.io/post/2016/11/01/20161101_change_the_port_of_actuator_endpoint/</guid>
       <description>&lt;p&gt;When using actuator endpoints to expose metrics in a Grails (Spring Boot) application,
 it may be useful to run the metrics on a different port.&lt;/p&gt;
 
@@ -331,10 +331,10 @@ are available on port &lt;code&gt;9090&lt;/code&gt;/metrics&lt;/p&gt;
     
     <item>
       <title>Accessing localhost from a Docker Container using native Docker for Mac</title>
-      <link>/mpas.github.io/post/2016/11/01/20161101_access_localhost_using_native_docker_for_mac/</link>
+      <link>http://mpas.github.io/post/2016/11/01/20161101_access_localhost_using_native_docker_for_mac/</link>
       <pubDate>Tue, 01 Nov 2016 19:05:44 +0100</pubDate>
       
-      <guid>/mpas.github.io/post/2016/11/01/20161101_access_localhost_using_native_docker_for_mac/</guid>
+      <guid>http://mpas.github.io/post/2016/11/01/20161101_access_localhost_using_native_docker_for_mac/</guid>
       <description>&lt;p&gt;Ever had a need to access something from within a &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; container that runs on the host system?&lt;/p&gt;
 
 &lt;p&gt;When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.&lt;/p&gt;
@@ -349,10 +349,10 @@ are available on port &lt;code&gt;9090&lt;/code&gt;/metrics&lt;/p&gt;
     
     <item>
       <title>Terraform to the rescue</title>
-      <link>/mpas.github.io/post/2016/10/09/20161009_terraform_to_the_rescue/</link>
+      <link>http://mpas.github.io/post/2016/10/09/20161009_terraform_to_the_rescue/</link>
       <pubDate>Sun, 09 Oct 2016 00:42:58 +0200</pubDate>
       
-      <guid>/mpas.github.io/post/2016/10/09/20161009_terraform_to_the_rescue/</guid>
+      <guid>http://mpas.github.io/post/2016/10/09/20161009_terraform_to_the_rescue/</guid>
       <description>&lt;p&gt;Getting exposed to &lt;a href=&#34;https://aws.amazon.com/&#34;&gt;Amazon Web Services&lt;/a&gt; is fun! Certainly when you see that the infrastructure is growing and supporting the daily need of developers and the business. You slowly start adding services and try to keep everything in a state so that it is repeatable and maintainable. At a certain moment it becomes clear that you need the concept of &lt;a href=&#34;https://en.wikipedia.org/wiki/Infrastructure_as_Code&#34;&gt;Infrastructure As Code&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;The Amazon way of doing this is by using &lt;a href=&#34;https://aws.amazon.com/cloudformation/&#34;&gt;AWS CloudFormation&lt;/a&gt;. This enables you to define the infrastructure in a JSON/YAML format and apply the changes to the infrastructure.&lt;/p&gt;
@@ -380,10 +380,10 @@ are available on port &lt;code&gt;9090&lt;/code&gt;/metrics&lt;/p&gt;
     
     <item>
       <title>Functional Rest API Testing with Grails/Rest Client Builder</title>
-      <link>/mpas.github.io/post/2015/11/19/20151119_functional_rest_api_testing/</link>
+      <link>http://mpas.github.io/post/2015/11/19/20151119_functional_rest_api_testing/</link>
       <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2015/11/19/20151119_functional_rest_api_testing/</guid>
+      <guid>http://mpas.github.io/post/2015/11/19/20151119_functional_rest_api_testing/</guid>
       <description>&lt;p&gt;Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.&lt;/p&gt;
 
 &lt;p&gt;When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.&lt;/p&gt;
@@ -513,10 +513,10 @@ Total time: 2.054 secs
     
     <item>
       <title>Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</title>
-      <link>/mpas.github.io/post/2015/11/17/20151117_davmail/</link>
+      <link>http://mpas.github.io/post/2015/11/17/20151117_davmail/</link>
       <pubDate>Tue, 17 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2015/11/17/20151117_davmail/</guid>
+      <guid>http://mpas.github.io/post/2015/11/17/20151117_davmail/</guid>
       <description>
 
 &lt;p&gt;If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific &lt;a href=&#34;http://www.postbox-inc.com&#34;&gt;PostBox&lt;/a&gt; mail client.&lt;/p&gt;
@@ -529,13 +529,13 @@ Total time: 2.054 secs
 
 &lt;p&gt;Davmail is a local mail proxy that can work together with Microsoft Exchange [OWA] in a way that DavMail is actually connecting to a Exchange OWA and your mail client connects to DavMail as a proxy.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;mpas.github.io/images/201511/davmail-sequence.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/davmail-sequence.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;configure-davmail&#34;&gt;Configure Davmail&lt;/h4&gt;
 
 &lt;p&gt;In order to get DavMail working correctly you need to provide the correct settings so it can use the OWA endpoint.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;mpas.github.io/images/201511/davmail-settings-main.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/davmail-settings-main.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;configure-postbox&#34;&gt;Configure PostBox&lt;/h4&gt;
 
@@ -543,15 +543,15 @@ Total time: 2.054 secs
 
 &lt;h4 id=&#34;configure-postbox-outgoing-mailserver&#34;&gt;Configure PostBox - Outgoing mailserver&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&#34;mpas.github.io/images/201511/postbox-outgoing-mailserver.png&#34; width=&#34;400&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/postbox-outgoing-mailserver.png&#34; width=&#34;400&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;configure-postbox-account-setup&#34;&gt;Configure PostBox - Account setup&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&#34;mpas.github.io/images/201511/postbox-account-setup.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/postbox-account-setup.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;configure-postbox-identity-setup&#34;&gt;Configure PostBox - Identity setup&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&#34;mpas.github.io/images/201511/postbox-identity-setup.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://mpas.github.io/images/201511/postbox-identity-setup.png&#34; width=&#34;800&#34; class=&#34;postimage&#34;&gt;&lt;/p&gt;
 
 &lt;p&gt;Now you are ready to send mail using your PostBox Client using DavMail and OWA.&lt;/p&gt;
 </description>
@@ -559,10 +559,10 @@ Total time: 2.054 secs
     
     <item>
       <title>Cleaning Grails Domain Objects in a Spock Test</title>
-      <link>/mpas.github.io/post/2015/10/30/20151030_grails-spock-clean-domain/</link>
+      <link>http://mpas.github.io/post/2015/10/30/20151030_grails-spock-clean-domain/</link>
       <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2015/10/30/20151030_grails-spock-clean-domain/</guid>
+      <guid>http://mpas.github.io/post/2015/10/30/20151030_grails-spock-clean-domain/</guid>
       <description>&lt;p&gt;Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.&lt;/p&gt;
 
 &lt;p&gt;Spock provides a &lt;code&gt;setup()&lt;/code&gt; and &lt;code&gt;cleanup()&lt;/code&gt; method.&lt;/p&gt;
@@ -584,10 +584,10 @@ Total time: 2.054 secs
     
     <item>
       <title>Adding WebSocket/Stomp support to a Spring Boot application</title>
-      <link>/mpas.github.io/post/2015/06/16/20150616_springboot-websocket-support/</link>
+      <link>http://mpas.github.io/post/2015/06/16/20150616_springboot-websocket-support/</link>
       <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2015/06/16/20150616_springboot-websocket-support/</guid>
+      <guid>http://mpas.github.io/post/2015/06/16/20150616_springboot-websocket-support/</guid>
       <description>&lt;p&gt;Adding support for &lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34;&gt;WebSockets&lt;/a&gt; / &lt;a href=&#34;https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol&#34;&gt;Stomp&lt;/a&gt; in a &lt;a href=&#34;http://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.&lt;/p&gt;
 
 &lt;p&gt;The following example will enable a server to send messages to a WebSocket/Stomp client.&lt;/p&gt;
@@ -694,10 +694,10 @@ Total time: 2.054 secs
     
     <item>
       <title>Run a Grails 3 generated Fat Jar file in production mode</title>
-      <link>/mpas.github.io/post/2015/06/11/20150611_run-grails-war-in-production-mode/</link>
+      <link>http://mpas.github.io/post/2015/06/11/20150611_run-grails-war-in-production-mode/</link>
       <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2015/06/11/20150611_run-grails-war-in-production-mode/</guid>
+      <guid>http://mpas.github.io/post/2015/06/11/20150611_run-grails-war-in-production-mode/</guid>
       <description>&lt;p&gt;When creating a Grails WAR/JAR file using:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails war
 &lt;/pre&gt;&lt;/div&gt;
@@ -710,10 +710,10 @@ Total time: 2.054 secs
     
     <item>
       <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
-      <link>/mpas.github.io/post/2015/06/11/20150611_docker-rabbitmq-default-users/</link>
+      <link>http://mpas.github.io/post/2015/06/11/20150611_docker-rabbitmq-default-users/</link>
       <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2015/06/11/20150611_docker-rabbitmq-default-users/</guid>
+      <guid>http://mpas.github.io/post/2015/06/11/20150611_docker-rabbitmq-default-users/</guid>
       <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;
 
 &lt;p&gt;The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.&lt;/p&gt;
@@ -774,10 +774,10 @@ rabbitmq-server &lt;span style=&#34;color: #f8f8f2&#34;&gt;$@&lt;/span&gt;
     
     <item>
       <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
-      <link>/mpas.github.io/post/2015/06/10/20150610_httpservletwrapper-3.1/</link>
+      <link>http://mpas.github.io/post/2015/06/10/20150610_httpservletwrapper-3.1/</link>
       <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2015/06/10/20150610_httpservletwrapper-3.1/</guid>
+      <guid>http://mpas.github.io/post/2015/06/10/20150610_httpservletwrapper-3.1/</guid>
       <description>&lt;p&gt;A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -876,10 +876,10 @@ rabbitmq-server &lt;span style=&#34;color: #f8f8f2&#34;&gt;$@&lt;/span&gt;
     
     <item>
       <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
-      <link>/mpas.github.io/post/2015/06/05/20150605_docker-setup-registry/</link>
+      <link>http://mpas.github.io/post/2015/06/05/20150605_docker-setup-registry/</link>
       <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2015/06/05/20150605_docker-setup-registry/</guid>
+      <guid>http://mpas.github.io/post/2015/06/05/20150605_docker-setup-registry/</guid>
       <description>
 
 &lt;p&gt;The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.&lt;/p&gt;
@@ -1057,10 +1057,10 @@ $ sudo service docker start
     
     <item>
       <title>Upgrading from Grails 2.3.8 to 2.4.2</title>
-      <link>/mpas.github.io/post/2014/07/04/20140724_upgrade-grails-2.4.2/</link>
+      <link>http://mpas.github.io/post/2014/07/04/20140724_upgrade-grails-2.4.2/</link>
       <pubDate>Fri, 04 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2014/07/04/20140724_upgrade-grails-2.4.2/</guid>
+      <guid>http://mpas.github.io/post/2014/07/04/20140724_upgrade-grails-2.4.2/</guid>
       <description>&lt;p&gt;When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;Error creating bean with name &amp;#39;grailsApplication&amp;#39; defined in ServletContext resource
 [/WEB-INF/applicationContext.xml]: Cannot resolve reference to
@@ -1081,10 +1081,10 @@ bean &amp;#39;grailsResourceLoader&amp;#39; while setting bean property &amp;#39
     
     <item>
       <title>Skip a contenttype/section to be renderend</title>
-      <link>/mpas.github.io/post/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</link>
+      <link>http://mpas.github.io/post/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</link>
       <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>/mpas.github.io/post/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</guid>
+      <guid>http://mpas.github.io/post/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</guid>
       <description>&lt;p&gt;When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.&lt;/p&gt;
 
 &lt;p&gt;Example:
