@@ -243,6 +243,8 @@ agent -server -bind&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;
   }
 }
 &lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;When putting all the pieces together you should now have a running Consul cluster!&lt;/p&gt;
 </description>
     </item>
     
