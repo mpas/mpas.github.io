@@ -3,7 +3,12 @@
   
   <url>
     <loc>http://mpas.github.io/</loc>
-    <lastmod>2016-11-01T19:44:16+01:00</lastmod>
+    <lastmod>2016-11-16T10:26:33+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://mpas.github.io/post/2016/11/16/20161116_building_a_consul_cluster_using_terraform_aws/</loc>
+    <lastmod>2016-11-16T10:26:33+01:00</lastmod>
   </url>
   
   <url>
@@ -112,7 +117,7 @@
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2013/01/13/2013013_testing-constraints-with-build-test-data/</loc>
+    <loc>http://mpas.github.io/post/2013/01/13/20130113_testing-constraints-with-build-test-data/</loc>
     <lastmod>2013-01-13T00:00:00+00:00</lastmod>
   </url>
   

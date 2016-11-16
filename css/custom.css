@@ -19,6 +19,16 @@ p {
     margin-bottom: 1.2rem;
 }
 
+ul {
+    list-style-type: disc;
+    margin-bottom: 2.0rem;
+}
+
+li {
+    margin-bottom: 0.2rem;
+
+}
+
 h1 {
     font-size: 190%;
     font-weight: bold;

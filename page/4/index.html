@@ -66,6 +66,59 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Change default homepage for a Grails application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>You can set the default homepage for a Grails application by modifying the <code>grails-app/conf/UrlMappings.groovy</code> file. In a new Grails application this file will look like</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">class</span> <span style="color: #a6e22e">UrlMappings</span> <span style="color: #f92672">{</span>
+    <span style="color: #66d9ef">static</span> <span style="color: #f8f8f2">mappings</span> <span style="color: #f92672">=</span> <span style="color: #f92672">{</span>
+        <span style="color: #e6db74">&quot;/$controller/$action?/$id?&quot;</span><span style="color: #f92672">{</span>
+            <span style="color: #f8f8f2">constraints</span> <span style="color: #f92672">{</span>
+                <span style="color: #75715e">// apply constraints here</span>
+            <span style="color: #f92672">}</span>
+        <span style="color: #f92672">}</span>
+        <span style="color: #e6db74">&quot;/&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&quot;/index&quot;</span><span style="color: #f92672">)</span>
+        <span style="color: #e6db74">&quot;500&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&#39;/error&#39;</span><span style="color: #f92672">)</span>
+    <span style="color: #f92672">}</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+<p>Replace the line:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #e6db74">&quot;/&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&quot;/index&quot;</span><span style="color: #f92672">)</span>
+</pre></div>
+
+<p>with:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #e6db74">&quot;/&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">controller:</span><span style="color: #e6db74">&#39;home&#39;</span><span style="color: #f92672">,</span> <span style="color: #f8f8f2">action:</span><span style="color: #e6db74">&quot;/index&quot;</span><span style="color: #f92672">)</span>
+</pre></div>
+
+<p>This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the <strong>HomeController</strong> and corresponding <strong>index</strong> action related to that controller.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Tue, Sep 11, 2012
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/grails">grails</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Funcional Code Coverage using Cobertura</h1>
         </div>
     </div>

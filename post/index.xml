@@ -6,8 +6,245 @@
     <description>Recent content in Posts on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Nov 2016 19:44:16 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 16 Nov 2016 10:26:33 +0100</lastBuildDate>
     <atom:link href="http://mpas.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Building a Consul cluster using Terraform/AWS</title>
+      <link>http://mpas.github.io/post/2016/11/16/20161116_building_a_consul_cluster_using_terraform_aws/</link>
+      <pubDate>Wed, 16 Nov 2016 10:26:33 +0100</pubDate>
+      
+      <guid>http://mpas.github.io/post/2016/11/16/20161116_building_a_consul_cluster_using_terraform_aws/</guid>
+      <description>
+
+&lt;p&gt;&lt;img style=&#34;float: right;&#34; width=&#34;150&#34; src=&#34;https://www.consul.io/assets/images/logo_large-475cebb0.png&#34;&gt;
+&lt;a href=&#34;http://Consul.io&#34;&gt;Consul&lt;/a&gt; has multiple components, but as a whole, it is a tool for discovering and configuring services in your infrastructure. It provides several key features:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Service Discovery&lt;/li&gt;
+&lt;li&gt;Health Checking&lt;/li&gt;
+&lt;li&gt;Key/Value Store&lt;/li&gt;
+&lt;li&gt;Multi Datacenter&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For more information on &lt;a href=&#34;http://Consul.io&#34;&gt;Consul&lt;/a&gt; itself please have a look in the excellent documentation.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.consul.io/intro/index.html&#34;&gt;Consul Intro&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.consul.io/docs/index.html&#34;&gt;Consul documentation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;is-it-really-easy&#34;&gt;Is it really easy?&lt;/h2&gt;
+
+&lt;p&gt;Setting up a &lt;a href=&#34;http://Consul.io&#34;&gt;Consul&lt;/a&gt; cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;But hey.. &lt;strong&gt;what if you need to deploy this cluster on an AWS environment? How do
+you create the cluster and how can you make sure it is always available?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;This simple write up is just an example to give you an idea how this Consul cluster can be created and provisioned by using Terraform only. The goal is to have a cluster using the official Docker images provided by Consul itself running on EC2 nodes.&lt;/p&gt;
+
+&lt;h2 id=&#34;creating-a-consul-cluster&#34;&gt;Creating a Consul cluster&lt;/h2&gt;
+
+&lt;p&gt;The principle is not that hard&amp;hellip; Consul nodes can discover each other based on IP Address. If you feed the Consul cluster members with IP Addresses that are part of the cluster you are good to go. In the example case we are going to start a number of Consul cluster members. The first node will be unable to form a cluster but if the second node starts up it will get the ip from the first node and the the first node will then know the ip of the second one.. etc.. So if you start up more than 2 nodes you will be good to go.&lt;/p&gt;
+
+&lt;p&gt;&lt;center&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+------+   +------+  +------+  +------+  +------+
+|Consul|   |Consul|  |Consul|  |Consul|  |Consul|
+|Node 1|   |Node 2|  |Node 3|  |Node 4|  |Node n|
++------+   +------+  +------+  +------+  +------+
+&amp;lt; Find each other based on ip address &amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;The power is in the user-data script that is used for bootstrapping the Consul cluster nodes. In the example case they will find each other based on a query using &lt;code&gt;aws ec2 describe-instances&lt;/code&gt; that will find nodes with a specific name, and from those identified nodes we will extract the IP Addresses that will be used to joint the Consul cluster. You can always modify the query to your own needs off course. The user-data script is used in the launch configuration.&lt;/p&gt;
+
+&lt;p&gt;So enough talk&amp;hellip; lets start :)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The given examples are intentionally kept simple!! So you will need to tweak your Terraform code according to your needs&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;step-1-define-a-launch-configuration&#34;&gt;Step 1: Define a launch Configuration&lt;/h2&gt;
+
+&lt;p&gt;The core component of our Consul cluster is the launch configuration. This launch configuration determines what user-data file needs to be executed when launching a new instance.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;resource&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;aws_launch_configuration&amp;quot; &amp;quot;consul-cluster&amp;quot;&lt;/span&gt; {
+
+&lt;span style=&#34;color: #75715e&#34;&gt;  /*&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    in this case we use a docker optimized ami, because we are going&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    to use the official Consul docker image as a starter.&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    You can always use an ami on which you install docker manually!&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;  */&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  image_id&lt;/span&gt;  &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;docker-optimized-ami-0123456789&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #75715e&#34;&gt;&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;  /*&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    the user-data script that holds the magic&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;  */&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  user_data&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;${data.template_file.consul-cluster.rendered}&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  instance_type&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;t2.micro&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #75715e&#34;&gt;&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;  /*&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    make sure you open the correct ports so the Consul nodes can&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    discover each other the actual security group is not shown&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;  */&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  security_groups&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;sg-0123456789&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;]&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  key_name&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;your-deploy-key&lt;/span&gt;&lt;span style=&#34;color: #75715e&#34;&gt;&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;  /*&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    us a policy which grants read access to the EC2 api&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;  */&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  iam_instance_profile&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;arn:aws:iam::0123456789:read_ec2_policy/ec2&amp;quot;&lt;/span&gt;
+}&lt;span style=&#34;color: #75715e&#34;&gt;&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;/*&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    The template file used for the user-data&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;*/&lt;/span&gt;
+&lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;data&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;template_file&amp;quot; &amp;quot;consul-cluster&amp;quot;&lt;/span&gt; {
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  template&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;user-data-consul-cluster.tpl&amp;quot;)}&amp;quot;&lt;/span&gt;
+  &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;vars&lt;/span&gt; {
+    &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;//&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;the&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;must&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;match&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;the&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;Name&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;tag&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;of&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;the&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;autoscaling&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;group&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    consul_cluster_name&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;consul-cluster-member&amp;quot;&lt;/span&gt;
+
+    &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;//&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;the&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;number&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;of&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;instances&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;that&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;need&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;to&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;be&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;the&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;cluster&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;to&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;be&lt;/span&gt; &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;healthy&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    consul_cluster_min_size&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;3&lt;/span&gt;
+  }
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;step-2-create-the-template-file&#34;&gt;Step 2: Create the template file&lt;/h2&gt;
+
+&lt;p&gt;The user-data file is going to query AWS using the aws describe-instances api and will return ec2 nodes that have a matching name using the --filters option. &lt;code&gt;&#39;Name=tag:Name,Values=${consul_cluster_name}&#39;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;All the retrieved instances are then queried for their private ip and the values are stored in a list. After completing the list the instance ip for the current machine is removed.&lt;/p&gt;
+
+&lt;p&gt;A Consul specific join string is composed and provided to the docker image. This enables the Consul docker image to check for available servers when starting.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;// File: user-data-consul-cluster.tpl
+
+&lt;span style=&#34;color: #75715e&#34;&gt;#!/bin/bash -ex&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;exec&lt;/span&gt; &amp;gt; &amp;gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;tee /var/log/user-data.log&lt;span style=&#34;color: #f8f8f2&#34;&gt;|&lt;/span&gt;logger -t user-data -s 2&amp;gt;/dev/console&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; 2&amp;gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;&amp;amp;&lt;/span&gt;1
+
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;installing additional software&amp;#39;&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;for&lt;/span&gt; i in &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;1..5&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;do&lt;/span&gt;
+    yum install -y aws-cli &lt;span style=&#34;color: #f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;break&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;||&lt;/span&gt; sleep 120
+&lt;span style=&#34;color: #66d9ef&#34;&gt;done&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;################################################################################&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;# Running Consul&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;################################################################################&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;# get current instance ip&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;INSTANCE_IP&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;$(&lt;/span&gt;curl http://169.254.169.254/latest/meta-data/local-ipv4&lt;span style=&#34;color: #66d9ef&#34;&gt;)&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# get list of available Consul servers; based on Name (value) tag!&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;IP_LIST&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;$(&lt;/span&gt;aws ec2 describe-instances --region us-east-1 &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+--filters &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;Name=tag:Name,Values=${consul_cluster_name}&amp;#39;&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;Name=instance-state-name,Values=running&amp;#39;&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+--query &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;Reservations[*].Instances[*].PrivateIpAddress&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+--output&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;text&lt;span style=&#34;color: #66d9ef&#34;&gt;)&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# remove the current instance ip from the list of available servers&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;IP_LIST&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;$$&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;{IP_LIST/&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;$$&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;INSTANCE_IP/}&amp;quot;&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# remove duplicated spaces, \r\n and replace space by &amp;#39;,&amp;#39;&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;IP_LIST&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;$(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;$$&lt;/span&gt;IP_LIST &lt;span style=&#34;color: #f8f8f2&#34;&gt;|&lt;/span&gt; tr -s &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot; &amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;|&lt;/span&gt; tr -d &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;\r\n&amp;#39;&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;|&lt;/span&gt; tr -s &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;)&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# create join string&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;for&lt;/span&gt; i in &lt;span style=&#34;color: #66d9ef&#34;&gt;$(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;$IP_LIST&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;|&lt;/span&gt; sed &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;s/,/ /g&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;do&lt;/span&gt;
+    JOIN_STRING+&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;-retry-join &lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;$i&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt; &amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;done&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# - run Consul&lt;/span&gt;
+docker run -d --net&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;host &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+-e &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;CONSUL_LOCAL_CONFIG={&amp;quot;skip_leave_on_interrupt&amp;quot;: true}&amp;#39;&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+--name consul-server consul:latest &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+agent -server -bind&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;$INSTANCE_IP&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;$JOIN_STRING&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
+-bootstrap-expect&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;consul_cluster_min_size&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;}&lt;/span&gt; -ui -client 0.0.0.0
+&lt;span style=&#34;color: #75715e&#34;&gt;# ------------------------------------------------------------------------------&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;step-3-create-an-autoscaling-group&#34;&gt;Step 3: Create an autoscaling group&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #75715e&#34;&gt;/*&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    creates an autoscaling group so servers are created when needed&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;*/&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;resource&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;aws_autoscaling_group&amp;quot; &amp;quot;consul-cluster&amp;quot;&lt;/span&gt; {
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  min_size&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;3&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  max_size&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;5&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  desired_capacity&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;3&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  min_elb_capacity&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;3&lt;/span&gt;
+
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  launch_configuration&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;${aws_launch_configuration.consul-cluster.name}&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  load_balancers&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;${aws_elb.consul.id}&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;]&lt;/span&gt;
+
+  &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;tag&lt;/span&gt; {
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    key&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;Name&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #75715e&#34;&gt;&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    /*&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;      note: this is the value that is being searched for in the user-data&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    */&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    value&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;consul-cluster-member&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    propagate_at_launch&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;true&lt;/span&gt;
+  }
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;step-4-create-an-elb-as-frontend-for-the-consul-cluster&#34;&gt;Step 4: Create an ELB as frontend for the Consul cluster&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;resource&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;aws_elb&amp;quot; &amp;quot;consul-cluster&amp;quot;&lt;/span&gt; {
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  name&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;consul-cluster&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  subnets&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;sn-0123456789&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;]&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;  security_groups&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;sg-0123456789&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;]&lt;/span&gt;
+
+  &lt;span style=&#34;color: #66d9ef&#34;&gt;listener&lt;/span&gt; {
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    instance_port&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;8300&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    instance_protocol&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;tcp&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    lb_port&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;8300&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    lb_protocol&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;tcp&amp;quot;&lt;/span&gt;
+  }
+
+  &lt;span style=&#34;color: #66d9ef&#34;&gt;listener&lt;/span&gt; {
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    instance_port&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;8301&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    instance_protocol&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;tcp&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    lb_port&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;8301&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    lb_protocol&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;tcp&amp;quot;&lt;/span&gt;
+  }
+
+  &lt;span style=&#34;color: #66d9ef&#34;&gt;listener&lt;/span&gt; {
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    instance_port&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;8302&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    instance_protocol&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;tcp&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    lb_port&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;8302&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    lb_protocol&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;tcp&amp;quot;&lt;/span&gt;
+  }
+
+  &lt;span style=&#34;color: #66d9ef&#34;&gt;listener&lt;/span&gt; {
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    instance_port&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;8400&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    instance_protocol&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;tcp&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    lb_port&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;8400&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    lb_protocol&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;tcp&amp;quot;&lt;/span&gt;
+  }
+
+  &lt;span style=&#34;color: #66d9ef&#34;&gt;listener&lt;/span&gt; {
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    instance_port&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;8500&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    instance_protocol&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;http&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    lb_port&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;8500&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    lb_protocol&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;http&amp;quot;&lt;/span&gt;
+  }
+
+  &lt;span style=&#34;color: #66d9ef&#34;&gt;listener&lt;/span&gt; {
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    instance_port&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;8600&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    instance_protocol&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;tcp&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    lb_port&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;8600&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    lb_protocol&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;tcp&amp;quot;&lt;/span&gt;
+  }
+
+  &lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;health_check&lt;/span&gt; {
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    target&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;HTTP:8500/v1/status/leader&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    healthy_threshold&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;2&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    unhealthy_threshold&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;2&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    interval&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;30&lt;/span&gt;
+&lt;span style=&#34;color: #a6e22e&#34;&gt;    timeout&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;5&lt;/span&gt;
+  }
+}
+&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Change the port of actuator endpoint in a Grails application</title>
@@ -49,18 +286,15 @@ are available on port &lt;code&gt;9090&lt;/code&gt;/metrics&lt;/p&gt;
       <pubDate>Tue, 01 Nov 2016 19:05:44 +0100</pubDate>
       
       <guid>http://mpas.github.io/post/2016/11/01/20161101_access_localhost_using_native_docker_for_mac/</guid>
-      <description>&lt;p&gt;Ever had a need to access something from within a Docker that runs on the host system?&lt;/p&gt;
+      <description>&lt;p&gt;Ever had a need to access something from within a &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; container that runs on the host system?&lt;/p&gt;
 
-&lt;p&gt;When using native Docker on OSX you have bad luck. When configuring a container and pointing
-that to localhost will result in the fact the your software will be targeted at the localhost
-of the docker container.&lt;/p&gt;
+&lt;p&gt;When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.&lt;/p&gt;
 
 &lt;p&gt;A solution for this isto define a new local loopback to your localhost&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo ifconfig lo0 &lt;span style=&#34;color: #f8f8f2&#34;&gt;alias&lt;/span&gt; 172.16.123.1
 &lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;This will define a loopback network interface that points to your localhost.
-When you need to access the localhost you can use this ip.&lt;/p&gt;
+&lt;p&gt;This will define a loopback network interface that points to your localhost. When you need to access the localhost you can use this ip.&lt;/p&gt;
 </description>
     </item>
     
@@ -835,20 +1069,6 @@ You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the followin
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://vertx.io/&#34;&gt;Go to the Vert.x website&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Get the book at Pack Publishing&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Use backspace key to go back in Google Chrome</title>
-      <link>http://mpas.github.io/post/2013/05/30/20130530_backspace-mint/</link>
-      <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/2013/05/30/20130530_backspace-mint/</guid>
-      <description>&lt;p&gt;When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&#34;&gt;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>

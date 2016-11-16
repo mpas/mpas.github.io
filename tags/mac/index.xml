@@ -15,18 +15,15 @@
       <pubDate>Tue, 01 Nov 2016 19:05:44 +0100</pubDate>
       
       <guid>http://mpas.github.io/post/2016/11/01/20161101_access_localhost_using_native_docker_for_mac/</guid>
-      <description>&lt;p&gt;Ever had a need to access something from within a Docker that runs on the host system?&lt;/p&gt;
+      <description>&lt;p&gt;Ever had a need to access something from within a &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; container that runs on the host system?&lt;/p&gt;
 
-&lt;p&gt;When using native Docker on OSX you have bad luck. When configuring a container and pointing
-that to localhost will result in the fact the your software will be targeted at the localhost
-of the docker container.&lt;/p&gt;
+&lt;p&gt;When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.&lt;/p&gt;
 
 &lt;p&gt;A solution for this isto define a new local loopback to your localhost&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo ifconfig lo0 &lt;span style=&#34;color: #f8f8f2&#34;&gt;alias&lt;/span&gt; 172.16.123.1
 &lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;This will define a loopback network interface that points to your localhost.
-When you need to access the localhost you can use this ip.&lt;/p&gt;
+&lt;p&gt;This will define a loopback network interface that points to your localhost. When you need to access the localhost you can use this ip.&lt;/p&gt;
 </description>
     </item>
     
