@@ -17,11 +17,11 @@
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
   
-  <link rel="stylesheet" href="//mpas.github.io/css/normalize.css">
-  <link rel="stylesheet" href="//mpas.github.io/css/skeleton.css">
-  <link rel="stylesheet" href="//mpas.github.io//css/custom.css">
-  <link rel="stylesheet" href="//mpas.github.io/css/pygments.css">
-  <link rel="stylesheet" href="//mpas.github.io/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/mpas.github.io/css/normalize.css">
+  <link rel="stylesheet" href="/mpas.github.io/css/skeleton.css">
+  <link rel="stylesheet" href="/mpas.github.io/css/custom.css">
+  <link rel="stylesheet" href="/mpas.github.io/css/pygments.css">
+  <link rel="stylesheet" href="/mpas.github.io/css/font-awesome.min.css">
 
   
   <link rel="icon" type="image/png" href="images/favicon.png">
@@ -32,7 +32,7 @@
         <div class="row">
             <div class="six columns">
                 <div id="brand">
-                    <a href="http://mpas.github.io">CodeVerse</a>
+                    <a href="/mpas.github.io">CodeVerse</a>
                 </div>
             </div>
             <div class="six columns">
@@ -41,13 +41,13 @@
                         
                         
                             <li class="current">
-                                <a href="/">Blog</a></li>
+                                <a href="/mpas.github.io/">Blog</a></li>
                         
                             <li >
-                                <a href="/post">Post List</a></li>
+                                <a href="/mpas.github.io/post">Post List</a></li>
                         
                             <li >
-                                <a href="/page/about/">About</a></li>
+                                <a href="/mpas.github.io/page/about/">About</a></li>
                         
                     </ul>
                 </nav>
@@ -62,6 +62,56 @@
         <div class="post-list">
         
         
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Simple Helloworld verticle</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Sourcecode:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">package</span> <span style="color: #f8f8f2">helloworld</span><span style="color: #f92672">;</span>
+
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">org.vertx.java.core.Handler</span><span style="color: #f92672">;</span>
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">org.vertx.java.core.http.HttpServerRequest</span><span style="color: #f92672">;</span>
+<span style="color: #f92672">import</span> <span style="color: #f8f8f2">org.vertx.java.deploy.Verticle</span><span style="color: #f92672">;</span>
+
+<span style="color: #66d9ef">public</span> <span style="color: #66d9ef">class</span> <span style="color: #a6e22e">Server</span> <span style="color: #66d9ef">extends</span> <span style="color: #f8f8f2">Verticle</span> <span style="color: #f92672">{</span>
+
+    <span style="color: #66d9ef">public</span> <span style="color: #66d9ef">void</span> <span style="color: #a6e22e">start</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
+        <span style="color: #f8f8f2">vertx</span><span style="color: #f92672">.</span><span style="color: #a6e22e">createHttpServer</span><span style="color: #f92672">().</span><span style="color: #a6e22e">requestHandler</span><span style="color: #f92672">(</span><span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">Handler</span><span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">HttpServerRequest</span><span style="color: #f92672">&gt;()</span> <span style="color: #f92672">{</span>
+            <span style="color: #66d9ef">public</span> <span style="color: #66d9ef">void</span> <span style="color: #a6e22e">handle</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">HttpServerRequest</span> <span style="color: #f8f8f2">req</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
+            <span style="color: #f8f8f2">req</span><span style="color: #f92672">.</span><span style="color: #a6e22e">response</span><span style="color: #f92672">.</span><span style="color: #a6e22e">headers</span><span style="color: #f92672">().</span><span style="color: #a6e22e">put</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Content-Type&quot;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;text/html; charset-UTF-8&quot;</span><span style="color: #f92672">);</span>
+            <span style="color: #f8f8f2">req</span><span style="color: #f92672">.</span><span style="color: #a6e22e">response</span><span style="color: #f92672">.</span><span style="color: #a6e22e">end</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span><span style="color: #f92672">);</span>
+            <span style="color: #f92672">}</span>
+        <span style="color: #f92672">}).</span><span style="color: #a6e22e">listen</span><span style="color: #f92672">(</span><span style="color: #ae81ff">8080</span><span style="color: #f92672">);</span>
+    <span style="color: #f92672">}</span>
+
+<span style="color: #f92672">}</span>
+</pre></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Thu, May 16, 2013
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/java">java</a>, <a href="/tags/vertx">vertx</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
         
             <article class="post u-cf">
     <div class="row">
@@ -575,39 +625,6 @@ mkdir ~/.vim/bundle/align
                         
                     using tags:
                         <a href="/tags/vim">vim</a>, <a href="/tags/markdown">markdown</a>, <a href="/tags/osx">osx</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Introduction to Groovy &amp; Grails</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Recently i had the opportunity to show an exciting crowd a presentation about <a href="http://groovy.codehaus.org/">Groovy</a> &amp; <a href="http://www.grails.org/">Grails</a>.</p>
-
-<p>This happend during the <a href="http://www.devnology.nl/">Devnology</a> Community Event at Baarn. If you want to view the presentation &ndash;&gt; <a href="http://slidesha.re/cfL3eH">check it out here!</a></p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    Wed, Sep 12, 2012
-                
-                <span class="post-meta-info-taxonomy">
-                    in categories:
-                        
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/presentation">presentation</a>
                 </span>
             </div>
         </div>

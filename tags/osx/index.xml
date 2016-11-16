@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Osx on CodeVerse</title>
-    <link>http://mpas.github.io/tags/osx/</link>
+    <link>mpas.github.io/tags/osx/</link>
     <description>Recent content in Osx on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 01 Nov 2016 19:05:44 +0100</lastBuildDate>
-    <atom:link href="http://mpas.github.io/tags/osx/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="mpas.github.io/tags/osx/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Accessing localhost from a Docker Container using native Docker for Mac</title>
-      <link>http://mpas.github.io/post/2016/11/01/20161101_access_localhost_using_native_docker_for_mac/</link>
+      <link>/mpas.github.io/post/2016/11/01/20161101_access_localhost_using_native_docker_for_mac/</link>
       <pubDate>Tue, 01 Nov 2016 19:05:44 +0100</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/11/01/20161101_access_localhost_using_native_docker_for_mac/</guid>
+      <guid>/mpas.github.io/post/2016/11/01/20161101_access_localhost_using_native_docker_for_mac/</guid>
       <description>&lt;p&gt;Ever had a need to access something from within a &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; container that runs on the host system?&lt;/p&gt;
 
 &lt;p&gt;When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.&lt;/p&gt;
@@ -29,10 +29,10 @@
     
     <item>
       <title>Installing Markdown on OSX and use it inside VIM</title>
-      <link>http://mpas.github.io/post/2012/09/13/20120913_installing-markdown-on-osx-use-it-inside-vim/</link>
+      <link>/mpas.github.io/post/2012/09/13/20120913_installing-markdown-on-osx-use-it-inside-vim/</link>
       <pubDate>Thu, 13 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/13/20120913_installing-markdown-on-osx-use-it-inside-vim/</guid>
+      <guid>/mpas.github.io/post/2012/09/13/20120913_installing-markdown-on-osx-use-it-inside-vim/</guid>
       <description>
 
 &lt;p&gt;Back again to one of my favorites which is called &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;Markdown&lt;/a&gt;. Once every now and then i forget how easy it is. Normally i use &lt;a href=&#34;http://macromates.com/&#34;&gt;Textmate&lt;/a&gt; to do all my writing, but recently i have picked up &lt;a href=&#34;http://www.vim.org/&#34;&gt;VIM&lt;/a&gt; to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)&lt;/p&gt;

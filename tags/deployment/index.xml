@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Deployment on CodeVerse</title>
-    <link>http://mpas.github.io/tags/deployment/</link>
+    <link>mpas.github.io/tags/deployment/</link>
     <description>Recent content in Deployment on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 09 Sep 2012 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://mpas.github.io/tags/deployment/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="mpas.github.io/tags/deployment/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Distributed Deployment with Hudson &amp; SSH</title>
-      <link>http://mpas.github.io/post/2012/09/09/20120909_distributed-deployment-with-hudson-and-ssh/</link>
+      <link>/mpas.github.io/post/2012/09/09/20120909_distributed-deployment-with-hudson-and-ssh/</link>
       <pubDate>Sun, 09 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/09/20120909_distributed-deployment-with-hudson-and-ssh/</guid>
+      <guid>/mpas.github.io/post/2012/09/09/20120909_distributed-deployment-with-hudson-and-ssh/</guid>
       <description>
 
 &lt;p&gt;Have you already implemented an multi-server artifact deployment using a &lt;a href=&#34;http://en.wikipedia.org/wiki/Continuous_integration&#34;&gt;Continuous Integration&lt;/a&gt; Engine? If not, then read ahead and maybe this article is of help.&lt;/p&gt;
