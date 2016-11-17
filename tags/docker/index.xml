@@ -17,11 +17,9 @@
       <guid>http://mpas.github.io/post/2016/11/16/20161116_identifying_docker_container_outage_using_prometheus/</guid>
       <description>
 
-&lt;p&gt;&lt;a href=&#34;https://prometheus.io/&#34;&gt;Prometheus&lt;/a&gt; is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach. The purpose of Prometheus is to give you insight in events that have occurred and visualize them using graphs or use Grafana so you can create nice dashboard for your events.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://prometheus.io/&#34;&gt;Prometheus&lt;/a&gt; is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://www.brianchristner.io/content/images/2016/07/Docker_Monitoring_Dashboard-1.png&#34; style=&#34;outline: 0; max-width: 100%; height: auto;&#34;&gt;&lt;/p&gt;
-
-&lt;p&gt;Prometheus pulls data from so called exporters in a regular time-interval to grasp the events that are exposed by applications/operating systems etc..&lt;/p&gt;
+&lt;p&gt;Metric data is &lt;strong&gt;pulled&lt;/strong&gt; (on a regular time-interval) from so called exporters which expose the metrics coming from applications/operating systems etc..&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;+------------------+                               +----------+     Visualize data
 |  +------------+  |                               | Grafana  +---&amp;gt; coming from
 |  | Dockerized |  |                               +----+-----+     Prometheus
@@ -39,13 +37,13 @@
                                coming from remote systems
 &lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;In the diagram above cAdvisor is a so called exporter. There are other exporters like e.g. &lt;a href=&#34;https://github.com/prometheus/node_exporter&#34;&gt;Node Exporter&lt;/a&gt; that exposes machine metrics. Prometheus is capable of pulling the data from the exporters and store the metrics in the Prometheus database.&lt;/p&gt;
+&lt;p&gt;In the diagram above cAdvisor is a so called exporter. There are other exporters like e.g. &lt;a href=&#34;https://github.com/prometheus/node_exporter&#34;&gt;Node Exporter&lt;/a&gt; that exposes machine metrics. &lt;strong&gt;cAdvisor&lt;/strong&gt; is used to get Docker container metrics.&lt;/p&gt;
 
 &lt;h2 id=&#34;cadvisor&#34;&gt;cAdvisor&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/google/cadvisor&#34;&gt;cAdvisor&lt;/a&gt; is a project coming from Google and analyzes resource usage and performance characteristics of running Docker  containers! When running a Dockerized application and starting a cAdvisor container you will have instant metrics available for all running containers.&lt;/p&gt;
 
-&lt;p&gt;A lot of metrics are exposed by cAdvisor of which one is the metric &lt;code&gt;container_last_seen&lt;/code&gt;. You can use this metric in Prometheus to identify if a container has left the building :) The challenge with Prometheus is that it keeps the data for a specific amount of time the so called &lt;code&gt;Stale Timeout&lt;/code&gt;. This means that Prometheus will keep reporting back that the data has been received until this timeout has occurred (default 5 minutes). This is offcourse too much to identify if a container has gone.&lt;/p&gt;
+&lt;p&gt;A lot of metrics are exposed by cAdvisor of which one is the metric &lt;code&gt;container_last_seen&lt;/code&gt;. You can use this metric in Prometheus to identify if a container has left the building :) The challenge with Prometheus is that it keeps the data for a specific amount of time the so called &lt;code&gt;Stale Timeout&lt;/code&gt;. This means that Prometheus will keep reporting back that the data has been received until this timeout has occurred (default 5 minutes). This is of course too much if we need to identify if a container has gone.&lt;/p&gt;
 
 &lt;p&gt;So if you would normally query like this:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;count&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;(container_last_seen&lt;/span&gt;&lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;job&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;lt;jobname&amp;gt;&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;,name&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=~&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;.*&amp;lt;containername&amp;gt;.*&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;)&lt;/span&gt;
@@ -58,6 +56,8 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The &amp;lsquo;30&amp;rsquo; is the time in seconds before we want to be notified if a container has gone. This time has to be larger then the pull interval for your job.&lt;/p&gt;
+
+&lt;p&gt;When using the mentioned query you can create a nice &lt;a href=&#34;http://docs.grafana.org/reference/singlestat/&#34;&gt;Singlestat&lt;/a&gt; panel in Grafan so you can display an alert when the container is gone.&lt;/p&gt;
 </description>
     </item>
     
