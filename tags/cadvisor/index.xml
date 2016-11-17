@@ -6,15 +6,15 @@
     <description>Recent content in Cadvisor on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 16 Nov 2016 16:12:14 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 17 Nov 2016 16:12:14 +0200</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/cadvisor/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Identifying Docker container outage using Prometheus</title>
-      <link>http://mpas.github.io/post/2016/11/16/20161116_identifying_docker_container_outage_using_prometheus/</link>
-      <pubDate>Wed, 16 Nov 2016 16:12:14 +0200</pubDate>
+      <link>http://mpas.github.io/post/2016/11/17/20161117_identifying_docker_container_outage_using_prometheus/</link>
+      <pubDate>Thu, 17 Nov 2016 16:12:14 +0200</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/11/16/20161116_identifying_docker_container_outage_using_prometheus/</guid>
+      <guid>http://mpas.github.io/post/2016/11/17/20161117_identifying_docker_container_outage_using_prometheus/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;https://prometheus.io/&#34;&gt;Prometheus&lt;/a&gt; is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.&lt;/p&gt;
