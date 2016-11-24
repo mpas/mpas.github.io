@@ -6,8 +6,84 @@
     <description>Recent content in Posts on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 17 Nov 2016 16:12:14 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 24 Nov 2016 19:34:45 +0100</lastBuildDate>
     <atom:link href="http://mpas.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Creating Docker images using Gradle/Groovy without using plugins</title>
+      <link>http://mpas.github.io/post/2016/11/24/20161124_create_docker_container_gradle/</link>
+      <pubDate>Thu, 24 Nov 2016 19:34:45 +0100</pubDate>
+      
+      <guid>http://mpas.github.io/post/2016/11/24/20161124_create_docker_container_gradle/</guid>
+      <description>
+
+&lt;p&gt;In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Prerequisite&lt;/strong&gt; : Docker is installed on your machine.&lt;/p&gt;
+
+&lt;h2 id=&#34;creating-an-image&#34;&gt;Creating an image&lt;/h2&gt;
+
+&lt;p&gt;The following snippet will create a Docker image using the task &lt;code&gt;gradle buildDockerImage&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- application layout
+| build.gradle
+| &amp;gt; src
+| &amp;gt;- main
+| &amp;gt;-- docker (contains a Dockerfile)
+| &amp;gt;--- app (contains data that can be used in your Dockerfile)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #75715e&#34;&gt;/*&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    You can put some logic in the getDockerImageName to determine how your&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    Docker image should be created.&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;*/&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;String&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;getDockerImageName&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+  &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;my&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;first&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;docker&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;image&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;/*&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    Execute a docker build using commandline pointing to our Dockerfile that&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;    has been copied to /build/docker/.&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;*/&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;task&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;buildDockerImage&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;type:Exec&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;group&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;docker&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;description&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;Build a docker image&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;commandLine&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;docker&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;-f&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker/Dockerfile&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;-t&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;${dockerImageName}&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker&amp;#39;&lt;/span&gt;
+
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;doFirst&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;println&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;gt;&amp;gt; Creating image: ${dockerImageName}&amp;quot;&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;/* copy artifacts from src/main/docker/app into the build/docker/app */&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;copy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;src/main/docker/app/&amp;#39;&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;into&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker/app&amp;#39;&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;/* copy Dockerfile from src/main/docker into the build/docker */&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;copy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;from&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;src/main/docker/&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+                &lt;span style=&#34;color: #f8f8f2&#34;&gt;include&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;Dockerfile&amp;#39;&lt;/span&gt;
+            &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;into&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker&amp;#39;&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;pushing-an-image&#34;&gt;pushing an image&lt;/h2&gt;
+
+&lt;p&gt;Pushing an image without using plugins is just as easy.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;pushDockerImage&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;type:&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Exec&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;group&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;docker&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;description&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;Push a docker image&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;commandLine&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;docker&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;push&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;${dockerImageName}&amp;quot;&lt;/span&gt;
+
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;doFirst&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;println&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;gt;&amp;gt; Pushing image: ${dockerImageName}&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Using this approach without using unneeded Gradle plugins resulted in a an easy way to create containers on different platforms.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Identifying Docker container outage using Prometheus</title>
@@ -1076,26 +1152,6 @@ bean &amp;#39;grailsResourceLoader&amp;#39; while setting bean property &amp;#39
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And you should be up and running quickly.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Skip a contenttype/section to be renderend</title>
-      <link>http://mpas.github.io/post/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</link>
-      <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/2014/06/09/20140609_hugo-skip-certain-content-to-be-rendered/</guid>
-      <description>&lt;p&gt;When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.&lt;/p&gt;
-
-&lt;p&gt;Example:
-You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the following code in your template:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;{{&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;eq&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;Type&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;post&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;}}&lt;/span&gt;
-
-    &lt;span style=&#34;color: #f8f8f2&#34;&gt;{{&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;Title&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;}}&lt;/span&gt;
-    &lt;span style=&#34;color: #f8f8f2&#34;&gt;{{&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;Content&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;}}&lt;/span&gt;
-
-&lt;span style=&#34;color: #f8f8f2&#34;&gt;{{&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;end&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;}}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
 </description>
     </item>
     

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  
+  <meta charset="utf-8">
+  <title>CodeVerse - Creating Docker images using Gradle/Groovy without using plugins</title>
+  <meta name="description" content="">
+  <meta name="author" content="Marco Pas">
+
+  <meta name="generator" content="" />
+  <meta name="robots" content="index,follow">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  
+  <link rel="stylesheet" href="http://mpas.github.io/css/normalize.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/skeleton.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/custom.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/pygments.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/font-awesome.min.css">
+
+  
+  <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="http://mpas.github.io">CodeVerse</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        
+                        
+                            <li >
+                                <a href="/">Blog</a></li>
+                        
+                            <li >
+                                <a href="/post">Post List</a></li>
+                        
+                            <li >
+                                <a href="/page/about/">About</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+    <div class="container">
+        <div class="row">
+            <div class="post-content">
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Creating Docker images using Gradle/Groovy without using plugins</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            
+
+<p>In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.</p>
+
+<p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
+
+<h2 id="creating-an-image">Creating an image</h2>
+
+<p>The following snippet will create a Docker image using the task <code>gradle buildDockerImage</code></p>
+
+<pre><code>- application layout
+| build.gradle
+| &gt; src
+| &gt;- main
+| &gt;-- docker (contains a Dockerfile)
+| &gt;--- app (contains data that can be used in your Dockerfile)
+</code></pre>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #75715e">/*</span>
+<span style="color: #75715e">    You can put some logic in the getDockerImageName to determine how your</span>
+<span style="color: #75715e">    Docker image should be created.</span>
+<span style="color: #75715e">*/</span>
+<span style="color: #f8f8f2">String</span> <span style="color: #a6e22e">getDockerImageName</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
+  <span style="color: #e6db74">&quot;&quot;</span><span style="color: #f8f8f2">my</span><span style="color: #f92672">-</span><span style="color: #f8f8f2">first</span><span style="color: #f92672">-</span><span style="color: #f8f8f2">docker</span><span style="color: #f92672">-</span><span style="color: #f8f8f2">image</span><span style="color: #e6db74">&quot;&quot;</span>
+<span style="color: #f92672">}</span>
+
+<span style="color: #75715e">/*</span>
+<span style="color: #75715e">    Execute a docker build using commandline pointing to our Dockerfile that</span>
+<span style="color: #75715e">    has been copied to /build/docker/.</span>
+<span style="color: #75715e">*/</span>
+<span style="color: #f8f8f2">task</span> <span style="color: #a6e22e">buildDockerImage</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">type:Exec</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
+    <span style="color: #f8f8f2">group</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;docker&#39;</span>
+    <span style="color: #f8f8f2">description</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;Build a docker image&#39;</span>
+    <span style="color: #f8f8f2">commandLine</span> <span style="color: #e6db74">&#39;docker&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;build&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;-f&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;build/docker/Dockerfile&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;-t&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;${dockerImageName}&quot;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;build/docker&#39;</span>
+
+    <span style="color: #f8f8f2">doFirst</span> <span style="color: #f92672">{</span>
+        <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;&gt;&gt; Creating image: ${dockerImageName}&quot;</span>
+        <span style="color: #75715e">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
+        <span style="color: #f8f8f2">copy</span> <span style="color: #f92672">{</span>
+            <span style="color: #f8f8f2">from</span> <span style="color: #e6db74">&#39;src/main/docker/app/&#39;</span>
+            <span style="color: #f8f8f2">into</span> <span style="color: #e6db74">&#39;build/docker/app&#39;</span>
+        <span style="color: #f92672">}</span>
+        <span style="color: #75715e">/* copy Dockerfile from src/main/docker into the build/docker */</span>
+        <span style="color: #f8f8f2">copy</span> <span style="color: #f92672">{</span>
+            <span style="color: #f8f8f2">from</span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;src/main/docker/&#39;</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
+                <span style="color: #f8f8f2">include</span> <span style="color: #e6db74">&#39;Dockerfile&#39;</span>
+            <span style="color: #f92672">}</span>
+            <span style="color: #f8f8f2">into</span> <span style="color: #e6db74">&#39;build/docker&#39;</span>
+        <span style="color: #f92672">}</span>
+    <span style="color: #f92672">}</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+<h2 id="pushing-an-image">pushing an image</h2>
+
+<p>Pushing an image without using plugins is just as easy.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">pushDockerImage</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">type:</span> <span style="color: #f8f8f2">Exec</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
+    <span style="color: #f8f8f2">group</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;docker&#39;</span>
+    <span style="color: #f8f8f2">description</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;Push a docker image&#39;</span>
+    <span style="color: #f8f8f2">commandLine</span> <span style="color: #e6db74">&#39;docker&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;push&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;${dockerImageName}&quot;</span>
+
+    <span style="color: #f8f8f2">doFirst</span> <span style="color: #f92672">{</span>
+        <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;&gt;&gt; Pushing image: ${dockerImageName}&quot;</span>
+    <span style="color: #f92672">}</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+<p>Using this approach without using unneeded Gradle plugins resulted in a an easy way to create containers on different platforms.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Thu, Nov 24, 2016
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/docker">docker</a>, <a href="/tags/gradle">gradle</a>, <a href="/tags/groovy">groovy</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            </div>
+        </div>
+    </div>
+  
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    
+                        <a title="Twitter" href="https://twitter.com/marcopas">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    
+                    
+                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    
+                    
+                        <a title="GitHub" href="https://github.com/mpas">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    
+                    
+                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
+                            <i class="fa fa-stack-overflow"></i>
+                        </a>
+                    
+                    
+                        <a title="Flickr" href="https://www.flickr.com/photos/marcopas/">
+                            <i class="fa fa-flickr"></i>
+                        </a>
+                    
+                    
+                        <a title="Facebook" href="https://www.facebook.com/marco.pasopas">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    
+                    
+                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
+                            <i class="fa fa-envelope-o"></i>
+                        </a>
+                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; 2016 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+

@@ -66,6 +66,43 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Run a Grails 3 generated Fat Jar file in production mode</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When creating a Grails WAR/JAR file using:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails war
+</pre></div>
+
+<p>The resulting artifact can be run in production mode using:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ java -Dgrails.env<span style="color: #f92672">=</span>prod -Dserver.port<span style="color: #f92672">=</span><span style="color: #ae81ff">9000</span> -jar &lt;name-of-jar-file&gt;.jar
+</pre></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Thu, Jun 11, 2015
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/grails">grails</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Setting up Docker RabbitMQ with predefined users/vhosts</h1>
         </div>
     </div>
@@ -706,45 +743,6 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
                         
                     using tags:
                         <a href="/tags/gr8conf">gr8conf</a>, <a href="/tags/grails">grails</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Google Chrome not synchronizing extensions</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When installing a fresh version of Chrome it may occur that all Bookmarks sync ok but the extensions not. The following solution worked for my system.</p>
-
-<ul>
-<li>Open Google Chrome</li>
-<li>Goto &ldquo;Settings&rdquo;</li>
-<li>Open &ldquo;Advanced Settings&rdquo;</li>
-<li>Check &ldquo;Developer mode&rdquo;</li>
-<li>Press &ldquo;Update extensions now&rdquo;</li>
-</ul>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    Fri, May 24, 2013
-                
-                <span class="post-meta-info-taxonomy">
-                    in categories:
-                        
-                    using tags:
-                        <a href="/tags/chrome">chrome</a>
                 </span>
             </div>
         </div>
