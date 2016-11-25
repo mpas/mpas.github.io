@@ -66,6 +66,126 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Dockerize your Grails application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..</p>
+
+<p>Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.</p>
+
+<p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails create-app docker-test --profile rest-api
+</pre></div>
+
+<p>After the Grails application has been created, we will need to add the following files to our project.</p>
+
+<ul>
+<li>Dockerfile (determines what our Docker image will contain)</li>
+<li>docker-entrypoint.sh (script that is responsible for starting our Grails application)</li>
+</ul>
+
+<p><code>File: /src/main/docker/Dockerfile</code></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">FROM</span><span style="color: #e6db74"> openjdk:latest</span>
+
+<span style="color: #75715e"># set environment options</span>
+<span style="color: #66d9ef">ENV</span><span style="color: #e6db74"> JAVA_OPTS=&quot;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&quot;</span>
+
+<span style="color: #66d9ef">RUN</span> mkdir -p /app
+<span style="color: #66d9ef">WORKDIR</span><span style="color: #e6db74"> /app</span>
+
+COPY /app/application.jar application.jar
+COPY /app/docker-entrypoint.sh docker-entrypoint.sh
+
+<span style="color: #75715e"># Set file permissions</span>
+<span style="color: #66d9ef">RUN</span> chmod +x /app/docker-entrypoint.sh
+
+<span style="color: #75715e"># Set start script as enrypoint</span>
+<span style="color: #66d9ef">ENTRYPOINT</span><span style="color: #e6db74"> [&quot;./docker-entrypoint.sh&quot;]</span>
+</pre></div>
+
+<p><code>File: /src/main/docker/app/docker-entrypoint.sh</code></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #75715e">#!/bin/bash</span>
+<span style="color: #f8f8f2">set</span> -e
+
+<span style="color: #f8f8f2">exec</span> java <span style="color: #e6db74">${</span><span style="color: #f8f8f2">JAVA_OPTS</span><span style="color: #e6db74">}</span> -jar application.jar <span style="color: #f8f8f2">$@</span>
+<span style="color: #75715e"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span>
+</pre></div>
+
+<p>Next step is to add the tasks to our <code>build.gradle</code> so it can generate the Docker image.</p>
+
+<p>So add the following snippet to your <code>build.gradle</code> file!</p>
+
+<p><code>File: /build.gradle</code></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">String</span> <span style="color: #a6e22e">getDockerImageName</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
+  <span style="color: #e6db74">&quot;docker-test&quot;</span>
+<span style="color: #f92672">}</span>
+
+<span style="color: #f8f8f2">task</span> <span style="color: #a6e22e">buildDockerImage</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">type:Exec</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
+    <span style="color: #f8f8f2">group</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;docker&#39;</span>
+    <span style="color: #f8f8f2">description</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;Build a docker image&#39;</span>
+    <span style="color: #f8f8f2">commandLine</span> <span style="color: #e6db74">&#39;docker&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;build&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;-f&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;build/docker/Dockerfile&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;-t&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;${dockerImageName}&quot;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;build/docker&#39;</span>
+
+    <span style="color: #f8f8f2">doFirst</span> <span style="color: #f92672">{</span>
+        <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;&gt;&gt; Creating image: ${dockerImageName}&quot;</span>
+        <span style="color: #75715e">/* copy the generate war file to /build/docker/app */</span>
+        <span style="color: #f8f8f2">copy</span> <span style="color: #f92672">{</span>
+            <span style="color: #f8f8f2">from</span> <span style="color: #f8f8f2">war</span><span style="color: #f92672">.</span><span style="color: #a6e22e">archivePath</span>
+            <span style="color: #f8f8f2">into</span> <span style="color: #e6db74">&#39;build/docker/app/&#39;</span>
+        <span style="color: #f92672">}</span>
+        <span style="color: #75715e">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
+        <span style="color: #f8f8f2">copy</span> <span style="color: #f92672">{</span>
+            <span style="color: #f8f8f2">from</span> <span style="color: #e6db74">&#39;src/main/docker/app/&#39;</span>
+            <span style="color: #f8f8f2">into</span> <span style="color: #e6db74">&#39;build/docker/app&#39;</span>
+        <span style="color: #f92672">}</span>
+        <span style="color: #75715e">/* copy Dockerfile from src/main/docker into the build/docker */</span>
+        <span style="color: #f8f8f2">copy</span> <span style="color: #f92672">{</span>
+            <span style="color: #f8f8f2">from</span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;src/main/docker/&#39;</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
+                <span style="color: #f8f8f2">include</span> <span style="color: #e6db74">&#39;Dockerfile&#39;</span>
+            <span style="color: #f92672">}</span>
+            <span style="color: #f8f8f2">into</span> <span style="color: #e6db74">&#39;build/docker&#39;</span>
+        <span style="color: #f92672">}</span>
+        <span style="color: #75715e">/* rename war file to application.jar */</span>
+        <span style="color: #f8f8f2">file</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;build/docker/app/${war.archiveName}&quot;</span><span style="color: #f92672">).</span><span style="color: #a6e22e">renameTo</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;build/docker/app/application.jar&quot;</span><span style="color: #f92672">)</span>
+    <span style="color: #f92672">}</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+<p>Now that we have everyting in place we can build the image and start the container,</p>
+
+<p>Create the docker image using assemble target and buildDockerImage</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ ./gradlew assemble buildDockerImage
+</pre></div>
+
+<p>Run a container based on the previous created image</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ docker run -it --rm -p 8080:8080 docker-test
+</pre></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Fri, Nov 25, 2016
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/docker">docker</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Creating/Pushing Docker images using Gradle without plugins</h1>
         </div>
     </div>
@@ -93,7 +213,7 @@
 <span style="color: #75715e">    Docker image should be created.</span>
 <span style="color: #75715e">*/</span>
 <span style="color: #f8f8f2">String</span> <span style="color: #a6e22e">getDockerImageName</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
-  <span style="color: #e6db74">&quot;&quot;</span><span style="color: #f8f8f2">my</span><span style="color: #f92672">-</span><span style="color: #f8f8f2">first</span><span style="color: #f92672">-</span><span style="color: #f8f8f2">docker</span><span style="color: #f92672">-</span><span style="color: #f8f8f2">image</span><span style="color: #e6db74">&quot;&quot;</span>
+  <span style="color: #e6db74">&quot;my-first-docker-image&quot;</span>
 <span style="color: #f92672">}</span>
 
 <span style="color: #75715e">/*</span>
@@ -894,137 +1014,6 @@ Total time: 2.054 secs
                         
                     using tags:
                         <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Adding WebSocket/Stomp support to a Spring Boot application</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Adding support for <a href="https://en.wikipedia.org/wiki/WebSocket">WebSockets</a> / <a href="https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol">Stomp</a> in a <a href="http://projects.spring.io/spring-boot/">Spring Boot</a> application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.</p>
-
-<p>The following example will enable a server to send messages to a WebSocket/Stomp client.</p>
-
-<ul>
-<li>Modify <code>build.gradle</code></li>
-</ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">dependencies</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">compile</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;org.springframework.boot:spring-boot-starter-web&quot;</span><span style="color: #f92672">)</span>
-    <span style="color: #f8f8f2">compile</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;org.springframework.boot:spring-boot-starter-websocket&quot;</span><span style="color: #f92672">)</span>
-    <span style="color: #f8f8f2">compile</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;org.springframework:spring-messaging&quot;</span><span style="color: #f92672">)</span>
-    <span style="color: #f8f8f2">testCompile</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;junit:junit&quot;</span><span style="color: #f92672">)</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
-<ul>
-<li>Create a WebSocket configuration class that holds the configuration</li>
-</ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #a6e22e">@Configuration</span>
-<span style="color: #a6e22e">@EnableWebSocketMessageBroker</span>
-<span style="color: #66d9ef">public</span> <span style="color: #66d9ef">class</span> <span style="color: #a6e22e">WebSocketConfig</span> <span style="color: #66d9ef">extends</span> <span style="color: #f8f8f2">AbstractWebSocketMessageBrokerConfigurer</span> <span style="color: #f92672">{</span>
-
-    <span style="color: #a6e22e">@Override</span>
-    <span style="color: #66d9ef">public</span> <span style="color: #66d9ef">void</span> <span style="color: #a6e22e">registerStompEndpoints</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">StompEndpointRegistry</span> <span style="color: #f8f8f2">registry</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-        <span style="color: #75715e">// the endpoint for websocket connections</span>
-        <span style="color: #f8f8f2">registry</span><span style="color: #f92672">.</span><span style="color: #a6e22e">addEndpoint</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;/stomp&quot;</span><span style="color: #f92672">).</span><span style="color: #a6e22e">withSockJS</span><span style="color: #f92672">();</span>
-    <span style="color: #f92672">}</span>
-
-    <span style="color: #a6e22e">@Override</span>
-    <span style="color: #66d9ef">public</span> <span style="color: #66d9ef">void</span> <span style="color: #a6e22e">configureMessageBroker</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">MessageBrokerRegistry</span> <span style="color: #f8f8f2">config</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-        <span style="color: #75715e">// use the /topic prefix for outgoing WebSocket communication</span>
-        <span style="color: #f8f8f2">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">enableSimpleBroker</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;/topic&quot;</span><span style="color: #f92672">);</span>
-
-        <span style="color: #75715e">// use the /app prefix for others</span>
-        <span style="color: #f8f8f2">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">setApplicationDestinationPrefixes</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;/app&quot;</span><span style="color: #f92672">);</span>
-    <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
-<p>Now a client that connects to <code>/stomp</code> endpoint is able to receive WebSocket messages.</p>
-
-<ul>
-<li>Create a service that is going to send the data to a WebSocket endpoint</li>
-</ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #a6e22e">@Service</span>
-<span style="color: #66d9ef">public</span> <span style="color: #66d9ef">class</span> <span style="color: #a6e22e">ScheduleTask</span> <span style="color: #f92672">{</span>
-
-    <span style="color: #a6e22e">@Autowired</span>
-    <span style="color: #66d9ef">private</span> <span style="color: #f8f8f2">SimpMessagingTemplate</span> <span style="color: #f8f8f2">template</span><span style="color: #f92672">;</span>
-
-    <span style="color: #75715e">// this will send a message to an endpoint on which a client can subscribe</span>
-    <span style="color: #a6e22e">@Scheduled</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">fixedRate</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">5000</span><span style="color: #f92672">)</span>
-    <span style="color: #66d9ef">public</span> <span style="color: #66d9ef">void</span> <span style="color: #a6e22e">trigger</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
-        <span style="color: #75715e">// sends the message to /topic/message</span>
-        <span style="color: #66d9ef">this</span><span style="color: #f92672">.</span><span style="color: #a6e22e">template</span><span style="color: #f92672">.</span><span style="color: #a6e22e">convertAndSend</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;/topic/message&quot;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;Date: &quot;</span> <span style="color: #f92672">+</span> <span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">Date</span><span style="color: #f92672">());</span>
-    <span style="color: #f92672">}</span>
-
-<span style="color: #f92672">}</span>
-</pre></div>
-
-<ul>
-<li>Create a client that is able to receive the message</li>
-</ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #75715e">&lt;!DOCTYPE html&gt;</span>
-<span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">html</span><span style="color: #f8f8f2">&gt;</span>
-<span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">head</span><span style="color: #f8f8f2">&gt;</span>
-    <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">title</span><span style="color: #f8f8f2">&gt;</span>WebSocket Stomp Receiving Example<span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">title</span><span style="color: #f8f8f2">&gt;</span>
-<span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">head</span><span style="color: #f8f8f2">&gt;</span>
-<span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">body</span><span style="color: #f8f8f2">&gt;</span>
-    <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">div</span><span style="color: #f8f8f2">&gt;</span>
-        <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">h3</span><span style="color: #f8f8f2">&gt;</span>Messages:<span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">h3</span><span style="color: #f8f8f2">&gt;</span>
-        <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">ol</span> <span style="color: #a6e22e">id</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;messages&quot;</span><span style="color: #f8f8f2">&gt;&lt;/</span><span style="color: #f92672">ol</span><span style="color: #f8f8f2">&gt;</span>
-    <span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">div</span><span style="color: #f8f8f2">&gt;</span>
-
-    <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">script</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;text/javascript&quot;</span> <span style="color: #a6e22e">src</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;//cdn.jsdelivr.net/jquery/1.11.2/jquery.min.js&quot;</span><span style="color: #f8f8f2">&gt;&lt;/</span><span style="color: #f92672">script</span><span style="color: #f8f8f2">&gt;</span>
-    <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">script</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;text/javascript&quot;</span> <span style="color: #a6e22e">src</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js&quot;</span><span style="color: #f8f8f2">&gt;&lt;/</span><span style="color: #f92672">script</span><span style="color: #f8f8f2">&gt;</span>
-    <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">script</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;text/javascript&quot;</span> <span style="color: #a6e22e">src</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js&quot;</span><span style="color: #f8f8f2">&gt;&lt;/</span><span style="color: #f92672">script</span><span style="color: #f8f8f2">&gt;</span>
-
-    <span style="color: #f8f8f2">&lt;</span><span style="color: #f92672">script</span> <span style="color: #a6e22e">type</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;text/javascript&quot;</span><span style="color: #f8f8f2">&gt;</span>
-        <span style="color: #a6e22e">$</span><span style="color: #f8f8f2">(document).</span><span style="color: #a6e22e">ready</span><span style="color: #f8f8f2">(</span><span style="color: #66d9ef">function</span><span style="color: #f8f8f2">()</span> <span style="color: #f8f8f2">{</span>
-            <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">messageList</span> <span style="color: #f92672">=</span> <span style="color: #a6e22e">$</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;#messages&quot;</span><span style="color: #f8f8f2">);</span>
-
-            <span style="color: #75715e">// defined a connection to a new socket endpoint</span>
-            <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">socket</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">new</span> <span style="color: #a6e22e">SockJS</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&#39;/stomp&#39;</span><span style="color: #f8f8f2">);</span>
-
-            <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">stompClient</span> <span style="color: #f92672">=</span> <span style="color: #a6e22e">Stomp</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">over</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">socket</span><span style="color: #f8f8f2">);</span>
-
-            <span style="color: #a6e22e">stompClient</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">connect</span><span style="color: #f8f8f2">({</span> <span style="color: #f8f8f2">},</span> <span style="color: #66d9ef">function</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">frame</span><span style="color: #f8f8f2">)</span> <span style="color: #f8f8f2">{</span>
-                <span style="color: #75715e">// subscribe to the /topic/message endpoint</span>
-                <span style="color: #a6e22e">stompClient</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">subscribe</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;/topic/message&quot;</span><span style="color: #f8f8f2">,</span> <span style="color: #66d9ef">function</span><span style="color: #f8f8f2">(</span><span style="color: #a6e22e">data</span><span style="color: #f8f8f2">)</span> <span style="color: #f8f8f2">{</span>
-                    <span style="color: #66d9ef">var</span> <span style="color: #a6e22e">message</span> <span style="color: #f92672">=</span> <span style="color: #a6e22e">data</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">body</span><span style="color: #f8f8f2">;</span>
-                    <span style="color: #a6e22e">messageList</span><span style="color: #f8f8f2">.</span><span style="color: #a6e22e">append</span><span style="color: #f8f8f2">(</span><span style="color: #e6db74">&quot;&lt;li&gt;&quot;</span> <span style="color: #f92672">+</span> <span style="color: #a6e22e">message</span> <span style="color: #f92672">+</span> <span style="color: #e6db74">&quot;&lt;/li&gt;&quot;</span><span style="color: #f8f8f2">);</span>
-                <span style="color: #f8f8f2">});</span>
-            <span style="color: #f8f8f2">});</span>
-        <span style="color: #f8f8f2">});</span>
-    <span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">script</span><span style="color: #f8f8f2">&gt;</span>
-<span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">body</span><span style="color: #f8f8f2">&gt;</span>
-<span style="color: #f8f8f2">&lt;/</span><span style="color: #f92672">html</span><span style="color: #f8f8f2">&gt;</span>
-</pre></div>
-
-<p>The whole example project  can be downloaded <a href="https://github.com/mpas/spring-boot-websocket-stomp-server-send-example">https://github.com/mpas/spring-boot-websocket-stomp-server-send-example</a></p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    Tue, Jun 16, 2015
-                
-                <span class="post-meta-info-taxonomy">
-                    in categories:
-                        
-                    using tags:
-                        <a href="/tags/spring-boot">spring-boot</a>, <a href="/tags/websocket">websocket</a>
                 </span>
             </div>
         </div>

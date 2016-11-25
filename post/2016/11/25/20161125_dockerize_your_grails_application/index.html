@@ -3,7 +3,7 @@
 <head>
   
   <meta charset="utf-8">
-  <title>CodeVerse - Creating/Pushing Docker images using Gradle without plugins</title>
+  <title>CodeVerse - Dockerize your Grails application</title>
   <meta name="description" content="">
   <meta name="author" content="Marco Pas">
 
@@ -63,40 +63,62 @@
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Creating/Pushing Docker images using Gradle without plugins</h1>
+            <h1 class="post-title">Dockerize your Grails application</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            
+            <p>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..</p>
 
-<p>In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.</p>
+<p>Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.</p>
 
 <p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails create-app docker-test --profile rest-api
+</pre></div>
 
-<h2 id="creating-an-image">Creating an image</h2>
+<p>After the Grails application has been created, we will need to add the following files to our project.</p>
 
-<p>The following snippet will create a Docker image using the task <code>gradle buildDockerImage</code></p>
+<ul>
+<li>Dockerfile (determines what our Docker image will contain)</li>
+<li>docker-entrypoint.sh (script that is responsible for starting our Grails application)</li>
+</ul>
 
-<pre><code>- application layout
-| build.gradle
-| &gt; src
-| &gt;- main
-| &gt;-- docker (contains a Dockerfile)
-| &gt;--- app (contains data that can be used in your Dockerfile)
-</code></pre>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #75715e">/*</span>
-<span style="color: #75715e">    You can put some logic in the getDockerImageName to determine how your</span>
-<span style="color: #75715e">    Docker image should be created.</span>
-<span style="color: #75715e">*/</span>
-<span style="color: #f8f8f2">String</span> <span style="color: #a6e22e">getDockerImageName</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
-  <span style="color: #e6db74">&quot;my-first-docker-image&quot;</span>
+<p><code>File: /src/main/docker/Dockerfile</code></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">FROM</span><span style="color: #e6db74"> openjdk:latest</span>
+
+<span style="color: #75715e"># set environment options</span>
+<span style="color: #66d9ef">ENV</span><span style="color: #e6db74"> JAVA_OPTS=&quot;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&quot;</span>
+
+<span style="color: #66d9ef">RUN</span> mkdir -p /app
+<span style="color: #66d9ef">WORKDIR</span><span style="color: #e6db74"> /app</span>
+
+COPY /app/application.jar application.jar
+COPY /app/docker-entrypoint.sh docker-entrypoint.sh
+
+<span style="color: #75715e"># Set file permissions</span>
+<span style="color: #66d9ef">RUN</span> chmod +x /app/docker-entrypoint.sh
+
+<span style="color: #75715e"># Set start script as enrypoint</span>
+<span style="color: #66d9ef">ENTRYPOINT</span><span style="color: #e6db74"> [&quot;./docker-entrypoint.sh&quot;]</span>
+</pre></div>
+
+<p><code>File: /src/main/docker/app/docker-entrypoint.sh</code></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #75715e">#!/bin/bash</span>
+<span style="color: #f8f8f2">set</span> -e
+
+<span style="color: #f8f8f2">exec</span> java <span style="color: #e6db74">${</span><span style="color: #f8f8f2">JAVA_OPTS</span><span style="color: #e6db74">}</span> -jar application.jar <span style="color: #f8f8f2">$@</span>
+<span style="color: #75715e"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span>
+</pre></div>
+
+<p>Next step is to add the tasks to our <code>build.gradle</code> so it can generate the Docker image.</p>
+
+<p>So add the following snippet to your <code>build.gradle</code> file!</p>
+
+<p><code>File: /build.gradle</code></p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">String</span> <span style="color: #a6e22e">getDockerImageName</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
+  <span style="color: #e6db74">&quot;docker-test&quot;</span>
 <span style="color: #f92672">}</span>
 
-<span style="color: #75715e">/*</span>
-<span style="color: #75715e">    Execute a docker build using commandline pointing to our Dockerfile that</span>
-<span style="color: #75715e">    has been copied to /build/docker/.</span>
-<span style="color: #75715e">*/</span>
 <span style="color: #f8f8f2">task</span> <span style="color: #a6e22e">buildDockerImage</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">type:Exec</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
     <span style="color: #f8f8f2">group</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;docker&#39;</span>
     <span style="color: #f8f8f2">description</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;Build a docker image&#39;</span>
@@ -104,6 +126,11 @@
 
     <span style="color: #f8f8f2">doFirst</span> <span style="color: #f92672">{</span>
         <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;&gt;&gt; Creating image: ${dockerImageName}&quot;</span>
+        <span style="color: #75715e">/* copy the generate war file to /build/docker/app */</span>
+        <span style="color: #f8f8f2">copy</span> <span style="color: #f92672">{</span>
+            <span style="color: #f8f8f2">from</span> <span style="color: #f8f8f2">war</span><span style="color: #f92672">.</span><span style="color: #a6e22e">archivePath</span>
+            <span style="color: #f8f8f2">into</span> <span style="color: #e6db74">&#39;build/docker/app/&#39;</span>
+        <span style="color: #f92672">}</span>
         <span style="color: #75715e">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
         <span style="color: #f8f8f2">copy</span> <span style="color: #f92672">{</span>
             <span style="color: #f8f8f2">from</span> <span style="color: #e6db74">&#39;src/main/docker/app/&#39;</span>
@@ -116,25 +143,21 @@
             <span style="color: #f92672">}</span>
             <span style="color: #f8f8f2">into</span> <span style="color: #e6db74">&#39;build/docker&#39;</span>
         <span style="color: #f92672">}</span>
+        <span style="color: #75715e">/* rename war file to application.jar */</span>
+        <span style="color: #f8f8f2">file</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;build/docker/app/${war.archiveName}&quot;</span><span style="color: #f92672">).</span><span style="color: #a6e22e">renameTo</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;build/docker/app/application.jar&quot;</span><span style="color: #f92672">)</span>
     <span style="color: #f92672">}</span>
 <span style="color: #f92672">}</span>
 </pre></div>
 
-<h2 id="pushing-an-image">pushing an image</h2>
+<p>Now that we have everyting in place we can build the image and start the container,</p>
 
-<p>Pushing an image without using plugins is just as easy.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">pushDockerImage</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">type:</span> <span style="color: #f8f8f2">Exec</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">group</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;docker&#39;</span>
-    <span style="color: #f8f8f2">description</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;Push a docker image&#39;</span>
-    <span style="color: #f8f8f2">commandLine</span> <span style="color: #e6db74">&#39;docker&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;push&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;${dockerImageName}&quot;</span>
-
-    <span style="color: #f8f8f2">doFirst</span> <span style="color: #f92672">{</span>
-        <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;&gt;&gt; Pushing image: ${dockerImageName}&quot;</span>
-    <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
+<p>Create the docker image using assemble target and buildDockerImage</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ ./gradlew assemble buildDockerImage
 </pre></div>
 
-<p>Using this approach without using unneeded Gradle plugins resulted in a an easy way to create containers on different platforms.</p>
+<p>Run a container based on the previous created image</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ docker run -it --rm -p 8080:8080 docker-test
+</pre></div>
 
         </div>
     </div>
@@ -143,13 +166,13 @@
             <div class="post-meta-info">
                 Published on
                 
-                    Thu, Nov 24, 2016
+                    Fri, Nov 25, 2016
                 
                 <span class="post-meta-info-taxonomy">
                     in categories:
                         
                     using tags:
-                        <a href="/tags/docker">docker</a>, <a href="/tags/gradle">gradle</a>, <a href="/tags/groovy">groovy</a>
+                        <a href="/tags/grails">grails</a>, <a href="/tags/docker">docker</a>
                 </span>
             </div>
         </div>

@@ -6,8 +6,107 @@
     <description>Recent content on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 24 Nov 2016 19:34:45 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 25 Nov 2016 20:31:27 +0100</lastBuildDate>
     <atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Dockerize your Grails application</title>
+      <link>http://mpas.github.io/post/2016/11/25/20161125_dockerize_your_grails_application/</link>
+      <pubDate>Fri, 25 Nov 2016 20:31:27 +0100</pubDate>
+      
+      <guid>http://mpas.github.io/post/2016/11/25/20161125_dockerize_your_grails_application/</guid>
+      <description>&lt;p&gt;Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..&lt;/p&gt;
+
+&lt;p&gt;Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Prerequisite&lt;/strong&gt; : Docker is installed on your machine.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails create-app docker-test --profile rest-api
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After the Grails application has been created, we will need to add the following files to our project.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Dockerfile (determines what our Docker image will contain)&lt;/li&gt;
+&lt;li&gt;docker-entrypoint.sh (script that is responsible for starting our Grails application)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code&gt;File: /src/main/docker/Dockerfile&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt; openjdk:latest&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# set environment options&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;ENV&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt; JAVA_OPTS=&amp;quot;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&amp;quot;&lt;/span&gt;
+
+&lt;span style=&#34;color: #66d9ef&#34;&gt;RUN&lt;/span&gt; mkdir -p /app
+&lt;span style=&#34;color: #66d9ef&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt; /app&lt;/span&gt;
+
+COPY /app/application.jar application.jar
+COPY /app/docker-entrypoint.sh docker-entrypoint.sh
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# Set file permissions&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;RUN&lt;/span&gt; chmod +x /app/docker-entrypoint.sh
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# Set start script as enrypoint&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;ENTRYPOINT&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt; [&amp;quot;./docker-entrypoint.sh&amp;quot;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;File: /src/main/docker/app/docker-entrypoint.sh&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #75715e&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;set&lt;/span&gt; -e
+
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;exec&lt;/span&gt; java &lt;span style=&#34;color: #e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;JAVA_OPTS&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;}&lt;/span&gt; -jar application.jar &lt;span style=&#34;color: #f8f8f2&#34;&gt;$@&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;# exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Next step is to add the tasks to our &lt;code&gt;build.gradle&lt;/code&gt; so it can generate the Docker image.&lt;/p&gt;
+
+&lt;p&gt;So add the following snippet to your &lt;code&gt;build.gradle&lt;/code&gt; file!&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;File: /build.gradle&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;String&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;getDockerImageName&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+  &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;docker-test&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;task&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;buildDockerImage&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;type:Exec&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;group&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;docker&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;description&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;Build a docker image&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;commandLine&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;docker&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;-f&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker/Dockerfile&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;-t&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;${dockerImageName}&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker&amp;#39;&lt;/span&gt;
+
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;doFirst&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;println&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;gt;&amp;gt; Creating image: ${dockerImageName}&amp;quot;&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;/* copy the generate war file to /build/docker/app */&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;copy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;war&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;archivePath&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;into&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker/app/&amp;#39;&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;/* copy artifacts from src/main/docker/app into the build/docker/app */&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;copy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;src/main/docker/app/&amp;#39;&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;into&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker/app&amp;#39;&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;/* copy Dockerfile from src/main/docker into the build/docker */&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;copy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;from&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;src/main/docker/&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+                &lt;span style=&#34;color: #f8f8f2&#34;&gt;include&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;Dockerfile&amp;#39;&lt;/span&gt;
+            &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;into&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker&amp;#39;&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;/* rename war file to application.jar */&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;file&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;build/docker/app/${war.archiveName}&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;).&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;renameTo&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;build/docker/app/application.jar&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now that we have everyting in place we can build the image and start the container,&lt;/p&gt;
+
+&lt;p&gt;Create the docker image using assemble target and buildDockerImage&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ ./gradlew assemble buildDockerImage
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Run a container based on the previous created image&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ docker run -it --rm -p 8080:8080 docker-test
+&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Creating/Pushing Docker images using Gradle without plugins</title>
@@ -37,7 +136,7 @@
 &lt;span style=&#34;color: #75715e&#34;&gt;    Docker image should be created.&lt;/span&gt;
 &lt;span style=&#34;color: #75715e&#34;&gt;*/&lt;/span&gt;
 &lt;span style=&#34;color: #f8f8f2&#34;&gt;String&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;getDockerImageName&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-  &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;my&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;first&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;docker&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;image&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+  &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;my-first-docker-image&amp;quot;&lt;/span&gt;
 &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
 
 &lt;span style=&#34;color: #75715e&#34;&gt;/*&lt;/span&gt;
@@ -641,12 +740,12 @@ Total time: 2.054 secs
       <guid>http://mpas.github.io/page/about/</guid>
       <description>
 
-&lt;p&gt;I am software geek and a hands on developer/system architect. Interested in all kinds of software related technologies (languages, architectures and methodologies). Strong believer in the fact that one should keep knowledge up-to-date, but also understand why you should choose a particular technology for a given problem. I’m focused on JVM related technologies, DevOps &amp;amp; Cloud Computing.&lt;/p&gt;
+&lt;p&gt;I am software geek and a hands on developer/system architect. Interested in all kinds of software related technologies (languages, architectures and methodologies). Strong believer in the fact that one should keep knowledge up-to-date, but also understand why you should choose a particular technology for a given problem.&lt;/p&gt;
 
 &lt;p&gt;Keeping knowledge up-to-date if fundamental and that is why regular visits to conferences like
-&lt;a href=&#34;http://www.qconferences.com/&#34;&gt;QCon&lt;/a&gt;, &lt;a href=&#34;https://www.devoxx.com/&#34;&gt;Devoxx&lt;/a&gt;, &lt;a href=&#34;http://www.buildstuff.lt/&#34;&gt;BuildStuf&lt;/a&gt; and various &lt;a href=&#34;https://www.meetup.com/&#34;&gt;Meetup communities&lt;/a&gt; are part of my working habbit. Supporting the developer community by organizing the yearly &lt;a href=&#34;http://www.nextbuild.nl&#34;&gt;NextBuild Conference&lt;/a&gt; for Developers and by Developers.&lt;/p&gt;
+&lt;a href=&#34;http://www.qconferences.com/&#34;&gt;QCon&lt;/a&gt;, &lt;a href=&#34;https://www.devoxx.com/&#34;&gt;Devoxx&lt;/a&gt;, &lt;a href=&#34;http://www.buildstuff.lt/&#34;&gt;BuildStuf&lt;/a&gt; and various &lt;a href=&#34;https://www.meetup.com/&#34;&gt;Meetup communities&lt;/a&gt; are part of my working habbit. Supporting the developer community by organising the yearly &lt;a href=&#34;http://www.nextbuild.nl&#34;&gt;NextBuild Conference&lt;/a&gt; for Developers and by Developers.&lt;/p&gt;
 
-&lt;p&gt;Born in 1973, living nearby Breda (Netherlands), father of 3 children. Hobbies include cooking, movies/series and enjoying life.&lt;/p&gt;
+&lt;p&gt;Tech guy, wannabe cooking chef, traveller, likes to watch movies/series, beer enthusiast, tries to enjoy life.&lt;/p&gt;
 
 &lt;p style=&#34;text-align: center;&#34;&gt;
 &lt;a href=&#34;http://stackoverflow.com/users/185432/marco&#34;&gt;
@@ -666,8 +765,7 @@ Below are some place where you can find some more information about me:&lt;/p&gt
 &lt;p&gt;During various projects for clients I had the opportunity to get acquainted
 with a variety of technologies and methodologies such as :&lt;/p&gt;
 
-&lt;p&gt;DevOps, Consul, Continous Deployment/Delivery, Java, Groovy, Grails, Spock, SpringBoot,
-REST, Amazon Web Services, ElasticSearch, Fluentd, Kibana, MicroServices, Eureka, Spring, RabbitMQ, Amazon Webservices, Jenkins, Test Driven Development, Neo4J, MongoDB, JSON, Apache Tomcat, SonarQube, JMeter, IntelliJ, Nexus, Gradle, Maven, GIT, PostgreSQL, MySQL, Terraform, CloudFormation, Twitter BootStrap, Skeleton CSS, JavaScript, DevOps and lots more..&lt;/p&gt;
+&lt;p&gt;Go, Elixir, DevOps, Consul, Continous Deployment/Delivery, Java, Groovy, Grails, Spock, SpringBoot, REST, Amazon Web Services, ElasticSearch, Fluentd, Kibana, MicroServices, Eureka, Spring, RabbitMQ, Amazon Webservices, Jenkins, Test Driven Development, Neo4J, MongoDB, JSON, Apache Tomcat, SonarQube, JMeter, IntelliJ, Nexus, Gradle, Maven, GIT, PostgreSQL, MySQL, Terraform, CloudFormation, Twitter BootStrap, Skeleton CSS, JavaScript, DevOps and lots more..&lt;/p&gt;
 </description>
     </item>
     
@@ -985,187 +1083,6 @@ rabbitmq-server &lt;span style=&#34;color: #f8f8f2&#34;&gt;$@&lt;/span&gt;
     &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
 &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
-      <link>http://mpas.github.io/post/2015/06/05/20150605_docker-setup-registry/</link>
-      <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/2015/06/05/20150605_docker-setup-registry/</guid>
-      <description>
-
-&lt;p&gt;The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.&lt;/p&gt;
-
-&lt;p&gt;So the setup will be that we install the Docker Registry and proxy the SSL user access via self signed certificates using an NGINX proxy image provided by Container Solutions. &lt;a href=&#34;http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/&#34;&gt;Check here for more information&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Installation of the remote docker registry will be done by using on an Amazon EC2 (Linux AMI). Currently the free tier Amazon Linux AMI 2015.03 (HVM), SSD Volume Type - ami-a10897d6. So spin up the Amazon AMI and let&amp;rsquo;s install Docker.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; when you spin up your Amazon AMI make sure to remember the FQDN/DNS name! We need this name to generate the SSL certificates!&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Example:
-&amp;lt;domain-name&amp;gt; = ec2-52-16-247-220.eu-west-1.compute.amazonaws.com
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So spin up your AMI and install Docker!&lt;/p&gt;
-
-&lt;h2 id=&#34;installing-docker&#34;&gt;Installing docker&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;login into your Amazon AMI&lt;/li&gt;
-&lt;li&gt;update the system and install Docker&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo yum update -y
-$ sudo wget -qO- https://get.docker.com/ &lt;span style=&#34;color: #f8f8f2&#34;&gt;|&lt;/span&gt; sh
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;add the ec2-user to the &lt;code&gt;docker&lt;/code&gt; group (optional)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo usermod -aG docker ec2-user
-&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;start Docker&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo service docker start
-&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;make sure Docker can run the basic &amp;ldquo;hello-world&amp;rdquo;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo docker run hello-world
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;create-docker-registry-data-and-configuration-directories&#34;&gt;Create Docker Registry data and configuration directories&lt;/h2&gt;
-
-&lt;p&gt;We are going to store the registry image data inside &lt;code&gt;/opt/docker/registry/data&lt;/code&gt; and configuration files such as the ssl certificates and user login inside &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;create data folders for Docker Registry data and configuration&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo mkdir -p /opt/docker/registry/data
-$ sudo mkdir -p /opt/docker/registry/conf
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;run-the-docker-registry&#34;&gt;Run the Docker Registry&lt;/h2&gt;
-
-&lt;p&gt;Now we are able to run the Docker Registry, the data for images that will be pushed are going to be stored in &lt;code&gt;/opt/docker/registry/data&lt;/code&gt; and the container will be named &lt;code&gt;docker-registry&lt;/code&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;run the registry and name it &lt;code&gt;docker-registry&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo docker run -d -v /opt/docker/registry/data:/tmp/registry-dev &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
---name docker-registry registry:2.0.1
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-&lt;li&gt;test if the registry is actually running&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo docker ps
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;So now we have a running Docker Registry, but still no SSL proxy and no user accounts to get access to the registry.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;generate-self-signed-certificates-for-our-ssl-proxy&#34;&gt;Generate self signed certificates for our SSL proxy&lt;/h2&gt;
-
-&lt;p&gt;The result of the certificate generation will be placed in &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt; and named &lt;code&gt;docker-registry.crt&lt;/code&gt; and &lt;code&gt;docker-registry.key&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The &lt;code&gt;docker-registry.crt&lt;/code&gt; file is important, we will need this later on to configure our local Docker client on the machine that is going to access the remote registry. So after generating the &lt;code&gt;docker-registry.crt&lt;/code&gt; file, grab this and store it on your local machine in a place where you can find it.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;generate the certificates&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo openssl req -x509 -nodes -days &lt;span style=&#34;color: #ae81ff&#34;&gt;365&lt;/span&gt; -newkey rsa:2048 &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
--keyout /opt/docker/registry/conf/docker-registry.key \
--out /opt/docker/registry/conf/docker-registry.crt
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Accept all defaults and make sure you give the correct FQDN /DNS name = &lt;code&gt;&amp;lt;domain-name&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;create-passwords-for-access-to-the-docker-registry&#34;&gt;Create passwords for access to the Docker Registry&lt;/h2&gt;
-
-&lt;p&gt;In order to let users login into the registry we need to create users  (user1/user2). This will be done by using &lt;code&gt;htpasswd&lt;/code&gt;. The user data will be stored in &lt;code&gt;docker-registry.htpasswd&lt;/code&gt; file and placed in the &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt; directory.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;install htpasswd&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo yum install httpd-tools -y
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-&lt;li&gt;create the users&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo htpasswd -c /opt/docker/registry/conf/docker-registry.htpasswd user1
-$ sudo htpasswd /opt/docker/registry/conf/docker-registry.htpasswd user2
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; when creating the second user omit the &lt;code&gt;-c&lt;/code&gt; otherwise the docker-registry.htpasswd file will be get overwritten!&lt;/p&gt;
-
-&lt;h2 id=&#34;run-the-nginx-proxy&#34;&gt;Run the NGINX Proxy&lt;/h2&gt;
-
-&lt;p&gt;As mentioned we are going to use the image from &lt;a href=&#34;http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/&#34;&gt;Container Solutions&lt;/a&gt; to run our NGINX proxy.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;start the NGINX proxy and name it &lt;code&gt;docker-registry-proxy&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo docker run -d -p 443:443  &lt;span style=&#34;color: #ae81ff&#34;&gt;\&lt;/span&gt;
--e REGISTRY_HOST=&amp;quot;docker-registry&amp;quot; -e REGISTRY_PORT=&amp;quot;5000&amp;quot; -e SERVER_NAME=&amp;quot;localhost&amp;quot; \
---link docker-registry:docker-registry \
--v /opt/docker/registry/conf/docker-registry.htpasswd:/etc/nginx/.htpasswd:ro \
--v /opt/docker/registry/conf:/etc/nginx/ssl:ro \
---name docker-registry-proxy containersol/docker-registry-proxy
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;After this step we have a running Docker Registry which is secured using Self Signed certificates and users are able to login using their username/password.&lt;/p&gt;
-
-&lt;p&gt;To test this navigate to your registry by using a browser (Chrome) and access: &lt;code&gt;https://&amp;lt;domain-name&amp;gt;:443/v2/&lt;/code&gt;. After accepting the security warning provide a username/password and the output should be &lt;code&gt;{}&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;configure-the-local-docker-client&#34;&gt;Configure the local Docker client&lt;/h2&gt;
-
-&lt;p&gt;Now that we have a running secured Docker Registry we can configure the Docker client on our machine that is going to access the remote Registry. For this we need a copy of the earlier &lt;code&gt;docker-registry.crt&lt;/code&gt; file.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;copy the &lt;code&gt;docker-registry.crt&lt;/code&gt; file from our server to your local machine. This file is located in &lt;code&gt;/opt/docker/registry/conf&lt;/code&gt;. Put the copy in a place where you can find it.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;ubuntu-docker-client&#34;&gt;Ubuntu Docker Client&lt;/h3&gt;
-
-&lt;p&gt;In order to get the local client working, we need to install Docker and register the &lt;code&gt;docker-registry.crt&lt;/code&gt; certificate file!&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;install docker&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo wget -qO- https://get.docker.com/ &lt;span style=&#34;color: #f8f8f2&#34;&gt;|&lt;/span&gt; sh
-$ sudo service docker start
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-&lt;li&gt;create a directory holding our extra certificates&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo mkdir /usr/share/ca-certificates/extra
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;copy the &lt;code&gt;docker-registry.crt&lt;/code&gt; file to the directory &lt;code&gt;/usr/share/ca-certificates/extra&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;register the certificate&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo dpkg-reconfigure ca-certificates
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Now you are almost ready!&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;restart the local Docker client&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo service docker restart
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-&lt;li&gt;login onto your remote registry using&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ docker login &amp;lt;domain-name&amp;gt;:port
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Now we have a remote Docker Registry and the Docker Client is able to connect!&lt;/p&gt;
 </description>
     </item>
     

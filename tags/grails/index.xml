@@ -6,8 +6,107 @@
     <description>Recent content in Grails on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Nov 2016 19:44:16 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 25 Nov 2016 20:31:27 +0100</lastBuildDate>
     <atom:link href="http://mpas.github.io/tags/grails/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Dockerize your Grails application</title>
+      <link>http://mpas.github.io/post/2016/11/25/20161125_dockerize_your_grails_application/</link>
+      <pubDate>Fri, 25 Nov 2016 20:31:27 +0100</pubDate>
+      
+      <guid>http://mpas.github.io/post/2016/11/25/20161125_dockerize_your_grails_application/</guid>
+      <description>&lt;p&gt;Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..&lt;/p&gt;
+
+&lt;p&gt;Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Prerequisite&lt;/strong&gt; : Docker is installed on your machine.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails create-app docker-test --profile rest-api
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After the Grails application has been created, we will need to add the following files to our project.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Dockerfile (determines what our Docker image will contain)&lt;/li&gt;
+&lt;li&gt;docker-entrypoint.sh (script that is responsible for starting our Grails application)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code&gt;File: /src/main/docker/Dockerfile&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;FROM&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt; openjdk:latest&lt;/span&gt;
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# set environment options&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;ENV&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt; JAVA_OPTS=&amp;quot;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&amp;quot;&lt;/span&gt;
+
+&lt;span style=&#34;color: #66d9ef&#34;&gt;RUN&lt;/span&gt; mkdir -p /app
+&lt;span style=&#34;color: #66d9ef&#34;&gt;WORKDIR&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt; /app&lt;/span&gt;
+
+COPY /app/application.jar application.jar
+COPY /app/docker-entrypoint.sh docker-entrypoint.sh
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# Set file permissions&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;RUN&lt;/span&gt; chmod +x /app/docker-entrypoint.sh
+
+&lt;span style=&#34;color: #75715e&#34;&gt;# Set start script as enrypoint&lt;/span&gt;
+&lt;span style=&#34;color: #66d9ef&#34;&gt;ENTRYPOINT&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt; [&amp;quot;./docker-entrypoint.sh&amp;quot;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;File: /src/main/docker/app/docker-entrypoint.sh&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #75715e&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;set&lt;/span&gt; -e
+
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;exec&lt;/span&gt; java &lt;span style=&#34;color: #e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;JAVA_OPTS&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;}&lt;/span&gt; -jar application.jar &lt;span style=&#34;color: #f8f8f2&#34;&gt;$@&lt;/span&gt;
+&lt;span style=&#34;color: #75715e&#34;&gt;# exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Next step is to add the tasks to our &lt;code&gt;build.gradle&lt;/code&gt; so it can generate the Docker image.&lt;/p&gt;
+
+&lt;p&gt;So add the following snippet to your &lt;code&gt;build.gradle&lt;/code&gt; file!&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;File: /build.gradle&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;String&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;getDockerImageName&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+  &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;docker-test&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+
+&lt;span style=&#34;color: #f8f8f2&#34;&gt;task&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;buildDockerImage&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;type:Exec&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;group&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;docker&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;description&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;Build a docker image&amp;#39;&lt;/span&gt;
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;commandLine&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;docker&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;-f&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker/Dockerfile&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;-t&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;${dockerImageName}&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker&amp;#39;&lt;/span&gt;
+
+    &lt;span style=&#34;color: #f8f8f2&#34;&gt;doFirst&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;println&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;gt;&amp;gt; Creating image: ${dockerImageName}&amp;quot;&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;/* copy the generate war file to /build/docker/app */&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;copy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;war&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;archivePath&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;into&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker/app/&amp;#39;&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;/* copy artifacts from src/main/docker/app into the build/docker/app */&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;copy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;src/main/docker/app/&amp;#39;&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;into&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker/app&amp;#39;&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;/* copy Dockerfile from src/main/docker into the build/docker */&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;copy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;from&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;src/main/docker/&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
+                &lt;span style=&#34;color: #f8f8f2&#34;&gt;include&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;Dockerfile&amp;#39;&lt;/span&gt;
+            &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+            &lt;span style=&#34;color: #f8f8f2&#34;&gt;into&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;build/docker&amp;#39;&lt;/span&gt;
+        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color: #75715e&#34;&gt;/* rename war file to application.jar */&lt;/span&gt;
+        &lt;span style=&#34;color: #f8f8f2&#34;&gt;file&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;build/docker/app/${war.archiveName}&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;).&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;renameTo&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;build/docker/app/application.jar&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
+    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now that we have everyting in place we can build the image and start the container,&lt;/p&gt;
+
+&lt;p&gt;Create the docker image using assemble target and buildDockerImage&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ ./gradlew assemble buildDockerImage
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Run a container based on the previous created image&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ docker run -it --rm -p 8080:8080 docker-test
+&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Change the port of actuator endpoint in a Grails application</title>

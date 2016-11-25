@@ -37,7 +37,7 @@
 &lt;span style=&#34;color: #75715e&#34;&gt;    Docker image should be created.&lt;/span&gt;
 &lt;span style=&#34;color: #75715e&#34;&gt;*/&lt;/span&gt;
 &lt;span style=&#34;color: #f8f8f2&#34;&gt;String&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;getDockerImageName&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-  &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;my&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;first&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;docker&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;image&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+  &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;my-first-docker-image&amp;quot;&lt;/span&gt;
 &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
 
 &lt;span style=&#34;color: #75715e&#34;&gt;/*&lt;/span&gt;
