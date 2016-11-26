@@ -105,6 +105,10 @@ COPY /app/docker-entrypoint.sh docker-entrypoint.sh
 &lt;p&gt;Run a container based on the previous created image&lt;/p&gt;
 &lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ docker run -it --rm -p 8080:8080 docker-test
 &lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will run the container in interactive mode (&lt;code&gt;-it&lt;/code&gt;) and the container will be removed when we stop the container (&lt;code&gt;--rm&lt;/code&gt;). Port 8080 in the container will be available on port 8080 on your host system (&lt;code&gt;-p 8080:8080&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;This will run the specified container and the endpoint will be available using your browser. Just visit &lt;a href=&#34;http://localhost:8080&#34;&gt;http://localhost:8080&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
