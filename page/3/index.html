@@ -66,6 +66,48 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Automount NTFS volume under Linux (Mint)</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ sudo pico /etc/fstab
+</pre></div>
+
+<p>Add a line in the /etc/fstab file:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span># custom mount point
+/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
+</pre></div>
+
+<p>And take the mount into effect.</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ mount -a
+</pre></div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Tue, May 28, 2013
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/linux">linux</a>, <a href="/tags/mint">mint</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Using Grails to power your Electric Car</h1>
         </div>
     </div>
@@ -530,76 +572,6 @@ chmod the folder that the ftp user comes in to as he first login (root folder) b
 </article>
 
         
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Combining ImageMagick and Grails</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.</p>
-
-<p><strong>Steps:</strong></p>
-
-<ul>
-<li>Install ImageMagick according to the installation instructions.</li>
-<li>It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc. So remember where this utility is installed on your system!</li>
-<li>Make sure that ImageMagick is installed correctly be converting an image to a thumbnail by using the following command in a terminal.</li>
-</ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>/opt/local/bin/convert &lt;filename&gt; -thumbnail 70x70 &lt;thumbnail-filename&gt;
-</pre></div>
-
-<p><strong>example:</strong></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg
-</pre></div>
-
-<p>Create some code that calls the ImageMagick convert utility with the correct parameters to enable you to achieve what you want. Something like below:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">def</span> <span style="color: #a6e22e">createThumbnail</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">File</span> <span style="color: #f8f8f2">file</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-   <span style="color: #66d9ef">def</span> <span style="color: #f8f8f2">command</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;/opt/local/bin/convert ${file.canonicalPath} &quot;</span> <span style="color: #f92672">+</span>
-                 <span style="color: #e6db74">&quot;-thumbnail 70x70 &quot;</span> <span style="color: #f92672">+</span>
-                 <span style="color: #e6db74">&quot;/images/thumbs&quot;</span> <span style="color: #f92672">+</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">.</span><span style="color: #a6e22e">separator</span> <span style="color: #f92672">+</span> <span style="color: #e6db74">&quot;${file.name}&quot;</span>
-   <span style="color: #66d9ef">def</span> <span style="color: #f8f8f2">proc</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Runtime</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getRuntime</span><span style="color: #f92672">().</span><span style="color: #a6e22e">exec</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">command</span><span style="color: #f92672">)</span>
-   <span style="color: #66d9ef">int</span> <span style="color: #f8f8f2">exitStatus</span><span style="color: #f92672">;</span>
-   <span style="color: #66d9ef">while</span> <span style="color: #f92672">(</span><span style="color: #66d9ef">true</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-       <span style="color: #66d9ef">try</span> <span style="color: #f92672">{</span>
-           <span style="color: #f8f8f2">exitStatus</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">proc</span><span style="color: #f92672">.</span><span style="color: #a6e22e">waitFor</span><span style="color: #f92672">();</span>
-           <span style="color: #66d9ef">break</span><span style="color: #f92672">;</span>
-       <span style="color: #f92672">}</span> <span style="color: #66d9ef">catch</span> <span style="color: #f92672">(</span><span style="color: #f8f8f2">java</span><span style="color: #f92672">.</span><span style="color: #a6e22e">lang</span><span style="color: #f92672">.</span><span style="color: #a6e22e">InterruptedException</span> <span style="color: #f8f8f2">e</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-           <span style="color: #f8f8f2">log</span><span style="color: #f92672">.</span><span style="color: #a6e22e">debug</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Creating thumbnail - Interrupted: Ignoring and waiting&quot;</span><span style="color: #f92672">)</span>
-       <span style="color: #f92672">}</span>
-   <span style="color: #f92672">}</span>
-    <span style="color: #66d9ef">if</span> <span style="color: #f92672">(</span><span style="color: #f8f8f2">exitStatus</span> <span style="color: #f92672">!=</span> <span style="color: #ae81ff">0</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-        <span style="color: #f8f8f2">log</span><span style="color: #f92672">.</span><span style="color: #a6e22e">error</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Error executing command: exitStatus=[${exitStatus}]&quot;</span><span style="color: #f92672">)</span>
-    <span style="color: #f92672">}</span>
-    <span style="color: #f8f8f2">log</span><span style="color: #f92672">.</span><span style="color: #a6e22e">debug</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Succesfully created thumbnail&quot;</span><span style="color: #f92672">)</span>
-    <span style="color: #66d9ef">return</span> <span style="color: #f92672">(</span><span style="color: #f8f8f2">exitStatus</span> <span style="color: #f92672">==</span> <span style="color: #ae81ff">0</span><span style="color: #f92672">);</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
-<p>The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    Sat, Sep 15, 2012
-                
-                <span class="post-meta-info-taxonomy">
-                    in categories:
-                        
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/imagemagick">imagemagick</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
         </div>
     </div>
 </div>
@@ -670,7 +642,7 @@ chmod the folder that the ftp user comes in to as he first login (root folder) b
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2016 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2017 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Infrastructure on CodeVerse</title>
+    <link>http://mpas.github.io/tags/infrastructure/</link>
+    <description>Recent content in Infrastructure on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 12 May 2017 08:31:27 +0100</lastBuildDate>
+    <atom:link href="http://mpas.github.io/tags/infrastructure/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Infrastructure and System Monitoring using Prometheus</title>
+      <link>http://mpas.github.io/post/2017/05/12/20170512_infrastructure_and_system_monitoring_using_prometheus/</link>
+      <pubDate>Fri, 12 May 2017 08:31:27 +0100</pubDate>
+      
+      <guid>http://mpas.github.io/post/2017/05/12/20170512_infrastructure_and_system_monitoring_using_prometheus/</guid>
+      <description>&lt;p&gt;Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &amp;ldquo;Infrastructure and System Monitoring using Prometheus&amp;rdquo;. You can find the used material here:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Slides: &lt;a href=&#34;https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus&#34;&gt;https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Slides in PDF: &lt;a href=&#34;https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE&#34;&gt;https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Code: &lt;a href=&#34;https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus&#34;&gt;https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Feel free to share and distribute&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

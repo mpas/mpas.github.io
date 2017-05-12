@@ -66,6 +66,52 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Cleaning Grails Domain Objects in a Spock Test</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.</p>
+
+<p>Spock provides a <code>setup()</code> and <code>cleanup()</code> method.</p>
+
+<p>When you want to remove your domain objects after each feature test has run you can execute the following:</p>
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">def</span> <span style="color: #a6e22e">setup</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span> <span style="color: #f92672">...</span> <span style="color: #f92672">}</span>
+
+<span style="color: #66d9ef">def</span> <span style="color: #a6e22e">cleanup</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
+        <span style="color: #75715e">// make sure to clear out the database on after test</span>
+        <span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">YourDomainObject</span><span style="color: #f92672">&gt;.</span><span style="color: #a6e22e">withNewSession</span> <span style="color: #f92672">{</span>
+            <span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">YourDomainObject</span><span style="color: #f92672">&gt;.</span><span style="color: #a6e22e">findAll</span><span style="color: #f92672">().</span><span style="color: #a6e22e">each</span> <span style="color: #f92672">{</span> <span style="color: #f8f8f2">it</span><span style="color: #f92672">.</span><span style="color: #a6e22e">delete</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">flush:</span> <span style="color: #66d9ef">true</span><span style="color: #f92672">)</span> <span style="color: #f92672">}</span>
+        <span style="color: #f92672">}</span>
+<span style="color: #f92672">}</span>
+</pre></div>
+
+<p>We need the <code>.withNewSession</code> because there is no Hibernate session provided in the <code>setup()</code> and <code>cleanup()</code> methods.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Fri, Oct 30, 2015
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Adding WebSocket/Stomp support to a Spring Boot application</h1>
         </div>
     </div>
@@ -806,48 +852,6 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
 </article>
 
         
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Automount NTFS volume under Linux (Mint)</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ sudo pico /etc/fstab
-</pre></div>
-
-<p>Add a line in the /etc/fstab file:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span># custom mount point
-/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
-</pre></div>
-
-<p>And take the mount into effect.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ mount -a
-</pre></div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    Tue, May 28, 2013
-                
-                <span class="post-meta-info-taxonomy">
-                    in categories:
-                        
-                    using tags:
-                        <a href="/tags/linux">linux</a>, <a href="/tags/mint">mint</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
         </div>
     </div>
 </div>
@@ -918,7 +922,7 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2016 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2017 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

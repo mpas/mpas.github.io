@@ -6,8 +6,26 @@
     <description>Recent content on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 25 Nov 2016 20:31:27 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 12 May 2017 08:31:27 +0100</lastBuildDate>
     <atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Infrastructure and System Monitoring using Prometheus</title>
+      <link>http://mpas.github.io/post/2017/05/12/20170512_infrastructure_and_system_monitoring_using_prometheus/</link>
+      <pubDate>Fri, 12 May 2017 08:31:27 +0100</pubDate>
+      
+      <guid>http://mpas.github.io/post/2017/05/12/20170512_infrastructure_and_system_monitoring_using_prometheus/</guid>
+      <description>&lt;p&gt;Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &amp;ldquo;Infrastructure and System Monitoring using Prometheus&amp;rdquo;. You can find the used material here:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Slides: &lt;a href=&#34;https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus&#34;&gt;https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Slides in PDF: &lt;a href=&#34;https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE&#34;&gt;https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Code: &lt;a href=&#34;https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus&#34;&gt;https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Feel free to share and distribute&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Dockerize your Grails application</title>
@@ -985,108 +1003,6 @@ rabbitmq-server &lt;span style=&#34;color: #f8f8f2&#34;&gt;$@&lt;/span&gt;
 &lt;p&gt;Then in your browser navigate to &lt;a href=&#34;http://localhost:15672&#34;&gt;http://localhost:15672&lt;/a&gt; and see if all is ok!&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; When using Boot2Docker make sure to replace the localhost with the correct IP.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
-      <link>http://mpas.github.io/post/2015/06/10/20150610_httpservletwrapper-3.1/</link>
-      <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
-      
-      <guid>http://mpas.github.io/post/2015/06/10/20150610_httpservletwrapper-3.1/</guid>
-      <description>&lt;p&gt;A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;isFinished&lt;/li&gt;
-&lt;li&gt;isReady&lt;/li&gt;
-&lt;li&gt;setReadListener&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;com.google.common.primitives.Bytes&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;javax.servlet.ReadListener&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;javax.servlet.ServletInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;javax.servlet.http.HttpServletRequest&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;javax.servlet.http.HttpServletRequestWrapper&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;java.io.ByteArrayInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;java.io.IOException&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;java.io.InputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;java.util.Arrays&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-
-&lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;AuthenticationRequestWrapper&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;extends&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;HttpServletRequestWrapper&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-
-    &lt;span style=&#34;color: #75715e&#34;&gt;// tag::variables[]&lt;/span&gt;
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;byte&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;[]&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;requestBody&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;byte&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;];&lt;/span&gt;
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;boolean&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;bufferFilled&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-    &lt;span style=&#34;color: #75715e&#34;&gt;// end::variables[]&lt;/span&gt;
-
-    &lt;span style=&#34;color: #75715e&#34;&gt;/**&lt;/span&gt;
-&lt;span style=&#34;color: #75715e&#34;&gt;     - Constructs a request object wrapping the given request.&lt;/span&gt;
-&lt;span style=&#34;color: #75715e&#34;&gt;     *&lt;/span&gt;
-&lt;span style=&#34;color: #75715e&#34;&gt;     - @param request The request to wrap&lt;/span&gt;
-&lt;span style=&#34;color: #75715e&#34;&gt;     - @throws IllegalArgumentException if the request is null&lt;/span&gt;
-&lt;span style=&#34;color: #75715e&#34;&gt;     */&lt;/span&gt;
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;AuthenticationRequestWrapper&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;HttpServletRequest&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;request&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;super&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;request&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;);&lt;/span&gt;
-    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-
-
-    &lt;span style=&#34;color: #75715e&#34;&gt;// tag::getRequestBody[]&lt;/span&gt;
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;byte&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;[]&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;getRequestBody&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;throws&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;IOException&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;bufferFilled&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-            &lt;span style=&#34;color: #66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Arrays&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;copyOf&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;requestBody&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;requestBody&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;length&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;);&lt;/span&gt;
-        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;InputStream&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;inputStream&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;super&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;getInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;();&lt;/span&gt;
-
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;byte&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;[]&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;buffer&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;byte&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #ae81ff&#34;&gt;102400&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;];&lt;/span&gt; &lt;span style=&#34;color: #75715e&#34;&gt;// 100kb buffer&lt;/span&gt;
-
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;bytesRead&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;while&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;((&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;bytesRead&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;inputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;read&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;buffer&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;))&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-            &lt;span style=&#34;color: #f8f8f2&#34;&gt;requestBody&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Bytes&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;concat&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;requestBody&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Arrays&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;copyOfRange&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;buffer&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;bytesRead&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;));&lt;/span&gt; &lt;span style=&#34;color: #75715e&#34;&gt;// &amp;lt;1&amp;gt;&lt;/span&gt;
-        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;bufferFilled&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;requestBody&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-    &lt;span style=&#34;color: #75715e&#34;&gt;// end::getRequestBody[]&lt;/span&gt;
-
-    &lt;span style=&#34;color: #75715e&#34;&gt;// tag::getInputStream[]&lt;/span&gt;
-    &lt;span style=&#34;color: #a6e22e&#34;&gt;@Override&lt;/span&gt;
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;ServletInputStream&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;getInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;throws&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;IOException&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;CustomServletInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;getRequestBody&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;());&lt;/span&gt; &lt;span style=&#34;color: #75715e&#34;&gt;// &amp;lt;1&amp;gt;&lt;/span&gt;
-    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-    &lt;span style=&#34;color: #75715e&#34;&gt;// end::getInputStream[]&lt;/span&gt;
-
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;CustomServletInputStream&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;extends&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;ServletInputStream&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;ByteArrayInputStream&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;buffer&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;CustomServletInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;byte&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;[]&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;contents&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-            &lt;span style=&#34;color: #66d9ef&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;buffer&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;ByteArrayInputStream&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;contents&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;);&lt;/span&gt;
-        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-
-        &lt;span style=&#34;color: #a6e22e&#34;&gt;@Override&lt;/span&gt;
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;read&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;throws&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;IOException&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-            &lt;span style=&#34;color: #66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;buffer&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;read&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;();&lt;/span&gt;
-        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-
-        &lt;span style=&#34;color: #a6e22e&#34;&gt;@Override&lt;/span&gt;
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;boolean&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;isFinished&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-            &lt;span style=&#34;color: #66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;buffer&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;available&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-
-        &lt;span style=&#34;color: #a6e22e&#34;&gt;@Override&lt;/span&gt;
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;boolean&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;isReady&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-            &lt;span style=&#34;color: #66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-
-        &lt;span style=&#34;color: #a6e22e&#34;&gt;@Override&lt;/span&gt;
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;setReadListener&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;ReadListener&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;listener&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-            &lt;span style=&#34;color: #66d9ef&#34;&gt;throw&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;RuntimeException&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;Not implemented&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;);&lt;/span&gt;
-        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
 </description>
     </item>
     
