@@ -229,3 +229,8 @@ footer {
     padding-top: .7em;
     padding-bottom: .7em;
 }
+
+code {
+    background: none !important;
+    border: 0px !important;
+}

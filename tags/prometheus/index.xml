@@ -7,76 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 12 May 2017 08:31:27 +0100</lastBuildDate>
-    <atom:link href="http://mpas.github.io/tags/prometheus/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://mpas.github.io/tags/prometheus/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Infrastructure and System Monitoring using Prometheus</title>
-      <link>http://mpas.github.io/post/2017/05/12/20170512_infrastructure_and_system_monitoring_using_prometheus/</link>
+      <link>http://mpas.github.io/post/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</link>
       <pubDate>Fri, 12 May 2017 08:31:27 +0100</pubDate>
       
-      <guid>http://mpas.github.io/post/2017/05/12/20170512_infrastructure_and_system_monitoring_using_prometheus/</guid>
-      <description>&lt;p&gt;Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &amp;ldquo;Infrastructure and System Monitoring using Prometheus&amp;rdquo;. You can find the used material here:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Slides: &lt;a href=&#34;https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus&#34;&gt;https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Slides in PDF: &lt;a href=&#34;https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE&#34;&gt;https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Code: &lt;a href=&#34;https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus&#34;&gt;https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Feel free to share and distribute&lt;/p&gt;
-</description>
+      <guid>http://mpas.github.io/post/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</guid>
+      <description>Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &amp;ldquo;Infrastructure and System Monitoring using Prometheus&amp;rdquo;. You can find the used material here:
+ Slides: https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus Slides in PDF: https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE Code: https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus  Feel free to share and distribute</description>
     </item>
     
     <item>
       <title>Identifying Docker container outage using Prometheus</title>
-      <link>http://mpas.github.io/post/2016/11/17/20161117_identifying_docker_container_outage_using_prometheus/</link>
+      <link>http://mpas.github.io/post/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</link>
       <pubDate>Thu, 17 Nov 2016 16:12:14 +0200</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/11/17/20161117_identifying_docker_container_outage_using_prometheus/</guid>
-      <description>
-
-&lt;p&gt;&lt;a href=&#34;https://prometheus.io/&#34;&gt;Prometheus&lt;/a&gt; is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.&lt;/p&gt;
-
-&lt;p&gt;Metric data is &lt;strong&gt;pulled&lt;/strong&gt; (on a regular time-interval) from so called exporters which expose the metrics coming from applications/operating systems etc..&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;+------------------+                               +----------+     Visualize data
-|  +------------+  |                               | Grafana  +---&amp;gt; coming from
-|  | Dockerized |  |                               +----+-----+     Prometheus
-|  | Application|  |                                    |
-|  +------------+  |                                    ^
-|  +------------+  |  Pull data   +----------+          |
-|  |  CAdvisor  +---------&amp;gt;-------+Prometheus+----------+
-|  +------------+  |              +---------++
-|                  |                        |
-| Operating System |                        |
-|       with       |                        |
-| Docker installed |                        |
-|                  |                        v
-+------------------+           Prometheus collects data
-                               coming from remote systems
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;In the diagram above cAdvisor is a so called exporter. There are other exporters like e.g. &lt;a href=&#34;https://github.com/prometheus/node_exporter&#34;&gt;Node Exporter&lt;/a&gt; that exposes machine metrics. &lt;strong&gt;cAdvisor&lt;/strong&gt; is used to get Docker container metrics.&lt;/p&gt;
-
-&lt;h2 id=&#34;cadvisor&#34;&gt;cAdvisor&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/google/cadvisor&#34;&gt;cAdvisor&lt;/a&gt; is a project coming from Google and analyzes resource usage and performance characteristics of running Docker  containers! When running a Dockerized application and starting a cAdvisor container you will have instant metrics available for all running containers.&lt;/p&gt;
-
-&lt;p&gt;A lot of metrics are exposed by cAdvisor of which one is the metric &lt;code&gt;container_last_seen&lt;/code&gt;. You can use this metric in Prometheus to identify if a container has left the building :) The challenge with Prometheus is that it keeps the data for a specific amount of time the so called &lt;code&gt;Stale Timeout&lt;/code&gt;. This means that Prometheus will keep reporting back that the data has been received until this timeout has occurred (default 5 minutes). This is of course too much if we need to identify if a container has gone.&lt;/p&gt;
-
-&lt;p&gt;So if you would normally query like this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;count&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;(container_last_seen&lt;/span&gt;&lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;job&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;lt;jobname&amp;gt;&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;,name&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=~&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;.*&amp;lt;containername&amp;gt;.*&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;This would get results until 5 minutes.. way to far&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;A simple alternate query to identify if the container has gone is like below:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;count&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;(time()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;container_last_seen&lt;/span&gt;&lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;job&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;lt;jobname&amp;gt;&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;,name&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;=~&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;.*&amp;lt;containername&amp;gt;.*&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #960050; background-color: #1e0010&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;30&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;OR&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;vector(&lt;/span&gt;&lt;span style=&#34;color: #ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;The &amp;lsquo;30&amp;rsquo; is the time in seconds before we want to be notified if a container has gone. This time has to be larger then the pull interval for your job.&lt;/p&gt;
-
-&lt;p&gt;When using the mentioned query you can create a nice &lt;a href=&#34;http://docs.grafana.org/reference/singlestat/&#34;&gt;Singlestat&lt;/a&gt; panel in Grafan so you can display an alert when the container is gone.&lt;/p&gt;
-</description>
+      <guid>http://mpas.github.io/post/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</guid>
+      <description>Prometheus is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.
+Metric data is pulled (on a regular time-interval) from so called exporters which expose the metrics coming from applications/operating systems etc..
++------------------+ +----------+ Visualize data | +------------+ | | Grafana +---&amp;gt; coming from | | Dockerized | | +----+-----+ Prometheus | | Application| | | | +------------+ | ^ | +------------+ | Pull data +----------+ | | | CAdvisor +---------&amp;gt;-------+Prometheus+----------+ | +------------+ | +---------++ | | | | Operating System | | | with | | | Docker installed | | | | v +------------------+ Prometheus collects data coming from remote systems In the diagram above cAdvisor is a so called exporter.</description>
     </item>
     
   </channel>

@@ -7,34 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 05 Sep 2012 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://mpas.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://mpas.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Using MySQL instead of in-memory database for a Grails application</title>
-      <link>http://mpas.github.io/post/2012/09/05/20120905_grails-replace-in-memory-db-with-mysql/</link>
+      <link>http://mpas.github.io/post/2012/09/05/20120905-grails-replace-in-memory-db-with-mysql/</link>
       <pubDate>Wed, 05 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/05/20120905_grails-replace-in-memory-db-with-mysql/</guid>
-      <description>&lt;p&gt;A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Download the MySQL JDBC driver [called a connector] from the MySQL website&lt;/li&gt;
-&lt;li&gt;Extract the zip or tar archive&lt;/li&gt;
-&lt;li&gt;Copy the driver (at this time of writing called &lt;code&gt;mysql-connector-java-5.1.13-bin.jar&lt;/code&gt; into the &lt;code&gt;grails-app/lib&lt;/code&gt; directory&lt;/li&gt;
-&lt;li&gt;Configure your application datasource in file &lt;code&gt;grails-app/conf/DataSource.groovy&lt;/code&gt;&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;development&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color: #f8f8f2&#34;&gt;dataSource&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-       &lt;span style=&#34;color: #f8f8f2&#34;&gt;dbCreate&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;create-drop&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #75715e&#34;&gt;// one of &amp;#39;create&amp;#39;, &amp;#39;create-drop&amp;#39;,&amp;#39;update&amp;#39;&lt;/span&gt;
-       &lt;span style=&#34;color: #f8f8f2&#34;&gt;url&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;jdbc:mysql://localhost:&amp;lt;port&amp;gt;/&amp;lt;database&amp;gt;&amp;quot;&lt;/span&gt;
-       &lt;span style=&#34;color: #f8f8f2&#34;&gt;driverClassName&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;com.mysql.jdbc.Driver&amp;quot;&lt;/span&gt;
-       &lt;span style=&#34;color: #f8f8f2&#34;&gt;port&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt;  &lt;span style=&#34;color: #75715e&#34;&gt;// default 3306&lt;/span&gt;
-       &lt;span style=&#34;color: #f8f8f2&#34;&gt;username&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;lt;username&amp;gt;&amp;quot;&lt;/span&gt;
-       &lt;span style=&#34;color: #f8f8f2&#34;&gt;password&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;lt;password&amp;gt;&amp;quot;&lt;/span&gt;
-    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-</description>
+      <guid>http://mpas.github.io/post/2012/09/05/20120905-grails-replace-in-memory-db-with-mysql/</guid>
+      <description>A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.
+ Download the MySQL JDBC driver [called a connector] from the MySQL website Extract the zip or tar archive Copy the driver (at this time of writing called mysql-connector-java-5.1.13-bin.jar into the grails-app/lib directory Configure your application datasource in file grails-app/conf/DataSource.groovy
+  development { dataSource { dbCreate = &amp;#34;create-drop&amp;#34; // one of &amp;#39;create&amp;#39;, &amp;#39;create-drop&amp;#39;,&amp;#39;update&amp;#39;  url = &amp;#34;jdbc:mysql://localhost:&amp;lt;port&amp;gt;/&amp;lt;database&amp;gt;&amp;#34; driverClassName = &amp;#34;com.</description>
     </item>
     
   </channel>

@@ -20,8 +20,8 @@
   <link rel="stylesheet" href="http://mpas.github.io/css/normalize.css">
   <link rel="stylesheet" href="http://mpas.github.io/css/skeleton.css">
   <link rel="stylesheet" href="http://mpas.github.io/css/custom.css">
-  <link rel="stylesheet" href="http://mpas.github.io/css/pygments.css">
   <link rel="stylesheet" href="http://mpas.github.io/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/syntax.css">
 
   
   <link rel="icon" type="image/png" href="images/favicon.png">
@@ -115,92 +115,78 @@
 <p>Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.</p>
 
 <p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails create-app docker-test --profile rest-api
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">$ grails create-app docker-test --profile rest-api</code></pre></div>
 <p>After the Grails application has been created, we will need to add the following files to our project.</p>
 
 <ul>
 <li>Dockerfile (determines what our Docker image will contain)</li>
 <li>docker-entrypoint.sh (script that is responsible for starting our Grails application)</li>
 </ul>
+<div class="highlight"><pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile">// file: /src/main/docker/Dockerfile<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">FROM</span><span class="s"> openjdk:latest</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># set environment options</span><span class="err">
+</span><span class="err"></span><span class="k">ENV</span><span class="s"> JAVA_OPTS=&#34;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&#34;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> mkdir -p /app<span class="err">
+</span><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /app</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span>COPY /app/application.jar application.jar<span class="err">
+</span><span class="err"></span>COPY /app/docker-entrypoint.sh docker-entrypoint.sh<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Set file permissions</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> chmod +x /app/docker-entrypoint.sh<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Set start script as enrypoint</span><span class="err">
+</span><span class="err"></span><span class="k">ENTRYPOINT</span><span class="s"> [&#34;./docker-entrypoint.sh&#34;]</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">// file: /src/main/docker/app/docker-entrypoint.sh
+<span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="nb">set</span> -e
 
-<p><code>File: /src/main/docker/Dockerfile</code></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">FROM</span><span style="color: #e6db74"> openjdk:latest</span>
-
-<span style="color: #75715e"># set environment options</span>
-<span style="color: #66d9ef">ENV</span><span style="color: #e6db74"> JAVA_OPTS=&quot;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&quot;</span>
-
-<span style="color: #66d9ef">RUN</span> mkdir -p /app
-<span style="color: #66d9ef">WORKDIR</span><span style="color: #e6db74"> /app</span>
-
-COPY /app/application.jar application.jar
-COPY /app/docker-entrypoint.sh docker-entrypoint.sh
-
-<span style="color: #75715e"># Set file permissions</span>
-<span style="color: #66d9ef">RUN</span> chmod +x /app/docker-entrypoint.sh
-
-<span style="color: #75715e"># Set start script as enrypoint</span>
-<span style="color: #66d9ef">ENTRYPOINT</span><span style="color: #e6db74"> [&quot;./docker-entrypoint.sh&quot;]</span>
-</pre></div>
-
-<p><code>File: /src/main/docker/app/docker-entrypoint.sh</code></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #75715e">#!/bin/bash</span>
-<span style="color: #f8f8f2">set</span> -e
-
-<span style="color: #f8f8f2">exec</span> java <span style="color: #e6db74">${</span><span style="color: #f8f8f2">JAVA_OPTS</span><span style="color: #e6db74">}</span> -jar application.jar <span style="color: #f8f8f2">$@</span>
-<span style="color: #75715e"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span>
-</pre></div>
-
+<span class="nb">exec</span> java <span class="si">${</span><span class="nv">JAVA_OPTS</span><span class="si">}</span> -jar application.jar <span class="nv">$@</span>
+# <span class="nb">exec</span> java <span class="si">${</span><span class="nv">JAVA_OPTS</span><span class="si">}</span> -Dserver.port<span class="o">=</span><span class="si">${</span><span class="nv">SERVER_PORT</span><span class="si">}</span> -jar application.jar <span class="nv">$@</span></code></pre></div>
 <p>Next step is to add the tasks to our <code>build.gradle</code> so it can generate the Docker image.</p>
 
 <p>So add the following snippet to your <code>build.gradle</code> file!</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="c1">// file: /build.gradle
+</span><span class="c1"></span><span class="n">String</span> <span class="nf">getDockerImageName</span><span class="o">()</span> <span class="o">{</span>
+  <span class="s2">&#34;docker-test&#34;</span>
+<span class="o">}</span>
 
-<p><code>File: /build.gradle</code></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">String</span> <span style="color: #a6e22e">getDockerImageName</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
-  <span style="color: #e6db74">&quot;docker-test&quot;</span>
-<span style="color: #f92672">}</span>
+<span class="n">task</span> <span class="nf">buildDockerImage</span><span class="o">(</span><span class="nl">type:</span><span class="n">Exec</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;docker&#39;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Build a docker image&#39;</span>
+    <span class="n">commandLine</span> <span class="s1">&#39;docker&#39;</span><span class="o">,</span> <span class="s1">&#39;build&#39;</span><span class="o">,</span> <span class="s1">&#39;-f&#39;</span><span class="o">,</span> <span class="s1">&#39;build/docker/Dockerfile&#39;</span><span class="o">,</span> <span class="s1">&#39;-t&#39;</span><span class="o">,</span> <span class="s2">&#34;${dockerImageName}&#34;</span><span class="o">,</span> <span class="s1">&#39;build/docker&#39;</span>
 
-<span style="color: #f8f8f2">task</span> <span style="color: #a6e22e">buildDockerImage</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">type:Exec</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">group</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;docker&#39;</span>
-    <span style="color: #f8f8f2">description</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;Build a docker image&#39;</span>
-    <span style="color: #f8f8f2">commandLine</span> <span style="color: #e6db74">&#39;docker&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;build&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;-f&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;build/docker/Dockerfile&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;-t&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;${dockerImageName}&quot;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;build/docker&#39;</span>
-
-    <span style="color: #f8f8f2">doFirst</span> <span style="color: #f92672">{</span>
-        <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;&gt;&gt; Creating image: ${dockerImageName}&quot;</span>
-        <span style="color: #75715e">/* copy the generate war file to /build/docker/app */</span>
-        <span style="color: #f8f8f2">copy</span> <span style="color: #f92672">{</span>
-            <span style="color: #f8f8f2">from</span> <span style="color: #f8f8f2">war</span><span style="color: #f92672">.</span><span style="color: #a6e22e">archivePath</span>
-            <span style="color: #f8f8f2">into</span> <span style="color: #e6db74">&#39;build/docker/app/&#39;</span>
-        <span style="color: #f92672">}</span>
-        <span style="color: #75715e">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
-        <span style="color: #f8f8f2">copy</span> <span style="color: #f92672">{</span>
-            <span style="color: #f8f8f2">from</span> <span style="color: #e6db74">&#39;src/main/docker/app/&#39;</span>
-            <span style="color: #f8f8f2">into</span> <span style="color: #e6db74">&#39;build/docker/app&#39;</span>
-        <span style="color: #f92672">}</span>
-        <span style="color: #75715e">/* copy Dockerfile from src/main/docker into the build/docker */</span>
-        <span style="color: #f8f8f2">copy</span> <span style="color: #f92672">{</span>
-            <span style="color: #f8f8f2">from</span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;src/main/docker/&#39;</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-                <span style="color: #f8f8f2">include</span> <span style="color: #e6db74">&#39;Dockerfile&#39;</span>
-            <span style="color: #f92672">}</span>
-            <span style="color: #f8f8f2">into</span> <span style="color: #e6db74">&#39;build/docker&#39;</span>
-        <span style="color: #f92672">}</span>
-        <span style="color: #75715e">/* rename war file to application.jar */</span>
-        <span style="color: #f8f8f2">file</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;build/docker/app/${war.archiveName}&quot;</span><span style="color: #f92672">).</span><span style="color: #a6e22e">renameTo</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;build/docker/app/application.jar&quot;</span><span style="color: #f92672">)</span>
-    <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
+    <span class="n">doFirst</span> <span class="o">{</span>
+        <span class="n">println</span> <span class="s2">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
+        <span class="cm">/* copy the generate war file to /build/docker/app */</span>
+        <span class="n">copy</span> <span class="o">{</span>
+            <span class="n">from</span> <span class="n">war</span><span class="o">.</span><span class="na">archivePath</span>
+            <span class="n">into</span> <span class="s1">&#39;build/docker/app/&#39;</span>
+        <span class="o">}</span>
+        <span class="cm">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
+        <span class="n">copy</span> <span class="o">{</span>
+            <span class="n">from</span> <span class="s1">&#39;src/main/docker/app/&#39;</span>
+            <span class="n">into</span> <span class="s1">&#39;build/docker/app&#39;</span>
+        <span class="o">}</span>
+        <span class="cm">/* copy Dockerfile from src/main/docker into the build/docker */</span>
+        <span class="n">copy</span> <span class="o">{</span>
+            <span class="n">from</span><span class="o">(</span><span class="s1">&#39;src/main/docker/&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">include</span> <span class="s1">&#39;Dockerfile&#39;</span>
+            <span class="o">}</span>
+            <span class="n">into</span> <span class="s1">&#39;build/docker&#39;</span>
+        <span class="o">}</span>
+        <span class="cm">/* rename war file to application.jar */</span>
+        <span class="n">file</span><span class="o">(</span><span class="s2">&#34;build/docker/app/${war.archiveName}&#34;</span><span class="o">).</span><span class="na">renameTo</span><span class="o">(</span><span class="s2">&#34;build/docker/app/application.jar&#34;</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 <p>Now that we have everyting in place we can build the image and start the container,</p>
 
 <p>Create the docker image using assemble target and buildDockerImage</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ ./gradlew assemble buildDockerImage
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">$ ./gradlew assemble buildDockerImage</code></pre></div>
 <p>Run a container based on the previous created image</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ docker run -it --rm -p 8080:8080 docker-test
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">$ docker run -it --rm -p 8080:8080 docker-test</code></pre></div>
 <p>This will run the container in interactive mode (<code>-it</code>) and the container will be removed when we stop the container (<code>--rm</code>). Port 8080 in the container will be available on port 8080 on your host system (<code>-p 8080:8080</code>).</p>
 
 <p>This will run the specified container and the endpoint will be available using your browser. Just visit <a href="http://localhost:8080">http://localhost:8080</a></p>
@@ -243,63 +229,56 @@ COPY /app/docker-entrypoint.sh docker-entrypoint.sh
 <h2 id="creating-an-image">Creating an image</h2>
 
 <p>The following snippet will create a Docker image using the task <code>gradle buildDockerImage</code></p>
-
-<pre><code>- application layout
+<div class="highlight"><pre class="chroma">- application layout
 | build.gradle
 | &gt; src
 | &gt;- main
 | &gt;-- docker (contains a Dockerfile)
-| &gt;--- app (contains data that can be used in your Dockerfile)
-</code></pre>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #75715e">/*</span>
-<span style="color: #75715e">    You can put some logic in the getDockerImageName to determine how your</span>
-<span style="color: #75715e">    Docker image should be created.</span>
-<span style="color: #75715e">*/</span>
-<span style="color: #f8f8f2">String</span> <span style="color: #a6e22e">getDockerImageName</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
-  <span style="color: #e6db74">&quot;my-first-docker-image&quot;</span>
-<span style="color: #f92672">}</span>
+| &gt;--- app (contains data that can be used in your Dockerfile)</pre></div><div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="cm">/*
+</span><span class="cm">    You can put some logic in the getDockerImageName to determine how your
+</span><span class="cm">    Docker image should be created.
+</span><span class="cm">*/</span>
+<span class="n">String</span> <span class="nf">getDockerImageName</span><span class="o">()</span> <span class="o">{</span>
+  <span class="s2">&#34;my-first-docker-image&#34;</span>
+<span class="o">}</span>
 
-<span style="color: #75715e">/*</span>
-<span style="color: #75715e">    Execute a docker build using commandline pointing to our Dockerfile that</span>
-<span style="color: #75715e">    has been copied to /build/docker/.</span>
-<span style="color: #75715e">*/</span>
-<span style="color: #f8f8f2">task</span> <span style="color: #a6e22e">buildDockerImage</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">type:Exec</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">group</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;docker&#39;</span>
-    <span style="color: #f8f8f2">description</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;Build a docker image&#39;</span>
-    <span style="color: #f8f8f2">commandLine</span> <span style="color: #e6db74">&#39;docker&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;build&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;-f&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;build/docker/Dockerfile&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;-t&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;${dockerImageName}&quot;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;build/docker&#39;</span>
+<span class="cm">/*
+</span><span class="cm">    Execute a docker build using commandline pointing to our Dockerfile that
+</span><span class="cm">    has been copied to /build/docker/.
+</span><span class="cm">*/</span>
+<span class="n">task</span> <span class="nf">buildDockerImage</span><span class="o">(</span><span class="nl">type:</span><span class="n">Exec</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;docker&#39;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Build a docker image&#39;</span>
+    <span class="n">commandLine</span> <span class="s1">&#39;docker&#39;</span><span class="o">,</span> <span class="s1">&#39;build&#39;</span><span class="o">,</span> <span class="s1">&#39;-f&#39;</span><span class="o">,</span> <span class="s1">&#39;build/docker/Dockerfile&#39;</span><span class="o">,</span> <span class="s1">&#39;-t&#39;</span><span class="o">,</span> <span class="s2">&#34;${dockerImageName}&#34;</span><span class="o">,</span> <span class="s1">&#39;build/docker&#39;</span>
 
-    <span style="color: #f8f8f2">doFirst</span> <span style="color: #f92672">{</span>
-        <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;&gt;&gt; Creating image: ${dockerImageName}&quot;</span>
-        <span style="color: #75715e">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
-        <span style="color: #f8f8f2">copy</span> <span style="color: #f92672">{</span>
-            <span style="color: #f8f8f2">from</span> <span style="color: #e6db74">&#39;src/main/docker/app/&#39;</span>
-            <span style="color: #f8f8f2">into</span> <span style="color: #e6db74">&#39;build/docker/app&#39;</span>
-        <span style="color: #f92672">}</span>
-        <span style="color: #75715e">/* copy Dockerfile from src/main/docker into the build/docker */</span>
-        <span style="color: #f8f8f2">copy</span> <span style="color: #f92672">{</span>
-            <span style="color: #f8f8f2">from</span><span style="color: #f92672">(</span><span style="color: #e6db74">&#39;src/main/docker/&#39;</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-                <span style="color: #f8f8f2">include</span> <span style="color: #e6db74">&#39;Dockerfile&#39;</span>
-            <span style="color: #f92672">}</span>
-            <span style="color: #f8f8f2">into</span> <span style="color: #e6db74">&#39;build/docker&#39;</span>
-        <span style="color: #f92672">}</span>
-    <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
+    <span class="n">doFirst</span> <span class="o">{</span>
+        <span class="n">println</span> <span class="s2">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
+        <span class="cm">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
+        <span class="n">copy</span> <span class="o">{</span>
+            <span class="n">from</span> <span class="s1">&#39;src/main/docker/app/&#39;</span>
+            <span class="n">into</span> <span class="s1">&#39;build/docker/app&#39;</span>
+        <span class="o">}</span>
+        <span class="cm">/* copy Dockerfile from src/main/docker into the build/docker */</span>
+        <span class="n">copy</span> <span class="o">{</span>
+            <span class="n">from</span><span class="o">(</span><span class="s1">&#39;src/main/docker/&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">include</span> <span class="s1">&#39;Dockerfile&#39;</span>
+            <span class="o">}</span>
+            <span class="n">into</span> <span class="s1">&#39;build/docker&#39;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 <h2 id="pushing-an-image">pushing an image</h2>
 
 <p>Pushing an image without using plugins is just as easy.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">pushDockerImage</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">type:</span> <span style="color: #f8f8f2">Exec</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">group</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;docker&#39;</span>
-    <span style="color: #f8f8f2">description</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&#39;Push a docker image&#39;</span>
-    <span style="color: #f8f8f2">commandLine</span> <span style="color: #e6db74">&#39;docker&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&#39;push&#39;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;${dockerImageName}&quot;</span>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pushDockerImage</span><span class="o">(</span><span class="nl">type:</span> <span class="n">Exec</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;docker&#39;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Push a docker image&#39;</span>
+    <span class="n">commandLine</span> <span class="s1">&#39;docker&#39;</span><span class="o">,</span> <span class="s1">&#39;push&#39;</span><span class="o">,</span> <span class="s2">&#34;${dockerImageName}&#34;</span>
 
-    <span style="color: #f8f8f2">doFirst</span> <span style="color: #f92672">{</span>
-        <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;&gt;&gt; Pushing image: ${dockerImageName}&quot;</span>
-    <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
+    <span class="n">doFirst</span> <span class="o">{</span>
+        <span class="n">println</span> <span class="s2">&#34;&gt;&gt; Pushing image: ${dockerImageName}&#34;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 <p>Using this approach without using unneeded Gradle plugins resulted in a an easy way to create containers on different platforms.</p>
 
         </div>
@@ -336,7 +315,7 @@ COPY /app/docker-entrypoint.sh docker-entrypoint.sh
 <p><a href="https://prometheus.io/">Prometheus</a> is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.</p>
 
 <p>Metric data is <strong>pulled</strong> (on a regular time-interval) from so called exporters which expose the metrics coming from applications/operating systems etc..</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>+------------------+                               +----------+     Visualize data
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">+------------------+                               +----------+     Visualize data
 |  +------------+  |                               | Grafana  +---&gt; coming from
 |  | Dockerized |  |                               +----+-----+     Prometheus
 |  | Application|  |                                    |
@@ -350,9 +329,7 @@ COPY /app/docker-entrypoint.sh docker-entrypoint.sh
 | Docker installed |                        |
 |                  |                        v
 +------------------+           Prometheus collects data
-                               coming from remote systems
-</pre></div>
-
+                               coming from remote systems</code></pre></div>
 <p>In the diagram above cAdvisor is a so called exporter. There are other exporters like e.g. <a href="https://github.com/prometheus/node_exporter">Node Exporter</a> that exposes machine metrics. <strong>cAdvisor</strong> is used to get Docker container metrics.</p>
 
 <h2 id="cadvisor">cAdvisor</h2>
@@ -362,15 +339,11 @@ COPY /app/docker-entrypoint.sh docker-entrypoint.sh
 <p>A lot of metrics are exposed by cAdvisor of which one is the metric <code>container_last_seen</code>. You can use this metric in Prometheus to identify if a container has left the building :) The challenge with Prometheus is that it keeps the data for a specific amount of time the so called <code>Stale Timeout</code>. This means that Prometheus will keep reporting back that the data has been received until this timeout has occurred (default 5 minutes). This is of course too much if we need to identify if a container has gone.</p>
 
 <p>So if you would normally query like this:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">count</span><span style="color: #f8f8f2">(container_last_seen</span><span style="color: #960050; background-color: #1e0010">{</span><span style="color: #f8f8f2">job</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;&lt;jobname&gt;&quot;</span><span style="color: #f8f8f2">,name</span><span style="color: #f92672">=~</span><span style="color: #e6db74">&quot;.*&lt;containername&gt;.*&quot;</span><span style="color: #960050; background-color: #1e0010">}</span><span style="color: #f8f8f2">)</span>
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">count</span><span class="p">(</span><span class="n">container_last_seen</span><span class="err">{</span><span class="n">job</span><span class="o">=</span><span class="s2">&#34;&lt;jobname&gt;&#34;</span><span class="p">,</span><span class="n">name</span><span class="o">=~</span><span class="s2">&#34;.*&lt;containername&gt;.*&#34;</span><span class="err">}</span><span class="p">)</span></code></pre></div>
 <p>This would get results until 5 minutes.. way to far&hellip;</p>
 
 <p>A simple alternate query to identify if the container has gone is like below:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">count</span><span style="color: #f8f8f2">(time()</span> <span style="color: #f92672">-</span> <span style="color: #f8f8f2">container_last_seen</span><span style="color: #960050; background-color: #1e0010">{</span><span style="color: #f8f8f2">job</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;&lt;jobname&gt;&quot;</span><span style="color: #f8f8f2">,name</span><span style="color: #f92672">=~</span><span style="color: #e6db74">&quot;.*&lt;containername&gt;.*&quot;</span><span style="color: #960050; background-color: #1e0010">}</span> <span style="color: #f92672">&lt;</span> <span style="color: #ae81ff">30</span><span style="color: #f8f8f2">)</span> <span style="color: #66d9ef">OR</span> <span style="color: #f8f8f2">vector(</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">)</span>
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">count</span><span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">container_last_seen</span><span class="err">{</span><span class="n">job</span><span class="o">=</span><span class="s2">&#34;&lt;jobname&gt;&#34;</span><span class="p">,</span><span class="n">name</span><span class="o">=~</span><span class="s2">&#34;.*&lt;containername&gt;.*&#34;</span><span class="err">}</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span> <span class="k">OR</span> <span class="n">vector</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></code></pre></div>
 <p>The &lsquo;30&rsquo; is the time in seconds before we want to be notified if a container has gone. This time has to be larger then the pull interval for your job.</p>
 
 <p>When using the mentioned query you can create a nice <a href="http://docs.grafana.org/reference/singlestat/">Singlestat</a> panel in Grafan so you can display an alert when the container is gone.</p>
@@ -435,13 +408,11 @@ you create the cluster and how can you make sure it is always available?</strong
 <h2 id="creating-a-consul-cluster">Creating a Consul cluster</h2>
 
 <p>The principle is not that hard&hellip; Consul nodes can discover each other based on IP Address. If you feed the Consul cluster members with IP Addresses that are part of the cluster you are good to go. In the example case we are going to start a number of Consul cluster members. The first node will be unable to form a cluster but if the second node starts up it will get the ip from the first node and the the first node will then know the ip of the second one.. etc.. So if you start up more than 2 nodes you will be good to go.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>+------+   +------+  +------+  +------+  +------+
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">+------+   +------+  +------+  +------+  +------+
 |Consul|   |Consul|  |Consul|  |Consul|  |Consul|
 |Node 1|   |Node 2|  |Node 3|  |Node 4|  |Node n|
 +------+   +------+  +------+  +------+  +------+
-    &lt; Find each other based on ip address &gt;
-</pre></div>
-
+    &lt; Find each other based on ip address &gt;</code></pre></div>
 <p>The power is in the user-data script that is used for bootstrapping the Consul cluster nodes. In the example case they will find each other based on a query using <code>aws ec2 describe-instances</code> that will find nodes with a specific name, and from those identified nodes we will extract the IP Addresses that will be used to joint the Consul cluster. You can always modify the query to your own needs off course. The user-data script is used in the launch configuration.</p>
 
 <p>So enough talk&hellip; lets start :)</p>
@@ -451,49 +422,47 @@ you create the cluster and how can you make sure it is always available?</strong
 <h2 id="step-1-define-a-launch-configuration">Step 1: Define a launch Configuration</h2>
 
 <p>The core component of our Consul cluster is the launch configuration. This launch configuration determines what user-data file needs to be executed when launching a new instance.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">resource</span> <span style="color: #e6db74">&quot;aws_launch_configuration&quot; &quot;consul-cluster&quot;</span> {
+<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="kr">resource</span> <span class="s">&#34;aws_launch_configuration&#34; &#34;consul-cluster&#34;</span> {<span class="err">
+</span><span class="err">
+</span><span class="err">  /*
+</span><span class="err">    in this case we use a docker optimized ami</span><span class="p">,</span><span class="err"> because we are going
+</span><span class="err">    to use the official Consul docker image as a starter</span><span class="p">.</span><span class="err">
+</span><span class="err">    You can always use an ami on which you install docker manually!
+</span><span class="err">  */
+</span><span class="err">  image_id  =</span> <span class="s">&#34;docker-optimized-ami-0123456789&#34;</span>
 
-<span style="color: #75715e">  /*</span>
-<span style="color: #75715e">    in this case we use a docker optimized ami, because we are going</span>
-<span style="color: #75715e">    to use the official Consul docker image as a starter.</span>
-<span style="color: #75715e">    You can always use an ami on which you install docker manually!</span>
-<span style="color: #75715e">  */</span>
-<span style="color: #a6e22e">  image_id</span>  <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;docker-optimized-ami-0123456789&quot;</span><span style="color: #75715e"></span>
+  <span class="err">/*
+</span><span class="err">    the user-data script that holds the magic
+</span><span class="err">  */
+</span><span class="err">  user_data =</span> <span class="s">&#34;${data.template_file.consul-cluster.rendered}&#34;</span>
+  <span class="err">instance_type =</span> <span class="s">&#34;t2.micro&#34;</span>
 
-<span style="color: #75715e">  /*</span>
-<span style="color: #75715e">    the user-data script that holds the magic</span>
-<span style="color: #75715e">  */</span>
-<span style="color: #a6e22e">  user_data</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;${data.template_file.consul-cluster.rendered}&quot;</span>
-<span style="color: #a6e22e">  instance_type</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;t2.micro&quot;</span><span style="color: #75715e"></span>
+  <span class="err">/*
+</span><span class="err">    make sure you open the correct ports so the Consul nodes can
+</span><span class="err">    discover each other the actual security group is not shown
+</span><span class="err">  */
+</span><span class="err">  security_groups = </span><span class="p">[</span><span class="err">&#34;sg-0123456789&#34;</span><span class="p">]</span><span class="err">
+</span><span class="err">  key_name = your-deploy-key
+</span><span class="err">
+</span><span class="err">  /*
+</span><span class="err">    us a policy which grants read access to the EC2 api
+</span><span class="err">  */
+</span><span class="err">  iam_instance_profile =</span> <span class="s">&#34;arn:aws:iam::0123456789:read_ec2_policy/ec2&#34;</span>
+}<span class="err">
+</span><span class="err">
+</span><span class="err">/*
+</span><span class="err">    The template file used for the user-data
+</span><span class="err">*/
+</span><span class="err">data</span> <span class="s">&#34;template_file&#34; &#34;consul-cluster&#34;</span> {<span class="err">
+</span><span class="err">  template =</span> <span class="s">&#34;user-data-consul-cluster.tpl&#34;)}&#34;</span>
+  <span class="err">vars </span>{<span class="err">
+</span><span class="err">    // the name must match the Name tag of the autoscaling group
+</span><span class="err">    consul_cluster_name =</span> <span class="s">&#34;consul-cluster-member&#34;</span>
 
-<span style="color: #75715e">  /*</span>
-<span style="color: #75715e">    make sure you open the correct ports so the Consul nodes can</span>
-<span style="color: #75715e">    discover each other the actual security group is not shown</span>
-<span style="color: #75715e">  */</span>
-<span style="color: #a6e22e">  security_groups</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">[</span><span style="color: #e6db74">&quot;sg-0123456789&quot;</span><span style="color: #f8f8f2">]</span>
-<span style="color: #a6e22e">  key_name</span> <span style="color: #f92672">=</span> <span style="color: #960050; background-color: #1e0010">your-deploy-key</span><span style="color: #75715e"></span>
-
-<span style="color: #75715e">  /*</span>
-<span style="color: #75715e">    us a policy which grants read access to the EC2 api</span>
-<span style="color: #75715e">  */</span>
-<span style="color: #a6e22e">  iam_instance_profile</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;arn:aws:iam::0123456789:read_ec2_policy/ec2&quot;</span>
-}<span style="color: #75715e"></span>
-
-<span style="color: #75715e">/*</span>
-<span style="color: #75715e">    The template file used for the user-data</span>
-<span style="color: #75715e">*/</span>
-<span style="color: #960050; background-color: #1e0010">data</span> <span style="color: #e6db74">&quot;template_file&quot; &quot;consul-cluster&quot;</span> {
-<span style="color: #a6e22e">  template</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;user-data-consul-cluster.tpl&quot;)}&quot;</span>
-  <span style="color: #960050; background-color: #1e0010">vars</span> {
-    <span style="color: #960050; background-color: #1e0010">//</span> <span style="color: #960050; background-color: #1e0010">the</span> <span style="color: #960050; background-color: #1e0010">name</span> <span style="color: #960050; background-color: #1e0010">must</span> <span style="color: #960050; background-color: #1e0010">match</span> <span style="color: #960050; background-color: #1e0010">the</span> <span style="color: #960050; background-color: #1e0010">Name</span> <span style="color: #960050; background-color: #1e0010">tag</span> <span style="color: #960050; background-color: #1e0010">of</span> <span style="color: #960050; background-color: #1e0010">the</span> <span style="color: #960050; background-color: #1e0010">autoscaling</span> <span style="color: #960050; background-color: #1e0010">group</span>
-<span style="color: #a6e22e">    consul_cluster_name</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;consul-cluster-member&quot;</span>
-
-    <span style="color: #960050; background-color: #1e0010">//</span> <span style="color: #960050; background-color: #1e0010">the</span> <span style="color: #960050; background-color: #1e0010">number</span> <span style="color: #960050; background-color: #1e0010">of</span> <span style="color: #960050; background-color: #1e0010">instances</span> <span style="color: #960050; background-color: #1e0010">that</span> <span style="color: #960050; background-color: #1e0010">need</span> <span style="color: #960050; background-color: #1e0010">to</span> <span style="color: #960050; background-color: #1e0010">be</span> <span style="color: #960050; background-color: #1e0010">in</span> <span style="color: #960050; background-color: #1e0010">the</span> <span style="color: #960050; background-color: #1e0010">cluster</span> <span style="color: #960050; background-color: #1e0010">to</span> <span style="color: #960050; background-color: #1e0010">be</span> <span style="color: #960050; background-color: #1e0010">healthy</span>
-<span style="color: #a6e22e">    consul_cluster_min_size</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">3</span>
-  }
-}
-</pre></div>
-
+    <span class="err">// the number of instances that need to be in the cluster to be healthy
+</span><span class="err">    consul_cluster_min_size = 3
+</span><span class="err">  </span>}<span class="err">
+</span><span class="err"></span>}</code></pre></div>
 <h2 id="step-2-create-the-template-file">Step 2: Create the template file</h2>
 
 <p>The user-data file is going to query AWS using the aws describe-instances api and will return ec2 nodes that have a matching name using the --filters option. <code>'Name=tag:Name,Values=${consul_cluster_name}'</code></p>
@@ -501,133 +470,127 @@ you create the cluster and how can you make sure it is always available?</strong
 <p>All the retrieved instances are then queried for their private ip and the values are stored in a list. After completing the list the instance ip for the current machine is removed.</p>
 
 <p>A Consul specific join string is composed and provided to the docker image. This enables the Consul docker image to check for available servers when starting.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>// File: user-data-consul-cluster.tpl
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">// File: user-data-consul-cluster.tpl
 
-<span style="color: #75715e">#!/bin/bash -ex</span>
-<span style="color: #f8f8f2">exec</span> &gt; &gt;<span style="color: #f92672">(</span>tee /var/log/user-data.log<span style="color: #f8f8f2">|</span>logger -t user-data -s 2&gt;/dev/console<span style="color: #f92672">)</span> 2&gt;<span style="color: #f8f8f2">&amp;</span>1
+<span class="cp">#!/bin/bash -ex
+</span><span class="cp"></span><span class="nb">exec</span> &gt; &gt;<span class="o">(</span>tee /var/log/user-data.log<span class="p">|</span>logger -t user-data -s <span class="m">2</span>&gt;/dev/console<span class="o">)</span> <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
 
-<span style="color: #f8f8f2">echo</span> <span style="color: #e6db74">&#39;installing additional software&#39;</span>
-<span style="color: #66d9ef">for</span> i in <span style="color: #f92672">{</span>1..5<span style="color: #f92672">}</span>
-<span style="color: #66d9ef">do</span>
-    yum install -y aws-cli <span style="color: #f92672">&amp;&amp;</span> <span style="color: #f8f8f2">break</span> <span style="color: #f92672">||</span> sleep 120
-<span style="color: #66d9ef">done</span>
+<span class="nb">echo</span> <span class="s1">&#39;installing additional software&#39;</span>
+<span class="k">for</span> i in <span class="o">{</span><span class="m">1</span>..5<span class="o">}</span>
+<span class="k">do</span>
+    yum install -y aws-cli <span class="o">&amp;&amp;</span> <span class="nb">break</span> <span class="o">||</span> sleep <span class="m">120</span>
+<span class="k">done</span>
 
-<span style="color: #75715e">################################################################################</span>
-<span style="color: #75715e"># Running Consul</span>
-<span style="color: #75715e">################################################################################</span>
-<span style="color: #75715e"># get current instance ip</span>
-<span style="color: #f8f8f2">INSTANCE_IP</span><span style="color: #f92672">=</span><span style="color: #66d9ef">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span style="color: #66d9ef">)</span>
+<span class="c1">################################################################################
+</span><span class="c1"># Running Consul
+</span><span class="c1">################################################################################
+</span><span class="c1"># get current instance ip
+</span><span class="c1"></span><span class="nv">INSTANCE_IP</span><span class="o">=</span><span class="k">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span class="k">)</span>
 
-<span style="color: #75715e"># get list of available Consul servers; based on Name (value) tag!</span>
-<span style="color: #f8f8f2">IP_LIST</span><span style="color: #f92672">=</span><span style="color: #66d9ef">$(</span>aws ec2 describe-instances --region us-east-1 <span style="color: #ae81ff">\</span>
---filters <span style="color: #e6db74">&#39;Name=tag:Name,Values=${consul_cluster_name}&#39;</span> <span style="color: #ae81ff">\</span>
-<span style="color: #e6db74">&#39;Name=instance-state-name,Values=running&#39;</span> <span style="color: #ae81ff">\</span>
---query <span style="color: #e6db74">&quot;Reservations[*].Instances[*].PrivateIpAddress&quot;</span> <span style="color: #ae81ff">\</span>
---output<span style="color: #f92672">=</span>text<span style="color: #66d9ef">)</span>
+<span class="c1"># get list of available Consul servers; based on Name (value) tag!
+</span><span class="c1"></span><span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span>aws ec2 describe-instances --region us-east-1 <span class="se">\
+</span><span class="se"></span>--filters <span class="s1">&#39;Name=tag:Name,Values=${consul_cluster_name}&#39;</span> <span class="se">\
+</span><span class="se"></span><span class="s1">&#39;Name=instance-state-name,Values=running&#39;</span> <span class="se">\
+</span><span class="se"></span>--query <span class="s2">&#34;Reservations[*].Instances[*].PrivateIpAddress&#34;</span> <span class="se">\
+</span><span class="se"></span>--output<span class="o">=</span>text<span class="k">)</span>
 
-<span style="color: #75715e"># remove the current instance ip from the list of available servers</span>
-<span style="color: #f8f8f2">IP_LIST</span><span style="color: #f92672">=</span><span style="color: #e6db74">&quot;</span><span style="color: #f8f8f2">$$</span><span style="color: #e6db74">{IP_LIST/</span><span style="color: #f8f8f2">$$</span><span style="color: #e6db74">INSTANCE_IP/}&quot;</span>
+<span class="c1"># remove the current instance ip from the list of available servers
+</span><span class="c1"></span><span class="nv">IP_LIST</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$$</span><span class="s2">{IP_LIST/</span><span class="nv">$$</span><span class="s2">INSTANCE_IP/}&#34;</span>
 
-<span style="color: #75715e"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;</span>
-<span style="color: #f8f8f2">IP_LIST</span><span style="color: #f92672">=</span><span style="color: #66d9ef">$(</span><span style="color: #f8f8f2">echo</span> <span style="color: #f8f8f2">$$</span>IP_LIST <span style="color: #f8f8f2">|</span> tr -s <span style="color: #e6db74">&quot; &quot;</span> <span style="color: #f8f8f2">|</span> tr -d <span style="color: #e6db74">&#39;\r\n&#39;</span> <span style="color: #f8f8f2">|</span> tr -s <span style="color: #e6db74">&#39; &#39;</span> <span style="color: #e6db74">&#39;,&#39;</span><span style="color: #66d9ef">)</span>
+<span class="c1"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;
+</span><span class="c1"></span><span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$$</span>IP_LIST <span class="p">|</span> tr -s <span class="s2">&#34; &#34;</span> <span class="p">|</span> tr -d <span class="s1">&#39;\r\n&#39;</span> <span class="p">|</span> tr -s <span class="s1">&#39; &#39;</span> <span class="s1">&#39;,&#39;</span><span class="k">)</span>
 
-<span style="color: #75715e"># create join string</span>
-<span style="color: #66d9ef">for</span> i in <span style="color: #66d9ef">$(</span><span style="color: #f8f8f2">echo</span> <span style="color: #f8f8f2">$IP_LIST</span> <span style="color: #f8f8f2">|</span> sed <span style="color: #e6db74">&quot;s/,/ /g&quot;</span><span style="color: #66d9ef">)</span>
-<span style="color: #66d9ef">do</span>
-    JOIN_STRING+<span style="color: #f92672">=</span><span style="color: #e6db74">&quot;-retry-join </span><span style="color: #f8f8f2">$i</span><span style="color: #e6db74"> &quot;</span>
-<span style="color: #66d9ef">done</span>
+<span class="c1"># create join string
+</span><span class="c1"></span><span class="k">for</span> i in <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$IP_LIST</span> <span class="p">|</span> sed <span class="s2">&#34;s/,/ /g&#34;</span><span class="k">)</span>
+<span class="k">do</span>
+    <span class="nv">JOIN_STRING</span><span class="o">+=</span><span class="s2">&#34;-retry-join </span><span class="nv">$i</span><span class="s2"> &#34;</span>
+<span class="k">done</span>
 
-<span style="color: #75715e"># - run Consul</span>
-docker run -d --net<span style="color: #f92672">=</span>host <span style="color: #ae81ff">\</span>
--e <span style="color: #e6db74">&#39;CONSUL_LOCAL_CONFIG={&quot;skip_leave_on_interrupt&quot;: true}&#39;</span> <span style="color: #ae81ff">\</span>
---name consul-server consul:latest <span style="color: #ae81ff">\</span>
-agent -server -bind<span style="color: #f92672">=</span><span style="color: #f8f8f2">$INSTANCE_IP</span> <span style="color: #f8f8f2">$JOIN_STRING</span> <span style="color: #ae81ff">\</span>
--bootstrap-expect<span style="color: #f92672">=</span><span style="color: #e6db74">${</span><span style="color: #f8f8f2">consul_cluster_min_size</span><span style="color: #e6db74">}</span> -ui -client 0.0.0.0
-<span style="color: #75715e"># ------------------------------------------------------------------------------</span>
-</pre></div>
-
+<span class="c1"># - run Consul
+</span><span class="c1"></span>docker run -d --net<span class="o">=</span>host <span class="se">\
+</span><span class="se"></span>-e <span class="s1">&#39;CONSUL_LOCAL_CONFIG={&#34;skip_leave_on_interrupt&#34;: true}&#39;</span> <span class="se">\
+</span><span class="se"></span>--name consul-server consul:latest <span class="se">\
+</span><span class="se"></span>agent -server -bind<span class="o">=</span><span class="nv">$INSTANCE_IP</span> <span class="nv">$JOIN_STRING</span> <span class="se">\
+</span><span class="se"></span>-bootstrap-expect<span class="o">=</span><span class="si">${</span><span class="nv">consul_cluster_min_size</span><span class="si">}</span> -ui -client <span class="m">0</span>.0.0.0
+# ------------------------------------------------------------------------------</code></pre></div>
 <h2 id="step-3-create-an-autoscaling-group">Step 3: Create an autoscaling group</h2>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #75715e">/*</span>
-<span style="color: #75715e">    creates an autoscaling group so servers are created when needed</span>
-<span style="color: #75715e">*/</span>
-<span style="color: #66d9ef">resource</span> <span style="color: #e6db74">&quot;aws_autoscaling_group&quot; &quot;consul-cluster&quot;</span> {
-<span style="color: #a6e22e">  min_size</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">3</span>
-<span style="color: #a6e22e">  max_size</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">5</span>
-<span style="color: #a6e22e">  desired_capacity</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">3</span>
-<span style="color: #a6e22e">  min_elb_capacity</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">3</span>
-
-<span style="color: #a6e22e">  launch_configuration</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;${aws_launch_configuration.consul-cluster.name}&quot;</span>
-<span style="color: #a6e22e">  load_balancers</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">[</span><span style="color: #e6db74">&quot;${aws_elb.consul.id}&quot;</span><span style="color: #f8f8f2">]</span>
-
-  <span style="color: #960050; background-color: #1e0010">tag</span> {
-<span style="color: #a6e22e">    key</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;Name&quot;</span><span style="color: #75715e"></span>
-<span style="color: #75715e">    /*</span>
-<span style="color: #75715e">      note: this is the value that is being searched for in the user-data</span>
-<span style="color: #75715e">    */</span>
-<span style="color: #a6e22e">    value</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;consul-cluster-member&quot;</span>
-<span style="color: #a6e22e">    propagate_at_launch</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">true</span>
-  }
-}
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="cm">/*
+</span><span class="cm">    creates an autoscaling group so servers are created when needed
+</span><span class="cm">*/</span>
+<span class="kr">resource</span> <span class="s">&#34;aws_autoscaling_group&#34; &#34;consul-cluster&#34;</span> {<span class="err">
+</span><span class="err">  min_size = 3
+</span><span class="err">  max_size = 5
+</span><span class="err">  desired_capacity = 3
+</span><span class="err">  min_elb_capacity = 3
+</span><span class="err">
+</span><span class="err">  launch_configuration =</span> <span class="s">&#34;${aws_launch_configuration.consul-cluster.name}&#34;</span>
+  <span class="err">load_balancers = </span><span class="p">[</span><span class="err">&#34;$</span>{<span class="err">aws_elb</span><span class="p">.</span><span class="err">consul</span><span class="p">.</span><span class="err">id</span>}<span class="err">&#34;</span><span class="p">]</span><span class="err">
+</span><span class="err">
+</span><span class="err">  tag </span>{<span class="err">
+</span><span class="err">    key =</span> <span class="s">&#34;Name&#34;</span>
+    <span class="err">/*
+</span><span class="err">      note: this is the value that is being searched for in the user-data
+</span><span class="err">    */
+</span><span class="err">    value =</span> <span class="s">&#34;consul-cluster-member&#34;</span>
+    <span class="err">propagate_at_launch = true
+</span><span class="err">  </span>}<span class="err">
+</span><span class="err"></span>}</code></pre></div>
 <h2 id="step-4-create-an-elb-as-frontend-for-the-consul-cluster">Step 4: Create an ELB as frontend for the Consul cluster</h2>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">resource</span> <span style="color: #e6db74">&quot;aws_elb&quot; &quot;consul-cluster&quot;</span> {
-<span style="color: #a6e22e">  name</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;consul-cluster&quot;</span>
-<span style="color: #a6e22e">  subnets</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">[</span><span style="color: #e6db74">&quot;sn-0123456789&quot;</span><span style="color: #f8f8f2">]</span>
-<span style="color: #a6e22e">  security_groups</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">[</span><span style="color: #e6db74">&quot;sg-0123456789&quot;</span><span style="color: #f8f8f2">]</span>
-
-  <span style="color: #66d9ef">listener</span> {
-<span style="color: #a6e22e">    instance_port</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">8300</span>
-<span style="color: #a6e22e">    instance_protocol</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;tcp&quot;</span>
-<span style="color: #a6e22e">    lb_port</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">8300</span>
-<span style="color: #a6e22e">    lb_protocol</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;tcp&quot;</span>
-  }
-
-  <span style="color: #66d9ef">listener</span> {
-<span style="color: #a6e22e">    instance_port</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">8301</span>
-<span style="color: #a6e22e">    instance_protocol</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;tcp&quot;</span>
-<span style="color: #a6e22e">    lb_port</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">8301</span>
-<span style="color: #a6e22e">    lb_protocol</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;tcp&quot;</span>
-  }
-
-  <span style="color: #66d9ef">listener</span> {
-<span style="color: #a6e22e">    instance_port</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">8302</span>
-<span style="color: #a6e22e">    instance_protocol</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;tcp&quot;</span>
-<span style="color: #a6e22e">    lb_port</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">8302</span>
-<span style="color: #a6e22e">    lb_protocol</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;tcp&quot;</span>
-  }
-
-  <span style="color: #66d9ef">listener</span> {
-<span style="color: #a6e22e">    instance_port</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">8400</span>
-<span style="color: #a6e22e">    instance_protocol</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;tcp&quot;</span>
-<span style="color: #a6e22e">    lb_port</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">8400</span>
-<span style="color: #a6e22e">    lb_protocol</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;tcp&quot;</span>
-  }
-
-  <span style="color: #66d9ef">listener</span> {
-<span style="color: #a6e22e">    instance_port</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">8500</span>
-<span style="color: #a6e22e">    instance_protocol</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;http&quot;</span>
-<span style="color: #a6e22e">    lb_port</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">8500</span>
-<span style="color: #a6e22e">    lb_protocol</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;http&quot;</span>
-  }
-
-  <span style="color: #66d9ef">listener</span> {
-<span style="color: #a6e22e">    instance_port</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">8600</span>
-<span style="color: #a6e22e">    instance_protocol</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;tcp&quot;</span>
-<span style="color: #a6e22e">    lb_port</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">8600</span>
-<span style="color: #a6e22e">    lb_protocol</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;tcp&quot;</span>
-  }
-
-  <span style="color: #960050; background-color: #1e0010">health_check</span> {
-<span style="color: #a6e22e">    target</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;HTTP:8500/v1/status/leader&quot;</span>
-<span style="color: #a6e22e">    healthy_threshold</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">2</span>
-<span style="color: #a6e22e">    unhealthy_threshold</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">2</span>
-<span style="color: #a6e22e">    interval</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">30</span>
-<span style="color: #a6e22e">    timeout</span> <span style="color: #f92672">=</span> <span style="color: #ae81ff">5</span>
-  }
-}
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="kr">resource</span> <span class="s">&#34;aws_elb&#34; &#34;consul-cluster&#34;</span> {<span class="err">
+</span><span class="err">  name =</span> <span class="s">&#34;consul-cluster&#34;</span>
+  <span class="err">subnets = </span><span class="p">[</span><span class="err">&#34;sn-0123456789&#34;</span><span class="p">]</span><span class="err">
+</span><span class="err">  security_groups = </span><span class="p">[</span><span class="err">&#34;sg-0123456789&#34;</span><span class="p">]</span><span class="err">
+</span><span class="err">
+</span><span class="err">  listener </span>{<span class="err">
+</span><span class="err">    instance_port = 8300
+</span><span class="err">    instance_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+    <span class="err">lb_port = 8300
+</span><span class="err">    lb_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+  }<span class="err">
+</span><span class="err">
+</span><span class="err">  listener </span>{<span class="err">
+</span><span class="err">    instance_port = 8301
+</span><span class="err">    instance_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+    <span class="err">lb_port = 8301
+</span><span class="err">    lb_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+  }<span class="err">
+</span><span class="err">
+</span><span class="err">  listener </span>{<span class="err">
+</span><span class="err">    instance_port = 8302
+</span><span class="err">    instance_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+    <span class="err">lb_port = 8302
+</span><span class="err">    lb_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+  }<span class="err">
+</span><span class="err">
+</span><span class="err">  listener </span>{<span class="err">
+</span><span class="err">    instance_port = 8400
+</span><span class="err">    instance_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+    <span class="err">lb_port = 8400
+</span><span class="err">    lb_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+  }<span class="err">
+</span><span class="err">
+</span><span class="err">  listener </span>{<span class="err">
+</span><span class="err">    instance_port = 8500
+</span><span class="err">    instance_protocol =</span> <span class="s">&#34;http&#34;</span>
+    <span class="err">lb_port = 8500
+</span><span class="err">    lb_protocol =</span> <span class="s">&#34;http&#34;</span>
+  }<span class="err">
+</span><span class="err">
+</span><span class="err">  listener </span>{<span class="err">
+</span><span class="err">    instance_port = 8600
+</span><span class="err">    instance_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+    <span class="err">lb_port = 8600
+</span><span class="err">    lb_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+  }<span class="err">
+</span><span class="err">
+</span><span class="err">  health_check </span>{<span class="err">
+</span><span class="err">    target =</span> <span class="s">&#34;HTTP:8500/v1/status/leader&#34;</span>
+    <span class="err">healthy_threshold = 2
+</span><span class="err">    unhealthy_threshold = 2
+</span><span class="err">    interval = 30
+</span><span class="err">    timeout = 5
+</span><span class="err">  </span>}<span class="err">
+</span><span class="err"></span>}</code></pre></div>
 <p>When putting all the pieces together you should now have a running Consul cluster!</p>
 
         </div>
@@ -666,22 +629,18 @@ it may be useful to run the metrics on a different port.</p>
 an AWS infrastucture so that the metrics are only available internal.</p>
 
 <p>Let us first enable the actuator endpoints</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>// File: grails-app/conf/application.yml
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">// File: grails-app/conf/application.yml
 
 # Spring Actuator Endpoints are Disabled by Default
 endpoints:
     enabled: true
     jmx:
-        enabled: true
-</pre></div>
-
+        enabled: true</code></pre></div>
 <p>Change the port on which the metrics runs, add the lines below to the appl</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>// File: grails-app/conf/application.yml
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">// File: grails-app/conf/application.yml
 
 management:
-    port: 9000
-</pre></div>
-
+    port: 9000</code></pre></div>
 <p>Now when you start your Grails application it run on port <code>8080</code> and the metrics
 are available on port <code>9090</code>/metrics</p>
 
@@ -719,9 +678,7 @@ are available on port <code>9090</code>/metrics</p>
 <p>When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.</p>
 
 <p>A solution for this isto define a new local loopback to your localhost</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ sudo ifconfig lo0 <span style="color: #f8f8f2">alias</span> 172.16.123.1
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo ifconfig lo0 <span class="nb">alias</span> <span class="m">172</span>.16.123.1</code></pre></div>
 <p>This will define a loopback network interface that points to your localhost. When you need to access the localhost you can use this ip.</p>
 
         </div>
@@ -767,13 +724,9 @@ are available on port <code>9090</code>/metrics</p>
 <li>less code to maintain because Terraform is less verbose</li>
 <li>when using Terraform an infrastructure change can be planned, this shows what is going to be changed before actually executing the change</li>
 </ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ terraform plan
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">$ terraform plan</code></pre></div>
 <p>See what the changes are and then when everything seems ok&hellip;</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ terraform apply
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">$ terraform apply</code></pre></div>
 <p>Currently we have our entire Infrastructure in Terraform and we could never be more happier. Terraform came to our rescue!</p>
 
         </div>
@@ -811,125 +764,101 @@ are available on port <code>9090</code>/metrics</p>
 
 <p><strong>Scenario:</strong><br>
 Performing a GET request on a url (<a href="http://localhost:8080/helloworld">http://localhost:8080/helloworld</a>) should return a <code>HTTP Status 200</code> and data with a json payload</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">{</span><span style="color: #f92672">&quot;message&quot;</span><span style="color: #f8f8f2">:</span><span style="color: #e6db74">&quot;helloworld&quot;</span><span style="color: #f8f8f2">}</span>
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&#34;message&#34;</span><span class="p">:</span><span class="s2">&#34;helloworld&#34;</span><span class="p">}</span></code></pre></div>
 <p>So lets get started!</p>
 
 <p><strong>Create a Grails application</strong></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails create-app RestHelloWorld
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ grails create-app RestHelloWorld</code></pre></div>
 <p><strong>Update your <code>build.gradle</code> to include the Rest Client Builder dependencies which we will need later on</strong></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">dependencies</span> <span style="color: #f92672">{</span>
-    <span style="color: #75715e">// add the following line to the &#39;dependencies&#39; section</span>
-    <span style="color: #f8f8f2">testCompile</span> <span style="color: #e6db74">&quot;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&quot;</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="c1">// add the following line to the &#39;dependencies&#39; section
+</span><span class="c1"></span>    <span class="n">testCompile</span> <span class="s2">&#34;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&#34;</span>
+<span class="o">}</span></code></pre></div>
 <p><strong>Create an Integration Test</strong></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails create-integration-test HelloWorld
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">$ grails create-integration-test HelloWorld</code></pre></div>
 <p><strong>Create a test method inside the integration test</strong></p>
 
 <p>Open up the created HelloWorldControllerSpec inside the <code>/src/integration-test/groovy/resthelloworld/</code> package</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">package</span> <span style="color: #f8f8f2">resthelloworld</span>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kn">package</span> <span class="n">resthelloworld</span>
 
-<span style="color: #f92672">import</span> <span style="color: #f8f8f2">grails.test.mixin.integration.Integration</span>
-<span style="color: #f92672">import</span> <span style="color: #f8f8f2">grails.transaction.*</span>
-<span style="color: #f92672">import</span> <span style="color: #f8f8f2">spock.lang.*</span>
-<span style="color: #f92672">import</span> <span style="color: #f8f8f2">grails.plugins.rest.client.RestBuilder</span>
-<span style="color: #f92672">import</span> <span style="color: #f8f8f2">grails.plugins.rest.client.RestResponse</span>
+<span class="kn">import</span> <span class="nn">grails.test.mixin.integration.Integration</span>
+<span class="kn">import</span> <span class="nn">grails.transaction.*</span>
+<span class="kn">import</span> <span class="nn">spock.lang.*</span>
+<span class="kn">import</span> <span class="nn">grails.plugins.rest.client.RestBuilder</span>
+<span class="kn">import</span> <span class="nn">grails.plugins.rest.client.RestResponse</span>
 
-<span style="color: #a6e22e">@Integration</span>
-<span style="color: #a6e22e">@Rollback</span>
-<span style="color: #66d9ef">class</span> <span style="color: #a6e22e">HelloWorldSpec</span> <span style="color: #66d9ef">extends</span> <span style="color: #f8f8f2">Specification</span> <span style="color: #f92672">{</span>
+<span class="nd">@Integration</span>
+<span class="nd">@Rollback</span>
+<span class="kd">class</span> <span class="nc">HelloWorldSpec</span> <span class="kd">extends</span> <span class="n">Specification</span> <span class="o">{</span>
 
-    <span style="color: #66d9ef">def</span> <span style="color: #a6e22e">setup</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
-    <span style="color: #f92672">}</span>
+    <span class="kt">def</span> <span class="nf">setup</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
 
-    <span style="color: #66d9ef">def</span> <span style="color: #a6e22e">cleanup</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
-    <span style="color: #f92672">}</span>
+    <span class="kt">def</span> <span class="nf">cleanup</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
 
-    <span style="color: #66d9ef">def</span> <span style="color: #e6db74">&quot;Ask for a nice HelloWorld&quot;</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
-        <span style="color: #f8f8f2">given:</span>
-        <span style="color: #f8f8f2">RestBuilder</span> <span style="color: #f8f8f2">rest</span> <span style="color: #f92672">=</span> <span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">RestBuilder</span><span style="color: #f92672">()</span>
+    <span class="kt">def</span> <span class="s2">&#34;Ask for a nice HelloWorld&#34;</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nl">given:</span>
+        <span class="n">RestBuilder</span> <span class="n">rest</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">RestBuilder</span><span class="o">()</span>
 
-        <span style="color: #f8f8f2">when:</span>
-        <span style="color: #f8f8f2">RestResponse</span> <span style="color: #f8f8f2">response</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">rest</span><span style="color: #f92672">.</span><span style="color: #a6e22e">get</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;http://localhost:8080/helloworld/&quot;</span><span style="color: #f92672">)</span>
+        <span class="nl">when:</span>
+        <span class="n">RestResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">rest</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s2">&#34;http://localhost:8080/helloworld/&#34;</span><span class="o">)</span>
 
-        <span style="color: #f8f8f2">then:</span>
-        <span style="color: #f8f8f2">response</span><span style="color: #f92672">.</span><span style="color: #a6e22e">status</span> <span style="color: #f92672">==</span> <span style="color: #ae81ff">200</span>
+        <span class="nl">then:</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">status</span> <span class="o">==</span> <span class="mi">200</span>
 
-        <span style="color: #f8f8f2">and:</span>
-        <span style="color: #f8f8f2">response</span><span style="color: #f92672">.</span><span style="color: #a6e22e">json</span><span style="color: #f92672">.</span><span style="color: #a6e22e">message</span> <span style="color: #f92672">==</span> <span style="color: #e6db74">&quot;helloworld&quot;</span>
-    <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
+        <span class="nl">and:</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">json</span><span class="o">.</span><span class="na">message</span> <span class="o">==</span> <span class="s2">&#34;helloworld&#34;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 <p><strong>Run your test</strong></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails test-app
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">$ grails test-app</code></pre></div>
 <p>Offcourse this will fail as we do not have implement the controller yet.</p>
 
 <p><strong>Create a Rest controller</strong></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ <span style="color: #f8f8f2">cd</span> RestHelloWorld
-$ grails create-controller HelloWorld
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">$ cd RestHelloWorld
+$ grails create-controller HelloWorld</code></pre></div>
 <p><strong>Note:</strong> The generation of the controller also create a Unit Test for the controller, default this test will fail. We are going to delete the generated Unit Test as we do not need it now. This test is located under the <code>/src/test/</code> groovy package.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">$ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy</code></pre></div>
 <p><strong>Implement the controller function that will return data</strong></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">package</span> <span style="color: #f8f8f2">resthelloworld</span>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kn">package</span> <span class="n">resthelloworld</span>
 
-<span style="color: #66d9ef">class</span> <span style="color: #a6e22e">HelloWorldController</span> <span style="color: #f92672">{</span>
+<span class="kd">class</span> <span class="nc">HelloWorldController</span> <span class="o">{</span>
 
-    <span style="color: #66d9ef">def</span> <span style="color: #a6e22e">index</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
-        <span style="color: #f8f8f2">render</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">status:</span> <span style="color: #ae81ff">200</span><span style="color: #f92672">,</span> <span style="color: #f8f8f2">contentType:</span> <span style="color: #e6db74">&quot;application/json&quot;</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-            <span style="color: #f92672">[</span><span style="color: #e6db74">&quot;message&quot;</span> <span style="color: #f92672">:</span> <span style="color: #e6db74">&quot;helloworld&quot;</span><span style="color: #f92672">]</span>
-        <span style="color: #f92672">}</span>
-    <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
+    <span class="kt">def</span> <span class="nf">index</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">render</span><span class="o">(</span><span class="nl">status:</span> <span class="mi">200</span><span class="o">,</span> <span class="nl">contentType:</span> <span class="s2">&#34;application/json&#34;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="o">[</span><span class="s2">&#34;message&#34;</span> <span class="o">:</span> <span class="s2">&#34;helloworld&#34;</span><span class="o">]</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 <p><strong>Modify UrlMapping</strong></p>
 
 <p>In order to get our newly generated controller accessible via Rest we need to modify our UrlMappings.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">class</span> <span style="color: #a6e22e">UrlMappings</span> <span style="color: #f92672">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">UrlMappings</span> <span class="o">{</span>
 
-    <span style="color: #66d9ef">static</span> <span style="color: #f8f8f2">mappings</span> <span style="color: #f92672">=</span> <span style="color: #f92672">{</span>
-        <span style="color: #e6db74">&quot;/$controller/$action?/$id?(.$format)?&quot;</span><span style="color: #f92672">{</span>
-            <span style="color: #f8f8f2">constraints</span> <span style="color: #f92672">{</span>
-                <span style="color: #75715e">// apply constraints here</span>
-            <span style="color: #f92672">}</span>
-        <span style="color: #f92672">}</span>
+    <span class="kd">static</span> <span class="n">mappings</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="s2">&#34;/$controller/$action?/$id?(.$format)?&#34;</span><span class="o">{</span>
+            <span class="n">constraints</span> <span class="o">{</span>
+                <span class="c1">// apply constraints here
+</span><span class="c1"></span>            <span class="o">}</span>
+        <span class="o">}</span>
 
-        <span style="color: #e6db74">&quot;/&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&quot;/index&quot;</span><span style="color: #f92672">)</span>
-        <span style="color: #e6db74">&quot;500&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&#39;/error&#39;</span><span style="color: #f92672">)</span>
-        <span style="color: #e6db74">&quot;404&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&#39;/notFound&#39;</span><span style="color: #f92672">)</span>
+        <span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
+        <span class="s2">&#34;500&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/error&#39;</span><span class="o">)</span>
+        <span class="s2">&#34;404&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/notFound&#39;</span><span class="o">)</span>
 
-        <span style="color: #75715e">// add the line below</span>
-        <span style="color: #e6db74">&quot;/helloworld/&quot;</span>  <span style="color: #f92672">(</span><span style="color: #f8f8f2">controller:</span> <span style="color: #e6db74">&quot;helloWorld&quot;</span><span style="color: #f92672">,</span> <span style="color: #f8f8f2">action:</span> <span style="color: #e6db74">&quot;index&quot;</span><span style="color: #f92672">,</span> <span style="color: #f8f8f2">method:</span> <span style="color: #e6db74">&quot;GET&quot;</span><span style="color: #f92672">)</span>
-    <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
+        <span class="c1">// add the line below
+</span><span class="c1"></span>        <span class="s2">&#34;/helloworld/&#34;</span>  <span class="o">(</span><span class="nl">controller:</span> <span class="s2">&#34;helloWorld&#34;</span><span class="o">,</span> <span class="nl">action:</span> <span class="s2">&#34;index&#34;</span><span class="o">,</span> <span class="nl">method:</span> <span class="s2">&#34;GET&#34;</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 <p><strong>Test your app</strong></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails test-app
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">$ grails test-app</code></pre></div>
 <p>You should find that your tests are fine now :)</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ grails test-app
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">$ grails test-app
 BUILD SUCCESSFUL
 
 Total time: 2.054 secs
-| Tests PASSED
-</pre></div>
-
+| Tests PASSED</code></pre></div>
         </div>
     </div>
     <div class="row">

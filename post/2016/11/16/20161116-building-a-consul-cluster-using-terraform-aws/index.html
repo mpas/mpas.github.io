@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  
+  <meta charset="utf-8">
+  <title>CodeVerse - Building a Consul cluster using Terraform/AWS</title>
+  <meta name="description" content="">
+  <meta name="author" content="Marco Pas">
+
+  <meta name="generator" content="" />
+  <meta name="robots" content="index,follow">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  
+  <link rel="stylesheet" href="http://mpas.github.io/css/normalize.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/skeleton.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/custom.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/syntax.css">
+
+  
+  <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="http://mpas.github.io">CodeVerse</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        
+                        
+                            <li >
+                                <a href="/">Blog</a></li>
+                        
+                            <li >
+                                <a href="/post">Post List</a></li>
+                        
+                            <li >
+                                <a href="/page/about/">About</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+    <div class="container">
+        <div class="row">
+            <div class="post-content">
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Building a Consul cluster using Terraform/AWS</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            
+
+<p><img style="float: right;" width="150" src="https://www.consul.io/assets/images/logo_large-475cebb0.png">
+<a href="http://Consul.io">Consul</a> has multiple components, but as a whole, it is a tool for discovering and configuring services in your infrastructure. It provides several key features:</p>
+
+<ul>
+<li>Service Discovery</li>
+<li>Health Checking</li>
+<li>Key/Value Store</li>
+<li>Multi Datacenter</li>
+</ul>
+
+<p>For more information on <a href="http://Consul.io">Consul</a> itself please have a look in the excellent documentation.</p>
+
+<ul>
+<li><a href="https://www.consul.io/intro/index.html">Consul Intro</a></li>
+<li><a href="https://www.consul.io/docs/index.html">Consul documentation</a></li>
+</ul>
+
+<h2 id="is-it-really-easy">Is it really easy?</h2>
+
+<p>Setting up a <a href="http://Consul.io">Consul</a> cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&hellip;</p>
+
+<p>But hey.. <strong>what if you need to deploy this cluster on an AWS environment? How do
+you create the cluster and how can you make sure it is always available?</strong></p>
+
+<p>This simple write up is just an example to give you an idea how this Consul cluster can be created and provisioned by using Terraform only. The goal is to have a cluster using the official Docker images provided by Consul itself running on EC2 nodes.</p>
+
+<h2 id="creating-a-consul-cluster">Creating a Consul cluster</h2>
+
+<p>The principle is not that hard&hellip; Consul nodes can discover each other based on IP Address. If you feed the Consul cluster members with IP Addresses that are part of the cluster you are good to go. In the example case we are going to start a number of Consul cluster members. The first node will be unable to form a cluster but if the second node starts up it will get the ip from the first node and the the first node will then know the ip of the second one.. etc.. So if you start up more than 2 nodes you will be good to go.</p>
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">+------+   +------+  +------+  +------+  +------+
+|Consul|   |Consul|  |Consul|  |Consul|  |Consul|
+|Node 1|   |Node 2|  |Node 3|  |Node 4|  |Node n|
++------+   +------+  +------+  +------+  +------+
+    &lt; Find each other based on ip address &gt;</code></pre></div>
+<p>The power is in the user-data script that is used for bootstrapping the Consul cluster nodes. In the example case they will find each other based on a query using <code>aws ec2 describe-instances</code> that will find nodes with a specific name, and from those identified nodes we will extract the IP Addresses that will be used to joint the Consul cluster. You can always modify the query to your own needs off course. The user-data script is used in the launch configuration.</p>
+
+<p>So enough talk&hellip; lets start :)</p>
+
+<p><strong>The given examples are intentionally kept simple!! So you will need to tweak your Terraform code according to your needs</strong></p>
+
+<h2 id="step-1-define-a-launch-configuration">Step 1: Define a launch Configuration</h2>
+
+<p>The core component of our Consul cluster is the launch configuration. This launch configuration determines what user-data file needs to be executed when launching a new instance.</p>
+<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="kr">resource</span> <span class="s">&#34;aws_launch_configuration&#34; &#34;consul-cluster&#34;</span> {<span class="err">
+</span><span class="err">
+</span><span class="err">  /*
+</span><span class="err">    in this case we use a docker optimized ami</span><span class="p">,</span><span class="err"> because we are going
+</span><span class="err">    to use the official Consul docker image as a starter</span><span class="p">.</span><span class="err">
+</span><span class="err">    You can always use an ami on which you install docker manually!
+</span><span class="err">  */
+</span><span class="err">  image_id  =</span> <span class="s">&#34;docker-optimized-ami-0123456789&#34;</span>
+
+  <span class="err">/*
+</span><span class="err">    the user-data script that holds the magic
+</span><span class="err">  */
+</span><span class="err">  user_data =</span> <span class="s">&#34;${data.template_file.consul-cluster.rendered}&#34;</span>
+  <span class="err">instance_type =</span> <span class="s">&#34;t2.micro&#34;</span>
+
+  <span class="err">/*
+</span><span class="err">    make sure you open the correct ports so the Consul nodes can
+</span><span class="err">    discover each other the actual security group is not shown
+</span><span class="err">  */
+</span><span class="err">  security_groups = </span><span class="p">[</span><span class="err">&#34;sg-0123456789&#34;</span><span class="p">]</span><span class="err">
+</span><span class="err">  key_name = your-deploy-key
+</span><span class="err">
+</span><span class="err">  /*
+</span><span class="err">    us a policy which grants read access to the EC2 api
+</span><span class="err">  */
+</span><span class="err">  iam_instance_profile =</span> <span class="s">&#34;arn:aws:iam::0123456789:read_ec2_policy/ec2&#34;</span>
+}<span class="err">
+</span><span class="err">
+</span><span class="err">/*
+</span><span class="err">    The template file used for the user-data
+</span><span class="err">*/
+</span><span class="err">data</span> <span class="s">&#34;template_file&#34; &#34;consul-cluster&#34;</span> {<span class="err">
+</span><span class="err">  template =</span> <span class="s">&#34;user-data-consul-cluster.tpl&#34;)}&#34;</span>
+  <span class="err">vars </span>{<span class="err">
+</span><span class="err">    // the name must match the Name tag of the autoscaling group
+</span><span class="err">    consul_cluster_name =</span> <span class="s">&#34;consul-cluster-member&#34;</span>
+
+    <span class="err">// the number of instances that need to be in the cluster to be healthy
+</span><span class="err">    consul_cluster_min_size = 3
+</span><span class="err">  </span>}<span class="err">
+</span><span class="err"></span>}</code></pre></div>
+<h2 id="step-2-create-the-template-file">Step 2: Create the template file</h2>
+
+<p>The user-data file is going to query AWS using the aws describe-instances api and will return ec2 nodes that have a matching name using the --filters option. <code>'Name=tag:Name,Values=${consul_cluster_name}'</code></p>
+
+<p>All the retrieved instances are then queried for their private ip and the values are stored in a list. After completing the list the instance ip for the current machine is removed.</p>
+
+<p>A Consul specific join string is composed and provided to the docker image. This enables the Consul docker image to check for available servers when starting.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">// File: user-data-consul-cluster.tpl
+
+<span class="cp">#!/bin/bash -ex
+</span><span class="cp"></span><span class="nb">exec</span> &gt; &gt;<span class="o">(</span>tee /var/log/user-data.log<span class="p">|</span>logger -t user-data -s <span class="m">2</span>&gt;/dev/console<span class="o">)</span> <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+
+<span class="nb">echo</span> <span class="s1">&#39;installing additional software&#39;</span>
+<span class="k">for</span> i in <span class="o">{</span><span class="m">1</span>..5<span class="o">}</span>
+<span class="k">do</span>
+    yum install -y aws-cli <span class="o">&amp;&amp;</span> <span class="nb">break</span> <span class="o">||</span> sleep <span class="m">120</span>
+<span class="k">done</span>
+
+<span class="c1">################################################################################
+</span><span class="c1"># Running Consul
+</span><span class="c1">################################################################################
+</span><span class="c1"># get current instance ip
+</span><span class="c1"></span><span class="nv">INSTANCE_IP</span><span class="o">=</span><span class="k">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span class="k">)</span>
+
+<span class="c1"># get list of available Consul servers; based on Name (value) tag!
+</span><span class="c1"></span><span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span>aws ec2 describe-instances --region us-east-1 <span class="se">\
+</span><span class="se"></span>--filters <span class="s1">&#39;Name=tag:Name,Values=${consul_cluster_name}&#39;</span> <span class="se">\
+</span><span class="se"></span><span class="s1">&#39;Name=instance-state-name,Values=running&#39;</span> <span class="se">\
+</span><span class="se"></span>--query <span class="s2">&#34;Reservations[*].Instances[*].PrivateIpAddress&#34;</span> <span class="se">\
+</span><span class="se"></span>--output<span class="o">=</span>text<span class="k">)</span>
+
+<span class="c1"># remove the current instance ip from the list of available servers
+</span><span class="c1"></span><span class="nv">IP_LIST</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$$</span><span class="s2">{IP_LIST/</span><span class="nv">$$</span><span class="s2">INSTANCE_IP/}&#34;</span>
+
+<span class="c1"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;
+</span><span class="c1"></span><span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$$</span>IP_LIST <span class="p">|</span> tr -s <span class="s2">&#34; &#34;</span> <span class="p">|</span> tr -d <span class="s1">&#39;\r\n&#39;</span> <span class="p">|</span> tr -s <span class="s1">&#39; &#39;</span> <span class="s1">&#39;,&#39;</span><span class="k">)</span>
+
+<span class="c1"># create join string
+</span><span class="c1"></span><span class="k">for</span> i in <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$IP_LIST</span> <span class="p">|</span> sed <span class="s2">&#34;s/,/ /g&#34;</span><span class="k">)</span>
+<span class="k">do</span>
+    <span class="nv">JOIN_STRING</span><span class="o">+=</span><span class="s2">&#34;-retry-join </span><span class="nv">$i</span><span class="s2"> &#34;</span>
+<span class="k">done</span>
+
+<span class="c1"># - run Consul
+</span><span class="c1"></span>docker run -d --net<span class="o">=</span>host <span class="se">\
+</span><span class="se"></span>-e <span class="s1">&#39;CONSUL_LOCAL_CONFIG={&#34;skip_leave_on_interrupt&#34;: true}&#39;</span> <span class="se">\
+</span><span class="se"></span>--name consul-server consul:latest <span class="se">\
+</span><span class="se"></span>agent -server -bind<span class="o">=</span><span class="nv">$INSTANCE_IP</span> <span class="nv">$JOIN_STRING</span> <span class="se">\
+</span><span class="se"></span>-bootstrap-expect<span class="o">=</span><span class="si">${</span><span class="nv">consul_cluster_min_size</span><span class="si">}</span> -ui -client <span class="m">0</span>.0.0.0
+# ------------------------------------------------------------------------------</code></pre></div>
+<h2 id="step-3-create-an-autoscaling-group">Step 3: Create an autoscaling group</h2>
+<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="cm">/*
+</span><span class="cm">    creates an autoscaling group so servers are created when needed
+</span><span class="cm">*/</span>
+<span class="kr">resource</span> <span class="s">&#34;aws_autoscaling_group&#34; &#34;consul-cluster&#34;</span> {<span class="err">
+</span><span class="err">  min_size = 3
+</span><span class="err">  max_size = 5
+</span><span class="err">  desired_capacity = 3
+</span><span class="err">  min_elb_capacity = 3
+</span><span class="err">
+</span><span class="err">  launch_configuration =</span> <span class="s">&#34;${aws_launch_configuration.consul-cluster.name}&#34;</span>
+  <span class="err">load_balancers = </span><span class="p">[</span><span class="err">&#34;$</span>{<span class="err">aws_elb</span><span class="p">.</span><span class="err">consul</span><span class="p">.</span><span class="err">id</span>}<span class="err">&#34;</span><span class="p">]</span><span class="err">
+</span><span class="err">
+</span><span class="err">  tag </span>{<span class="err">
+</span><span class="err">    key =</span> <span class="s">&#34;Name&#34;</span>
+    <span class="err">/*
+</span><span class="err">      note: this is the value that is being searched for in the user-data
+</span><span class="err">    */
+</span><span class="err">    value =</span> <span class="s">&#34;consul-cluster-member&#34;</span>
+    <span class="err">propagate_at_launch = true
+</span><span class="err">  </span>}<span class="err">
+</span><span class="err"></span>}</code></pre></div>
+<h2 id="step-4-create-an-elb-as-frontend-for-the-consul-cluster">Step 4: Create an ELB as frontend for the Consul cluster</h2>
+<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="kr">resource</span> <span class="s">&#34;aws_elb&#34; &#34;consul-cluster&#34;</span> {<span class="err">
+</span><span class="err">  name =</span> <span class="s">&#34;consul-cluster&#34;</span>
+  <span class="err">subnets = </span><span class="p">[</span><span class="err">&#34;sn-0123456789&#34;</span><span class="p">]</span><span class="err">
+</span><span class="err">  security_groups = </span><span class="p">[</span><span class="err">&#34;sg-0123456789&#34;</span><span class="p">]</span><span class="err">
+</span><span class="err">
+</span><span class="err">  listener </span>{<span class="err">
+</span><span class="err">    instance_port = 8300
+</span><span class="err">    instance_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+    <span class="err">lb_port = 8300
+</span><span class="err">    lb_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+  }<span class="err">
+</span><span class="err">
+</span><span class="err">  listener </span>{<span class="err">
+</span><span class="err">    instance_port = 8301
+</span><span class="err">    instance_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+    <span class="err">lb_port = 8301
+</span><span class="err">    lb_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+  }<span class="err">
+</span><span class="err">
+</span><span class="err">  listener </span>{<span class="err">
+</span><span class="err">    instance_port = 8302
+</span><span class="err">    instance_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+    <span class="err">lb_port = 8302
+</span><span class="err">    lb_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+  }<span class="err">
+</span><span class="err">
+</span><span class="err">  listener </span>{<span class="err">
+</span><span class="err">    instance_port = 8400
+</span><span class="err">    instance_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+    <span class="err">lb_port = 8400
+</span><span class="err">    lb_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+  }<span class="err">
+</span><span class="err">
+</span><span class="err">  listener </span>{<span class="err">
+</span><span class="err">    instance_port = 8500
+</span><span class="err">    instance_protocol =</span> <span class="s">&#34;http&#34;</span>
+    <span class="err">lb_port = 8500
+</span><span class="err">    lb_protocol =</span> <span class="s">&#34;http&#34;</span>
+  }<span class="err">
+</span><span class="err">
+</span><span class="err">  listener </span>{<span class="err">
+</span><span class="err">    instance_port = 8600
+</span><span class="err">    instance_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+    <span class="err">lb_port = 8600
+</span><span class="err">    lb_protocol =</span> <span class="s">&#34;tcp&#34;</span>
+  }<span class="err">
+</span><span class="err">
+</span><span class="err">  health_check </span>{<span class="err">
+</span><span class="err">    target =</span> <span class="s">&#34;HTTP:8500/v1/status/leader&#34;</span>
+    <span class="err">healthy_threshold = 2
+</span><span class="err">    unhealthy_threshold = 2
+</span><span class="err">    interval = 30
+</span><span class="err">    timeout = 5
+</span><span class="err">  </span>}<span class="err">
+</span><span class="err"></span>}</code></pre></div>
+<p>When putting all the pieces together you should now have a running Consul cluster!</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Wed, Nov 16, 2016
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/consul">consul</a>, <a href="/tags/terraform">terraform</a>, <a href="/tags/aws">aws</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            </div>
+        </div>
+    </div>
+  
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    
+                        <a title="Twitter" href="https://twitter.com/marcopas">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    
+                    
+                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    
+                    
+                        <a title="GitHub" href="https://github.com/mpas">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    
+                    
+                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
+                            <i class="fa fa-stack-overflow"></i>
+                        </a>
+                    
+                    
+                        <a title="Flickr" href="https://www.flickr.com/photos/marcopas/">
+                            <i class="fa fa-flickr"></i>
+                        </a>
+                    
+                    
+                        <a title="Facebook" href="https://www.facebook.com/marco.pasopas">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    
+                    
+                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
+                            <i class="fa fa-envelope-o"></i>
+                        </a>
+                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; 2017 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+

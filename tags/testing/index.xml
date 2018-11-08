@@ -7,206 +7,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 19 Nov 2015 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://mpas.github.io/tags/testing/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://mpas.github.io/tags/testing/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Functional Rest API Testing with Grails/Rest Client Builder</title>
-      <link>http://mpas.github.io/post/2015/11/19/20151119_functional_rest_api_testing/</link>
+      <link>http://mpas.github.io/post/2015/11/19/20151119-functional-rest-api-testing/</link>
       <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2015/11/19/20151119_functional_rest_api_testing/</guid>
-      <description>&lt;p&gt;Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.&lt;/p&gt;
-
-&lt;p&gt;When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Scenario:&lt;/strong&gt;&lt;br&gt;
-Performing a GET request on a url (&lt;a href=&#34;http://localhost:8080/helloworld&#34;&gt;http://localhost:8080/helloworld&lt;/a&gt;) should return a &lt;code&gt;HTTP Status 200&lt;/code&gt; and data with a json payload&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;&amp;quot;message&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;helloworld&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;So lets get started!&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Create a Grails application&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails create-app RestHelloWorld
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Update your &lt;code&gt;build.gradle&lt;/code&gt; to include the Rest Client Builder dependencies which we will need later on&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;dependencies&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color: #75715e&#34;&gt;// add the following line to the &amp;#39;dependencies&amp;#39; section&lt;/span&gt;
-    &lt;span style=&#34;color: #f8f8f2&#34;&gt;testCompile&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Create an Integration Test&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails create-integration-test HelloWorld
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Create a test method inside the integration test&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Open up the created HelloWorldControllerSpec inside the &lt;code&gt;/src/integration-test/groovy/resthelloworld/&lt;/code&gt; package&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;resthelloworld&lt;/span&gt;
-
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;grails.test.mixin.integration.Integration&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;grails.transaction.*&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;spock.lang.*&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;grails.plugins.rest.client.RestBuilder&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;grails.plugins.rest.client.RestResponse&lt;/span&gt;
-
-&lt;span style=&#34;color: #a6e22e&#34;&gt;@Integration&lt;/span&gt;
-&lt;span style=&#34;color: #a6e22e&#34;&gt;@Rollback&lt;/span&gt;
-&lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;HelloWorldSpec&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;extends&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Specification&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;setup&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;cleanup&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;Ask for a nice HelloWorld&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;given:&lt;/span&gt;
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;RestBuilder&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;rest&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;RestBuilder&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt;
-
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;when:&lt;/span&gt;
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;RestResponse&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;response&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;rest&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;get&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;http://localhost:8080/helloworld/&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
-
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;then:&lt;/span&gt;
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;response&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;status&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;200&lt;/span&gt;
-
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;and:&lt;/span&gt;
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;response&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;json&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;message&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;helloworld&amp;quot;&lt;/span&gt;
-    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Run your test&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails test-app
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Offcourse this will fail as we do not have implement the controller yet.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Create a Rest controller&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span style=&#34;color: #f8f8f2&#34;&gt;cd&lt;/span&gt; RestHelloWorld
-$ grails create-controller HelloWorld
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The generation of the controller also create a Unit Test for the controller, default this test will fail. We are going to delete the generated Unit Test as we do not need it now. This test is located under the &lt;code&gt;/src/test/&lt;/code&gt; groovy package.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Implement the controller function that will return data&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;resthelloworld&lt;/span&gt;
-
-&lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;HelloWorldController&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;index&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;render&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;status:&lt;/span&gt; &lt;span style=&#34;color: #ae81ff&#34;&gt;200&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;contentType:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;application/json&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-            &lt;span style=&#34;color: #f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;message&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;helloworld&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;]&lt;/span&gt;
-        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Modify UrlMapping&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;In order to get our newly generated controller accessible via Rest we need to modify our UrlMappings.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;UrlMappings&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;mappings&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-        &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;/$controller/$action?/$id?(.$format)?&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-            &lt;span style=&#34;color: #f8f8f2&#34;&gt;constraints&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-                &lt;span style=&#34;color: #75715e&#34;&gt;// apply constraints here&lt;/span&gt;
-            &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-        &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-
-        &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;view:&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;/index&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
-        &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;500&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;view:&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;/error&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
-        &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;404&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;view:&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;#39;/notFound&amp;#39;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
-
-        &lt;span style=&#34;color: #75715e&#34;&gt;// add the line below&lt;/span&gt;
-        &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;/helloworld/&amp;quot;&lt;/span&gt;  &lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;controller:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;helloWorld&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;action:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;index&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;method:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;GET&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
-    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Test your app&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails test-app
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;You should find that your tests are fine now :)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ grails test-app
-BUILD SUCCESSFUL
-
-Total time: 2.054 secs
-| Tests PASSED
-&lt;/pre&gt;&lt;/div&gt;
-</description>
+      <guid>http://mpas.github.io/post/2015/11/19/20151119-functional-rest-api-testing/</guid>
+      <description>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.
+When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.
+Scenario:
+Performing a GET request on a url (http://localhost:8080/helloworld) should return a HTTP Status 200 and data with a json payload</description>
     </item>
     
     <item>
       <title>Funcional Code Coverage using Cobertura</title>
-      <link>http://mpas.github.io/post/2012/09/10/20120910_functional-code-coverage-using-cobertura/</link>
+      <link>http://mpas.github.io/post/2012/09/10/20120910-functional-code-coverage-using-cobertura/</link>
       <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/10/20120910_functional-code-coverage-using-cobertura/</guid>
-      <description>
-
-&lt;p&gt;So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.&lt;/p&gt;
-
-&lt;p&gt;One can start to complain :), stop working on the project or even better master the concept of &lt;a href=&#34;http://se-radio.net/podcast/2009-11/episode-148-software-archaeology-dave-thomas&#34;&gt;Software Archeology&lt;/a&gt;. An additional thing is to adopt the use of &lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; a code coverage tool which can easily be used to track down Functional Code Coverage. Normally the concept of Code Coverage is used to identify what code is executed during development and test phase. This to give an indication on how much code you cover with your testing strategy (often unit testing). This is &lt;strong&gt;IMHO&lt;/strong&gt; something you will always want to know! But in the case you do not have unit tests or creating them is impossible due to the technical/organisational nature of the project, you can rely on creating functional tests and still track down the &amp;lsquo;functional&amp;rsquo; coverage with tools like &lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; (or alternatives like &lt;a href=&#34;http://emma.sourceforge.net/&#34;&gt;Emma&lt;/a&gt;).&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;This tackles several problems:&lt;/strong&gt;&lt;br /&gt;
-You are creating functional tests which can be used for regression testing
-You are creating awareness on how little is tested or is known about the system
-Note: By functional testing we mean that we are going to test via the Web layer of the JEE project To see an example on how the reporting looks like, check out this &lt;a href=&#34;http://cobertura.sourceforge.net/sample/&#34;&gt;sample&lt;/a&gt; report!&lt;/p&gt;
-
-&lt;h4 id=&#34;how-to-get-code-coverage-information&#34;&gt;How to get Code Coverage information&lt;/h4&gt;
-
-&lt;p&gt;&lt;strong&gt;General process:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Compile your software&lt;/li&gt;
-&lt;li&gt;Instrument the compiled code&lt;/li&gt;
-&lt;li&gt;Deploy your instrumented code and start the application&lt;/li&gt;
-&lt;li&gt;Use the application or run automated functional tests&lt;/li&gt;
-&lt;li&gt;Shutdown the application&lt;/li&gt;
-&lt;li&gt;Generate your Code Coverage reports&lt;/li&gt;
-&lt;li&gt;no step 7! All done :)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The remaining part of this article is going to describe how you can get Functional Code Coverage information in the process of continously building, deploying and testing your software. Some elements are not explained due to the fact that other extensive information is given somewhere else on the web!&lt;/p&gt;
-
-&lt;h4 id=&#34;compile-instrument-and-build&#34;&gt;Compile, Instrument and Build&lt;/h4&gt;
-
-&lt;p&gt;The &lt;a href=&#34;http://maven.apache.org/&#34;&gt;Maven&lt;/a&gt; project enables you to build your software with great ease. Giving a few simple commands makes it able to build a project, deploy it and even integrate it with tools and technologies such as  Cobertura. There is a even a &lt;a href=&#34;http://mojo.codehaus.org/cobertura-maven-plugin/&#34;&gt;Cobertura Maven&lt;/a&gt; Plugin to easily use &lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; in a &lt;a href=&#34;http://maven.apache.org/&#34;&gt;Maven&lt;/a&gt; build. We need to use Cobertura in the build phase because it will instrument the compiled code and generate a small file called &amp;lsquo;cobertura.ser&amp;rsquo; which is used as a kind of database that stores each call to a piece of code. The instrumented code and the database file are crucial because they contains all information needed to generate code coverage reports later on.&lt;/p&gt;
-
-&lt;h4 id=&#34;run-and-test&#34;&gt;Run and Test&lt;/h4&gt;
-
-&lt;p&gt;After the code is succesfully instrumented you may deploy the build artifacts together with the &amp;lsquo;cobertura.ser&amp;rsquo; file inside a JBoss JEE container and run your application.&lt;/p&gt;
-
-&lt;p&gt;Note: In our project we used &lt;a href=&#34;http://www.jboss.org/&#34;&gt;JBoss&lt;/a&gt; but offcourse you can use other application servers!&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; project delivers an excellent tooling and technology which enables you to record your functional flow and lets you replay a scenario which was recorded earlier on. For more information on &lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; recording and usage, please check the &lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; project. But for now lets assume you have created a couple of functional tests, so you can execute them.&lt;/p&gt;
-
-&lt;h4 id=&#34;generate-coverage-reports&#34;&gt;Generate coverage reports&lt;/h4&gt;
-
-&lt;p&gt;After the functional tests have been executed, the modified database file &amp;lsquo;cobertura.ser&amp;rsquo; can be collected and reports can be generated. Cobertura has some nice predefined reporting templates. After these stepes you should have inisight on what code is actually executed during a functional flow and this may contribute to your understanding of the application.&lt;/p&gt;
-
-&lt;h4 id=&#34;not-once-but-do-it-always&#34;&gt;Not once but do it always!&lt;/h4&gt;
-
-&lt;p&gt;The process of compiling, instrumenting, deploying, testing and reporting can be fully automatized. The famous Hudson comes to the rescue! When corectly implemented Hudson will serve you all information that you need on the moments you need it!&lt;/p&gt;
-
-&lt;h4 id=&#34;tools-technologies&#34;&gt;Tools &amp;amp; Technologies&lt;/h4&gt;
-
-&lt;p&gt;The folowing list provides information on the tools that are used:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://maven.apache.org/&#34;&gt;Maven&lt;/a&gt; -&amp;gt; used info for compiling and instrumenting your code (alternative to &lt;a href=&#34;http://ant.apache.org/&#34;&gt;Ant&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; -&amp;gt; used to get Code Coverage information&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.jboss.org/&#34;&gt;JBoss&lt;/a&gt; -&amp;gt; used for running a JEE project&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://jakarta.apache.org/jmeter/&#34;&gt;JMeter&lt;/a&gt; -&amp;gt; used to record and playback functional tests&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://hudson-ci.org/&#34;&gt;Hudson&lt;/a&gt; -&amp;gt; used to automatically build &amp;amp; test your software&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <guid>http://mpas.github.io/post/2012/09/10/20120910-functional-code-coverage-using-cobertura/</guid>
+      <description>So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.
+One can start to complain :), stop working on the project or even better master the concept of Software Archeology.</description>
     </item>
     
   </channel>

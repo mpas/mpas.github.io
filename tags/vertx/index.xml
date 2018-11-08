@@ -7,58 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 27 Nov 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://mpas.github.io/tags/vertx/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://mpas.github.io/tags/vertx/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Bookreview : Instant Vert.x</title>
-      <link>http://mpas.github.io/post/2013/11/27/20131127_bookreview-instant-vertx/</link>
+      <link>http://mpas.github.io/post/2013/11/27/20131127-bookreview-instant-vertx/</link>
       <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/11/27/20131127_bookreview-instant-vertx/</guid>
-      <description>&lt;p&gt;For those who have not yet got into contact with &lt;a href=&#34;http://vertx.io/&#34;&gt;Vert.x&lt;/a&gt;, the book &lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Instant Vert.x&lt;/a&gt; (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.&lt;/p&gt;
-
-&lt;p&gt;As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.&lt;/p&gt;
-
-&lt;p&gt;For those who have not yet had the opportunity to learn about Vert.x, I would not immediately recommend this book. The online documentation section on Vertx.io contains the same information. But if you like a book with information nicely put into digestible chapters then this book is a good fit.&lt;/p&gt;
-
-&lt;p&gt;Personally i hoped to get some more technical information and how-to information from this book but it is really targeted towards people that are just starting or have a beginning interest in Vert.x.&lt;/p&gt;
-
-&lt;p&gt;Overall, I really liked the compactness and pace of the book. It is an easy read and you quickly gain knowledge on the high level concepts of Vert.x. While noted earlier you can get the information also on Vertx.io website or other places, it&amp;rsquo;s is nice to have all information aggregated in one place. This book is a good start in your journey to learn about Vert.x.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://vertx.io/&#34;&gt;Go to the Vert.x website&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book&#34;&gt;Get the book at Pack Publishing&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <guid>http://mpas.github.io/post/2013/11/27/20131127-bookreview-instant-vertx/</guid>
+      <description>For those who have not yet got into contact with Vert.x, the book Instant Vert.x (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.
+As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.</description>
     </item>
     
     <item>
       <title>Simple Helloworld verticle</title>
-      <link>http://mpas.github.io/post/2013/05/16/20130516_simple-helloworld-verticle/</link>
+      <link>http://mpas.github.io/post/2013/05/16/20130516-simple-helloworld-verticle/</link>
       <pubDate>Thu, 16 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/05/16/20130516_simple-helloworld-verticle/</guid>
-      <description>&lt;p&gt;Sourcecode:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;package&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;helloworld&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;org.vertx.java.core.Handler&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;org.vertx.java.core.http.HttpServerRequest&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;org.vertx.java.deploy.Verticle&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;;&lt;/span&gt;
-
-&lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;Server&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;extends&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Verticle&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;start&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;vertx&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;createHttpServer&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;().&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;requestHandler&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Handler&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;HttpServerRequest&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;&amp;gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-            &lt;span style=&#34;color: #66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;handle&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;HttpServerRequest&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;req&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-            &lt;span style=&#34;color: #f8f8f2&#34;&gt;req&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;response&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;headers&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;().&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;put&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;Content-Type&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;text/html; charset-UTF-8&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;);&lt;/span&gt;
-            &lt;span style=&#34;color: #f8f8f2&#34;&gt;req&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;response&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;end&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;Hello from vert.x!&amp;lt;/h1&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;);&lt;/span&gt;
-            &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-        &lt;span style=&#34;color: #f92672&#34;&gt;}).&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;listen&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #ae81ff&#34;&gt;8080&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;);&lt;/span&gt;
-    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-
-&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-</description>
+      <guid>http://mpas.github.io/post/2013/05/16/20130516-simple-helloworld-verticle/</guid>
+      <description>Sourcecode:
+package helloworld; import org.vertx.java.core.Handler; import org.vertx.java.core.http.HttpServerRequest; import org.vertx.java.deploy.Verticle; public class Server extends Verticle { public void start() { vertx.createHttpServer().requestHandler(new Handler&amp;lt;HttpServerRequest&amp;gt;() { public void handle(HttpServerRequest req) { req.response.headers().put(&amp;#34;Content-Type&amp;#34;, &amp;#34;text/html; charset-UTF-8&amp;#34;); req.response.end(&amp;#34;&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;Hello from vert.x!&amp;lt;/h1&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&amp;#34;); } }).listen(8080); } }</description>
     </item>
     
   </channel>

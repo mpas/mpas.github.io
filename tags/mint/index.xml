@@ -7,41 +7,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 30 May 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://mpas.github.io/tags/mint/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://mpas.github.io/tags/mint/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Use backspace key to go back in Google Chrome</title>
-      <link>http://mpas.github.io/post/2013/05/30/20130530_backspace-mint/</link>
+      <link>http://mpas.github.io/post/2013/05/30/20130530-backspace-mint/</link>
       <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/05/30/20130530_backspace-mint/</guid>
-      <description>&lt;p&gt;When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&#34;&gt;https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <guid>http://mpas.github.io/post/2013/05/30/20130530-backspace-mint/</guid>
+      <description>When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:
+ https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en  </description>
     </item>
     
     <item>
       <title>Automount NTFS volume under Linux (Mint)</title>
-      <link>http://mpas.github.io/post/2013/05/28/20130528_automount-ntfs-mint/</link>
+      <link>http://mpas.github.io/post/2013/05/28/20130528-automount-ntfs-mint/</link>
       <pubDate>Tue, 28 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/05/28/20130528_automount-ntfs-mint/</guid>
-      <description>&lt;p&gt;When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo pico /etc/fstab
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Add a line in the /etc/fstab file:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;# custom mount point
-/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And take the mount into effect.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ mount -a
-&lt;/pre&gt;&lt;/div&gt;
-</description>
+      <guid>http://mpas.github.io/post/2013/05/28/20130528-automount-ntfs-mint/</guid>
+      <description>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy
+$ sudo pico /etc/fstab Add a line in the /etc/fstab file:
+# custom mount point /dev/sdb1 /media/windows-c ntfs-3g defaults 0 0 And take the mount into effect.
+$ mount -a</description>
     </item>
     
   </channel>

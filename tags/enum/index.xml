@@ -7,20 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 03 Jan 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://mpas.github.io/tags/enum/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://mpas.github.io/tags/enum/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Getting the Enum from a String value</title>
-      <link>http://mpas.github.io/post/2013/01/03/20130103_getting-enum-from-string-value/</link>
+      <link>http://mpas.github.io/post/2013/01/03/20130103-getting-enum-from-string-value/</link>
       <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/01/03/20130103_getting-enum-from-string-value/</guid>
-      <description>&lt;p&gt;Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;Enum&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;valueOf&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;YourClassName&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;String Value&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html&#34;&gt;http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html&lt;/a&gt;&lt;/p&gt;
-</description>
+      <guid>http://mpas.github.io/post/2013/01/03/20130103-getting-enum-from-string-value/</guid>
+      <description>Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!
+Enum.valueOf(YourClassName.class, &amp;#34;String Value&amp;#34;) http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html</description>
     </item>
     
   </channel>

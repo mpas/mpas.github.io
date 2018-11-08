@@ -20,8 +20,8 @@
   <link rel="stylesheet" href="http://mpas.github.io/css/normalize.css">
   <link rel="stylesheet" href="http://mpas.github.io/css/skeleton.css">
   <link rel="stylesheet" href="http://mpas.github.io/css/custom.css">
-  <link rel="stylesheet" href="http://mpas.github.io/css/pygments.css">
   <link rel="stylesheet" href="http://mpas.github.io/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/syntax.css">
 
   
   <link rel="icon" type="image/png" href="images/favicon.png">
@@ -80,36 +80,30 @@
 <li>It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc. So remember where this utility is installed on your system!</li>
 <li>Make sure that ImageMagick is installed correctly be converting an image to a thumbnail by using the following command in a terminal.</li>
 </ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>/opt/local/bin/convert &lt;filename&gt; -thumbnail 70x70 &lt;thumbnail-filename&gt;
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">/opt/local/bin/convert &lt;filename&gt; -thumbnail 70x70 &lt;thumbnail-filename&gt;</code></pre></div>
 <p><strong>example:</strong></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg</code></pre></div>
 <p>Create some code that calls the ImageMagick convert utility with the correct parameters to enable you to achieve what you want. Something like below:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">def</span> <span style="color: #a6e22e">createThumbnail</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">File</span> <span style="color: #f8f8f2">file</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-   <span style="color: #66d9ef">def</span> <span style="color: #f8f8f2">command</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;/opt/local/bin/convert ${file.canonicalPath} &quot;</span> <span style="color: #f92672">+</span>
-                 <span style="color: #e6db74">&quot;-thumbnail 70x70 &quot;</span> <span style="color: #f92672">+</span>
-                 <span style="color: #e6db74">&quot;/images/thumbs&quot;</span> <span style="color: #f92672">+</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">.</span><span style="color: #a6e22e">separator</span> <span style="color: #f92672">+</span> <span style="color: #e6db74">&quot;${file.name}&quot;</span>
-   <span style="color: #66d9ef">def</span> <span style="color: #f8f8f2">proc</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Runtime</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getRuntime</span><span style="color: #f92672">().</span><span style="color: #a6e22e">exec</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">command</span><span style="color: #f92672">)</span>
-   <span style="color: #66d9ef">int</span> <span style="color: #f8f8f2">exitStatus</span><span style="color: #f92672">;</span>
-   <span style="color: #66d9ef">while</span> <span style="color: #f92672">(</span><span style="color: #66d9ef">true</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-       <span style="color: #66d9ef">try</span> <span style="color: #f92672">{</span>
-           <span style="color: #f8f8f2">exitStatus</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">proc</span><span style="color: #f92672">.</span><span style="color: #a6e22e">waitFor</span><span style="color: #f92672">();</span>
-           <span style="color: #66d9ef">break</span><span style="color: #f92672">;</span>
-       <span style="color: #f92672">}</span> <span style="color: #66d9ef">catch</span> <span style="color: #f92672">(</span><span style="color: #f8f8f2">java</span><span style="color: #f92672">.</span><span style="color: #a6e22e">lang</span><span style="color: #f92672">.</span><span style="color: #a6e22e">InterruptedException</span> <span style="color: #f8f8f2">e</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-           <span style="color: #f8f8f2">log</span><span style="color: #f92672">.</span><span style="color: #a6e22e">debug</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Creating thumbnail - Interrupted: Ignoring and waiting&quot;</span><span style="color: #f92672">)</span>
-       <span style="color: #f92672">}</span>
-   <span style="color: #f92672">}</span>
-    <span style="color: #66d9ef">if</span> <span style="color: #f92672">(</span><span style="color: #f8f8f2">exitStatus</span> <span style="color: #f92672">!=</span> <span style="color: #ae81ff">0</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-        <span style="color: #f8f8f2">log</span><span style="color: #f92672">.</span><span style="color: #a6e22e">error</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Error executing command: exitStatus=[${exitStatus}]&quot;</span><span style="color: #f92672">)</span>
-    <span style="color: #f92672">}</span>
-    <span style="color: #f8f8f2">log</span><span style="color: #f92672">.</span><span style="color: #a6e22e">debug</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Succesfully created thumbnail&quot;</span><span style="color: #f92672">)</span>
-    <span style="color: #66d9ef">return</span> <span style="color: #f92672">(</span><span style="color: #f8f8f2">exitStatus</span> <span style="color: #f92672">==</span> <span style="color: #ae81ff">0</span><span style="color: #f92672">);</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kt">def</span> <span class="nf">createThumbnail</span><span class="o">(</span><span class="n">File</span> <span class="n">file</span><span class="o">)</span> <span class="o">{</span>
+   <span class="kt">def</span> <span class="n">command</span> <span class="o">=</span> <span class="s2">&#34;/opt/local/bin/convert ${file.canonicalPath} &#34;</span> <span class="o">+</span>
+                 <span class="s2">&#34;-thumbnail 70x70 &#34;</span> <span class="o">+</span>
+                 <span class="s2">&#34;/images/thumbs&#34;</span> <span class="o">+</span> <span class="n">File</span><span class="o">.</span><span class="na">separator</span> <span class="o">+</span> <span class="s2">&#34;${file.name}&#34;</span>
+   <span class="kt">def</span> <span class="n">proc</span> <span class="o">=</span> <span class="n">Runtime</span><span class="o">.</span><span class="na">getRuntime</span><span class="o">().</span><span class="na">exec</span><span class="o">(</span><span class="n">command</span><span class="o">)</span>
+   <span class="kt">int</span> <span class="n">exitStatus</span><span class="o">;</span>
+   <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+       <span class="k">try</span> <span class="o">{</span>
+           <span class="n">exitStatus</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="na">waitFor</span><span class="o">();</span>
+           <span class="k">break</span><span class="o">;</span>
+       <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+           <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s2">&#34;Creating thumbnail - Interrupted: Ignoring and waiting&#34;</span><span class="o">)</span>
+       <span class="o">}</span>
+   <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">exitStatus</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s2">&#34;Error executing command: exitStatus=[${exitStatus}]&#34;</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s2">&#34;Succesfully created thumbnail&#34;</span><span class="o">)</span>
+    <span class="k">return</span> <span class="o">(</span><span class="n">exitStatus</span> <span class="o">==</span> <span class="mi">0</span><span class="o">);</span>
+<span class="o">}</span></code></pre></div>
 <p>The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.</p>
 
         </div>
@@ -160,12 +154,10 @@ mkdir ~/.vim/bundle/align
 </code>console</p></li>
 
 <li><p>Open the vimball with command ‘:e &lsquo;location of your vimball’/‘name of your vimball&rsquo;</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>:e ~/Downloads/Align.vba
-</pre></div></li>
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">:e ~/Downloads/Align.vba</code></pre></div></li>
 
 <li><p>Tell Vim to use the vimball by issuing command ‘:UseVimball &lsquo;location to extract’&rsquo;</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>:UseVimball ~/.vim/bundle/align
-</pre></div></li>
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">:UseVimball ~/.vim/bundle/align</code></pre></div></li>
 
 <li><p>Restart your Vim and your plugin should be available.</p></li>
 </ul>
@@ -279,27 +271,21 @@ mkdir ~/.vim/bundle/align
     <div class="row">
         <div class="twelve columns">
             <p>You can set the default homepage for a Grails application by modifying the <code>grails-app/conf/UrlMappings.groovy</code> file. In a new Grails application this file will look like</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">class</span> <span style="color: #a6e22e">UrlMappings</span> <span style="color: #f92672">{</span>
-    <span style="color: #66d9ef">static</span> <span style="color: #f8f8f2">mappings</span> <span style="color: #f92672">=</span> <span style="color: #f92672">{</span>
-        <span style="color: #e6db74">&quot;/$controller/$action?/$id?&quot;</span><span style="color: #f92672">{</span>
-            <span style="color: #f8f8f2">constraints</span> <span style="color: #f92672">{</span>
-                <span style="color: #75715e">// apply constraints here</span>
-            <span style="color: #f92672">}</span>
-        <span style="color: #f92672">}</span>
-        <span style="color: #e6db74">&quot;/&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&quot;/index&quot;</span><span style="color: #f92672">)</span>
-        <span style="color: #e6db74">&quot;500&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&#39;/error&#39;</span><span style="color: #f92672">)</span>
-    <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">UrlMappings</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="n">mappings</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="s2">&#34;/$controller/$action?/$id?&#34;</span><span class="o">{</span>
+            <span class="n">constraints</span> <span class="o">{</span>
+                <span class="c1">// apply constraints here
+</span><span class="c1"></span>            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
+        <span class="s2">&#34;500&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/error&#39;</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 <p>Replace the line:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #e6db74">&quot;/&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">view:</span><span style="color: #e6db74">&quot;/index&quot;</span><span style="color: #f92672">)</span>
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span></code></pre></div>
 <p>with:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #e6db74">&quot;/&quot;</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">controller:</span><span style="color: #e6db74">&#39;home&#39;</span><span style="color: #f92672">,</span> <span style="color: #f8f8f2">action:</span><span style="color: #e6db74">&quot;/index&quot;</span><span style="color: #f92672">)</span>
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">controller:</span><span class="s1">&#39;home&#39;</span><span class="o">,</span> <span class="nl">action:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span></code></pre></div>
 <p>This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the <strong>HomeController</strong> and corresponding <strong>index</strong> action related to that controller.</p>
 
         </div>
@@ -507,7 +493,7 @@ If you want to enable the Hudson server to access the remote system, start Putty
 <p>Make sure these are in you PATH settings so you can execute them everywhere!</p>
 
 <p>Examples for executing a remote command (substitute the %parameters% with your own ones)</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>#create a directory
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">#create a directory
 plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  mkdir C:/tmp
 
 #delete a directory
@@ -520,9 +506,7 @@ plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  net stop %SERVICENAME%
 pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
 
 #upload multiple files
-pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
-</pre></div>
-
+pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%</code></pre></div>
 <h4 id="the-return-of-the-bat-file">The return of the .bat file</h4>
 
 <p>So far we have enabled remote access using SSH / CopSSH, executed remote commands and transferred files. All the needed ingredients are in place to enable our Hudson server to remotely deploy build artifacts. In the job configuration of Hudson you can trigger a batch file after a succesfull build, so whenever a succesfull build occurs trigger a batch that executes a few commands to quickly deploy build artifacts to any number of remote servers.</p>
@@ -530,29 +514,25 @@ pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
 <p>In our case all deployment artifacts are copied to a central directory per project. So if we need to deploy a build, we can copy parts or the whole directory contents to a remote server.</p>
 
 <p>To give an example see the following batch files: Main example for a batchfile that triggers stopping of the remote Windows Services gives the instruction on which files need to be remotely deployed and start the services again.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>-<span style="color: #f8f8f2">&gt;</span> filename = upload-project-to-development.bat
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">CLS</span>
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> OFF
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">USERNAME=%1</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">PASSWORD=%2</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">HOSTNAME=%3</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">JBOSSDIR=%4</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">SOURCEDIR=%5</span>
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : - start upload procedure
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : -- stopping servers
-<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> net stop JBoss
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : -- uploading files CALL upload-files.bat <span style="color: #f8f8f2">%USERNAME%</span> <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%HOSTNAME%</span> <span style="color: #f8f8f2">%JBOSSDIR%</span> <span style="color: #f8f8f2">%SOURCEDIR%</span>\*.*
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : -- starting servers
-<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> net start JBoss
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> : - finished upload procedure
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-batch" data-lang="batch">-<span class="p">&gt;</span> filename = upload-project-to-development.bat
+<span class="p">@</span><span class="k">CLS</span>
+<span class="p">@</span><span class="k">ECHO</span> OFF
+<span class="k">SET</span> <span class="nv">USERNAME</span><span class="p">=</span><span class="nv">%1</span>
+<span class="k">SET</span> <span class="nv">PASSWORD</span><span class="p">=</span><span class="nv">%2</span>
+<span class="k">SET</span> <span class="nv">HOSTNAME</span><span class="p">=</span><span class="nv">%3</span>
+<span class="k">SET</span> <span class="nv">JBOSSDIR</span><span class="p">=</span><span class="nv">%4</span>
+<span class="k">SET</span> <span class="nv">SOURCEDIR</span><span class="p">=</span><span class="nv">%5</span>
+<span class="p">@</span><span class="k">ECHO</span> <span class="p">:</span> <span class="nl">-</span><span class="c1"> start upload procedure</span>
+<span class="p">@</span><span class="k">ECHO</span> <span class="p">:</span> <span class="nl">--</span><span class="c1"> stopping servers</span>
+<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> net stop JBoss
+<span class="p">@</span><span class="k">ECHO</span> <span class="p">:</span> <span class="nl">--</span><span class="c1"> uploading files CALL upload-files.bat %USERNAME% %PASSWORD% %HOSTNAME% %JBOSSDIR% %SOURCEDIR%\*.*</span>
+<span class="p">@</span><span class="k">ECHO</span> <span class="p">:</span> <span class="nl">--</span><span class="c1"> starting servers</span>
+<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> net start JBoss
+<span class="p">@</span><span class="k">ECHO</span> <span class="p">:</span> <span class="nl">-</span><span class="c1"> finished upload procedure</span></code></pre></div>
 <p>The above script can be called easily by the Hudson server after a succesfull deployment.</p>
 
 <p><strong>example:</strong></p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>upload-project-to-development scott tiger 10.0.0.100 d:/java/server/jboss-v5.0 d:/build_artifacts/projectx
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">upload-project-to-development scott tiger 10.0.0.100 d:/java/server/jboss-v5.0 d:/build_artifacts/projectx</code></pre></div>
 <p><strong>The example above:</strong></p>
 
 <ul>
@@ -562,29 +542,27 @@ pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
 </ul>
 
 <p>The script that executes the actual maintenance and uploads is the “upload-files.bat file”. All parameters are passed in by the calling script.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>-<span style="color: #f8f8f2">&gt;</span> filename = upload-files.bat
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span> OFF
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">USERNAME=%1</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">PASSWORD=%2</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">HOSTNAME=%3</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">JBOSSDIR=%4</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">SOURCE=%5</span>
-<span style="color: #66d9ef">SET</span> <span style="color: #f8f8f2">DESTINATION=%JBOSSDIR%</span>/deploy
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : - <span style="color: #f8f8f2">%HOSTNAME%</span> - starting file copy
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : -- <span style="color: #f8f8f2">%HOSTNAME%</span> - deleting JBOSS tmp
-<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> rm -rf <span style="color: #f8f8f2">%JBOSSDIR%</span>/tmp
-<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> mkdir <span style="color: #f8f8f2">%JBOSSDIR%</span>/tmp
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : -- <span style="color: #f8f8f2">%HOSTNAME%</span> - deleting JBOSS work
-<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> rm -rf <span style="color: #f8f8f2">%JBOSSDIR%</span>/work
-<span style="color: #f8f8f2">@</span>plink -batch -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> mkdir <span style="color: #f8f8f2">%JBOSSDIR%</span>/work
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : -- <span style="color: #f8f8f2">%HOSTNAME%</span> - deleting previous ears + jars
-<span style="color: #f8f8f2">@</span>plink -batch  -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> rm <span style="color: #f8f8f2">%JBOSSDIR%</span>/deploy/*.ear
-<span style="color: #f8f8f2">@</span>plink -batch  -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span> rm <span style="color: #f8f8f2">%JBOSSDIR%</span>/deploy/*.jar
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : -- <span style="color: #f8f8f2">%HOSTNAME%</span> - copy remote files
-<span style="color: #f8f8f2">@</span>pscp -pw <span style="color: #f8f8f2">%PASSWORD%</span> <span style="color: #f8f8f2">%SOURCE%</span> <span style="color: #f8f8f2">%USERNAME%</span>@<span style="color: #f8f8f2">%HOSTNAME%</span>:<span style="color: #f8f8f2">%DESTINATION%</span>
-<span style="color: #f8f8f2">@</span><span style="color: #66d9ef">ECHO</span>  : - <span style="color: #f8f8f2">%HOSTNAME%</span> - finishing file copy
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-batch" data-lang="batch">-<span class="p">&gt;</span> filename = upload-files.bat
+<span class="p">@</span><span class="k">ECHO</span> OFF
+<span class="k">SET</span> <span class="nv">USERNAME</span><span class="p">=</span><span class="nv">%1</span>
+<span class="k">SET</span> <span class="nv">PASSWORD</span><span class="p">=</span><span class="nv">%2</span>
+<span class="k">SET</span> <span class="nv">HOSTNAME</span><span class="p">=</span><span class="nv">%3</span>
+<span class="k">SET</span> <span class="nv">JBOSSDIR</span><span class="p">=</span><span class="nv">%4</span>
+<span class="k">SET</span> <span class="nv">SOURCE</span><span class="p">=</span><span class="nv">%5</span>
+<span class="k">SET</span> <span class="nv">DESTINATION</span><span class="p">=</span><span class="nv">%JBOSSDIR%</span>/deploy
+<span class="p">@</span><span class="k">ECHO</span>  <span class="p">:</span> <span class="nl">-</span><span class="c1"> %HOSTNAME% - starting file copy</span>
+<span class="p">@</span><span class="k">ECHO</span>  <span class="p">:</span> <span class="nl">--</span><span class="c1"> %HOSTNAME% - deleting JBOSS tmp</span>
+<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm -rf <span class="nv">%JBOSSDIR%</span>/tmp
+<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> mkdir <span class="nv">%JBOSSDIR%</span>/tmp
+<span class="p">@</span><span class="k">ECHO</span>  <span class="p">:</span> <span class="nl">--</span><span class="c1"> %HOSTNAME% - deleting JBOSS work</span>
+<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm -rf <span class="nv">%JBOSSDIR%</span>/work
+<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> mkdir <span class="nv">%JBOSSDIR%</span>/work
+<span class="p">@</span><span class="k">ECHO</span>  <span class="p">:</span> <span class="nl">--</span><span class="c1"> %HOSTNAME% - deleting previous ears + jars</span>
+<span class="p">@</span>plink -batch  -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm <span class="nv">%JBOSSDIR%</span>/deploy/*.ear
+<span class="p">@</span>plink -batch  -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm <span class="nv">%JBOSSDIR%</span>/deploy/*.jar
+<span class="p">@</span><span class="k">ECHO</span>  <span class="p">:</span> <span class="nl">--</span><span class="c1"> %HOSTNAME% - copy remote files</span>
+<span class="p">@</span>pscp -pw <span class="nv">%PASSWORD%</span> <span class="nv">%SOURCE%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span><span class="p">:</span><span class="nl">%DESTINATION%</span>
+<span class="p">@</span><span class="k">ECHO</span>  <span class="p">:</span> <span class="nl">-</span><span class="c1"> %HOSTNAME% - finishing file copy</span></code></pre></div>
 <p><strong>The example above:</strong></p>
 
 <ul>
@@ -649,18 +627,16 @@ Notes</p>
 <li>Copy the driver (at this time of writing called <code>mysql-connector-java-5.1.13-bin.jar</code> into the <code>grails-app/lib</code> directory</li>
 <li>Configure your application datasource in file <code>grails-app/conf/DataSource.groovy</code><br /></li>
 </ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">development</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">dataSource</span> <span style="color: #f92672">{</span>
-       <span style="color: #f8f8f2">dbCreate</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;create-drop&quot;</span> <span style="color: #75715e">// one of &#39;create&#39;, &#39;create-drop&#39;,&#39;update&#39;</span>
-       <span style="color: #f8f8f2">url</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;jdbc:mysql://localhost:&lt;port&gt;/&lt;database&gt;&quot;</span>
-       <span style="color: #f8f8f2">driverClassName</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;com.mysql.jdbc.Driver&quot;</span>
-       <span style="color: #f8f8f2">port</span> <span style="color: #f92672">=</span>  <span style="color: #75715e">// default 3306</span>
-       <span style="color: #f8f8f2">username</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;&lt;username&gt;&quot;</span>
-       <span style="color: #f8f8f2">password</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;&lt;password&gt;&quot;</span>
-    <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">development</span> <span class="o">{</span>
+    <span class="n">dataSource</span> <span class="o">{</span>
+       <span class="n">dbCreate</span> <span class="o">=</span> <span class="s2">&#34;create-drop&#34;</span> <span class="c1">// one of &#39;create&#39;, &#39;create-drop&#39;,&#39;update&#39;
+</span><span class="c1"></span>       <span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;jdbc:mysql://localhost:&lt;port&gt;/&lt;database&gt;&#34;</span>
+       <span class="n">driverClassName</span> <span class="o">=</span> <span class="s2">&#34;com.mysql.jdbc.Driver&#34;</span>
+       <span class="n">port</span> <span class="o">=</span>  <span class="c1">// default 3306
+</span><span class="c1"></span>       <span class="n">username</span> <span class="o">=</span> <span class="s2">&#34;&lt;username&gt;&#34;</span>
+       <span class="n">password</span> <span class="o">=</span> <span class="s2">&#34;&lt;password&gt;&#34;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
         </div>
     </div>
     <div class="row">

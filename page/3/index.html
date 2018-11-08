@@ -20,8 +20,8 @@
   <link rel="stylesheet" href="http://mpas.github.io/css/normalize.css">
   <link rel="stylesheet" href="http://mpas.github.io/css/skeleton.css">
   <link rel="stylesheet" href="http://mpas.github.io/css/custom.css">
-  <link rel="stylesheet" href="http://mpas.github.io/css/pygments.css">
   <link rel="stylesheet" href="http://mpas.github.io/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/syntax.css">
 
   
   <link rel="icon" type="image/png" href="images/favicon.png">
@@ -72,18 +72,12 @@
     <div class="row">
         <div class="twelve columns">
             <p>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ sudo pico /etc/fstab
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">$ sudo pico /etc/fstab</code></pre></div>
 <p>Add a line in the /etc/fstab file:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span># custom mount point
-/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console"># custom mount point
+/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0</code></pre></div>
 <p>And take the mount into effect.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>$ mount -a
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">$ mount -a</code></pre></div>
         </div>
     </div>
     <div class="row">
@@ -186,26 +180,24 @@
     <div class="row">
         <div class="twelve columns">
             <p>Sourcecode:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f92672">package</span> <span style="color: #f8f8f2">helloworld</span><span style="color: #f92672">;</span>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">helloworld</span><span class="o">;</span>
 
-<span style="color: #f92672">import</span> <span style="color: #f8f8f2">org.vertx.java.core.Handler</span><span style="color: #f92672">;</span>
-<span style="color: #f92672">import</span> <span style="color: #f8f8f2">org.vertx.java.core.http.HttpServerRequest</span><span style="color: #f92672">;</span>
-<span style="color: #f92672">import</span> <span style="color: #f8f8f2">org.vertx.java.deploy.Verticle</span><span style="color: #f92672">;</span>
+<span class="kn">import</span> <span class="nn">org.vertx.java.core.Handler</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.vertx.java.core.http.HttpServerRequest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.vertx.java.deploy.Verticle</span><span class="o">;</span>
 
-<span style="color: #66d9ef">public</span> <span style="color: #66d9ef">class</span> <span style="color: #a6e22e">Server</span> <span style="color: #66d9ef">extends</span> <span style="color: #f8f8f2">Verticle</span> <span style="color: #f92672">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Server</span> <span class="kd">extends</span> <span class="n">Verticle</span> <span class="o">{</span>
 
-    <span style="color: #66d9ef">public</span> <span style="color: #66d9ef">void</span> <span style="color: #a6e22e">start</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
-        <span style="color: #f8f8f2">vertx</span><span style="color: #f92672">.</span><span style="color: #a6e22e">createHttpServer</span><span style="color: #f92672">().</span><span style="color: #a6e22e">requestHandler</span><span style="color: #f92672">(</span><span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">Handler</span><span style="color: #f92672">&lt;</span><span style="color: #f8f8f2">HttpServerRequest</span><span style="color: #f92672">&gt;()</span> <span style="color: #f92672">{</span>
-            <span style="color: #66d9ef">public</span> <span style="color: #66d9ef">void</span> <span style="color: #a6e22e">handle</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">HttpServerRequest</span> <span style="color: #f8f8f2">req</span><span style="color: #f92672">)</span> <span style="color: #f92672">{</span>
-            <span style="color: #f8f8f2">req</span><span style="color: #f92672">.</span><span style="color: #a6e22e">response</span><span style="color: #f92672">.</span><span style="color: #a6e22e">headers</span><span style="color: #f92672">().</span><span style="color: #a6e22e">put</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Content-Type&quot;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;text/html; charset-UTF-8&quot;</span><span style="color: #f92672">);</span>
-            <span style="color: #f8f8f2">req</span><span style="color: #f92672">.</span><span style="color: #a6e22e">response</span><span style="color: #f92672">.</span><span style="color: #a6e22e">end</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span><span style="color: #f92672">);</span>
-            <span style="color: #f92672">}</span>
-        <span style="color: #f92672">}).</span><span style="color: #a6e22e">listen</span><span style="color: #f92672">(</span><span style="color: #ae81ff">8080</span><span style="color: #f92672">);</span>
-    <span style="color: #f92672">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">vertx</span><span class="o">.</span><span class="na">createHttpServer</span><span class="o">().</span><span class="na">requestHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">Handler</span><span class="o">&lt;</span><span class="n">HttpServerRequest</span><span class="o">&gt;()</span> <span class="o">{</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handle</span><span class="o">(</span><span class="n">HttpServerRequest</span> <span class="n">req</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">req</span><span class="o">.</span><span class="na">response</span><span class="o">.</span><span class="na">headers</span><span class="o">().</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;Content-Type&#34;</span><span class="o">,</span> <span class="s">&#34;text/html; charset-UTF-8&#34;</span><span class="o">);</span>
+            <span class="n">req</span><span class="o">.</span><span class="na">response</span><span class="o">.</span><span class="na">end</span><span class="o">(</span><span class="s">&#34;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#34;</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}).</span><span class="na">listen</span><span class="o">(</span><span class="n">8080</span><span class="o">);</span>
+    <span class="o">}</span>
 
-<span style="color: #f92672">}</span>
-</pre></div>
-
+<span class="o">}</span></code></pre></div>
         </div>
     </div>
     <div class="row">
@@ -236,13 +228,11 @@
     <div class="row">
         <div class="twelve columns">
             <p>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>...
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">...
 Waiting for changelog lock....
 Waiting for changelog lock....
 Waiting for changelog lock....
-...
-</pre></div>
-
+...</code></pre></div>
 <p>To solve this take the following steps:</p>
 
 <ul>
@@ -250,24 +240,20 @@ Waiting for changelog lock....
 <li>In the database look for a table called <code>DATABASECHANGELOGLOCK</code></li>
 <li>In the table there is a record with id=1, change the following values:</li>
 </ul>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>locked -&gt; 0
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">locked -&gt; 0
 lockgranted -&gt; null
-lockedby -&gt; null
-</pre></div>
-
+lockedby -&gt; null</code></pre></div>
 <ul>
 <li>After updating this record start the application container</li>
 </ul>
 
 <p><strong>Notes:</strong><br />
 To see who has locked the database (normally the local machine):</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">select</span> <span style="color: #f92672">*</span> <span style="color: #66d9ef">from</span> <span style="color: #f8f8f2">DATABASECHANGELOGLOCK;</span>
-<span style="color: #66d9ef">To</span> <span style="color: #66d9ef">update</span> <span style="color: #f8f8f2">the</span> <span style="color: #f8f8f2">record</span>
-<span style="color: #66d9ef">update</span> <span style="color: #f8f8f2">DATABASECHANGELOGLOCK</span>
-<span style="color: #66d9ef">set</span> <span style="color: #f8f8f2">locked</span><span style="color: #f92672">=</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">lockgranted</span><span style="color: #f92672">=</span><span style="color: #66d9ef">null</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">lockedby</span><span style="color: #f92672">=</span><span style="color: #66d9ef">null</span>
-<span style="color: #66d9ef">where</span> <span style="color: #f8f8f2">id</span><span style="color: #f92672">=</span><span style="color: #ae81ff">1</span>
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">DATABASECHANGELOGLOCK</span><span class="p">;</span>
+<span class="k">To</span> <span class="k">update</span> <span class="n">the</span> <span class="n">record</span>
+<span class="k">update</span> <span class="n">DATABASECHANGELOGLOCK</span>
+<span class="k">set</span> <span class="n">locked</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">lockgranted</span><span class="o">=</span><span class="k">null</span><span class="p">,</span> <span class="n">lockedby</span><span class="o">=</span><span class="k">null</span>
+<span class="k">where</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span></code></pre></div>
         </div>
     </div>
     <div class="row">
@@ -300,39 +286,35 @@ To see who has locked the database (normally the local machine):</p>
             <p>The <a href="http://grails.org/plugin/spock">Spock</a> &amp; <a href="http://grails.org/plugin/build-test-data">Build Test Data</a> plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!</p>
 
 <p>When testing constraints on an object it can be used as follows:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #66d9ef">class</span> <span style="color: #a6e22e">Foo</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">String</span> <span style="color: #f8f8f2">name</span>   <span style="color: #75715e">// name of foo</span>
-    <span style="color: #f8f8f2">Integer</span> <span style="color: #f8f8f2">age</span>   <span style="color: #75715e">// age of foo</span>
-
-    <span style="color: #66d9ef">static</span> <span style="color: #f8f8f2">constraints</span> <span style="color: #f92672">=</span> <span style="color: #f92672">{</span>
-        <span style="color: #f8f8f2">name</span> <span style="color: #f8f8f2">nullable:</span> <span style="color: #66d9ef">false</span><span style="color: #f92672">,</span> <span style="color: #f8f8f2">blank:</span> <span style="color: #66d9ef">false</span> <span style="color: #75715e">// name may never be nullable or blank</span>
-        <span style="color: #f8f8f2">age</span> <span style="color: #f8f8f2">nullable:</span> <span style="color: #66d9ef">true</span>
-    <span style="color: #f92672">}</span>
-<span style="color: #f92672">}</span>
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">Foo</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">name</span>   <span class="c1">// name of foo
+</span><span class="c1"></span>    <span class="n">Integer</span> <span class="n">age</span>   <span class="c1">// age of foo
+</span><span class="c1"></span>
+    <span class="kd">static</span> <span class="n">constraints</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="n">name</span> <span class="nl">nullable:</span> <span class="kc">false</span><span class="o">,</span> <span class="nl">blank:</span> <span class="kc">false</span> <span class="c1">// name may never be nullable or blank
+</span><span class="c1"></span>        <span class="n">age</span> <span class="nl">nullable:</span> <span class="kc">true</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
 <p>And the Spock test</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #a6e22e">@Build</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">Foo</span><span style="color: #f92672">)</span>
-<span style="color: #a6e22e">@TestFor</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">Foo</span><span style="color: #f92672">)</span>
-<span style="color: #66d9ef">class</span> <span style="color: #a6e22e">FooSpec</span> <span style="color: #66d9ef">extends</span> <span style="color: #f8f8f2">Specification</span> <span style="color: #f92672">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="nd">@Build</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
+<span class="nd">@TestFor</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">FooSpec</span> <span class="kd">extends</span> <span class="n">Specification</span> <span class="o">{</span>
 
-    <span style="color: #66d9ef">def</span> <span style="color: #e6db74">&quot;Name of Foo must exist&quot;</span><span style="color: #f92672">()</span> <span style="color: #f92672">{</span>
-        <span style="color: #f8f8f2">given:</span> <span style="color: #e6db74">&quot;setting up the constraints&quot;</span>
-        <span style="color: #f8f8f2">mockForConstraintsTests</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">Foo</span><span style="color: #f92672">)</span>
+    <span class="kt">def</span> <span class="s2">&#34;Name of Foo must exist&#34;</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nl">given:</span> <span class="s2">&#34;setting up the constraints&#34;</span>
+        <span class="n">mockForConstraintsTests</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
 
-        <span style="color: #f8f8f2">when:</span> <span style="color: #e6db74">&quot;creating a Foo&quot;</span>
-        <span style="color: #f8f8f2">Foo</span> <span style="color: #f8f8f2">foo</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">Foo</span><span style="color: #f92672">.</span><span style="color: #a6e22e">buildWithoutSave</span><span style="color: #f92672">()</span>
+        <span class="nl">when:</span> <span class="s2">&#34;creating a Foo&#34;</span>
+        <span class="n">Foo</span> <span class="n">foo</span> <span class="o">=</span> <span class="n">Foo</span><span class="o">.</span><span class="na">buildWithoutSave</span><span class="o">()</span>
 
-        <span style="color: #f8f8f2">then:</span> <span style="color: #e6db74">&quot;validation should trigger&quot;</span>
-        <span style="color: #f8f8f2">assertFalse</span> <span style="color: #f8f8f2">foo</span><span style="color: #f92672">.</span><span style="color: #a6e22e">validate</span><span style="color: #f92672">()</span>
+        <span class="nl">then:</span> <span class="s2">&#34;validation should trigger&#34;</span>
+        <span class="n">assertFalse</span> <span class="n">foo</span><span class="o">.</span><span class="na">validate</span><span class="o">()</span>
 
-        <span style="color: #f8f8f2">and:</span> <span style="color: #e6db74">&quot;validation error should be on the value field&quot;</span>
-        <span style="color: #66d9ef">assert</span> <span style="color: #f8f8f2">foo</span><span style="color: #f92672">.</span><span style="color: #a6e22e">errors</span><span style="color: #f92672">.</span><span style="color: #a6e22e">allErrors</span><span style="color: #f92672">.</span><span style="color: #a6e22e">first</span><span style="color: #f92672">().</span><span style="color: #a6e22e">field</span> <span style="color: #f92672">==</span> <span style="color: #e6db74">&quot;name&quot;</span>
-    <span style="color: #f92672">}</span>
+        <span class="nl">and:</span> <span class="s2">&#34;validation error should be on the value field&#34;</span>
+        <span class="k">assert</span> <span class="n">foo</span><span class="o">.</span><span class="na">errors</span><span class="o">.</span><span class="na">allErrors</span><span class="o">.</span><span class="na">first</span><span class="o">().</span><span class="na">field</span> <span class="o">==</span> <span class="s2">&#34;name&#34;</span>
+    <span class="o">}</span>
 
-<span style="color: #f92672">}</span>
-</pre></div>
-
+<span class="o">}</span></code></pre></div>
         </div>
     </div>
     <div class="row">
@@ -363,9 +345,7 @@ To see who has locked the database (normally the local machine):</p>
     <div class="row">
         <div class="twelve columns">
             <p>Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">Enum</span><span style="color: #f92672">.</span><span style="color: #a6e22e">valueOf</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">YourClassName</span><span style="color: #f92672">.</span><span style="color: #a6e22e">class</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;String Value&quot;</span><span style="color: #f92672">)</span>
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">Enum</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">YourClassName</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s2">&#34;String Value&#34;</span><span class="o">)</span></code></pre></div>
 <p><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html">http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html</a></p>
 
         </div>
@@ -402,13 +382,9 @@ To see who has locked the database (normally the local machine):</p>
 
 <p>After some googling around i found the following fix..
 chmod the folder that the ftp user comes in to as he first login (root folder) by using in terminal:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>sudo chmod a-w /home/user
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">sudo chmod a-w /home/user</code></pre></div>
 <p>Create a subfolder within the folder, either by the use of GUI or if you only have terminal it&rsquo;s:</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span>sudo mkdir /home/user/newfolder
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">sudo mkdir /home/user/newfolder</code></pre></div>
 <p>Now you should be able to log in and read write within the &ldquo;newfolder&rdquo;.</p>
 
 <p>You will <strong>NOT</strong> be able to write in the root folder itself from the ftp with the chmod a-w, so that is the reason for the subfolder, there you can.</p>
@@ -455,63 +431,61 @@ chmod the folder that the ftp user comes in to as he first login (root folder) b
 <p>In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this <a href="http://www.baselogic.com/blog/development/java-javaee-j2ee/getting-grails-external-configuration-working-in-the-real-world/">blogpost</a> which was the start for our implementation of loading the external configuration files.</p>
 
 <p>We modified some small things and added a way of loading a configuration file that is resident in the root of a Grails project. So when developing with IntelliJ for example the config file is at your fingertips in the root of the application project structure. We must also note that we are very happy with the fact that the Grails community was more then helpfull in helping us out here!</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #75715e">// -------------------------------------------------------------------------------- //</span>
-<span style="color: #75715e">// - START: CONFIGURATION FILE LOADING -------------------------------------------- //</span>
-<span style="color: #75715e">// -------------------------------------------------------------------------------- //</span>
-<span style="color: #75715e">// locations to search for config files that get merged into the main config</span>
-<span style="color: #75715e">// config files can either be Java properties files or ConfigSlurper scripts</span>
-<span style="color: #66d9ef">def</span> <span style="color: #f8f8f2">ENV_NAME</span> <span style="color: #f92672">=</span> <span style="color: #e6db74">&quot;${appName}.config.location&quot;</span>
-<span style="color: #66d9ef">if</span><span style="color: #f92672">(!</span><span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">||</span> <span style="color: #f92672">!(</span><span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #66d9ef">instanceof</span> <span style="color: #f8f8f2">List</span><span style="color: #f92672">))</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">=</span> <span style="color: #f92672">[]</span>
-<span style="color: #f92672">}</span>
-<span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;--------------------------------------------------------------------------------&quot;</span>
-<span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;- Loading configuration file                                                   -&quot;</span>
-<span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;--------------------------------------------------------------------------------&quot;</span>
-<span style="color: #75715e">// 1: check for environment variable that has been set! This variable must point to the</span>
-<span style="color: #75715e">// configuration file that must be used. Can be a .groovy or .properties file!</span>
-<span style="color: #66d9ef">if</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getenv</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)</span> <span style="color: #f92672">&amp;&amp;</span> <span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getenv</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)).</span><span style="color: #a6e22e">exists</span><span style="color: #f92672">())</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">println</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;Including System Environment configuration file: &quot;</span> <span style="color: #f92672">+</span> <span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getenv</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">))</span>
-    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">&lt;&lt;</span> <span style="color: #e6db74">&quot;file:&quot;</span> <span style="color: #f92672">+</span> <span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getenv</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="c1">// -------------------------------------------------------------------------------- //
+</span><span class="c1">// - START: CONFIGURATION FILE LOADING -------------------------------------------- //
+</span><span class="c1">// -------------------------------------------------------------------------------- //
+</span><span class="c1">// locations to search for config files that get merged into the main config
+</span><span class="c1">// config files can either be Java properties files or ConfigSlurper scripts
+</span><span class="c1"></span><span class="kt">def</span> <span class="n">ENV_NAME</span> <span class="o">=</span> <span class="s2">&#34;${appName}.config.location&#34;</span>
+<span class="k">if</span><span class="o">(!</span><span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">||</span> <span class="o">!(</span><span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="k">instanceof</span> <span class="n">List</span><span class="o">))</span> <span class="o">{</span>
+    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[]</span>
+<span class="o">}</span>
+<span class="n">println</span> <span class="s2">&#34;--------------------------------------------------------------------------------&#34;</span>
+<span class="n">println</span> <span class="s2">&#34;- Loading configuration file                                                   -&#34;</span>
+<span class="n">println</span> <span class="s2">&#34;--------------------------------------------------------------------------------&#34;</span>
+<span class="c1">// 1: check for environment variable that has been set! This variable must point to the
+</span><span class="c1">// configuration file that must be used. Can be a .groovy or .properties file!
+</span><span class="c1"></span><span class="k">if</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">println</span><span class="o">(</span><span class="s2">&#34;Including System Environment configuration file: &#34;</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">))</span>
+    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">&lt;&lt;</span> <span class="s2">&#34;file:&#34;</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span>
 
-<span style="color: #75715e">// 2: check for commandline properties!</span>
-<span style="color: #75715e">// Use it like (examples):</span>
-<span style="color: #75715e">//      grails -D[name of app].config.location=/tmp/[name of config file].groovy run-app</span>
-<span style="color: #75715e">// or</span>
-<span style="color: #75715e">//      grails -D[name of app].config.location=/tmp/[name of config file].properties run-app</span>
-<span style="color: #75715e">//</span>
-<span style="color: #f92672">}</span> <span style="color: #66d9ef">else</span> <span style="color: #66d9ef">if</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getProperty</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)</span> <span style="color: #f92672">&amp;&amp;</span> <span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getProperty</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)).</span><span style="color: #a6e22e">exists</span><span style="color: #f92672">())</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;Including configuration file specified on command line: &quot;</span> <span style="color: #f92672">+</span> <span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getProperty</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)</span>
-    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">&lt;&lt;</span> <span style="color: #e6db74">&quot;file:&quot;</span> <span style="color: #f92672">+</span> <span style="color: #f8f8f2">System</span><span style="color: #f92672">.</span><span style="color: #a6e22e">getProperty</span><span style="color: #f92672">(</span><span style="color: #f8f8f2">ENV_NAME</span><span style="color: #f92672">)</span>
+<span class="c1">// 2: check for commandline properties!
+</span><span class="c1">// Use it like (examples):
+</span><span class="c1">//      grails -D[name of app].config.location=/tmp/[name of config file].groovy run-app
+</span><span class="c1">// or
+</span><span class="c1">//      grails -D[name of app].config.location=/tmp/[name of config file].properties run-app
+</span><span class="c1">//
+</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="nf">if</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">println</span> <span class="s2">&#34;Including configuration file specified on command line: &#34;</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span>
+    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">&lt;&lt;</span> <span class="s2">&#34;file:&#34;</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span>
 
-<span style="color: #75715e">// 3: check on local project config file in the project root directory</span>
-<span style="color: #f92672">}</span> <span style="color: #66d9ef">else</span> <span style="color: #66d9ef">if</span> <span style="color: #f92672">(</span><span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;./${appName}-config.groovy&quot;</span><span style="color: #f92672">).</span><span style="color: #a6e22e">exists</span><span style="color: #f92672">())</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;*** User defined config: file:./${appName}-config.groovy ***&quot;</span>
-    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">=</span> <span style="color: #f92672">[</span><span style="color: #e6db74">&quot;file:./${appName}-config.groovy&quot;</span><span style="color: #f92672">]</span>
-<span style="color: #f92672">}</span> <span style="color: #66d9ef">else</span> <span style="color: #66d9ef">if</span> <span style="color: #f92672">(</span><span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;./${appName}-config.properties&quot;</span><span style="color: #f92672">).</span><span style="color: #a6e22e">exists</span><span style="color: #f92672">())</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;*** User defined config: file:./${appName}-config.properties ***&quot;</span>
-    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">=</span> <span style="color: #f92672">[</span><span style="color: #e6db74">&quot;file:./${appName}-config.groovy&quot;</span><span style="color: #f92672">]</span>
+<span class="c1">// 3: check on local project config file in the project root directory
+</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="s2">&#34;./${appName}-config.groovy&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">println</span> <span class="s2">&#34;*** User defined config: file:./${appName}-config.groovy ***&#34;</span>
+    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;file:./${appName}-config.groovy&#34;</span><span class="o">]</span>
+<span class="o">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="s2">&#34;./${appName}-config.properties&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">println</span> <span class="s2">&#34;*** User defined config: file:./${appName}-config.properties ***&#34;</span>
+    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;file:./${appName}-config.groovy&#34;</span><span class="o">]</span>
 
-<span style="color: #75715e">// 4: check on local project config file in ${userHome}/.grails/...</span>
-<span style="color: #f92672">}</span> <span style="color: #66d9ef">else</span> <span style="color: #66d9ef">if</span> <span style="color: #f92672">(</span><span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;${userHome}/.grails/${appName}-config.groovy&quot;</span><span style="color: #f92672">).</span><span style="color: #a6e22e">exists</span><span style="color: #f92672">())</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;*** User defined config: file:${userHome}/.grails/${appName}-config.groovy ***&quot;</span>
-    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">=</span> <span style="color: #f92672">[</span><span style="color: #e6db74">&quot;file:${userHome}/.grails/${appName}-config.groovy&quot;</span><span style="color: #f92672">]</span>
-<span style="color: #f92672">}</span> <span style="color: #66d9ef">else</span> <span style="color: #66d9ef">if</span> <span style="color: #f92672">(</span><span style="color: #66d9ef">new</span> <span style="color: #f8f8f2">File</span><span style="color: #f92672">(</span><span style="color: #e6db74">&quot;${userHome}/.grails/${appName}-config.properties&quot;</span><span style="color: #f92672">).</span><span style="color: #a6e22e">exists</span><span style="color: #f92672">())</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;*** User defined config: file:${userHome}/.grails/${appName}-config.properties ***&quot;</span>
-    <span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">=</span> <span style="color: #f92672">[</span><span style="color: #e6db74">&quot;file:${userHome}/.grails/${appName}-config.properties&quot;</span><span style="color: #f92672">]</span>
+<span class="c1">// 4: check on local project config file in ${userHome}/.grails/...
+</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="s2">&#34;${userHome}/.grails/${appName}-config.groovy&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">println</span> <span class="s2">&#34;*** User defined config: file:${userHome}/.grails/${appName}-config.groovy ***&#34;</span>
+    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;file:${userHome}/.grails/${appName}-config.groovy&#34;</span><span class="o">]</span>
+<span class="o">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="s2">&#34;${userHome}/.grails/${appName}-config.properties&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">println</span> <span class="s2">&#34;*** User defined config: file:${userHome}/.grails/${appName}-config.properties ***&#34;</span>
+    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;file:${userHome}/.grails/${appName}-config.properties&#34;</span><span class="o">]</span>
 
-<span style="color: #75715e">// 5: we have problem!!</span>
-<span style="color: #f92672">}</span> <span style="color: #66d9ef">else</span> <span style="color: #f92672">{</span>
-    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;********************************************************************************&quot;</span>
-    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;* No external configuration file defined                                       *&quot;</span>
-    <span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;********************************************************************************&quot;</span>
-<span style="color: #f92672">}</span>
-<span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;(*) grails.config.locations = ${grails.config.locations}&quot;</span>
-<span style="color: #f8f8f2">println</span> <span style="color: #e6db74">&quot;--------------------------------------------------------------------------------&quot;</span>
-<span style="color: #75715e">// -------------------------------------------------------------------------------- //</span>
-<span style="color: #75715e">// - END: CONFIGURATION FILE LOADING ---------------------------------------------- //</span>
-<span style="color: #75715e">// -------------------------------------------------------------------------------- //</span>
-</pre></div>
-
+<span class="c1">// 5: we have problem!!
+</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="n">println</span> <span class="s2">&#34;********************************************************************************&#34;</span>
+    <span class="n">println</span> <span class="s2">&#34;* No external configuration file defined                                       *&#34;</span>
+    <span class="n">println</span> <span class="s2">&#34;********************************************************************************&#34;</span>
+<span class="o">}</span>
+<span class="n">println</span> <span class="s2">&#34;(*) grails.config.locations = ${grails.config.locations}&#34;</span>
+<span class="n">println</span> <span class="s2">&#34;--------------------------------------------------------------------------------&#34;</span>
+<span class="c1">// -------------------------------------------------------------------------------- //
+</span><span class="c1">// - END: CONFIGURATION FILE LOADING ---------------------------------------------- //
+</span><span class="c1"></span><span class="s">//</span> <span class="o">--------------------------------------------------------------------------------</span> <span class="s">//</span></code></pre></div>
         </div>
     </div>
     <div class="row">
@@ -544,9 +518,7 @@ chmod the folder that the ftp user comes in to as he first login (root folder) b
             <p>The use of &lsquo;Config.groovy&rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &lsquo;Config.groovy&rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.</p>
 
 <p>A simple mechanism to load these property files is to place a short snippet of code in the &lsquo;Config.groovy&rsquo; that will load a specific configuration file from the filesystem, depending on the availability.</p>
-<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span></span><span style="color: #f8f8f2">grails</span><span style="color: #f92672">.</span><span style="color: #a6e22e">config</span><span style="color: #f92672">.</span><span style="color: #a6e22e">locations</span> <span style="color: #f92672">=</span> <span style="color: #f92672">[</span><span style="color: #e6db74">&quot;classpath:application-config.properties&quot;</span><span style="color: #f92672">,</span> <span style="color: #e6db74">&quot;file:./application-config.properties&quot;</span><span style="color: #f92672">]</span>
-</pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;classpath:application-config.properties&#34;</span><span class="o">,</span> <span class="s2">&#34;file:./application-config.properties&#34;</span><span class="o">]</span></code></pre></div>
 <p>This snippet will first try to load the property file from the classpath and if that fails you have a backup on the filesystem. This opens opportunities to load a different property file during development! When you deploy the application you can place the &lsquo;application-config.properties&rsquo; file inside a folder which is available in the classpath. For Apache Tomcat this would be the &lsquo;lib&rsquo; folder!</p>
 
 <p>This gives the opportunity to configure the application outside the &lsquo;Config.groovy&rsquo; file so any changes made the the property file will be reflected in your environment.</p>

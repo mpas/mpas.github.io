@@ -7,50 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 13 Jan 2013 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://mpas.github.io/tags/testdata/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://mpas.github.io/tags/testdata/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Testing constraints with Build Test Data</title>
-      <link>http://mpas.github.io/post/2013/01/13/20130113_testing-constraints-with-build-test-data/</link>
+      <link>http://mpas.github.io/post/2013/01/13/20130113-testing-constraints-with-build-test-data/</link>
       <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2013/01/13/20130113_testing-constraints-with-build-test-data/</guid>
-      <description>&lt;p&gt;The &lt;a href=&#34;http://grails.org/plugin/spock&#34;&gt;Spock&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://grails.org/plugin/build-test-data&#34;&gt;Build Test Data&lt;/a&gt; plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!&lt;/p&gt;
-
-&lt;p&gt;When testing constraints on an object it can be used as follows:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;Foo&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color: #f8f8f2&#34;&gt;String&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;name&lt;/span&gt;   &lt;span style=&#34;color: #75715e&#34;&gt;// name of foo&lt;/span&gt;
-    &lt;span style=&#34;color: #f8f8f2&#34;&gt;Integer&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;age&lt;/span&gt;   &lt;span style=&#34;color: #75715e&#34;&gt;// age of foo&lt;/span&gt;
-
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;constraints&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;name&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;nullable:&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;blank:&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;false&lt;/span&gt; &lt;span style=&#34;color: #75715e&#34;&gt;// name may never be nullable or blank&lt;/span&gt;
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;age&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;nullable:&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;true&lt;/span&gt;
-    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And the Spock test&lt;/p&gt;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;@Build&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;Foo&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
-&lt;span style=&#34;color: #a6e22e&#34;&gt;@TestFor&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;Foo&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
-&lt;span style=&#34;color: #66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;FooSpec&lt;/span&gt; &lt;span style=&#34;color: #66d9ef&#34;&gt;extends&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Specification&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;Name of Foo must exist&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;{&lt;/span&gt;
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;given:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;setting up the constraints&amp;quot;&lt;/span&gt;
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;mockForConstraintsTests&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;Foo&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;)&lt;/span&gt;
-
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;when:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;creating a Foo&amp;quot;&lt;/span&gt;
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;Foo&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;foo&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;Foo&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;buildWithoutSave&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt;
-
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;then:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;validation should trigger&amp;quot;&lt;/span&gt;
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;assertFalse&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;foo&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;validate&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;()&lt;/span&gt;
-
-        &lt;span style=&#34;color: #f8f8f2&#34;&gt;and:&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;validation error should be on the value field&amp;quot;&lt;/span&gt;
-        &lt;span style=&#34;color: #66d9ef&#34;&gt;assert&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;foo&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;errors&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;allErrors&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;first&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;().&lt;/span&gt;&lt;span style=&#34;color: #a6e22e&#34;&gt;field&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;
-    &lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-
-&lt;span style=&#34;color: #f92672&#34;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-</description>
+      <guid>http://mpas.github.io/post/2013/01/13/20130113-testing-constraints-with-build-test-data/</guid>
+      <description>The Spock &amp;amp; Build Test Data plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!
+When testing constraints on an object it can be used as follows:
+class Foo { String name // name of foo  Integer age // age of foo  static constraints = { name nullable: false, blank: false // name may never be nullable or blank  age nullable: true } } And the Spock test</description>
     </item>
     
   </channel>
