@@ -6,17 +6,17 @@
     <description>Recent content in Springboot on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Nov 2016 19:44:16 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 02 Nov 2016 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://mpas.github.io/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Change the port of actuator endpoint in a Grails application</title>
-      <link>http://mpas.github.io/post/2016/11/01/20161101-change-the-port-of-actuator-endpoint/</link>
-      <pubDate>Tue, 01 Nov 2016 19:44:16 +0100</pubDate>
+      <link>http://mpas.github.io/post/2016/11/02/20161101-change-the-port-of-actuator-endpoint/</link>
+      <pubDate>Wed, 02 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/11/01/20161101-change-the-port-of-actuator-endpoint/</guid>
+      <guid>http://mpas.github.io/post/2016/11/02/20161101-change-the-port-of-actuator-endpoint/</guid>
       <description>When using actuator endpoints to expose metrics in a Grails (Spring Boot) application, it may be useful to run the metrics on a different port.
 This enables you to hide the metrics for the public and use the different port in an AWS infrastucture so that the metrics are only available internal.
 Let us first enable the actuator endpoints

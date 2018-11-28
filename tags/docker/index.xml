@@ -6,7 +6,7 @@
     <description>Recent content in Docker on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 May 2017 08:31:27 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 12 May 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://mpas.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Infrastructure and System Monitoring using Prometheus</title>
       <link>http://mpas.github.io/post/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</link>
-      <pubDate>Fri, 12 May 2017 08:31:27 +0100</pubDate>
+      <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/post/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</guid>
       <description>Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &amp;ldquo;Infrastructure and System Monitoring using Prometheus&amp;rdquo;. You can find the used material here:
@@ -24,7 +24,7 @@
     <item>
       <title>Dockerize your Grails application</title>
       <link>http://mpas.github.io/post/2016/11/25/20161125-dockerize-your-grails-application/</link>
-      <pubDate>Fri, 25 Nov 2016 20:31:27 +0100</pubDate>
+      <pubDate>Fri, 25 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/post/2016/11/25/20161125-dockerize-your-grails-application/</guid>
       <description>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..
@@ -36,7 +36,7 @@ $ grails create-app docker-test --profile rest-api After the Grails application 
     <item>
       <title>Creating/Pushing Docker images using Gradle without plugins</title>
       <link>http://mpas.github.io/post/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/</link>
-      <pubDate>Thu, 24 Nov 2016 19:34:45 +0100</pubDate>
+      <pubDate>Thu, 24 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/post/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/</guid>
       <description>In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.</description>
@@ -45,7 +45,7 @@ $ grails create-app docker-test --profile rest-api After the Grails application 
     <item>
       <title>Identifying Docker container outage using Prometheus</title>
       <link>http://mpas.github.io/post/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</link>
-      <pubDate>Thu, 17 Nov 2016 16:12:14 +0200</pubDate>
+      <pubDate>Thu, 17 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/post/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</guid>
       <description>Prometheus is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.
@@ -56,7 +56,7 @@ Metric data is pulled (on a regular time-interval) from so called exporters whic
     <item>
       <title>Accessing localhost from a Docker Container using native Docker for Mac</title>
       <link>http://mpas.github.io/post/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/</link>
-      <pubDate>Tue, 01 Nov 2016 19:05:44 +0100</pubDate>
+      <pubDate>Tue, 01 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/post/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/</guid>
       <description>Ever had a need to access something from within a Docker container that runs on the host system?

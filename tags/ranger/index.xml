@@ -6,7 +6,7 @@
     <description>Recent content in Ranger on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 28 Nov 2018 08:39:55 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 28 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://mpas.github.io/tags/ranger/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Ranger - Show File in Path Finder</title>
       <link>http://mpas.github.io/post/2018/11/28/20181128-ranger-show-file-in-path-finder/</link>
-      <pubDate>Wed, 28 Nov 2018 08:39:55 +0100</pubDate>
+      <pubDate>Wed, 28 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/post/2018/11/28/20181128-ranger-show-file-in-path-finder/</guid>
       <description>Ranger is a VIM-inspired filemanager for the console (https://ranger.github.io/) and can easily be installed by using brew install ranger. When working in the terminal sometimes it is nice to open the files in the default Finder app or use the excellent alternative called Path Finder. (https://cocoatech.com/#/)

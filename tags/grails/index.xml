@@ -6,7 +6,7 @@
     <description>Recent content in Grails on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 25 Nov 2016 20:31:27 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 25 Nov 2016 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://mpas.github.io/tags/grails/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Dockerize your Grails application</title>
       <link>http://mpas.github.io/post/2016/11/25/20161125-dockerize-your-grails-application/</link>
-      <pubDate>Fri, 25 Nov 2016 20:31:27 +0100</pubDate>
+      <pubDate>Fri, 25 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/post/2016/11/25/20161125-dockerize-your-grails-application/</guid>
       <description>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..
@@ -25,10 +25,10 @@ $ grails create-app docker-test --profile rest-api After the Grails application 
     
     <item>
       <title>Change the port of actuator endpoint in a Grails application</title>
-      <link>http://mpas.github.io/post/2016/11/01/20161101-change-the-port-of-actuator-endpoint/</link>
-      <pubDate>Tue, 01 Nov 2016 19:44:16 +0100</pubDate>
+      <link>http://mpas.github.io/post/2016/11/02/20161101-change-the-port-of-actuator-endpoint/</link>
+      <pubDate>Wed, 02 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/11/01/20161101-change-the-port-of-actuator-endpoint/</guid>
+      <guid>http://mpas.github.io/post/2016/11/02/20161101-change-the-port-of-actuator-endpoint/</guid>
       <description>When using actuator endpoints to expose metrics in a Grails (Spring Boot) application, it may be useful to run the metrics on a different port.
 This enables you to hide the metrics for the public and use the different port in an AWS infrastucture so that the metrics are only available internal.
 Let us first enable the actuator endpoints

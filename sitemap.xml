@@ -4,47 +4,47 @@
   
   <url>
     <loc>http://mpas.github.io/post/2018/11/28/20181128-ranger-show-file-in-path-finder/</loc>
-    <lastmod>2018-11-28T08:39:55+01:00</lastmod>
+    <lastmod>2018-11-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://mpas.github.io/post/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</loc>
-    <lastmod>2017-05-12T08:31:27+01:00</lastmod>
+    <lastmod>2017-05-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://mpas.github.io/post/2016/11/25/20161125-dockerize-your-grails-application/</loc>
-    <lastmod>2016-11-25T20:31:27+01:00</lastmod>
+    <lastmod>2016-11-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://mpas.github.io/post/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/</loc>
-    <lastmod>2016-11-24T19:34:45+01:00</lastmod>
+    <lastmod>2016-11-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://mpas.github.io/post/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</loc>
-    <lastmod>2016-11-17T16:12:14+02:00</lastmod>
+    <lastmod>2016-11-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://mpas.github.io/post/2016/11/16/20161116-building-a-consul-cluster-using-terraform-aws/</loc>
-    <lastmod>2016-11-16T10:26:33+01:00</lastmod>
+    <lastmod>2016-11-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://mpas.github.io/post/2016/11/01/20161101-change-the-port-of-actuator-endpoint/</loc>
-    <lastmod>2016-11-01T19:44:16+01:00</lastmod>
+    <loc>http://mpas.github.io/post/2016/11/02/20161101-change-the-port-of-actuator-endpoint/</loc>
+    <lastmod>2016-11-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://mpas.github.io/post/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/</loc>
-    <lastmod>2016-11-01T19:05:44+01:00</lastmod>
+    <lastmod>2016-11-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>http://mpas.github.io/post/2016/10/09/20161009-terraform-to-the-rescue/</loc>
-    <lastmod>2016-10-09T00:42:58+02:00</lastmod>
+    <lastmod>2016-10-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -204,7 +204,7 @@
   
   <url>
     <loc>http://mpas.github.io/tags/aws/</loc>
-    <lastmod>2016-11-16T10:26:33+01:00</lastmod>
+    <lastmod>2016-11-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -216,7 +216,7 @@
   
   <url>
     <loc>http://mpas.github.io/tags/cadvisor/</loc>
-    <lastmod>2016-11-17T16:12:14+02:00</lastmod>
+    <lastmod>2016-11-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -234,7 +234,7 @@
   
   <url>
     <loc>http://mpas.github.io/</loc>
-    <lastmod>2018-11-28T08:39:55+01:00</lastmod>
+    <lastmod>2018-11-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -246,7 +246,7 @@
   
   <url>
     <loc>http://mpas.github.io/tags/consul/</loc>
-    <lastmod>2016-11-16T10:26:33+01:00</lastmod>
+    <lastmod>2016-11-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -276,19 +276,19 @@
   
   <url>
     <loc>http://mpas.github.io/tags/devops/</loc>
-    <lastmod>2016-10-09T00:42:58+02:00</lastmod>
+    <lastmod>2016-10-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://mpas.github.io/tags/devoxx/</loc>
-    <lastmod>2017-05-12T08:31:27+01:00</lastmod>
+    <lastmod>2017-05-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://mpas.github.io/tags/docker/</loc>
-    <lastmod>2017-05-12T08:31:27+01:00</lastmod>
+    <lastmod>2017-05-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -318,19 +318,19 @@
   
   <url>
     <loc>http://mpas.github.io/tags/gradle/</loc>
-    <lastmod>2016-11-24T19:34:45+01:00</lastmod>
+    <lastmod>2016-11-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://mpas.github.io/tags/grails/</loc>
-    <lastmod>2016-11-25T20:31:27+01:00</lastmod>
+    <lastmod>2016-11-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://mpas.github.io/tags/groovy/</loc>
-    <lastmod>2016-11-24T19:34:45+01:00</lastmod>
+    <lastmod>2016-11-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -354,7 +354,7 @@
   
   <url>
     <loc>http://mpas.github.io/tags/infrastructure/</loc>
-    <lastmod>2017-05-12T08:31:27+01:00</lastmod>
+    <lastmod>2017-05-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -378,7 +378,7 @@
   
   <url>
     <loc>http://mpas.github.io/tags/mac/</loc>
-    <lastmod>2016-11-01T19:05:44+01:00</lastmod>
+    <lastmod>2016-11-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -402,7 +402,7 @@
   
   <url>
     <loc>http://mpas.github.io/tags/monitoring/</loc>
-    <lastmod>2017-05-12T08:31:27+01:00</lastmod>
+    <lastmod>2017-05-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -414,7 +414,7 @@
   
   <url>
     <loc>http://mpas.github.io/tags/osx/</loc>
-    <lastmod>2016-11-01T19:05:44+01:00</lastmod>
+    <lastmod>2016-11-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -432,7 +432,7 @@
   
   <url>
     <loc>http://mpas.github.io/tags/pathfinder/</loc>
-    <lastmod>2018-11-28T08:39:55+01:00</lastmod>
+    <lastmod>2018-11-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -450,7 +450,7 @@
   
   <url>
     <loc>http://mpas.github.io/post/</loc>
-    <lastmod>2018-11-28T08:39:55+01:00</lastmod>
+    <lastmod>2018-11-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -462,7 +462,7 @@
   
   <url>
     <loc>http://mpas.github.io/tags/prometheus/</loc>
-    <lastmod>2017-05-12T08:31:27+01:00</lastmod>
+    <lastmod>2017-05-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -474,7 +474,7 @@
   
   <url>
     <loc>http://mpas.github.io/tags/ranger/</loc>
-    <lastmod>2018-11-28T08:39:55+01:00</lastmod>
+    <lastmod>2018-11-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -504,7 +504,7 @@
   
   <url>
     <loc>http://mpas.github.io/tags/springboot/</loc>
-    <lastmod>2016-11-01T19:44:16+01:00</lastmod>
+    <lastmod>2016-11-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -516,19 +516,19 @@
   
   <url>
     <loc>http://mpas.github.io/tags/</loc>
-    <lastmod>2016-11-16T10:26:33+01:00</lastmod>
+    <lastmod>2016-11-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://mpas.github.io/tags/talks/</loc>
-    <lastmod>2017-05-12T08:31:27+01:00</lastmod>
+    <lastmod>2017-05-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://mpas.github.io/tags/terraform/</loc>
-    <lastmod>2016-11-16T10:26:33+01:00</lastmod>
+    <lastmod>2016-11-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

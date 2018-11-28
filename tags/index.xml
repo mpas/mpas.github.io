@@ -6,7 +6,7 @@
     <description>Recent content in Tags on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 16 Nov 2016 10:26:33 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 16 Nov 2016 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://mpas.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Aws</title>
       <link>http://mpas.github.io/tags/aws/</link>
-      <pubDate>Wed, 16 Nov 2016 10:26:33 +0100</pubDate>
+      <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/aws/</guid>
       <description></description>
@@ -32,7 +32,7 @@
     <item>
       <title>Cadvisor</title>
       <link>http://mpas.github.io/tags/cadvisor/</link>
-      <pubDate>Thu, 17 Nov 2016 16:12:14 +0200</pubDate>
+      <pubDate>Thu, 17 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/cadvisor/</guid>
       <description></description>
@@ -68,7 +68,7 @@
     <item>
       <title>Consul</title>
       <link>http://mpas.github.io/tags/consul/</link>
-      <pubDate>Wed, 16 Nov 2016 10:26:33 +0100</pubDate>
+      <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/consul/</guid>
       <description></description>
@@ -113,7 +113,7 @@
     <item>
       <title>Devops</title>
       <link>http://mpas.github.io/tags/devops/</link>
-      <pubDate>Sun, 09 Oct 2016 00:42:58 +0200</pubDate>
+      <pubDate>Sun, 09 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/devops/</guid>
       <description></description>
@@ -122,7 +122,7 @@
     <item>
       <title>Devoxx</title>
       <link>http://mpas.github.io/tags/devoxx/</link>
-      <pubDate>Fri, 12 May 2017 08:31:27 +0100</pubDate>
+      <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/devoxx/</guid>
       <description></description>
@@ -131,7 +131,7 @@
     <item>
       <title>Docker</title>
       <link>http://mpas.github.io/tags/docker/</link>
-      <pubDate>Fri, 12 May 2017 08:31:27 +0100</pubDate>
+      <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/docker/</guid>
       <description></description>
@@ -176,7 +176,7 @@
     <item>
       <title>Gradle</title>
       <link>http://mpas.github.io/tags/gradle/</link>
-      <pubDate>Thu, 24 Nov 2016 19:34:45 +0100</pubDate>
+      <pubDate>Thu, 24 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/gradle/</guid>
       <description></description>
@@ -185,7 +185,7 @@
     <item>
       <title>Grails</title>
       <link>http://mpas.github.io/tags/grails/</link>
-      <pubDate>Fri, 25 Nov 2016 20:31:27 +0100</pubDate>
+      <pubDate>Fri, 25 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/grails/</guid>
       <description></description>
@@ -194,7 +194,7 @@
     <item>
       <title>Groovy</title>
       <link>http://mpas.github.io/tags/groovy/</link>
-      <pubDate>Thu, 24 Nov 2016 19:34:45 +0100</pubDate>
+      <pubDate>Thu, 24 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/groovy/</guid>
       <description></description>
@@ -230,7 +230,7 @@
     <item>
       <title>Infrastructure</title>
       <link>http://mpas.github.io/tags/infrastructure/</link>
-      <pubDate>Fri, 12 May 2017 08:31:27 +0100</pubDate>
+      <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/infrastructure/</guid>
       <description></description>
@@ -266,7 +266,7 @@
     <item>
       <title>Mac</title>
       <link>http://mpas.github.io/tags/mac/</link>
-      <pubDate>Tue, 01 Nov 2016 19:05:44 +0100</pubDate>
+      <pubDate>Tue, 01 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/mac/</guid>
       <description></description>
@@ -302,7 +302,7 @@
     <item>
       <title>Monitoring</title>
       <link>http://mpas.github.io/tags/monitoring/</link>
-      <pubDate>Fri, 12 May 2017 08:31:27 +0100</pubDate>
+      <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/monitoring/</guid>
       <description></description>
@@ -320,7 +320,7 @@
     <item>
       <title>Osx</title>
       <link>http://mpas.github.io/tags/osx/</link>
-      <pubDate>Tue, 01 Nov 2016 19:05:44 +0100</pubDate>
+      <pubDate>Tue, 01 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/osx/</guid>
       <description></description>
@@ -338,7 +338,7 @@
     <item>
       <title>Pathfinder</title>
       <link>http://mpas.github.io/tags/pathfinder/</link>
-      <pubDate>Wed, 28 Nov 2018 08:39:55 +0100</pubDate>
+      <pubDate>Wed, 28 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/pathfinder/</guid>
       <description></description>
@@ -374,7 +374,7 @@
     <item>
       <title>Prometheus</title>
       <link>http://mpas.github.io/tags/prometheus/</link>
-      <pubDate>Fri, 12 May 2017 08:31:27 +0100</pubDate>
+      <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/prometheus/</guid>
       <description></description>
@@ -392,7 +392,7 @@
     <item>
       <title>Ranger</title>
       <link>http://mpas.github.io/tags/ranger/</link>
-      <pubDate>Wed, 28 Nov 2018 08:39:55 +0100</pubDate>
+      <pubDate>Wed, 28 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/ranger/</guid>
       <description></description>
@@ -437,7 +437,7 @@
     <item>
       <title>Springboot</title>
       <link>http://mpas.github.io/tags/springboot/</link>
-      <pubDate>Tue, 01 Nov 2016 19:44:16 +0100</pubDate>
+      <pubDate>Wed, 02 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/springboot/</guid>
       <description></description>
@@ -455,7 +455,7 @@
     <item>
       <title>Talks</title>
       <link>http://mpas.github.io/tags/talks/</link>
-      <pubDate>Fri, 12 May 2017 08:31:27 +0100</pubDate>
+      <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/talks/</guid>
       <description></description>
@@ -464,7 +464,7 @@
     <item>
       <title>Terraform</title>
       <link>http://mpas.github.io/tags/terraform/</link>
-      <pubDate>Wed, 16 Nov 2016 10:26:33 +0100</pubDate>
+      <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/tags/terraform/</guid>
       <description></description>

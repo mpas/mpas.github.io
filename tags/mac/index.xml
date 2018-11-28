@@ -6,7 +6,7 @@
     <description>Recent content in Mac on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Nov 2016 19:05:44 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 01 Nov 2016 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://mpas.github.io/tags/mac/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Accessing localhost from a Docker Container using native Docker for Mac</title>
       <link>http://mpas.github.io/post/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/</link>
-      <pubDate>Tue, 01 Nov 2016 19:05:44 +0100</pubDate>
+      <pubDate>Tue, 01 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/post/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/</guid>
       <description>Ever had a need to access something from within a Docker container that runs on the host system?
