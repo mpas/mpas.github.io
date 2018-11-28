@@ -172,38 +172,38 @@ you create the cluster and how can you make sure it is always available?</strong
     yum install -y aws-cli <span class="o">&amp;&amp;</span> <span class="nb">break</span> <span class="o">||</span> sleep <span class="m">120</span>
 <span class="k">done</span>
 
-<span class="c1">################################################################################
-</span><span class="c1"># Running Consul
-</span><span class="c1">################################################################################
-</span><span class="c1"># get current instance ip
-</span><span class="c1"></span><span class="nv">INSTANCE_IP</span><span class="o">=</span><span class="k">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span class="k">)</span>
+<span class="c1">################################################################################</span>
+<span class="c1"># Running Consul</span>
+<span class="c1">################################################################################</span>
+<span class="c1"># get current instance ip</span>
+<span class="nv">INSTANCE_IP</span><span class="o">=</span><span class="k">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span class="k">)</span>
 
-<span class="c1"># get list of available Consul servers; based on Name (value) tag!
-</span><span class="c1"></span><span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span>aws ec2 describe-instances --region us-east-1 <span class="se">\
+<span class="c1"># get list of available Consul servers; based on Name (value) tag!</span>
+<span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span>aws ec2 describe-instances --region us-east-1 <span class="se">\
 </span><span class="se"></span>--filters <span class="s1">&#39;Name=tag:Name,Values=${consul_cluster_name}&#39;</span> <span class="se">\
 </span><span class="se"></span><span class="s1">&#39;Name=instance-state-name,Values=running&#39;</span> <span class="se">\
 </span><span class="se"></span>--query <span class="s2">&#34;Reservations[*].Instances[*].PrivateIpAddress&#34;</span> <span class="se">\
 </span><span class="se"></span>--output<span class="o">=</span>text<span class="k">)</span>
 
-<span class="c1"># remove the current instance ip from the list of available servers
-</span><span class="c1"></span><span class="nv">IP_LIST</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$$</span><span class="s2">{IP_LIST/</span><span class="nv">$$</span><span class="s2">INSTANCE_IP/}&#34;</span>
+<span class="c1"># remove the current instance ip from the list of available servers</span>
+<span class="nv">IP_LIST</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$$</span><span class="s2">{IP_LIST/</span><span class="nv">$$</span><span class="s2">INSTANCE_IP/}&#34;</span>
 
-<span class="c1"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;
-</span><span class="c1"></span><span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$$</span>IP_LIST <span class="p">|</span> tr -s <span class="s2">&#34; &#34;</span> <span class="p">|</span> tr -d <span class="s1">&#39;\r\n&#39;</span> <span class="p">|</span> tr -s <span class="s1">&#39; &#39;</span> <span class="s1">&#39;,&#39;</span><span class="k">)</span>
+<span class="c1"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;</span>
+<span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$$</span>IP_LIST <span class="p">|</span> tr -s <span class="s2">&#34; &#34;</span> <span class="p">|</span> tr -d <span class="s1">&#39;\r\n&#39;</span> <span class="p">|</span> tr -s <span class="s1">&#39; &#39;</span> <span class="s1">&#39;,&#39;</span><span class="k">)</span>
 
-<span class="c1"># create join string
-</span><span class="c1"></span><span class="k">for</span> i in <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$IP_LIST</span> <span class="p">|</span> sed <span class="s2">&#34;s/,/ /g&#34;</span><span class="k">)</span>
+<span class="c1"># create join string</span>
+<span class="k">for</span> i in <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$IP_LIST</span> <span class="p">|</span> sed <span class="s2">&#34;s/,/ /g&#34;</span><span class="k">)</span>
 <span class="k">do</span>
     <span class="nv">JOIN_STRING</span><span class="o">+=</span><span class="s2">&#34;-retry-join </span><span class="nv">$i</span><span class="s2"> &#34;</span>
 <span class="k">done</span>
 
-<span class="c1"># - run Consul
-</span><span class="c1"></span>docker run -d --net<span class="o">=</span>host <span class="se">\
+<span class="c1"># - run Consul</span>
+docker run -d --net<span class="o">=</span>host <span class="se">\
 </span><span class="se"></span>-e <span class="s1">&#39;CONSUL_LOCAL_CONFIG={&#34;skip_leave_on_interrupt&#34;: true}&#39;</span> <span class="se">\
 </span><span class="se"></span>--name consul-server consul:latest <span class="se">\
 </span><span class="se"></span>agent -server -bind<span class="o">=</span><span class="nv">$INSTANCE_IP</span> <span class="nv">$JOIN_STRING</span> <span class="se">\
 </span><span class="se"></span>-bootstrap-expect<span class="o">=</span><span class="si">${</span><span class="nv">consul_cluster_min_size</span><span class="si">}</span> -ui -client <span class="m">0</span>.0.0.0
-# ------------------------------------------------------------------------------</code></pre></div>
+<span class="c1"># ------------------------------------------------------------------------------</span></code></pre></div>
 <h2 id="step-3-create-an-autoscaling-group">Step 3: Create an autoscaling group</h2>
 <div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="cm">/*
 </span><span class="cm">    creates an autoscaling group so servers are created when needed
@@ -352,7 +352,7 @@ you create the cluster and how can you make sure it is always available?</strong
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2017 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2018 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

@@ -66,6 +66,76 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Ranger - Show File in Path Finder</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Ranger is a VIM-inspired filemanager for the console (<a href="https://ranger.github.io/">https://ranger.github.io/</a>) and can easily be installed by using
+<code>brew install ranger</code>. When working in the terminal sometimes it is nice to open the files in the default <code>Finder</code> app
+or use the excellent alternative called <code>Path Finder</code>. (<a href="https://cocoatech.com/#/">https://cocoatech.com/#/</a>)</p>
+
+<p>To reveal your files in the Finder or Path Finder create a <code>commands.py</code> in <code>~/.config/ranger</code> and paste the following
+code.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">ranger.api.commands</span> <span class="kn">import</span> <span class="n">Command</span>
+
+<span class="k">class</span> <span class="nc">show_files_in_path_finder</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    :show_files_in_path_finder
+</span><span class="s2">
+</span><span class="s2">    Present selected files in finder
+</span><span class="s2">    &#34;&#34;&#34;</span>
+
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">subprocess</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="s2">&#34;,&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">file</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">thistab</span><span class="o">.</span><span class="n">get_selection</span><span class="p">()])</span>
+        <span class="n">reveal_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Path Finder</span><span class="se">\&#34;</span><span class="s2"> to reveal {{{0}}}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+        <span class="n">activate_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Path Finder</span><span class="se">\&#34;</span><span class="s2"> to activate&#34;</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="s2">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reveal_script</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&#34;osascript&#34;</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">reveal_script</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">])</span>
+
+<span class="k">class</span> <span class="nc">show_files_in_finder</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    :show_files_in_finder
+</span><span class="s2">
+</span><span class="s2">    Present selected files in finder
+</span><span class="s2">    &#34;&#34;&#34;</span>
+
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">subprocess</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="s2">&#34;,&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">file</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">thistab</span><span class="o">.</span><span class="n">get_selection</span><span class="p">()])</span>
+        <span class="n">reveal_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Finder</span><span class="se">\&#34;</span><span class="s2"> to reveal {{{0}}}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+        <span class="n">activate_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Finder</span><span class="se">\&#34;</span><span class="s2"> to set frontmost to true&#34;</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="s2">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reveal_script</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&#34;osascript&#34;</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">reveal_script</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">])</span></code></pre></div>
+<p>Restart Ranger and now you can execute the commands :show_files_in_pathfinder or :show_files_in_finder.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Wed, Nov 28, 2018
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/ranger">ranger</a>, <a href="/tags/pathfinder">pathfinder</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Infrastructure and System Monitoring using Prometheus</h1>
         </div>
     </div>
@@ -144,7 +214,7 @@
 </span><span class="cp"></span><span class="nb">set</span> -e
 
 <span class="nb">exec</span> java <span class="si">${</span><span class="nv">JAVA_OPTS</span><span class="si">}</span> -jar application.jar <span class="nv">$@</span>
-# <span class="nb">exec</span> java <span class="si">${</span><span class="nv">JAVA_OPTS</span><span class="si">}</span> -Dserver.port<span class="o">=</span><span class="si">${</span><span class="nv">SERVER_PORT</span><span class="si">}</span> -jar application.jar <span class="nv">$@</span></code></pre></div>
+<span class="c1"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span></code></pre></div>
 <p>Next step is to add the tasks to our <code>build.gradle</code> so it can generate the Docker image.</p>
 
 <p>So add the following snippet to your <code>build.gradle</code> file!</p>
@@ -481,38 +551,38 @@ you create the cluster and how can you make sure it is always available?</strong
     yum install -y aws-cli <span class="o">&amp;&amp;</span> <span class="nb">break</span> <span class="o">||</span> sleep <span class="m">120</span>
 <span class="k">done</span>
 
-<span class="c1">################################################################################
-</span><span class="c1"># Running Consul
-</span><span class="c1">################################################################################
-</span><span class="c1"># get current instance ip
-</span><span class="c1"></span><span class="nv">INSTANCE_IP</span><span class="o">=</span><span class="k">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span class="k">)</span>
+<span class="c1">################################################################################</span>
+<span class="c1"># Running Consul</span>
+<span class="c1">################################################################################</span>
+<span class="c1"># get current instance ip</span>
+<span class="nv">INSTANCE_IP</span><span class="o">=</span><span class="k">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span class="k">)</span>
 
-<span class="c1"># get list of available Consul servers; based on Name (value) tag!
-</span><span class="c1"></span><span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span>aws ec2 describe-instances --region us-east-1 <span class="se">\
+<span class="c1"># get list of available Consul servers; based on Name (value) tag!</span>
+<span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span>aws ec2 describe-instances --region us-east-1 <span class="se">\
 </span><span class="se"></span>--filters <span class="s1">&#39;Name=tag:Name,Values=${consul_cluster_name}&#39;</span> <span class="se">\
 </span><span class="se"></span><span class="s1">&#39;Name=instance-state-name,Values=running&#39;</span> <span class="se">\
 </span><span class="se"></span>--query <span class="s2">&#34;Reservations[*].Instances[*].PrivateIpAddress&#34;</span> <span class="se">\
 </span><span class="se"></span>--output<span class="o">=</span>text<span class="k">)</span>
 
-<span class="c1"># remove the current instance ip from the list of available servers
-</span><span class="c1"></span><span class="nv">IP_LIST</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$$</span><span class="s2">{IP_LIST/</span><span class="nv">$$</span><span class="s2">INSTANCE_IP/}&#34;</span>
+<span class="c1"># remove the current instance ip from the list of available servers</span>
+<span class="nv">IP_LIST</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$$</span><span class="s2">{IP_LIST/</span><span class="nv">$$</span><span class="s2">INSTANCE_IP/}&#34;</span>
 
-<span class="c1"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;
-</span><span class="c1"></span><span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$$</span>IP_LIST <span class="p">|</span> tr -s <span class="s2">&#34; &#34;</span> <span class="p">|</span> tr -d <span class="s1">&#39;\r\n&#39;</span> <span class="p">|</span> tr -s <span class="s1">&#39; &#39;</span> <span class="s1">&#39;,&#39;</span><span class="k">)</span>
+<span class="c1"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;</span>
+<span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$$</span>IP_LIST <span class="p">|</span> tr -s <span class="s2">&#34; &#34;</span> <span class="p">|</span> tr -d <span class="s1">&#39;\r\n&#39;</span> <span class="p">|</span> tr -s <span class="s1">&#39; &#39;</span> <span class="s1">&#39;,&#39;</span><span class="k">)</span>
 
-<span class="c1"># create join string
-</span><span class="c1"></span><span class="k">for</span> i in <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$IP_LIST</span> <span class="p">|</span> sed <span class="s2">&#34;s/,/ /g&#34;</span><span class="k">)</span>
+<span class="c1"># create join string</span>
+<span class="k">for</span> i in <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$IP_LIST</span> <span class="p">|</span> sed <span class="s2">&#34;s/,/ /g&#34;</span><span class="k">)</span>
 <span class="k">do</span>
     <span class="nv">JOIN_STRING</span><span class="o">+=</span><span class="s2">&#34;-retry-join </span><span class="nv">$i</span><span class="s2"> &#34;</span>
 <span class="k">done</span>
 
-<span class="c1"># - run Consul
-</span><span class="c1"></span>docker run -d --net<span class="o">=</span>host <span class="se">\
+<span class="c1"># - run Consul</span>
+docker run -d --net<span class="o">=</span>host <span class="se">\
 </span><span class="se"></span>-e <span class="s1">&#39;CONSUL_LOCAL_CONFIG={&#34;skip_leave_on_interrupt&#34;: true}&#39;</span> <span class="se">\
 </span><span class="se"></span>--name consul-server consul:latest <span class="se">\
 </span><span class="se"></span>agent -server -bind<span class="o">=</span><span class="nv">$INSTANCE_IP</span> <span class="nv">$JOIN_STRING</span> <span class="se">\
 </span><span class="se"></span>-bootstrap-expect<span class="o">=</span><span class="si">${</span><span class="nv">consul_cluster_min_size</span><span class="si">}</span> -ui -client <span class="m">0</span>.0.0.0
-# ------------------------------------------------------------------------------</code></pre></div>
+<span class="c1"># ------------------------------------------------------------------------------</span></code></pre></div>
 <h2 id="step-3-create-an-autoscaling-group">Step 3: Create an autoscaling group</h2>
 <div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="cm">/*
 </span><span class="cm">    creates an autoscaling group so servers are created when needed
@@ -880,73 +950,6 @@ Total time: 2.054 secs
 </article>
 
         
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            
-
-<p>If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific <a href="http://www.postbox-inc.com">PostBox</a> mail client.</p>
-
-<p>As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.</p>
-
-<p>Enter the use of <a href="http://davmail.sourceforge.net/">DavMail</a>!</p>
-
-<h4 id="davmail-gateway">Davmail Gateway</h4>
-
-<p>Davmail is a local mail proxy that can work together with Microsoft Exchange [OWA] in a way that DavMail is actually connecting to a Exchange OWA and your mail client connects to DavMail as a proxy.</p>
-
-<p><img src="/images/201511/davmail-sequence.png" width="800" class="postimage"></p>
-
-<h4 id="configure-davmail">Configure Davmail</h4>
-
-<p>In order to get DavMail working correctly you need to provide the correct settings so it can use the OWA endpoint.</p>
-
-<p><img src="/images/201511/davmail-settings-main.png" width="800" class="postimage"></p>
-
-<h4 id="configure-postbox">Configure PostBox</h4>
-
-<p>In order to get PostBox working with DavMail you need to create an outgoing mail server and an account that will use that outgoing mailserver.</p>
-
-<h4 id="configure-postbox-outgoing-mailserver">Configure PostBox - Outgoing mailserver</h4>
-
-<p><img src="/images/201511/postbox-outgoing-mailserver.png" width="400" class="postimage"></p>
-
-<h4 id="configure-postbox-account-setup">Configure PostBox - Account setup</h4>
-
-<p><img src="/images/201511/postbox-account-setup.png" width="800" class="postimage"></p>
-
-<h4 id="configure-postbox-identity-setup">Configure PostBox - Identity setup</h4>
-
-<p><img src="/images/201511/postbox-identity-setup.png" width="800" class="postimage"></p>
-
-<p>Now you are ready to send mail using your PostBox Client using DavMail and OWA.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    Tue, Nov 17, 2015
-                
-                <span class="post-meta-info-taxonomy">
-                    in categories:
-                        
-                    using tags:
-                        <a href="/tags/davmail">davmail</a>, <a href="/tags/exchange">exchange</a>, <a href="/tags/owa">owa</a>, <a href="/tags/postbox">postbox</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
         </div>
     </div>
 </div>
@@ -1013,7 +1016,7 @@ Total time: 2.054 secs
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2017 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2018 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

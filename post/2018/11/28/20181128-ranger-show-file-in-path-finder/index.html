@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  
+  <meta charset="utf-8">
+  <title>CodeVerse - Ranger - Show File in Path Finder</title>
+  <meta name="description" content="">
+  <meta name="author" content="Marco Pas">
+
+  <meta name="generator" content="" />
+  <meta name="robots" content="index,follow">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  
+  <link rel="stylesheet" href="http://mpas.github.io/css/normalize.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/skeleton.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/custom.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://mpas.github.io/css/syntax.css">
+
+  
+  <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="http://mpas.github.io">CodeVerse</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        
+                        
+                            <li >
+                                <a href="/">Blog</a></li>
+                        
+                            <li >
+                                <a href="/post">Post List</a></li>
+                        
+                            <li >
+                                <a href="/page/about/">About</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+    <div class="container">
+        <div class="row">
+            <div class="post-content">
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Ranger - Show File in Path Finder</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Ranger is a VIM-inspired filemanager for the console (<a href="https://ranger.github.io/">https://ranger.github.io/</a>) and can easily be installed by using
+<code>brew install ranger</code>. When working in the terminal sometimes it is nice to open the files in the default <code>Finder</code> app
+or use the excellent alternative called <code>Path Finder</code>. (<a href="https://cocoatech.com/#/">https://cocoatech.com/#/</a>)</p>
+
+<p>To reveal your files in the Finder or Path Finder create a <code>commands.py</code> in <code>~/.config/ranger</code> and paste the following
+code.</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">ranger.api.commands</span> <span class="kn">import</span> <span class="n">Command</span>
+
+<span class="k">class</span> <span class="nc">show_files_in_path_finder</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    :show_files_in_path_finder
+</span><span class="s2">
+</span><span class="s2">    Present selected files in finder
+</span><span class="s2">    &#34;&#34;&#34;</span>
+
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">subprocess</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="s2">&#34;,&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">file</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">thistab</span><span class="o">.</span><span class="n">get_selection</span><span class="p">()])</span>
+        <span class="n">reveal_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Path Finder</span><span class="se">\&#34;</span><span class="s2"> to reveal {{{0}}}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+        <span class="n">activate_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Path Finder</span><span class="se">\&#34;</span><span class="s2"> to activate&#34;</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="s2">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reveal_script</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&#34;osascript&#34;</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">reveal_script</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">])</span>
+
+<span class="k">class</span> <span class="nc">show_files_in_finder</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    :show_files_in_finder
+</span><span class="s2">
+</span><span class="s2">    Present selected files in finder
+</span><span class="s2">    &#34;&#34;&#34;</span>
+
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">subprocess</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="s2">&#34;,&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">file</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">thistab</span><span class="o">.</span><span class="n">get_selection</span><span class="p">()])</span>
+        <span class="n">reveal_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Finder</span><span class="se">\&#34;</span><span class="s2"> to reveal {{{0}}}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+        <span class="n">activate_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Finder</span><span class="se">\&#34;</span><span class="s2"> to set frontmost to true&#34;</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="s2">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reveal_script</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&#34;osascript&#34;</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">reveal_script</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">])</span></code></pre></div>
+<p>Restart Ranger and now you can execute the commands :show_files_in_pathfinder or :show_files_in_finder.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Wed, Nov 28, 2018
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/ranger">ranger</a>, <a href="/tags/pathfinder">pathfinder</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            </div>
+        </div>
+    </div>
+  
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    
+                        <a title="Twitter" href="https://twitter.com/marcopas">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    
+                    
+                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    
+                    
+                        <a title="GitHub" href="https://github.com/mpas">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    
+                    
+                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
+                            <i class="fa fa-stack-overflow"></i>
+                        </a>
+                    
+                    
+                        <a title="Flickr" href="https://www.flickr.com/photos/marcopas/">
+                            <i class="fa fa-flickr"></i>
+                        </a>
+                    
+                    
+                        <a title="Facebook" href="https://www.facebook.com/marco.pasopas">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    
+                    
+                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
+                            <i class="fa fa-envelope-o"></i>
+                        </a>
+                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; 2018 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+

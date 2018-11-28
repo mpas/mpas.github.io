@@ -6,10 +6,21 @@
     <description>Recent content on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 May 2017 08:31:27 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 28 Nov 2018 08:39:55 +0100</lastBuildDate>
     
 	<atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ranger - Show File in Path Finder</title>
+      <link>http://mpas.github.io/post/2018/11/28/20181128-ranger-show-file-in-path-finder/</link>
+      <pubDate>Wed, 28 Nov 2018 08:39:55 +0100</pubDate>
+      
+      <guid>http://mpas.github.io/post/2018/11/28/20181128-ranger-show-file-in-path-finder/</guid>
+      <description>Ranger is a VIM-inspired filemanager for the console (https://ranger.github.io/) and can easily be installed by using brew install ranger. When working in the terminal sometimes it is nice to open the files in the default Finder app or use the excellent alternative called Path Finder. (https://cocoatech.com/#/)
+To reveal your files in the Finder or Path Finder create a commands.py in ~/.config/ranger and paste the following code.
+from ranger.api.commands import Command class show_files_in_path_finder(Command): &amp;#34;&amp;#34;&amp;#34; :show_files_in_path_finder Present selected files in finder &amp;#34;&amp;#34;&amp;#34; def execute(self): import subprocess files = &amp;#34;,&amp;#34;.</description>
+    </item>
     
     <item>
       <title>Infrastructure and System Monitoring using Prometheus</title>
@@ -150,9 +161,7 @@ def setup() { .</description>
       <guid>http://mpas.github.io/post/2015/06/16/20150616-springboot-websocket-support/</guid>
       <description>&lt;p&gt;Adding support for &lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34;&gt;WebSockets&lt;/a&gt; / &lt;a href=&#34;https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol&#34;&gt;Stomp&lt;/a&gt; in a &lt;a href=&#34;http://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.&lt;/p&gt;
 
-&lt;p&gt;The following example will enable a server to send messages to a WebSocket/Stomp client.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+&lt;p&gt;The following example will enable a server to send messages to a WebSocket/Stomp client.&lt;/p&gt;</description>
     </item>
     
     <item>

@@ -102,7 +102,7 @@
 </span><span class="cp"></span><span class="nb">set</span> -e
 
 <span class="nb">exec</span> java <span class="si">${</span><span class="nv">JAVA_OPTS</span><span class="si">}</span> -jar application.jar <span class="nv">$@</span>
-# <span class="nb">exec</span> java <span class="si">${</span><span class="nv">JAVA_OPTS</span><span class="si">}</span> -Dserver.port<span class="o">=</span><span class="si">${</span><span class="nv">SERVER_PORT</span><span class="si">}</span> -jar application.jar <span class="nv">$@</span></code></pre></div>
+<span class="c1"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span></code></pre></div>
 <p>Next step is to add the tasks to our <code>build.gradle</code> so it can generate the Docker image.</p>
 
 <p>So add the following snippet to your <code>build.gradle</code> file!</p>
@@ -217,7 +217,7 @@
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2017 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2018 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

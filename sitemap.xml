@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://mpas.github.io/post/2018/11/28/20181128-ranger-show-file-in-path-finder/</loc>
+    <lastmod>2018-11-28T08:39:55+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://mpas.github.io/post/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</loc>
     <lastmod>2017-05-12T08:31:27+01:00</lastmod>
   </url>
@@ -229,7 +234,7 @@
   
   <url>
     <loc>http://mpas.github.io/</loc>
-    <lastmod>2017-05-12T08:31:27+01:00</lastmod>
+    <lastmod>2018-11-28T08:39:55+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -426,6 +431,12 @@
   </url>
   
   <url>
+    <loc>http://mpas.github.io/tags/pathfinder/</loc>
+    <lastmod>2018-11-28T08:39:55+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://mpas.github.io/tags/pathogen/</loc>
     <lastmod>2012-09-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -439,7 +450,7 @@
   
   <url>
     <loc>http://mpas.github.io/post/</loc>
-    <lastmod>2017-05-12T08:31:27+01:00</lastmod>
+    <lastmod>2018-11-28T08:39:55+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -458,6 +469,12 @@
   <url>
     <loc>http://mpas.github.io/tags/rabbitmq/</loc>
     <lastmod>2015-06-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://mpas.github.io/tags/ranger/</loc>
+    <lastmod>2018-11-28T08:39:55+01:00</lastmod>
     <priority>0</priority>
   </url>
   

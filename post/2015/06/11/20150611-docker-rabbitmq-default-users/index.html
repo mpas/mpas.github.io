@@ -88,24 +88,24 @@
 <p>The init.sh script</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
 </span><span class="cp"></span>
-<span class="c1"># Create Default RabbitMQ setup
-</span><span class="c1"></span><span class="o">(</span> sleep <span class="m">10</span> <span class="p">;</span> <span class="se">\
+<span class="c1"># Create Default RabbitMQ setup</span>
+<span class="o">(</span> sleep <span class="m">10</span> <span class="p">;</span> <span class="se">\
 </span><span class="se"></span>
-<span class="c1"># Create users
-</span><span class="c1"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;
-</span><span class="c1"></span>rabbitmqctl add_user test_user test_user <span class="p">;</span> <span class="se">\
+<span class="c1"># Create users</span>
+<span class="c1"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;</span>
+rabbitmqctl add_user test_user test_user <span class="p">;</span> <span class="se">\
 </span><span class="se"></span>
-<span class="c1"># Set user rights
-</span><span class="c1"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;
-</span><span class="c1"></span>rabbitmqctl set_user_tags test_user administrator <span class="p">;</span> <span class="se">\
+<span class="c1"># Set user rights</span>
+<span class="c1"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;</span>
+rabbitmqctl set_user_tags test_user administrator <span class="p">;</span> <span class="se">\
 </span><span class="se"></span>
-<span class="c1"># Create vhosts
-</span><span class="c1"># rabbitmqctl add_vhost &lt;vhostname&gt;
-</span><span class="c1"></span>rabbitmqctl add_vhost dummy <span class="p">;</span> <span class="se">\
+<span class="c1"># Create vhosts</span>
+<span class="c1"># rabbitmqctl add_vhost &lt;vhostname&gt;</span>
+rabbitmqctl add_vhost dummy <span class="p">;</span> <span class="se">\
 </span><span class="se"></span>
-<span class="c1"># Set vhost permissions
-</span><span class="c1"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &#34;.*&#34; &#34;.*&#34; &#34;.*&#34;
-</span><span class="c1"></span>rabbitmqctl set_permissions -p dummy test_user <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="p">;</span> <span class="se">\
+<span class="c1"># Set vhost permissions</span>
+<span class="c1"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &#34;.*&#34; &#34;.*&#34; &#34;.*&#34;</span>
+rabbitmqctl set_permissions -p dummy test_user <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="p">;</span> <span class="se">\
 </span><span class="se"></span><span class="o">)</span> <span class="p">&amp;</span>    
 rabbitmq-server <span class="nv">$@</span></code></pre></div>
 <p>Place both of these files in a directory and build your image:</p>
@@ -184,7 +184,7 @@ rabbitmq-server <span class="nv">$@</span></code></pre></div>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2017 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2018 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

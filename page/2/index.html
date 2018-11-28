@@ -66,6 +66,73 @@
             <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            
+
+<p>If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific <a href="http://www.postbox-inc.com">PostBox</a> mail client.</p>
+
+<p>As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.</p>
+
+<p>Enter the use of <a href="http://davmail.sourceforge.net/">DavMail</a>!</p>
+
+<h4 id="davmail-gateway">Davmail Gateway</h4>
+
+<p>Davmail is a local mail proxy that can work together with Microsoft Exchange [OWA] in a way that DavMail is actually connecting to a Exchange OWA and your mail client connects to DavMail as a proxy.</p>
+
+<p><img src="/images/201511/davmail-sequence.png" width="800" class="postimage"></p>
+
+<h4 id="configure-davmail">Configure Davmail</h4>
+
+<p>In order to get DavMail working correctly you need to provide the correct settings so it can use the OWA endpoint.</p>
+
+<p><img src="/images/201511/davmail-settings-main.png" width="800" class="postimage"></p>
+
+<h4 id="configure-postbox">Configure PostBox</h4>
+
+<p>In order to get PostBox working with DavMail you need to create an outgoing mail server and an account that will use that outgoing mailserver.</p>
+
+<h4 id="configure-postbox-outgoing-mailserver">Configure PostBox - Outgoing mailserver</h4>
+
+<p><img src="/images/201511/postbox-outgoing-mailserver.png" width="400" class="postimage"></p>
+
+<h4 id="configure-postbox-account-setup">Configure PostBox - Account setup</h4>
+
+<p><img src="/images/201511/postbox-account-setup.png" width="800" class="postimage"></p>
+
+<h4 id="configure-postbox-identity-setup">Configure PostBox - Identity setup</h4>
+
+<p><img src="/images/201511/postbox-identity-setup.png" width="800" class="postimage"></p>
+
+<p>Now you are ready to send mail using your PostBox Client using DavMail and OWA.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on
+                
+                    Tue, Nov 17, 2015
+                
+                <span class="post-meta-info-taxonomy">
+                    in categories:
+                        
+                    using tags:
+                        <a href="/tags/davmail">davmail</a>, <a href="/tags/exchange">exchange</a>, <a href="/tags/owa">owa</a>, <a href="/tags/postbox">postbox</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Cleaning Grails Domain Objects in a Spock Test</h1>
         </div>
     </div>
@@ -118,8 +185,6 @@
             <p>Adding support for <a href="https://en.wikipedia.org/wiki/WebSocket">WebSockets</a> / <a href="https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol">Stomp</a> in a <a href="http://projects.spring.io/spring-boot/">Spring Boot</a> application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.</p>
 
 <p>The following example will enable a server to send messages to a WebSocket/Stomp client.</p>
-
-<p></p>
 
 <ul>
 <li>Modify <code>build.gradle</code></li>
@@ -292,24 +357,24 @@
 <p>The init.sh script</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
 </span><span class="cp"></span>
-<span class="c1"># Create Default RabbitMQ setup
-</span><span class="c1"></span><span class="o">(</span> sleep <span class="m">10</span> <span class="p">;</span> <span class="se">\
+<span class="c1"># Create Default RabbitMQ setup</span>
+<span class="o">(</span> sleep <span class="m">10</span> <span class="p">;</span> <span class="se">\
 </span><span class="se"></span>
-<span class="c1"># Create users
-</span><span class="c1"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;
-</span><span class="c1"></span>rabbitmqctl add_user test_user test_user <span class="p">;</span> <span class="se">\
+<span class="c1"># Create users</span>
+<span class="c1"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;</span>
+rabbitmqctl add_user test_user test_user <span class="p">;</span> <span class="se">\
 </span><span class="se"></span>
-<span class="c1"># Set user rights
-</span><span class="c1"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;
-</span><span class="c1"></span>rabbitmqctl set_user_tags test_user administrator <span class="p">;</span> <span class="se">\
+<span class="c1"># Set user rights</span>
+<span class="c1"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;</span>
+rabbitmqctl set_user_tags test_user administrator <span class="p">;</span> <span class="se">\
 </span><span class="se"></span>
-<span class="c1"># Create vhosts
-</span><span class="c1"># rabbitmqctl add_vhost &lt;vhostname&gt;
-</span><span class="c1"></span>rabbitmqctl add_vhost dummy <span class="p">;</span> <span class="se">\
+<span class="c1"># Create vhosts</span>
+<span class="c1"># rabbitmqctl add_vhost &lt;vhostname&gt;</span>
+rabbitmqctl add_vhost dummy <span class="p">;</span> <span class="se">\
 </span><span class="se"></span>
-<span class="c1"># Set vhost permissions
-</span><span class="c1"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &#34;.*&#34; &#34;.*&#34; &#34;.*&#34;
-</span><span class="c1"></span>rabbitmqctl set_permissions -p dummy test_user <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="p">;</span> <span class="se">\
+<span class="c1"># Set vhost permissions</span>
+<span class="c1"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &#34;.*&#34; &#34;.*&#34; &#34;.*&#34;</span>
+rabbitmqctl set_permissions -p dummy test_user <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="p">;</span> <span class="se">\
 </span><span class="se"></span><span class="o">)</span> <span class="p">&amp;</span>    
 rabbitmq-server <span class="nv">$@</span></code></pre></div>
 <p>Place both of these files in a directory and build your image:</p>
@@ -755,41 +820,6 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
 </article>
 
         
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Use backspace key to go back in Google Chrome</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:</p>
-
-<ul>
-<li><a href="https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en">https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en</a></li>
-</ul>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    Thu, May 30, 2013
-                
-                <span class="post-meta-info-taxonomy">
-                    in categories:
-                        
-                    using tags:
-                        <a href="/tags/linux">linux</a>, <a href="/tags/mint">mint</a>, <a href="/tags/chrome">chrome</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
         </div>
     </div>
 </div>
@@ -860,7 +890,7 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2017 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2018 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>
