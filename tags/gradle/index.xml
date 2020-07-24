@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Gradle on CodeVerse</title>
+    <title>gradle on CodeVerse</title>
     <link>http://mpas.github.io/tags/gradle/</link>
-    <description>Recent content in Gradle on CodeVerse</description>
+    <description>Recent content in gradle on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 24 Nov 2016 00:00:00 +0000</lastBuildDate>

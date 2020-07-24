@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Pathogen on CodeVerse</title>
+    <title>pathogen on CodeVerse</title>
     <link>http://mpas.github.io/tags/pathogen/</link>
-    <description>Recent content in Pathogen on CodeVerse</description>
+    <description>Recent content in pathogen on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 14 Sep 2012 00:00:00 +0000</lastBuildDate>

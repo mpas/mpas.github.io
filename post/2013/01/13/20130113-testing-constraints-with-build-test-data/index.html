@@ -2,6 +2,7 @@
 <html lang="en-US">
 <head>
   
+  
   <meta charset="utf-8">
   <title>CodeVerse - Testing constraints with Build Test Data</title>
   <meta name="description" content="">
@@ -17,14 +18,23 @@
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
   
+  
   <link rel="stylesheet" href="/css/normalize.css">
   <link rel="stylesheet" href="/css/skeleton.css">
-  <link rel="stylesheet" href="/css/custom.css">
-  <link rel="stylesheet" href="/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/css/syntax.css">
-
   
-  <link rel="icon" type="image/png" href="images/favicon.png">
+  
+  <link rel="stylesheet" href="/css/font-awesome-all.min.css">
+ 
+  
+  <script src="/js/prism.js"></script>
+  <link rel="stylesheet" href="/css/prism.css">
+  
+  
+  <link rel="stylesheet" href="/css/custom.css">
+  
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
 </head>
 
 <div class="container">
@@ -47,7 +57,10 @@
                                 <a href="/post">Post List</a></li>
                         
                             <li >
-                                <a href="/page/about/">About</a></li>
+                                <a href="/page/about/">About Me</a></li>
+                        
+                            <li >
+                                <a href="/page/resume">Resume</a></li>
                         
                     </ul>
                 </nav>
@@ -69,7 +82,6 @@
     <div class="row">
         <div class="twelve columns">
             <p>The <a href="http://grails.org/plugin/spock">Spock</a> &amp; <a href="http://grails.org/plugin/build-test-data">Build Test Data</a> plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!</p>
-
 <p>When testing constraints on an object it can be used as follows:</p>
 <div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">Foo</span> <span class="o">{</span>
     <span class="n">String</span> <span class="n">name</span>   <span class="c1">// name of foo
@@ -79,8 +91,8 @@
         <span class="n">name</span> <span class="nl">nullable:</span> <span class="kc">false</span><span class="o">,</span> <span class="nl">blank:</span> <span class="kc">false</span> <span class="c1">// name may never be nullable or blank
 </span><span class="c1"></span>        <span class="n">age</span> <span class="nl">nullable:</span> <span class="kc">true</span>
     <span class="o">}</span>
-<span class="o">}</span></code></pre></div>
-<p>And the Spock test</p>
+<span class="o">}</span>
+</code></pre></div><p>And the Spock test</p>
 <div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="nd">@Build</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
 <span class="nd">@TestFor</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
 <span class="kd">class</span> <span class="nc">FooSpec</span> <span class="kd">extends</span> <span class="n">Specification</span> <span class="o">{</span>
@@ -99,7 +111,8 @@
         <span class="k">assert</span> <span class="n">foo</span><span class="o">.</span><span class="na">errors</span><span class="o">.</span><span class="na">allErrors</span><span class="o">.</span><span class="na">first</span><span class="o">().</span><span class="na">field</span> <span class="o">==</span> <span class="s2">&#34;name&#34;</span>
     <span class="o">}</span>
 
-<span class="o">}</span></code></pre></div>
+<span class="o">}</span>
+</code></pre></div>
         </div>
     </div>
     <div class="row">
@@ -131,44 +144,36 @@
                 <div id="social">
                     
                         <a title="Twitter" href="https://twitter.com/marcopas">
-                            <i class="fa fa-twitter"></i>
+                            <i class="fab fa-twitter"></i>
                         </a>
                     
                     
                         <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
-                            <i class="fa fa-linkedin"></i>
+                            <i class="fab fa-linkedin"></i>
                         </a>
                     
                     
                         <a title="GitHub" href="https://github.com/mpas">
-                            <i class="fa fa-github"></i>
+                            <i class="fab fa-github"></i>
                         </a>
                     
                     
                         <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
-                            <i class="fa fa-stack-overflow"></i>
+                            <i class="fab fa-stack-overflow"></i>
                         </a>
                     
                     
-                        <a title="Flickr" href="https://www.flickr.com/photos/marcopas/">
-                            <i class="fa fa-flickr"></i>
-                        </a>
-                    
-                    
-                        <a title="Facebook" href="https://www.facebook.com/marco.pasopas">
-                            <i class="fa fa-facebook"></i>
-                        </a>
                     
                     
                         <a title="Email" href="mailto:marco.pasopas@gmail.com">
-                            <i class="fa fa-envelope-o"></i>
+                            <i class="far fa-envelope"></i>
                         </a>
                     
             </div>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2018 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

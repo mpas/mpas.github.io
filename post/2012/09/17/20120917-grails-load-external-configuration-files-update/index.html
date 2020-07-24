@@ -2,6 +2,7 @@
 <html lang="en-US">
 <head>
   
+  
   <meta charset="utf-8">
   <title>CodeVerse - Loading Grails configuration files update!</title>
   <meta name="description" content="">
@@ -17,14 +18,23 @@
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
   
+  
   <link rel="stylesheet" href="/css/normalize.css">
   <link rel="stylesheet" href="/css/skeleton.css">
-  <link rel="stylesheet" href="/css/custom.css">
-  <link rel="stylesheet" href="/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/css/syntax.css">
-
   
-  <link rel="icon" type="image/png" href="images/favicon.png">
+  
+  <link rel="stylesheet" href="/css/font-awesome-all.min.css">
+ 
+  
+  <script src="/js/prism.js"></script>
+  <link rel="stylesheet" href="/css/prism.css">
+  
+  
+  <link rel="stylesheet" href="/css/custom.css">
+  
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
 </head>
 
 <div class="container">
@@ -47,7 +57,10 @@
                                 <a href="/post">Post List</a></li>
                         
                             <li >
-                                <a href="/page/about/">About</a></li>
+                                <a href="/page/about/">About Me</a></li>
+                        
+                            <li >
+                                <a href="/page/resume">Resume</a></li>
                         
                     </ul>
                 </nav>
@@ -69,15 +82,12 @@
     <div class="row">
         <div class="twelve columns">
             <p>We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.</p>
-
 <ul>
 <li>You cannot deal with all Grails Mail settings in the configuration file</li>
 <li>You cannot use the log4j DSL to extract the logging configuration outside your application</li>
 <li>etc..</li>
 </ul>
-
 <p>In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this <a href="http://www.baselogic.com/blog/development/java-javaee-j2ee/getting-grails-external-configuration-working-in-the-real-world/">blogpost</a> which was the start for our implementation of loading the external configuration files.</p>
-
 <p>We modified some small things and added a way of loading a configuration file that is resident in the root of a Grails project. So when developing with IntelliJ for example the config file is at your fingertips in the root of the application project structure. We must also note that we are very happy with the fact that the Grails community was more then helpfull in helping us out here!</p>
 <div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="c1">// -------------------------------------------------------------------------------- //
 </span><span class="c1">// - START: CONFIGURATION FILE LOADING -------------------------------------------- //
@@ -93,7 +103,7 @@
 <span class="n">println</span> <span class="s2">&#34;--------------------------------------------------------------------------------&#34;</span>
 <span class="c1">// 1: check for environment variable that has been set! This variable must point to the
 </span><span class="c1">// configuration file that must be used. Can be a .groovy or .properties file!
-</span><span class="c1"></span><span class="k">if</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+</span><span class="c1"></span><span class="k">if</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
     <span class="n">println</span><span class="o">(</span><span class="s2">&#34;Including System Environment configuration file: &#34;</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">))</span>
     <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">&lt;&lt;</span> <span class="s2">&#34;file:&#34;</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span>
 
@@ -103,23 +113,23 @@
 </span><span class="c1">// or
 </span><span class="c1">//      grails -D[name of app].config.location=/tmp/[name of config file].properties run-app
 </span><span class="c1">//
-</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="nf">if</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
     <span class="n">println</span> <span class="s2">&#34;Including configuration file specified on command line: &#34;</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span>
     <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">&lt;&lt;</span> <span class="s2">&#34;file:&#34;</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span>
 
 <span class="c1">// 3: check on local project config file in the project root directory
-</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="s2">&#34;./${appName}-config.groovy&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s2">&#34;./${appName}-config.groovy&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
     <span class="n">println</span> <span class="s2">&#34;*** User defined config: file:./${appName}-config.groovy ***&#34;</span>
     <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;file:./${appName}-config.groovy&#34;</span><span class="o">]</span>
-<span class="o">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="s2">&#34;./${appName}-config.properties&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+<span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s2">&#34;./${appName}-config.properties&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
     <span class="n">println</span> <span class="s2">&#34;*** User defined config: file:./${appName}-config.properties ***&#34;</span>
     <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;file:./${appName}-config.groovy&#34;</span><span class="o">]</span>
 
 <span class="c1">// 4: check on local project config file in ${userHome}/.grails/...
-</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="s2">&#34;${userHome}/.grails/${appName}-config.groovy&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s2">&#34;${userHome}/.grails/${appName}-config.groovy&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
     <span class="n">println</span> <span class="s2">&#34;*** User defined config: file:${userHome}/.grails/${appName}-config.groovy ***&#34;</span>
     <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;file:${userHome}/.grails/${appName}-config.groovy&#34;</span><span class="o">]</span>
-<span class="o">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="s2">&#34;${userHome}/.grails/${appName}-config.properties&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+<span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s2">&#34;${userHome}/.grails/${appName}-config.properties&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
     <span class="n">println</span> <span class="s2">&#34;*** User defined config: file:${userHome}/.grails/${appName}-config.properties ***&#34;</span>
     <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;file:${userHome}/.grails/${appName}-config.properties&#34;</span><span class="o">]</span>
 
@@ -133,7 +143,8 @@
 <span class="n">println</span> <span class="s2">&#34;--------------------------------------------------------------------------------&#34;</span>
 <span class="c1">// -------------------------------------------------------------------------------- //
 </span><span class="c1">// - END: CONFIGURATION FILE LOADING ---------------------------------------------- //
-</span><span class="c1"></span><span class="s">//</span> <span class="o">--------------------------------------------------------------------------------</span> <span class="s">//</span></code></pre></div>
+</span><span class="c1">// -------------------------------------------------------------------------------- //
+</span></code></pre></div>
         </div>
     </div>
     <div class="row">
@@ -165,44 +176,36 @@
                 <div id="social">
                     
                         <a title="Twitter" href="https://twitter.com/marcopas">
-                            <i class="fa fa-twitter"></i>
+                            <i class="fab fa-twitter"></i>
                         </a>
                     
                     
                         <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
-                            <i class="fa fa-linkedin"></i>
+                            <i class="fab fa-linkedin"></i>
                         </a>
                     
                     
                         <a title="GitHub" href="https://github.com/mpas">
-                            <i class="fa fa-github"></i>
+                            <i class="fab fa-github"></i>
                         </a>
                     
                     
                         <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
-                            <i class="fa fa-stack-overflow"></i>
+                            <i class="fab fa-stack-overflow"></i>
                         </a>
                     
                     
-                        <a title="Flickr" href="https://www.flickr.com/photos/marcopas/">
-                            <i class="fa fa-flickr"></i>
-                        </a>
-                    
-                    
-                        <a title="Facebook" href="https://www.facebook.com/marco.pasopas">
-                            <i class="fa fa-facebook"></i>
-                        </a>
                     
                     
                         <a title="Email" href="mailto:marco.pasopas@gmail.com">
-                            <i class="fa fa-envelope-o"></i>
+                            <i class="far fa-envelope"></i>
                         </a>
                     
             </div>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2018 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

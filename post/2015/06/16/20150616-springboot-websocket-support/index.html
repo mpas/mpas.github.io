@@ -2,6 +2,7 @@
 <html lang="en-US">
 <head>
   
+  
   <meta charset="utf-8">
   <title>CodeVerse - Adding WebSocket/Stomp support to a Spring Boot application</title>
   <meta name="description" content="">
@@ -17,14 +18,23 @@
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
   
+  
   <link rel="stylesheet" href="/css/normalize.css">
   <link rel="stylesheet" href="/css/skeleton.css">
-  <link rel="stylesheet" href="/css/custom.css">
-  <link rel="stylesheet" href="/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/css/syntax.css">
-
   
-  <link rel="icon" type="image/png" href="images/favicon.png">
+  
+  <link rel="stylesheet" href="/css/font-awesome-all.min.css">
+ 
+  
+  <script src="/js/prism.js"></script>
+  <link rel="stylesheet" href="/css/prism.css">
+  
+  
+  <link rel="stylesheet" href="/css/custom.css">
+  
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
 </head>
 
 <div class="container">
@@ -47,7 +57,10 @@
                                 <a href="/post">Post List</a></li>
                         
                             <li >
-                                <a href="/page/about/">About</a></li>
+                                <a href="/page/about/">About Me</a></li>
+                        
+                            <li >
+                                <a href="/page/resume">Resume</a></li>
                         
                     </ul>
                 </nav>
@@ -69,9 +82,7 @@
     <div class="row">
         <div class="twelve columns">
             <p>Adding support for <a href="https://en.wikipedia.org/wiki/WebSocket">WebSockets</a> / <a href="https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol">Stomp</a> in a <a href="http://projects.spring.io/spring-boot/">Spring Boot</a> application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.</p>
-
 <p>The following example will enable a server to send messages to a WebSocket/Stomp client.</p>
-
 <ul>
 <li>Modify <code>build.gradle</code></li>
 </ul>
@@ -80,8 +91,8 @@
     <span class="n">compile</span><span class="o">(</span><span class="s2">&#34;org.springframework.boot:spring-boot-starter-websocket&#34;</span><span class="o">)</span>
     <span class="n">compile</span><span class="o">(</span><span class="s2">&#34;org.springframework:spring-messaging&#34;</span><span class="o">)</span>
     <span class="n">testCompile</span><span class="o">(</span><span class="s2">&#34;junit:junit&#34;</span><span class="o">)</span>
-<span class="o">}</span></code></pre></div>
-<ul>
+<span class="o">}</span>
+</code></pre></div><ul>
 <li>Create a WebSocket configuration class that holds the configuration</li>
 </ul>
 <div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="nd">@Configuration</span>
@@ -102,9 +113,8 @@
         <span class="c1">// use the /app prefix for others
 </span><span class="c1"></span>        <span class="n">config</span><span class="o">.</span><span class="na">setApplicationDestinationPrefixes</span><span class="o">(</span><span class="s2">&#34;/app&#34;</span><span class="o">);</span>
     <span class="o">}</span>
-<span class="o">}</span></code></pre></div>
-<p>Now a client that connects to <code>/stomp</code> endpoint is able to receive WebSocket messages.</p>
-
+<span class="o">}</span>
+</code></pre></div><p>Now a client that connects to <code>/stomp</code> endpoint is able to receive WebSocket messages.</p>
 <ul>
 <li>Create a service that is going to send the data to a WebSocket endpoint</li>
 </ul>
@@ -118,11 +128,11 @@
 </span><span class="c1"></span>    <span class="nd">@Scheduled</span><span class="o">(</span><span class="n">fixedRate</span> <span class="o">=</span> <span class="mi">5000</span><span class="o">)</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">trigger</span><span class="o">()</span> <span class="o">{</span>
         <span class="c1">// sends the message to /topic/message
-</span><span class="c1"></span>        <span class="k">this</span><span class="o">.</span><span class="na">template</span><span class="o">.</span><span class="na">convertAndSend</span><span class="o">(</span><span class="s2">&#34;/topic/message&#34;</span><span class="o">,</span> <span class="s2">&#34;Date: &#34;</span> <span class="o">+</span> <span class="k">new</span> <span class="nf">Date</span><span class="o">());</span>
+</span><span class="c1"></span>        <span class="k">this</span><span class="o">.</span><span class="na">template</span><span class="o">.</span><span class="na">convertAndSend</span><span class="o">(</span><span class="s2">&#34;/topic/message&#34;</span><span class="o">,</span> <span class="s2">&#34;Date: &#34;</span> <span class="o">+</span> <span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
     <span class="o">}</span>
 
-<span class="o">}</span></code></pre></div>
-<ul>
+<span class="o">}</span>
+</code></pre></div><ul>
 <li>Create a client that is able to receive the message</li>
 </ul>
 <div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
@@ -159,8 +169,8 @@
         <span class="p">});</span>
     <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span></code></pre></div>
-<p>The whole example project  can be downloaded <a href="https://github.com/mpas/spring-boot-websocket-stomp-server-send-example">https://github.com/mpas/spring-boot-websocket-stomp-server-send-example</a></p>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div><p>The whole example project  can be downloaded <a href="https://github.com/mpas/spring-boot-websocket-stomp-server-send-example">https://github.com/mpas/spring-boot-websocket-stomp-server-send-example</a></p>
         </div>
     </div>
     <div class="row">
@@ -192,44 +202,36 @@
                 <div id="social">
                     
                         <a title="Twitter" href="https://twitter.com/marcopas">
-                            <i class="fa fa-twitter"></i>
+                            <i class="fab fa-twitter"></i>
                         </a>
                     
                     
                         <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
-                            <i class="fa fa-linkedin"></i>
+                            <i class="fab fa-linkedin"></i>
                         </a>
                     
                     
                         <a title="GitHub" href="https://github.com/mpas">
-                            <i class="fa fa-github"></i>
+                            <i class="fab fa-github"></i>
                         </a>
                     
                     
                         <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
-                            <i class="fa fa-stack-overflow"></i>
+                            <i class="fab fa-stack-overflow"></i>
                         </a>
                     
                     
-                        <a title="Flickr" href="https://www.flickr.com/photos/marcopas/">
-                            <i class="fa fa-flickr"></i>
-                        </a>
-                    
-                    
-                        <a title="Facebook" href="https://www.facebook.com/marco.pasopas">
-                            <i class="fa fa-facebook"></i>
-                        </a>
                     
                     
                         <a title="Email" href="mailto:marco.pasopas@gmail.com">
-                            <i class="fa fa-envelope-o"></i>
+                            <i class="far fa-envelope"></i>
                         </a>
                     
             </div>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2018 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>CodeVerse</title>
@@ -6,10 +6,19 @@
     <description>Recent content on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 28 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 01 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Resume</title>
+      <link>http://mpas.github.io/page/resume/</link>
+      <pubDate>Sun, 01 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://mpas.github.io/page/resume/</guid>
+      <description>You can find my resume online at http://mpas.github.io/resume</description>
+    </item>
     
     <item>
       <title>Ranger - Show File in Path Finder</title>
@@ -70,9 +79,9 @@ Metric data is pulled (on a regular time-interval) from so called exporters whic
       <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/post/2016/11/16/20161116-building-a-consul-cluster-using-terraform-aws/</guid>
-      <description>Consul has multiple components, but as a whole, it is a tool for discovering and configuring services in your infrastructure. It provides several key features:
- Service Discovery Health Checking Key/Value Store Multi Datacenter  For more information on Consul itself please have a look in the excellent documentation.
- Consul Intro Consul documentation  Is it really easy? Setting up a Consul cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;</description>
+      <description>Service Discovery Health Checking Key/Value Store Multi Datacenter  For more information on Consul itself please have a look in the excellent documentation.
+ Consul Intro Consul documentation  Is it really easy? Setting up a Consul cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;
+But hey.. what if you need to deploy this cluster on an AWS environment?</description>
     </item>
     
     <item>
@@ -117,8 +126,7 @@ The Amazon way of doing this is by using AWS CloudFormation.</description>
       <guid>http://mpas.github.io/post/2015/11/19/20151119-functional-rest-api-testing/</guid>
       <description>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.
 When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.
-Scenario:
-Performing a GET request on a url (http://localhost:8080/helloworld) should return a HTTP Status 200 and data with a json payload</description>
+**Scenario:**Performing a GET request on a url (http://localhost:8080/helloworld) should return a HTTP Status 200 and data with a json payload</description>
     </item>
     
     <item>
@@ -160,7 +168,6 @@ def setup() { .</description>
       
       <guid>http://mpas.github.io/post/2015/06/16/20150616-springboot-websocket-support/</guid>
       <description>&lt;p&gt;Adding support for &lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34;&gt;WebSockets&lt;/a&gt; / &lt;a href=&#34;https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol&#34;&gt;Stomp&lt;/a&gt; in a &lt;a href=&#34;http://projects.spring.io/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt; application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.&lt;/p&gt;
-
 &lt;p&gt;The following example will enable a server to send messages to a WebSocket/Stomp client.&lt;/p&gt;</description>
     </item>
     
@@ -172,7 +179,7 @@ def setup() { .</description>
       <guid>http://mpas.github.io/post/2015/06/11/20150611-run-grails-war-in-production-mode/</guid>
       <description>When creating a Grails WAR/JAR file using:
 $ grails war The resulting artifact can be run in production mode using:
-$ java -Dgrails.env=prod -Dserver.port=9000 -jar &amp;lt;name-of-jar-file&amp;gt;.</description>
+$ java -Dgrails.env=prod -Dserver.port=9000 -jar &amp;lt;name-of-jar-file&amp;gt;.jar </description>
     </item>
     
     <item>
@@ -225,7 +232,7 @@ Delete the following lines:
       <guid>http://mpas.github.io/post/2014/06/09/20140609-hugo-skip-certain-content-to-be-rendered/</guid>
       <description>When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.
 Example: You want to only render contenttype &amp;lsquo;post&amp;rsquo; use the following code in your template:
-{{ if eq .Type &amp;#34;post&amp;#34; }} {{ .Title }} {{ .Content }} {{ end }}</description>
+{{ if eq .Type &amp;#34;post&amp;#34; }} {{ .Title }} {{ .Content }} {{ end }} </description>
     </item>
     
     <item>
@@ -257,7 +264,7 @@ As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; 
       <description>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy
 $ sudo pico /etc/fstab Add a line in the /etc/fstab file:
 # custom mount point /dev/sdb1 /media/windows-c ntfs-3g defaults 0 0 And take the mount into effect.
-$ mount -a</description>
+$ mount -a </description>
     </item>
     
     <item>
@@ -287,7 +294,7 @@ Using Grails to power your Electric Car</description>
       
       <guid>http://mpas.github.io/post/2013/05/16/20130516-simple-helloworld-verticle/</guid>
       <description>Sourcecode:
-package helloworld; import org.vertx.java.core.Handler; import org.vertx.java.core.http.HttpServerRequest; import org.vertx.java.deploy.Verticle; public class Server extends Verticle { public void start() { vertx.createHttpServer().requestHandler(new Handler&amp;lt;HttpServerRequest&amp;gt;() { public void handle(HttpServerRequest req) { req.response.headers().put(&amp;#34;Content-Type&amp;#34;, &amp;#34;text/html; charset-UTF-8&amp;#34;); req.response.end(&amp;#34;&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;Hello from vert.x!&amp;lt;/h1&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&amp;#34;); } }).listen(8080); } }</description>
+package helloworld; import org.vertx.java.core.Handler; import org.vertx.java.core.http.HttpServerRequest; import org.vertx.java.deploy.Verticle; public class Server extends Verticle { public void start() { vertx.createHttpServer().requestHandler(new Handler&amp;lt;HttpServerRequest&amp;gt;() { public void handle(HttpServerRequest req) { req.response.headers().put(&amp;#34;Content-Type&amp;#34;, &amp;#34;text/html; charset-UTF-8&amp;#34;); req.response.end(&amp;#34;&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;Hello from vert.x!&amp;lt;/h1&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&amp;#34;); } }).listen(8080); } } </description>
     </item>
     
     <item>
@@ -432,8 +439,7 @@ The need for Continuous Integration A good practice in a software development me
       
       <guid>http://mpas.github.io/post/2012/09/05/20120905-grails-replace-in-memory-db-with-mysql/</guid>
       <description>A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.
- Download the MySQL JDBC driver [called a connector] from the MySQL website Extract the zip or tar archive Copy the driver (at this time of writing called mysql-connector-java-5.1.13-bin.jar into the grails-app/lib directory Configure your application datasource in file grails-app/conf/DataSource.groovy
-  development { dataSource { dbCreate = &amp;#34;create-drop&amp;#34; // one of &amp;#39;create&amp;#39;, &amp;#39;create-drop&amp;#39;,&amp;#39;update&amp;#39;  url = &amp;#34;jdbc:mysql://localhost:&amp;lt;port&amp;gt;/&amp;lt;database&amp;gt;&amp;#34; driverClassName = &amp;#34;com.</description>
+ Download the MySQL JDBC driver [called a connector] from the MySQL website Extract the zip or tar archive Copy the driver (at this time of writing called mysql-connector-java-5.1.13-bin.jar into the grails-app/lib directory Configure your application datasource in file grails-app/conf/DataSource.groovy  development { dataSource { dbCreate = &amp;#34;create-drop&amp;#34; // one of &amp;#39;create&amp;#39;, &amp;#39;create-drop&amp;#39;,&amp;#39;update&amp;#39;  url = &amp;#34;jdbc:mysql://localhost:&amp;lt;port&amp;gt;/&amp;lt;database&amp;gt;&amp;#34; driverClassName = &amp;#34;com.</description>
     </item>
     
   </channel>

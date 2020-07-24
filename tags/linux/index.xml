@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Linux on CodeVerse</title>
+    <title>linux on CodeVerse</title>
     <link>http://mpas.github.io/tags/linux/</link>
-    <description>Recent content in Linux on CodeVerse</description>
+    <description>Recent content in linux on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 30 May 2013 00:00:00 +0000</lastBuildDate>
@@ -30,7 +30,7 @@
       <description>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy
 $ sudo pico /etc/fstab Add a line in the /etc/fstab file:
 # custom mount point /dev/sdb1 /media/windows-c ntfs-3g defaults 0 0 And take the mount into effect.
-$ mount -a</description>
+$ mount -a </description>
     </item>
     
     <item>

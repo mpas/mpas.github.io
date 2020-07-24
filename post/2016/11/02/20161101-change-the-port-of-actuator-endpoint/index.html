@@ -2,6 +2,7 @@
 <html lang="en-US">
 <head>
   
+  
   <meta charset="utf-8">
   <title>CodeVerse - Change the port of actuator endpoint in a Grails application</title>
   <meta name="description" content="">
@@ -17,14 +18,23 @@
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
   
+  
   <link rel="stylesheet" href="/css/normalize.css">
   <link rel="stylesheet" href="/css/skeleton.css">
-  <link rel="stylesheet" href="/css/custom.css">
-  <link rel="stylesheet" href="/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/css/syntax.css">
-
   
-  <link rel="icon" type="image/png" href="images/favicon.png">
+  
+  <link rel="stylesheet" href="/css/font-awesome-all.min.css">
+ 
+  
+  <script src="/js/prism.js"></script>
+  <link rel="stylesheet" href="/css/prism.css">
+  
+  
+  <link rel="stylesheet" href="/css/custom.css">
+  
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
 </head>
 
 <div class="container">
@@ -47,7 +57,10 @@
                                 <a href="/post">Post List</a></li>
                         
                             <li >
-                                <a href="/page/about/">About</a></li>
+                                <a href="/page/about/">About Me</a></li>
+                        
+                            <li >
+                                <a href="/page/resume">Resume</a></li>
                         
                     </ul>
                 </nav>
@@ -70,24 +83,22 @@
         <div class="twelve columns">
             <p>When using actuator endpoints to expose metrics in a Grails (Spring Boot) application,
 it may be useful to run the metrics on a different port.</p>
-
 <p>This enables you to hide the metrics for the public and use the different port in
 an AWS infrastucture so that the metrics are only available internal.</p>
-
 <p>Let us first enable the actuator endpoints</p>
-<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">// File: grails-app/conf/application.yml
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">// File: grails-app/conf/application.yml
 
 # Spring Actuator Endpoints are Disabled by Default
 endpoints:
     enabled: true
     jmx:
-        enabled: true</code></pre></div>
-<p>Change the port on which the metrics runs, add the lines below to the appl</p>
-<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">// File: grails-app/conf/application.yml
+        enabled: true
+</code></pre></div><p>Change the port on which the metrics runs, add the lines below to the appl</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">// File: grails-app/conf/application.yml
 
 management:
-    port: 9000</code></pre></div>
-<p>Now when you start your Grails application it run on port <code>8080</code> and the metrics
+    port: 9000
+</code></pre></div><p>Now when you start your Grails application it run on port <code>8080</code> and the metrics
 are available on port <code>9090</code>/metrics</p>
 
         </div>
@@ -121,44 +132,36 @@ are available on port <code>9090</code>/metrics</p>
                 <div id="social">
                     
                         <a title="Twitter" href="https://twitter.com/marcopas">
-                            <i class="fa fa-twitter"></i>
+                            <i class="fab fa-twitter"></i>
                         </a>
                     
                     
                         <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
-                            <i class="fa fa-linkedin"></i>
+                            <i class="fab fa-linkedin"></i>
                         </a>
                     
                     
                         <a title="GitHub" href="https://github.com/mpas">
-                            <i class="fa fa-github"></i>
+                            <i class="fab fa-github"></i>
                         </a>
                     
                     
                         <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
-                            <i class="fa fa-stack-overflow"></i>
+                            <i class="fab fa-stack-overflow"></i>
                         </a>
                     
                     
-                        <a title="Flickr" href="https://www.flickr.com/photos/marcopas/">
-                            <i class="fa fa-flickr"></i>
-                        </a>
-                    
-                    
-                        <a title="Facebook" href="https://www.facebook.com/marco.pasopas">
-                            <i class="fa fa-facebook"></i>
-                        </a>
                     
                     
                         <a title="Email" href="mailto:marco.pasopas@gmail.com">
-                            <i class="fa fa-envelope-o"></i>
+                            <i class="far fa-envelope"></i>
                         </a>
                     
             </div>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2018 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

@@ -2,6 +2,7 @@
 <html lang="en-US">
 <head>
   
+  
   <meta charset="utf-8">
   <title>CodeVerse - Grails migrations and &#39;Waiting for changelog lock&#39;</title>
   <meta name="description" content="">
@@ -17,14 +18,23 @@
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
   
+  
   <link rel="stylesheet" href="/css/normalize.css">
   <link rel="stylesheet" href="/css/skeleton.css">
-  <link rel="stylesheet" href="/css/custom.css">
-  <link rel="stylesheet" href="/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/css/syntax.css">
-
   
-  <link rel="icon" type="image/png" href="images/favicon.png">
+  
+  <link rel="stylesheet" href="/css/font-awesome-all.min.css">
+ 
+  
+  <script src="/js/prism.js"></script>
+  <link rel="stylesheet" href="/css/prism.css">
+  
+  
+  <link rel="stylesheet" href="/css/custom.css">
+  
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
 </head>
 
 <div class="container">
@@ -47,7 +57,10 @@
                                 <a href="/post">Post List</a></li>
                         
                             <li >
-                                <a href="/page/about/">About</a></li>
+                                <a href="/page/about/">About Me</a></li>
+                        
+                            <li >
+                                <a href="/page/resume">Resume</a></li>
                         
                     </ul>
                 </nav>
@@ -69,32 +82,31 @@
     <div class="row">
         <div class="twelve columns">
             <p>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.</p>
-<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">...
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">...
 Waiting for changelog lock....
 Waiting for changelog lock....
 Waiting for changelog lock....
-...</code></pre></div>
-<p>To solve this take the following steps:</p>
-
+...
+</code></pre></div><p>To solve this take the following steps:</p>
 <ul>
 <li>Stop the application container (example: Tomcat)</li>
 <li>In the database look for a table called <code>DATABASECHANGELOGLOCK</code></li>
 <li>In the table there is a record with id=1, change the following values:</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">locked -&gt; 0
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">locked -&gt; 0
 lockgranted -&gt; null
-lockedby -&gt; null</code></pre></div>
-<ul>
+lockedby -&gt; null
+</code></pre></div><ul>
 <li>After updating this record start the application container</li>
 </ul>
-
-<p><strong>Notes:</strong><br />
+<p><strong>Notes:</strong><br>
 To see who has locked the database (normally the local machine):</p>
 <div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">DATABASECHANGELOGLOCK</span><span class="p">;</span>
 <span class="k">To</span> <span class="k">update</span> <span class="n">the</span> <span class="n">record</span>
 <span class="k">update</span> <span class="n">DATABASECHANGELOGLOCK</span>
 <span class="k">set</span> <span class="n">locked</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">lockgranted</span><span class="o">=</span><span class="k">null</span><span class="p">,</span> <span class="n">lockedby</span><span class="o">=</span><span class="k">null</span>
-<span class="k">where</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span></code></pre></div>
+<span class="k">where</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span>
+</code></pre></div>
         </div>
     </div>
     <div class="row">
@@ -126,44 +138,36 @@ To see who has locked the database (normally the local machine):</p>
                 <div id="social">
                     
                         <a title="Twitter" href="https://twitter.com/marcopas">
-                            <i class="fa fa-twitter"></i>
+                            <i class="fab fa-twitter"></i>
                         </a>
                     
                     
                         <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
-                            <i class="fa fa-linkedin"></i>
+                            <i class="fab fa-linkedin"></i>
                         </a>
                     
                     
                         <a title="GitHub" href="https://github.com/mpas">
-                            <i class="fa fa-github"></i>
+                            <i class="fab fa-github"></i>
                         </a>
                     
                     
                         <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
-                            <i class="fa fa-stack-overflow"></i>
+                            <i class="fab fa-stack-overflow"></i>
                         </a>
                     
                     
-                        <a title="Flickr" href="https://www.flickr.com/photos/marcopas/">
-                            <i class="fa fa-flickr"></i>
-                        </a>
-                    
-                    
-                        <a title="Facebook" href="https://www.facebook.com/marco.pasopas">
-                            <i class="fa fa-facebook"></i>
-                        </a>
                     
                     
                         <a title="Email" href="mailto:marco.pasopas@gmail.com">
-                            <i class="fa fa-envelope-o"></i>
+                            <i class="far fa-envelope"></i>
                         </a>
                     
             </div>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2018 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

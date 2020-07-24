@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Consul on CodeVerse</title>
+    <title>consul on CodeVerse</title>
     <link>http://mpas.github.io/tags/consul/</link>
-    <description>Recent content in Consul on CodeVerse</description>
+    <description>Recent content in consul on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 16 Nov 2016 00:00:00 +0000</lastBuildDate>
@@ -17,9 +17,9 @@
       <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/post/2016/11/16/20161116-building-a-consul-cluster-using-terraform-aws/</guid>
-      <description>Consul has multiple components, but as a whole, it is a tool for discovering and configuring services in your infrastructure. It provides several key features:
- Service Discovery Health Checking Key/Value Store Multi Datacenter  For more information on Consul itself please have a look in the excellent documentation.
- Consul Intro Consul documentation  Is it really easy? Setting up a Consul cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;</description>
+      <description>Service Discovery Health Checking Key/Value Store Multi Datacenter  For more information on Consul itself please have a look in the excellent documentation.
+ Consul Intro Consul documentation  Is it really easy? Setting up a Consul cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;
+But hey.. what if you need to deploy this cluster on an AWS environment?</description>
     </item>
     
   </channel>

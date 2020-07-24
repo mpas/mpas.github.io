@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ranger on CodeVerse</title>
+    <title>ranger on CodeVerse</title>
     <link>http://mpas.github.io/tags/ranger/</link>
-    <description>Recent content in Ranger on CodeVerse</description>
+    <description>Recent content in ranger on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 28 Nov 2018 00:00:00 +0000</lastBuildDate>

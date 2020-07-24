@@ -2,6 +2,7 @@
 <html lang="en-US">
 <head>
   
+  
   <meta charset="utf-8">
   <title>CodeVerse - Creating/Pushing Docker images using Gradle without plugins</title>
   <meta name="description" content="">
@@ -17,14 +18,23 @@
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
   
+  
   <link rel="stylesheet" href="/css/normalize.css">
   <link rel="stylesheet" href="/css/skeleton.css">
-  <link rel="stylesheet" href="/css/custom.css">
-  <link rel="stylesheet" href="/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/css/syntax.css">
-
   
-  <link rel="icon" type="image/png" href="images/favicon.png">
+  
+  <link rel="stylesheet" href="/css/font-awesome-all.min.css">
+ 
+  
+  <script src="/js/prism.js"></script>
+  <link rel="stylesheet" href="/css/prism.css">
+  
+  
+  <link rel="stylesheet" href="/css/custom.css">
+  
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
 </head>
 
 <div class="container">
@@ -47,7 +57,10 @@
                                 <a href="/post">Post List</a></li>
                         
                             <li >
-                                <a href="/page/about/">About</a></li>
+                                <a href="/page/about/">About Me</a></li>
+                        
+                            <li >
+                                <a href="/page/resume">Resume</a></li>
                         
                     </ul>
                 </nav>
@@ -68,21 +81,18 @@
     </div>
     <div class="row">
         <div class="twelve columns">
-            
-
-<p>In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.</p>
-
+            <p>In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.</p>
 <p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
-
 <h2 id="creating-an-image">Creating an image</h2>
-
 <p>The following snippet will create a Docker image using the task <code>gradle buildDockerImage</code></p>
-<div class="highlight"><pre class="chroma">- application layout
+<pre><code>- application layout
 | build.gradle
 | &gt; src
 | &gt;- main
 | &gt;-- docker (contains a Dockerfile)
-| &gt;--- app (contains data that can be used in your Dockerfile)</pre></div><div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="cm">/*
+| &gt;--- app (contains data that can be used in your Dockerfile)
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="cm">/*
 </span><span class="cm">    You can put some logic in the getDockerImageName to determine how your
 </span><span class="cm">    Docker image should be created.
 </span><span class="cm">*/</span>
@@ -114,9 +124,8 @@
             <span class="n">into</span> <span class="s1">&#39;build/docker&#39;</span>
         <span class="o">}</span>
     <span class="o">}</span>
-<span class="o">}</span></code></pre></div>
-<h2 id="pushing-an-image">pushing an image</h2>
-
+<span class="o">}</span>
+</code></pre></div><h2 id="pushing-an-image">pushing an image</h2>
 <p>Pushing an image without using plugins is just as easy.</p>
 <div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pushDockerImage</span><span class="o">(</span><span class="nl">type:</span> <span class="n">Exec</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;docker&#39;</span>
@@ -126,8 +135,8 @@
     <span class="n">doFirst</span> <span class="o">{</span>
         <span class="n">println</span> <span class="s2">&#34;&gt;&gt; Pushing image: ${dockerImageName}&#34;</span>
     <span class="o">}</span>
-<span class="o">}</span></code></pre></div>
-<p>Using this approach without using unneeded Gradle plugins resulted in a an easy way to create containers on different platforms.</p>
+<span class="o">}</span>
+</code></pre></div><p>Using this approach without using unneeded Gradle plugins resulted in a an easy way to create containers on different platforms.</p>
 
         </div>
     </div>
@@ -160,44 +169,36 @@
                 <div id="social">
                     
                         <a title="Twitter" href="https://twitter.com/marcopas">
-                            <i class="fa fa-twitter"></i>
+                            <i class="fab fa-twitter"></i>
                         </a>
                     
                     
                         <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
-                            <i class="fa fa-linkedin"></i>
+                            <i class="fab fa-linkedin"></i>
                         </a>
                     
                     
                         <a title="GitHub" href="https://github.com/mpas">
-                            <i class="fa fa-github"></i>
+                            <i class="fab fa-github"></i>
                         </a>
                     
                     
                         <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
-                            <i class="fa fa-stack-overflow"></i>
+                            <i class="fab fa-stack-overflow"></i>
                         </a>
                     
                     
-                        <a title="Flickr" href="https://www.flickr.com/photos/marcopas/">
-                            <i class="fa fa-flickr"></i>
-                        </a>
-                    
-                    
-                        <a title="Facebook" href="https://www.facebook.com/marco.pasopas">
-                            <i class="fa fa-facebook"></i>
-                        </a>
                     
                     
                         <a title="Email" href="mailto:marco.pasopas@gmail.com">
-                            <i class="fa fa-envelope-o"></i>
+                            <i class="far fa-envelope"></i>
                         </a>
                     
             </div>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2018 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>
