@@ -19,15 +19,15 @@
 
   
   
-  <link rel="stylesheet" href="/css/normalize.css">
-  <link rel="stylesheet" href="/css/skeleton.css">
+  <link rel="stylesheet" href="/skeleton/normalize.css">
+  <link rel="stylesheet" href="/skeleton/skeleton.css">
   
   
-  <link rel="stylesheet" href="/css/font-awesome-all.min.css">
+  <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/js/prism.js"></script>
-  <link rel="stylesheet" href="/css/prism.css">
+  <script src="/prism/prism.js"></script>
+  <link rel="stylesheet" href="/prism/prism.css">
   
   
   <link rel="stylesheet" href="/css/custom.css">
@@ -54,13 +54,13 @@
                                 <a href="/">Blog</a></li>
                         
                             <li >
-                                <a href="/post">Post List</a></li>
+                                <a href="/posts">Post List</a></li>
                         
                             <li >
-                                <a href="/page/about/">About Me</a></li>
+                                <a href="/pages/about/">About Me</a></li>
                         
                             <li >
-                                <a href="/page/resume">Resume</a></li>
+                                <a href="/pages/resume">Resume</a></li>
                         
                     </ul>
                 </nav>
@@ -73,710 +73,463 @@
 <div class="container">
     <div class="row">
         <div class="post-list">
-        
-        
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific <a href="http://www.postbox-inc.com">PostBox</a> mail client.</p>
-<p>As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.</p>
-<p>Enter the use of <a href="http://davmail.sourceforge.net/">DavMail</a>!</p>
-<h4 id="davmail-gateway">Davmail Gateway</h4>
-<p>Davmail is a local mail proxy that can work together with Microsoft Exchange [OWA] in a way that DavMail is actually connecting to a Exchange OWA and your mail client connects to DavMail as a proxy.</p>
-<!-- raw HTML omitted -->
-<h4 id="configure-davmail">Configure Davmail</h4>
-<p>In order to get DavMail working correctly you need to provide the correct settings so it can use the OWA endpoint.</p>
-<!-- raw HTML omitted -->
-<h4 id="configure-postbox">Configure PostBox</h4>
-<p>In order to get PostBox working with DavMail you need to create an outgoing mail server and an account that will use that outgoing mailserver.</p>
-<h4 id="configure-postbox---outgoing-mailserver">Configure PostBox - Outgoing mailserver</h4>
-<!-- raw HTML omitted -->
-<h4 id="configure-postbox---account-setup">Configure PostBox - Account setup</h4>
-<!-- raw HTML omitted -->
-<h4 id="configure-postbox---identity-setup">Configure PostBox - Identity setup</h4>
-<!-- raw HTML omitted -->
-<p>Now you are ready to send mail using your PostBox Client using DavMail and OWA.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
+            
+            
                 
-                    2015-11-17
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/davmail">davmail</a>, <a href="/tags/exchange">exchange</a>, <a href="/tags/owa">owa</a>, <a href="/tags/postbox">postbox</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
+                <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Cleaning Grails Domain Objects in a Spock Test</h1>
+            <h1 class="post-title">Building a Consul cluster using Terraform/AWS</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            <p>Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.</p>
-<p>Spock provides a <code>setup()</code> and <code>cleanup()</code> method.</p>
-<p>When you want to remove your domain objects after each feature test has run you can execute the following:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kt">def</span> <span class="nf">setup</span><span class="o">()</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span>
-
-<span class="kt">def</span> <span class="nf">cleanup</span><span class="o">()</span> <span class="o">{</span>
-        <span class="c1">// make sure to clear out the database on after test
-</span><span class="c1"></span>        <span class="o">&lt;</span><span class="n">YourDomainObject</span><span class="o">&gt;.</span><span class="na">withNewSession</span> <span class="o">{</span>
-            <span class="o">&lt;</span><span class="n">YourDomainObject</span><span class="o">&gt;.</span><span class="na">findAll</span><span class="o">().</span><span class="na">each</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="nl">flush:</span> <span class="kc">true</span><span class="o">)</span> <span class="o">}</span>
-        <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>We need the <code>.withNewSession</code> because there is no Hibernate session provided in the <code>setup()</code> and <code>cleanup()</code> methods.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2015-10-30
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Adding WebSocket/Stomp support to a Spring Boot application</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Adding support for <a href="https://en.wikipedia.org/wiki/WebSocket">WebSockets</a> / <a href="https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol">Stomp</a> in a <a href="http://projects.spring.io/spring-boot/">Spring Boot</a> application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.</p>
-<p>The following example will enable a server to send messages to a WebSocket/Stomp client.</p>
+            <img style="float: right;" width="150" src="https://www.consul.io/assets/images/logo_large-475cebb0.png">
+[Consul](http://Consul.io) has multiple components, but as a whole, it is a tool for discovering and configuring services in your infrastructure. It provides several key features:
 <ul>
-<li>Modify <code>build.gradle</code></li>
+<li>Service Discovery</li>
+<li>Health Checking</li>
+<li>Key/Value Store</li>
+<li>Multi Datacenter</li>
 </ul>
+<p>For more information on <a href="http://Consul.io">Consul</a> itself please have a look in the excellent documentation.</p>
+<ul>
+<li><a href="https://www.consul.io/intro/index.html">Consul Intro</a></li>
+<li><a href="https://www.consul.io/docs/index.html">Consul documentation</a></li>
+</ul>
+<h2 id="is-it-really-easy">Is it really easy?</h2>
+<p>Setting up a <a href="http://Consul.io">Consul</a> cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&hellip;</p>
+<p>But hey.. <strong>what if you need to deploy this cluster on an AWS environment? How do
+you create the cluster and how can you make sure it is always available?</strong></p>
+<p>This simple write up is just an example to give you an idea how this Consul cluster can be created and provisioned by using Terraform only. The goal is to have a cluster using the official Docker images provided by Consul itself running on EC2 nodes.</p>
+<h2 id="creating-a-consul-cluster">Creating a Consul cluster</h2>
+<p>The principle is not that hard&hellip; Consul nodes can discover each other based on IP Address. If you feed the Consul cluster members with IP Addresses that are part of the cluster you are good to go. In the example case we are going to start a number of Consul cluster members. The first node will be unable to form a cluster but if the second node starts up it will get the ip from the first node and the the first node will then know the ip of the second one.. etc.. So if you start up more than 2 nodes you will be good to go.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">+------+   +------+  +------+  +------+  +------+
+|Consul|   |Consul|  |Consul|  |Consul|  |Consul|
+|Node 1|   |Node 2|  |Node 3|  |Node 4|  |Node n|
++------+   +------+  +------+  +------+  +------+
+    &lt; Find each other based on ip address &gt;
+</code></pre></div><p>The power is in the user-data script that is used for bootstrapping the Consul cluster nodes. In the example case they will find each other based on a query using <code>aws ec2 describe-instances</code> that will find nodes with a specific name, and from those identified nodes we will extract the IP Addresses that will be used to joint the Consul cluster. You can always modify the query to your own needs off course. The user-data script is used in the launch configuration.</p>
+<p>So enough talk&hellip; lets start :)</p>
+<p><strong>The given examples are intentionally kept simple!! So you will need to tweak your Terraform code according to your needs</strong></p>
+<h2 id="step-1-define-a-launch-configuration">Step 1: Define a launch Configuration</h2>
+<p>The core component of our Consul cluster is the launch configuration. This launch configuration determines what user-data file needs to be executed when launching a new instance.</p>
+<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="kr">resource</span> <span class="s2">&#34;aws_launch_configuration&#34;</span> <span class="s2">&#34;consul-cluster&#34;</span> <span class="p">{</span>
+
+  <span class="cm">/*
+</span><span class="cm">    in this case we use a docker optimized ami, because we are going
+</span><span class="cm">    to use the official Consul docker image as a starter.
+</span><span class="cm">    You can always use an ami on which you install docker manually!
+</span><span class="cm">  */</span>
+  <span class="na">image_id</span>  = <span class="s2">&#34;docker-optimized-ami-0123456789&#34;</span>
+
+  <span class="cm">/*
+</span><span class="cm">    the user-data script that holds the magic
+</span><span class="cm">  */</span>
+  <span class="na">user_data</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">data</span><span class="p">.</span><span class="nx">template_file</span><span class="p">.</span><span class="nx">consul</span><span class="o">-</span><span class="nx">cluster</span><span class="p">.</span><span class="nx">rendered</span><span class="si">}</span><span class="s2">&#34;</span>
+  <span class="na">instance_type</span> = <span class="s2">&#34;t2.micro&#34;</span>
+
+  <span class="cm">/*
+</span><span class="cm">    make sure you open the correct ports so the Consul nodes can
+</span><span class="cm">    discover each other the actual security group is not shown
+</span><span class="cm">  */</span>
+  <span class="na">security_groups</span> = <span class="p">[</span><span class="s2">&#34;sg-0123456789&#34;</span><span class="p">]</span>
+  <span class="na">key_name</span> = <span class="nx">your</span><span class="o">-</span><span class="nx">deploy</span><span class="o">-</span><span class="nx">key</span>
+
+  <span class="cm">/*
+</span><span class="cm">    us a policy which grants read access to the EC2 api
+</span><span class="cm">  */</span>
+  <span class="na">iam_instance_profile</span> = <span class="s2">&#34;arn:aws:iam::0123456789:read_ec2_policy/ec2&#34;</span>
+<span class="p">}</span>
+
+<span class="cm">/*
+</span><span class="cm">    The template file used for the user-data
+</span><span class="cm">*/</span>
+<span class="kr">data</span> <span class="s2">&#34;template_file&#34;</span> <span class="s2">&#34;consul-cluster&#34;</span> <span class="p">{</span>
+  <span class="na">template</span> = <span class="s2">&#34;user-data-consul-cluster.tpl&#34;</span><span class="p">)}</span><span class="s2">&#34;
+</span><span class="s2">  vars {
+</span><span class="s2">    // the name must match the Name tag of the autoscaling group
+</span><span class="s2">    consul_cluster_name = &#34;</span><span class="nx">consul</span><span class="o">-</span><span class="nx">cluster</span><span class="o">-</span><span class="nx">member</span><span class="s2">&#34;
+</span><span class="s2">
+</span><span class="s2">    // the number of instances that need to be in the cluster to be healthy
+</span><span class="s2">    consul_cluster_min_size = 3
+</span><span class="s2">  }
+</span><span class="s2">}
+</span></code></pre></div><h2 id="step-2-create-the-template-file">Step 2: Create the template file</h2>
+<p>The user-data file is going to query AWS using the aws describe-instances api and will return ec2 nodes that have a matching name using the --filters option. <code>'Name=tag:Name,Values=${consul_cluster_name}'</code></p>
+<p>All the retrieved instances are then queried for their private ip and the values are stored in a list. After completing the list the instance ip for the current machine is removed.</p>
+<p>A Consul specific join string is composed and provided to the docker image. This enables the Consul docker image to check for available servers when starting.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">// File: user-data-consul-cluster.tpl
+
+<span class="c1">#!/bin/bash -ex</span>
+<span class="nb">exec</span> &gt; &gt;<span class="o">(</span>tee /var/log/user-data.log<span class="p">|</span>logger -t user-data -s 2&gt;/dev/console<span class="o">)</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>
+
+<span class="nb">echo</span> <span class="s1">&#39;installing additional software&#39;</span>
+<span class="k">for</span> i in <span class="o">{</span>1..5<span class="o">}</span>
+<span class="k">do</span>
+    yum install -y aws-cli <span class="o">&amp;&amp;</span> <span class="nb">break</span> <span class="o">||</span> sleep <span class="m">120</span>
+<span class="k">done</span>
+
+<span class="c1">################################################################################</span>
+<span class="c1"># Running Consul</span>
+<span class="c1">################################################################################</span>
+<span class="c1"># get current instance ip</span>
+<span class="nv">INSTANCE_IP</span><span class="o">=</span><span class="k">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span class="k">)</span>
+
+<span class="c1"># get list of available Consul servers; based on Name (value) tag!</span>
+<span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span>aws ec2 describe-instances --region us-east-1 <span class="se">\
+</span><span class="se"></span>--filters <span class="s1">&#39;Name=tag:Name,Values=${consul_cluster_name}&#39;</span> <span class="se">\
+</span><span class="se"></span><span class="s1">&#39;Name=instance-state-name,Values=running&#39;</span> <span class="se">\
+</span><span class="se"></span>--query <span class="s2">&#34;Reservations[*].Instances[*].PrivateIpAddress&#34;</span> <span class="se">\
+</span><span class="se"></span>--output<span class="o">=</span>text<span class="k">)</span>
+
+<span class="c1"># remove the current instance ip from the list of available servers</span>
+<span class="nv">IP_LIST</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$$</span><span class="s2">{IP_LIST/</span><span class="nv">$$</span><span class="s2">INSTANCE_IP/}&#34;</span>
+
+<span class="c1"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;</span>
+<span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$$</span>IP_LIST <span class="p">|</span> tr -s <span class="s2">&#34; &#34;</span> <span class="p">|</span> tr -d <span class="s1">&#39;\r\n&#39;</span> <span class="p">|</span> tr -s <span class="s1">&#39; &#39;</span> <span class="s1">&#39;,&#39;</span><span class="k">)</span>
+
+<span class="c1"># create join string</span>
+<span class="k">for</span> i in <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$IP_LIST</span> <span class="p">|</span> sed <span class="s2">&#34;s/,/ /g&#34;</span><span class="k">)</span>
+<span class="k">do</span>
+    <span class="nv">JOIN_STRING</span><span class="o">+=</span><span class="s2">&#34;-retry-join </span><span class="nv">$i</span><span class="s2"> &#34;</span>
+<span class="k">done</span>
+
+<span class="c1"># - run Consul</span>
+docker run -d --net<span class="o">=</span>host <span class="se">\
+</span><span class="se"></span>-e <span class="s1">&#39;CONSUL_LOCAL_CONFIG={&#34;skip_leave_on_interrupt&#34;: true}&#39;</span> <span class="se">\
+</span><span class="se"></span>--name consul-server consul:latest <span class="se">\
+</span><span class="se"></span>agent -server -bind<span class="o">=</span><span class="nv">$INSTANCE_IP</span> <span class="nv">$JOIN_STRING</span> <span class="se">\
+</span><span class="se"></span>-bootstrap-expect<span class="o">=</span><span class="si">${</span><span class="nv">consul_cluster_min_size</span><span class="si">}</span> -ui -client 0.0.0.0
+<span class="c1"># ------------------------------------------------------------------------------</span>
+</code></pre></div><h2 id="step-3-create-an-autoscaling-group">Step 3: Create an autoscaling group</h2>
+<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="cm">/*
+</span><span class="cm">    creates an autoscaling group so servers are created when needed
+</span><span class="cm">*/</span>
+<span class="kr">resource</span> <span class="s2">&#34;aws_autoscaling_group&#34;</span> <span class="s2">&#34;consul-cluster&#34;</span> <span class="p">{</span>
+  <span class="na">min_size</span> = <span class="m">3</span>
+  <span class="na">max_size</span> = <span class="m">5</span>
+  <span class="na">desired_capacity</span> = <span class="m">3</span>
+  <span class="na">min_elb_capacity</span> = <span class="m">3</span>
+
+  <span class="na">launch_configuration</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nx">aws_launch_configuration</span><span class="p">.</span><span class="nx">consul</span><span class="o">-</span><span class="nx">cluster</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="s2">&#34;</span>
+  <span class="na">load_balancers</span> = <span class="p">[</span><span class="s2">&#34;</span><span class="si">${</span><span class="nx">aws_elb</span><span class="p">.</span><span class="nx">consul</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">]</span>
+
+  <span class="nx">tag</span> <span class="p">{</span>
+    <span class="na">key</span> = <span class="s2">&#34;Name&#34;</span>
+    <span class="cm">/*
+</span><span class="cm">      note: this is the value that is being searched for in the user-data
+</span><span class="cm">    */</span>
+    <span class="na">value</span> = <span class="s2">&#34;consul-cluster-member&#34;</span>
+    <span class="na">propagate_at_launch</span> = <span class="kc">true</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h2 id="step-4-create-an-elb-as-frontend-for-the-consul-cluster">Step 4: Create an ELB as frontend for the Consul cluster</h2>
+<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="kr">resource</span> <span class="s2">&#34;aws_elb&#34;</span> <span class="s2">&#34;consul-cluster&#34;</span> <span class="p">{</span>
+  <span class="na">name</span> = <span class="s2">&#34;consul-cluster&#34;</span>
+  <span class="na">subnets</span> = <span class="p">[</span><span class="s2">&#34;sn-0123456789&#34;</span><span class="p">]</span>
+  <span class="na">security_groups</span> = <span class="p">[</span><span class="s2">&#34;sg-0123456789&#34;</span><span class="p">]</span>
+
+  <span class="nx">listener</span> <span class="p">{</span>
+    <span class="na">instance_port</span> = <span class="m">8300</span>
+    <span class="na">instance_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
+    <span class="na">lb_port</span> = <span class="m">8300</span>
+    <span class="na">lb_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
+  <span class="p">}</span>
+
+  <span class="nx">listener</span> <span class="p">{</span>
+    <span class="na">instance_port</span> = <span class="m">8301</span>
+    <span class="na">instance_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
+    <span class="na">lb_port</span> = <span class="m">8301</span>
+    <span class="na">lb_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
+  <span class="p">}</span>
+
+  <span class="nx">listener</span> <span class="p">{</span>
+    <span class="na">instance_port</span> = <span class="m">8302</span>
+    <span class="na">instance_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
+    <span class="na">lb_port</span> = <span class="m">8302</span>
+    <span class="na">lb_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
+  <span class="p">}</span>
+
+  <span class="nx">listener</span> <span class="p">{</span>
+    <span class="na">instance_port</span> = <span class="m">8400</span>
+    <span class="na">instance_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
+    <span class="na">lb_port</span> = <span class="m">8400</span>
+    <span class="na">lb_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
+  <span class="p">}</span>
+
+  <span class="nx">listener</span> <span class="p">{</span>
+    <span class="na">instance_port</span> = <span class="m">8500</span>
+    <span class="na">instance_protocol</span> = <span class="s2">&#34;http&#34;</span>
+    <span class="na">lb_port</span> = <span class="m">8500</span>
+    <span class="na">lb_protocol</span> = <span class="s2">&#34;http&#34;</span>
+  <span class="p">}</span>
+
+  <span class="nx">listener</span> <span class="p">{</span>
+    <span class="na">instance_port</span> = <span class="m">8600</span>
+    <span class="na">instance_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
+    <span class="na">lb_port</span> = <span class="m">8600</span>
+    <span class="na">lb_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
+  <span class="p">}</span>
+
+  <span class="nx">health_check</span> <span class="p">{</span>
+    <span class="na">target</span> = <span class="s2">&#34;HTTP:8500/v1/status/leader&#34;</span>
+    <span class="na">healthy_threshold</span> = <span class="m">2</span>
+    <span class="na">unhealthy_threshold</span> = <span class="m">2</span>
+    <span class="na">interval</span> = <span class="m">30</span>
+    <span class="na">timeout</span> = <span class="m">5</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>When putting all the pieces together you should now have a running Consul cluster!</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2016-11-16
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/consul">consul</a>, <a href="/tags/terraform">terraform</a>, <a href="/tags/aws">aws</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Change the port of actuator endpoint in a Grails application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When using actuator endpoints to expose metrics in a Grails (Spring Boot) application,
+it may be useful to run the metrics on a different port.</p>
+<p>This enables you to hide the metrics for the public and use the different port in
+an AWS infrastucture so that the metrics are only available internal.</p>
+<p>Let us first enable the actuator endpoints</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">// File: grails-app/conf/application.yml
+
+# Spring Actuator Endpoints are Disabled by Default
+endpoints:
+    enabled: true
+    jmx:
+        enabled: true
+</code></pre></div><p>Change the port on which the metrics runs, add the lines below to the appl</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">// File: grails-app/conf/application.yml
+
+management:
+    port: 9000
+</code></pre></div><p>Now when you start your Grails application it run on port <code>8080</code> and the metrics
+are available on port <code>9090</code>/metrics</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2016-11-02
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/springboot">springboot</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Accessing localhost from a Docker Container using native Docker for Mac</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Ever had a need to access something from within a <a href="https://www.docker.com/">Docker</a> container that runs on the host system?</p>
+<p>When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.</p>
+<p>A solution for this isto define a new local loopback to your localhost</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo ifconfig lo0 <span class="nb">alias</span> 172.16.123.1
+</code></pre></div><p>This will define a loopback network interface that points to your localhost. When you need to access the localhost you can use this ip.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2016-11-01
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/docker">docker</a>, <a href="/tags/osx">osx</a>, <a href="/tags/mac">mac</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Terraform to the rescue</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Getting exposed to <a href="https://aws.amazon.com/">Amazon Web Services</a> is fun! Certainly when you see that the infrastructure is growing and supporting the daily need of developers and the business. You slowly start adding services and try to keep everything in a state so that it is repeatable and maintainable. At a certain moment it becomes clear that you need the concept of <a href="https://en.wikipedia.org/wiki/Infrastructure_as_Code">Infrastructure As Code</a>.</p>
+<p>The Amazon way of doing this is by using <a href="https://aws.amazon.com/cloudformation/">AWS CloudFormation</a>. This enables you to define the infrastructure in a JSON/YAML format and apply the changes to the infrastructure.</p>
+<p>Our team manages a bunch of environments using services like AWS ECS, EC2, ElasticSearch, RDS and more.. Maintaining this infrastructure in CloudFormation seemed the standard way of doing things until we started a proof-of-concept with <a href="https://www.terraform.io/">Terraform</a>.</p>
+<p><strong>Why did we start this proof-of-concept??</strong> Mainly because the overwhelming pieces of code that we needed to maintain in CloudFormation became unmaintainable. The use of Terraform was so successful that we decide to rewrite our entire infrastructure codebase using Terraform.</p>
+<p>The advantages when using Terraform are:</p>
+<ul>
+<li>less code to maintain because Terraform is less verbose</li>
+<li>when using Terraform an infrastructure change can be planned, this shows what is going to be changed before actually executing the change</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ terraform plan
+</code></pre></div><p>See what the changes are and then when everything seems ok&hellip;</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ terraform apply
+</code></pre></div><p>Currently we have our entire Infrastructure in Terraform and we could never be more happier. Terraform came to our rescue!</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2016-10-09
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/devops">devops</a>, <a href="/tags/aws">aws</a>, <a href="/tags/terraform">terraform</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Functional Rest API Testing with Grails/Rest Client Builder</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.</p>
+<p>When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.</p>
+<p><strong>Scenario:</strong><br>
+Performing a GET request on a url (http://localhost:8080/helloworld) should return a <code>HTTP Status 200</code> and data with a json payload</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&#34;message&#34;</span><span class="p">:</span><span class="s2">&#34;helloworld&#34;</span><span class="p">}</span>
+</code></pre></div><p>So lets get started!</p>
+<p><strong>Create a Grails application</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ grails create-app RestHelloWorld
+</code></pre></div><p><strong>Update your <code>build.gradle</code> to include the Rest Client Builder dependencies which we will need later on</strong></p>
 <div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">dependencies</span> <span class="o">{</span>
-    <span class="n">compile</span><span class="o">(</span><span class="s2">&#34;org.springframework.boot:spring-boot-starter-web&#34;</span><span class="o">)</span>
-    <span class="n">compile</span><span class="o">(</span><span class="s2">&#34;org.springframework.boot:spring-boot-starter-websocket&#34;</span><span class="o">)</span>
-    <span class="n">compile</span><span class="o">(</span><span class="s2">&#34;org.springframework:spring-messaging&#34;</span><span class="o">)</span>
-    <span class="n">testCompile</span><span class="o">(</span><span class="s2">&#34;junit:junit&#34;</span><span class="o">)</span>
+    <span class="c1">// add the following line to the &#39;dependencies&#39; section
+</span><span class="c1"></span>    <span class="n">testCompile</span> <span class="s2">&#34;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&#34;</span>
 <span class="o">}</span>
-</code></pre></div><ul>
-<li>Create a WebSocket configuration class that holds the configuration</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="nd">@Configuration</span>
-<span class="nd">@EnableWebSocketMessageBroker</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebSocketConfig</span> <span class="kd">extends</span> <span class="n">AbstractWebSocketMessageBrokerConfigurer</span> <span class="o">{</span>
+</code></pre></div><p><strong>Create an Integration Test</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails create-integration-test HelloWorld
+</code></pre></div><p><strong>Create a test method inside the integration test</strong></p>
+<p>Open up the created HelloWorldControllerSpec inside the <code>/src/integration-test/groovy/resthelloworld/</code> package</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kn">package</span> <span class="n">resthelloworld</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">registerStompEndpoints</span><span class="o">(</span><span class="n">StompEndpointRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// the endpoint for websocket connections
-</span><span class="c1"></span>        <span class="n">registry</span><span class="o">.</span><span class="na">addEndpoint</span><span class="o">(</span><span class="s2">&#34;/stomp&#34;</span><span class="o">).</span><span class="na">withSockJS</span><span class="o">();</span>
+<span class="kn">import</span> <span class="nn">grails.test.mixin.integration.Integration</span>
+<span class="kn">import</span> <span class="nn">grails.transaction.*</span>
+<span class="kn">import</span> <span class="nn">spock.lang.*</span>
+<span class="kn">import</span> <span class="nn">grails.plugins.rest.client.RestBuilder</span>
+<span class="kn">import</span> <span class="nn">grails.plugins.rest.client.RestResponse</span>
+
+<span class="nd">@Integration</span>
+<span class="nd">@Rollback</span>
+<span class="kd">class</span> <span class="nc">HelloWorldSpec</span> <span class="kd">extends</span> <span class="n">Specification</span> <span class="o">{</span>
+
+    <span class="kt">def</span> <span class="nf">setup</span><span class="o">()</span> <span class="o">{</span>
     <span class="o">}</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configureMessageBroker</span><span class="o">(</span><span class="n">MessageBrokerRegistry</span> <span class="n">config</span><span class="o">)</span> <span class="o">{</span>
-        <span class="c1">// use the /topic prefix for outgoing WebSocket communication
-</span><span class="c1"></span>        <span class="n">config</span><span class="o">.</span><span class="na">enableSimpleBroker</span><span class="o">(</span><span class="s2">&#34;/topic&#34;</span><span class="o">);</span>
-
-        <span class="c1">// use the /app prefix for others
-</span><span class="c1"></span>        <span class="n">config</span><span class="o">.</span><span class="na">setApplicationDestinationPrefixes</span><span class="o">(</span><span class="s2">&#34;/app&#34;</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>Now a client that connects to <code>/stomp</code> endpoint is able to receive WebSocket messages.</p>
-<ul>
-<li>Create a service that is going to send the data to a WebSocket endpoint</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="nd">@Service</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ScheduleTask</span> <span class="o">{</span>
-
-    <span class="nd">@Autowired</span>
-    <span class="kd">private</span> <span class="n">SimpMessagingTemplate</span> <span class="n">template</span><span class="o">;</span>
-
-    <span class="c1">// this will send a message to an endpoint on which a client can subscribe
-</span><span class="c1"></span>    <span class="nd">@Scheduled</span><span class="o">(</span><span class="n">fixedRate</span> <span class="o">=</span> <span class="mi">5000</span><span class="o">)</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">trigger</span><span class="o">()</span> <span class="o">{</span>
-        <span class="c1">// sends the message to /topic/message
-</span><span class="c1"></span>        <span class="k">this</span><span class="o">.</span><span class="na">template</span><span class="o">.</span><span class="na">convertAndSend</span><span class="o">(</span><span class="s2">&#34;/topic/message&#34;</span><span class="o">,</span> <span class="s2">&#34;Date: &#34;</span> <span class="o">+</span> <span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
+    <span class="kt">def</span> <span class="nf">cleanup</span><span class="o">()</span> <span class="o">{</span>
     <span class="o">}</span>
 
+    <span class="kt">def</span> <span class="s2">&#34;Ask for a nice HelloWorld&#34;</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nl">given:</span>
+        <span class="n">RestBuilder</span> <span class="n">rest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RestBuilder</span><span class="o">()</span>
+
+        <span class="nl">when:</span>
+        <span class="n">RestResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">rest</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s2">&#34;http://localhost:8080/helloworld/&#34;</span><span class="o">)</span>
+
+        <span class="nl">then:</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">status</span> <span class="o">==</span> <span class="mi">200</span>
+
+        <span class="nl">and:</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">json</span><span class="o">.</span><span class="na">message</span> <span class="o">==</span> <span class="s2">&#34;helloworld&#34;</span>
+    <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div><ul>
-<li>Create a client that is able to receive the message</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>WebSocket Stomp Receiving Example<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>Messages:<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
-        <span class="p">&lt;</span><span class="nt">ol</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;messages&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
-    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div><p><strong>Run your test</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails test-app
+</code></pre></div><p>Offcourse this will fail as we do not have implement the controller yet.</p>
+<p><strong>Create a Rest controller</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ cd RestHelloWorld
+$ grails create-controller HelloWorld
+</code></pre></div><p><strong>Note:</strong> The generation of the controller also create a Unit Test for the controller, default this test will fail. We are going to delete the generated Unit Test as we do not need it now. This test is located under the <code>/src/test/</code> groovy package.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy
+</code></pre></div><p><strong>Implement the controller function that will return data</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kn">package</span> <span class="n">resthelloworld</span>
 
-    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/javascript&#34;</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;//cdn.jsdelivr.net/jquery/1.11.2/jquery.min.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/javascript&#34;</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/javascript&#34;</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="kd">class</span> <span class="nc">HelloWorldController</span> <span class="o">{</span>
 
-    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/javascript&#34;</span><span class="p">&gt;</span>
-        <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">messageList</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&#34;#messages&#34;</span><span class="p">);</span>
+    <span class="kt">def</span> <span class="nf">index</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">render</span><span class="o">(</span><span class="nl">status:</span> <span class="mi">200</span><span class="o">,</span> <span class="nl">contentType:</span> <span class="s2">&#34;application/json&#34;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="o">[</span><span class="s2">&#34;message&#34;</span> <span class="o">:</span> <span class="s2">&#34;helloworld&#34;</span><span class="o">]</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p><strong>Modify UrlMapping</strong></p>
+<p>In order to get our newly generated controller accessible via Rest we need to modify our UrlMappings.</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">UrlMappings</span> <span class="o">{</span>
 
-            <span class="c1">// defined a connection to a new socket endpoint
-</span><span class="c1"></span>            <span class="kd">var</span> <span class="nx">socket</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SockJS</span><span class="p">(</span><span class="s1">&#39;/stomp&#39;</span><span class="p">);</span>
+    <span class="kd">static</span> <span class="n">mappings</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="s2">&#34;/$controller/$action?/$id?(.$format)?&#34;</span><span class="o">{</span>
+            <span class="n">constraints</span> <span class="o">{</span>
+                <span class="c1">// apply constraints here
+</span><span class="c1"></span>            <span class="o">}</span>
+        <span class="o">}</span>
 
-            <span class="kd">var</span> <span class="nx">stompClient</span> <span class="o">=</span> <span class="nx">Stomp</span><span class="p">.</span><span class="nx">over</span><span class="p">(</span><span class="nx">socket</span><span class="p">);</span>
+        <span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
+        <span class="s2">&#34;500&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/error&#39;</span><span class="o">)</span>
+        <span class="s2">&#34;404&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/notFound&#39;</span><span class="o">)</span>
 
-            <span class="nx">stompClient</span><span class="p">.</span><span class="nx">connect</span><span class="p">({</span> <span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">frame</span><span class="p">)</span> <span class="p">{</span>
-                <span class="c1">// subscribe to the /topic/message endpoint
-</span><span class="c1"></span>                <span class="nx">stompClient</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s2">&#34;/topic/message&#34;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-                    <span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
-                    <span class="nx">messageList</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">&#34;&lt;li&gt;&#34;</span> <span class="o">+</span> <span class="nx">message</span> <span class="o">+</span> <span class="s2">&#34;&lt;/li&gt;&#34;</span><span class="p">);</span>
-                <span class="p">});</span>
-            <span class="p">});</span>
-        <span class="p">});</span>
-    <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
-</code></pre></div><p>The whole example project  can be downloaded <a href="https://github.com/mpas/spring-boot-websocket-stomp-server-send-example">https://github.com/mpas/spring-boot-websocket-stomp-server-send-example</a></p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2015-06-16
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/spring-boot">spring-boot</a>, <a href="/tags/websocket">websocket</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
+        <span class="c1">// add the line below
+</span><span class="c1"></span>        <span class="s2">&#34;/helloworld/&#34;</span>  <span class="o">(</span><span class="nl">controller:</span> <span class="s2">&#34;helloWorld&#34;</span><span class="o">,</span> <span class="nl">action:</span> <span class="s2">&#34;index&#34;</span><span class="o">,</span> <span class="nl">method:</span> <span class="s2">&#34;GET&#34;</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p><strong>Test your app</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails test-app
+</code></pre></div><p>You should find that your tests are fine now :)</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails test-app
+BUILD SUCCESSFUL
 
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Run a Grails 3 generated Fat Jar file in production mode</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When creating a Grails WAR/JAR file using:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails war
-</code></pre></div><p>The resulting artifact can be run in production mode using:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ java -Dgrails.env=prod -Dserver.port=9000 -jar &lt;name-of-jar-file&gt;.jar
+Total time: 2.054 secs
+| Tests PASSED
 </code></pre></div>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
             <div class="post-meta-info">
-                Published on
-                
-                    2015-06-11
-                
+                Published on 2015-11-19
                 <span class="post-meta-info-taxonomy">
-                    
-                    
                     using tags:
-                        <a href="/tags/grails">grails</a>
+                        <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>, <a href="/tags/rest">rest</a>, <a href="/tags/testing">testing</a>
                 </span>
             </div>
         </div>
     </div>
 </article>
 
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Setting up Docker RabbitMQ with predefined users/vhosts</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.</p>
-<p>The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.</p>
-<p>It involves a init.sh script that is used to create the users and vhosts.</p>
-<p>The Docker File</p>
-<div class="highlight"><pre class="chroma"><code class="language-docker" data-lang="docker"><span class="k">FROM</span><span class="s"> rabbitmq:3-management</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Add script to create default users / vhosts</span><span class="err">
-</span><span class="err"></span><span class="k">ADD</span> init.sh /init.sh<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Set correct executable permissions</span><span class="err">
-</span><span class="err"></span><span class="k">RUN</span> chmod +x /init.sh<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Define default command</span><span class="err">
-</span><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="err">&amp;quot;/init.sh&amp;quot;</span><span class="p">]</span><span class="err">
-</span></code></pre></div><p>The init.sh script</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
-</span><span class="cp"></span>
-<span class="c1"># Create Default RabbitMQ setup</span>
-<span class="o">(</span> sleep <span class="m">10</span> <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Create users</span>
-<span class="c1"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;</span>
-rabbitmqctl add_user test_user test_user <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Set user rights</span>
-<span class="c1"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;</span>
-rabbitmqctl set_user_tags test_user administrator <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Create vhosts</span>
-<span class="c1"># rabbitmqctl add_vhost &lt;vhostname&gt;</span>
-rabbitmqctl add_vhost dummy <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Set vhost permissions</span>
-<span class="c1"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &#34;.*&#34; &#34;.*&#34; &#34;.*&#34;</span>
-rabbitmqctl set_permissions -p dummy test_user <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="p">;</span> <span class="se">\
-</span><span class="se"></span><span class="o">)</span> <span class="p">&amp;</span>    
-rabbitmq-server <span class="nv">$@</span>
-</code></pre></div><p>Place both of these files in a directory and build your image:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ docker build -t my_rabbitmq_image .
-</code></pre></div><p>Start a container based on the image using:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">$</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span><span class="o">=</span><span class="kc">true</span> <span class="o">--</span><span class="n">name</span> <span class="n">my_rabbitmq_container</span> <span class="o">-</span><span class="n">p</span> <span class="mi">5672</span><span class="o">:</span><span class="mi">5672</span> <span class="o">-</span><span class="n">p</span> <span class="mi">15672</span><span class="o">:</span><span class="mi">15672</span>  <span class="n">my_rabbitmq_image</span>
-</code></pre></div><p>Then in your browser navigate to http://localhost:15672 and see if all is ok!</p>
-<p><strong>Note:</strong> When using Boot2Docker make sure to replace the localhost with the correct IP.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2015-06-11
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/docker">docker</a>, <a href="/tags/rabbitmq">rabbitmq</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">HTTPServletRequestWrapper for ServletInputStream 3.1</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.</p>
-<ul>
-<li>isFinished</li>
-<li>isReady</li>
-<li>setReadListener</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">com.google.common.primitives.Bytes</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.servlet.ReadListener</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.servlet.ServletInputStream</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequestWrapper</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.io.ByteArrayInputStream</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AuthenticationRequestWrapper</span> <span class="kd">extends</span> <span class="n">HttpServletRequestWrapper</span> <span class="o">{</span>
-
-    <span class="c1">// tag::variables[]
-</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">requestBody</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
-    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">bufferFilled</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-    <span class="c1">// end::variables[]
-</span><span class="c1"></span>
-    <span class="cm">/**
-</span><span class="cm">     - Constructs a request object wrapping the given request.
-</span><span class="cm">     *
-</span><span class="cm">     - @param request The request to wrap
-</span><span class="cm">     - @throws IllegalArgumentException if the request is null
-</span><span class="cm">     */</span>
-    <span class="kd">public</span> <span class="nf">AuthenticationRequestWrapper</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
-    <span class="o">}</span>
-
-
-    <span class="c1">// tag::getRequestBody[]
-</span><span class="c1"></span>    <span class="kd">public</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">getRequestBody</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">bufferFilled</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">requestBody</span><span class="o">,</span> <span class="n">requestBody</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
-        <span class="o">}</span>
-
-        <span class="n">InputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
-
-        <span class="kt">byte</span><span class="o">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">102400</span><span class="o">];</span> <span class="c1">// 100kb buffer
-</span><span class="c1"></span>
-        <span class="kt">int</span> <span class="n">bytesRead</span><span class="o">;</span>
-        <span class="k">while</span> <span class="o">((</span><span class="n">bytesRead</span> <span class="o">=</span> <span class="n">inputStream</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">))</span> <span class="o">!=</span> <span class="o">-</span><span class="n">1</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">requestBody</span> <span class="o">=</span> <span class="n">Bytes</span><span class="o">.</span><span class="na">concat</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">requestBody</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOfRange</span><span class="o">(</span><span class="n">buffer</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">bytesRead</span><span class="o">));</span> <span class="c1">// &lt;1&gt;
-</span><span class="c1"></span>        <span class="o">}</span>
-
-        <span class="n">bufferFilled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-
-        <span class="k">return</span> <span class="n">requestBody</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="c1">// end::getRequestBody[]
-</span><span class="c1"></span>
-    <span class="c1">// tag::getInputStream[]
-</span><span class="c1"></span>    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">ServletInputStream</span> <span class="nf">getInputStream</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="n">CustomServletInputStream</span><span class="o">(</span><span class="n">getRequestBody</span><span class="o">());</span> <span class="c1">// &lt;1&gt;
-</span><span class="c1"></span>    <span class="o">}</span>
-    <span class="c1">// end::getInputStream[]
-</span><span class="c1"></span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">CustomServletInputStream</span> <span class="kd">extends</span> <span class="n">ServletInputStream</span> <span class="o">{</span>
-
-        <span class="kd">private</span> <span class="n">ByteArrayInputStream</span> <span class="n">buffer</span><span class="o">;</span>
-
-        <span class="kd">public</span> <span class="nf">CustomServletInputStream</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">contents</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">this</span><span class="o">.</span><span class="na">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayInputStream</span><span class="o">(</span><span class="n">contents</span><span class="o">);</span>
-        <span class="o">}</span>
-
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="na">read</span><span class="o">();</span>
-        <span class="o">}</span>
-
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">()</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="na">available</span><span class="o">()</span> <span class="o">==</span> <span class="n">0</span><span class="o">;</span>
-        <span class="o">}</span>
-
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isReady</span><span class="o">()</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-        <span class="o">}</span>
-
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setReadListener</span><span class="o">(</span><span class="n">ReadListener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Not implemented&#34;</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2015-06-10
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/java">java</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Installing Docker Registry 2.0.1 using self signed certificates</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.</p>
-<p>So the setup will be that we install the Docker Registry and proxy the SSL user access via self signed certificates using an NGINX proxy image provided by Container Solutions. <a href="http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/">Check here for more information</a></p>
-<p>Installation of the remote docker registry will be done by using on an Amazon EC2 (Linux AMI). Currently the free tier Amazon Linux AMI 2015.03 (HVM), SSD Volume Type - ami-a10897d6. So spin up the Amazon AMI and let&rsquo;s install Docker.</p>
-<p><strong>Note:</strong> when you spin up your Amazon AMI make sure to remember the FQDN/DNS name! We need this name to generate the SSL certificates!</p>
-<pre><code>Example:
-&lt;domain-name&gt; = ec2-52-16-247-220.eu-west-1.compute.amazonaws.com
-</code></pre>
-<p>So spin up your AMI and install Docker!</p>
-<h2 id="installing-docker">Installing docker</h2>
-<ul>
-<li>login into your Amazon AMI</li>
-<li>update the system and install Docker</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo yum update -y
-$ sudo wget -qO- https://get.docker.com/ | sh
-</code></pre></div><ul>
-<li>add the ec2-user to the <code>docker</code> group (optional)</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo usermod -aG docker ec2-user
-</code></pre></div><ul>
-<li>start Docker</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo service docker start
-</code></pre></div><ul>
-<li>make sure Docker can run the basic &ldquo;hello-world&rdquo;</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker run hello-world
-</code></pre></div><h2 id="create-docker-registry-data-and-configuration-directories">Create Docker Registry data and configuration directories</h2>
-<p>We are going to store the registry image data inside <code>/opt/docker/registry/data</code> and configuration files such as the ssl certificates and user login inside <code>/opt/docker/registry/conf</code>.</p>
-<ul>
-<li>create data folders for Docker Registry data and configuration</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo mkdir -p /opt/docker/registry/data
-$ sudo mkdir -p /opt/docker/registry/conf
-</code></pre></div><h2 id="run-the-docker-registry">Run the Docker Registry</h2>
-<p>Now we are able to run the Docker Registry, the data for images that will be pushed are going to be stored in <code>/opt/docker/registry/data</code> and the container will be named <code>docker-registry</code></p>
-<ul>
-<li>run the registry and name it <code>docker-registry</code></li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker run -d -v /opt/docker/registry/data:/tmp/registry-dev \
---name docker-registry registry:2.0.1
-</code></pre></div><ul>
-<li>test if the registry is actually running</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker ps
-</code></pre></div><p><strong>So now we have a running Docker Registry, but still no SSL proxy and no user accounts to get access to the registry.</strong></p>
-<h2 id="generate-self-signed-certificates-for-our-ssl-proxy">Generate self signed certificates for our SSL proxy</h2>
-<p>The result of the certificate generation will be placed in <code>/opt/docker/registry/conf</code> and named <code>docker-registry.crt</code> and <code>docker-registry.key</code>.</p>
-<p><strong>Note:</strong> The <code>docker-registry.crt</code> file is important, we will need this later on to configure our local Docker client on the machine that is going to access the remote registry. So after generating the <code>docker-registry.crt</code> file, grab this and store it on your local machine in a place where you can find it.</p>
-<ul>
-<li>generate the certificates</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
--keyout /opt/docker/registry/conf/docker-registry.key \
--out /opt/docker/registry/conf/docker-registry.crt
-</code></pre></div><p>Accept all defaults and make sure you give the correct FQDN /DNS name = <code>&lt;domain-name&gt;</code>.</p>
-<h2 id="create-passwords-for-access-to-the-docker-registry">Create passwords for access to the Docker Registry</h2>
-<p>In order to let users login into the registry we need to create users  (user1/user2). This will be done by using <code>htpasswd</code>. The user data will be stored in <code>docker-registry.htpasswd</code> file and placed in the <code>/opt/docker/registry/conf</code> directory.</p>
-<ul>
-<li>install htpasswd</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo yum install httpd-tools -y
-</code></pre></div><ul>
-<li>create the users</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo htpasswd -c /opt/docker/registry/conf/docker-registry.htpasswd user1
-$ sudo htpasswd /opt/docker/registry/conf/docker-registry.htpasswd user2
-</code></pre></div><p><strong>Note:</strong> when creating the second user omit the <code>-c</code> otherwise the docker-registry.htpasswd file will be get overwritten!</p>
-<h2 id="run-the-nginx-proxy">Run the NGINX Proxy</h2>
-<p>As mentioned we are going to use the image from <a href="http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/">Container Solutions</a> to run our NGINX proxy.</p>
-<ul>
-<li>start the NGINX proxy and name it <code>docker-registry-proxy</code></li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker run -d -p 443:443  \
--e REGISTRY_HOST=&#34;docker-registry&#34; -e REGISTRY_PORT=&#34;5000&#34; -e SERVER_NAME=&#34;localhost&#34; \
---link docker-registry:docker-registry \
--v /opt/docker/registry/conf/docker-registry.htpasswd:/etc/nginx/.htpasswd:ro \
--v /opt/docker/registry/conf:/etc/nginx/ssl:ro \
---name docker-registry-proxy containersol/docker-registry-proxy
-</code></pre></div><p>After this step we have a running Docker Registry which is secured using Self Signed certificates and users are able to login using their username/password.</p>
-<p>To test this navigate to your registry by using a browser (Chrome) and access: <code>https://&lt;domain-name&gt;:443/v2/</code>. After accepting the security warning provide a username/password and the output should be <code>{}</code>.</p>
-<h2 id="configure-the-local-docker-client">Configure the local Docker client</h2>
-<p>Now that we have a running secured Docker Registry we can configure the Docker client on our machine that is going to access the remote Registry. For this we need a copy of the earlier <code>docker-registry.crt</code> file.</p>
-<ul>
-<li>copy the <code>docker-registry.crt</code> file from our server to your local machine. This file is located in <code>/opt/docker/registry/conf</code>. Put the copy in a place where you can find it.</li>
-</ul>
-<h3 id="ubuntu-docker-client">Ubuntu Docker Client</h3>
-<p>In order to get the local client working, we need to install Docker and register the <code>docker-registry.crt</code> certificate file!</p>
-<ul>
-<li>install docker</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo wget -qO- https://get.docker.com/ | sh
-$ sudo service docker start
-</code></pre></div><ul>
-<li>create a directory holding our extra certificates</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo mkdir /usr/share/ca-certificates/extra
-</code></pre></div><ul>
-<li>
-<p>copy the <code>docker-registry.crt</code> file to the directory <code>/usr/share/ca-certificates/extra</code></p>
-</li>
-<li>
-<p>register the certificate</p>
-</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo dpkg-reconfigure ca-certificates
-</code></pre></div><p>Now you are almost ready!</p>
-<ul>
-<li>restart the local Docker client</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo service docker restart
-</code></pre></div><ul>
-<li>login onto your remote registry using</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ docker login &lt;domain-name&gt;:port
-</code></pre></div><p>Now we have a remote Docker Registry and the Docker Client is able to connect!</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2015-06-05
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/docker">docker</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Upgrading from Grails 2.3.8 to 2.4.2</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">Error creating bean with name &#39;grailsApplication&#39; defined in ServletContext resource
-[/WEB-INF/applicationContext.xml]: Cannot resolve reference to
-bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResourceLoader&#39;;
-</code></pre></div><p>To solve this issue you need to delete some lines in the <code>&lt;grails-app&gt;/web-app/WEB-INF/applicationContext.xml</code> file.</p>
-<p>Delete the following lines:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;grailsResourceLoader&#34;</span> <span class="na">ref=</span><span class="s">&#34;grailsResourceLoader&#34;</span> <span class="nt">/&gt;</span>
-
-<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;grailsResourceLoader&#34;</span> <span class="na">class=</span><span class="s">&#34;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&#34;</span> <span class="nt">/&gt;</span>
-</code></pre></div><p>And you should be up and running quickly.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2014-07-04
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/grails">grails</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Skip a contenttype/section to be renderend</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.</p>
-<p>Example:
-You want to only render contenttype &lsquo;post&rsquo;  use the following code in your template:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="p">{{</span> <span class="k">if</span> <span class="nx">eq</span> <span class="p">.</span><span class="nx">Type</span> <span class="s">&#34;post&#34;</span> <span class="p">}}</span>
-
-    <span class="p">{{</span> <span class="p">.</span><span class="nx">Title</span> <span class="p">}}</span>
-    <span class="p">{{</span> <span class="p">.</span><span class="nx">Content</span> <span class="p">}}</span>
-
-<span class="p">{{</span> <span class="nx">end</span> <span class="p">}}</span>
-</code></pre></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2014-06-09
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/hugo">hugo</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Bookreview : Instant Vert.x</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>For those who have not yet got into contact with <a href="http://vertx.io/">Vert.x</a>, the book <a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Instant Vert.x</a> (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.</p>
-<p>As the name suggests, you can read the book in &ldquo;an instant&rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.</p>
-<p>For those who have not yet had the opportunity to learn about Vert.x, I would not immediately recommend this book. The online documentation section on Vertx.io contains the same information. But if you like a book with information nicely put into digestible chapters then this book is a good fit.</p>
-<p>Personally i hoped to get some more technical information and how-to information from this book but it is really targeted towards people that are just starting or have a beginning interest in Vert.x.</p>
-<p>Overall, I really liked the compactness and pace of the book. It is an easy read and you quickly gain knowledge on the high level concepts of Vert.x. While noted earlier you can get the information also on Vertx.io website or other places, it&rsquo;s is nice to have all information aggregated in one place. This book is a good start in your journey to learn about Vert.x.</p>
-<ul>
-<li><a href="http://vertx.io/">Go to the Vert.x website</a></li>
-<li><a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Get the book at Pack Publishing</a></li>
-</ul>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2013-11-27
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/vertx">vertx</a>, <a href="/tags/java">java</a>, <a href="/tags/review">review</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
+            
         </div>
     </div>
 </div>
@@ -827,8 +580,6 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
                         <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
                             <i class="fab fa-stack-overflow"></i>
                         </a>
-                    
-                    
                     
                     
                         <a title="Email" href="mailto:marco.pasopas@gmail.com">

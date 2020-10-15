@@ -6,27 +6,23 @@
     <description>Recent content in prometheus on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 May 2017 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://mpas.github.io/tags/prometheus/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 12 May 2017 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/prometheus/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Infrastructure and System Monitoring using Prometheus</title>
-      <link>http://mpas.github.io/post/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</link>
+      <link>http://mpas.github.io/posts/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</link>
       <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</guid>
+      <guid>http://mpas.github.io/posts/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</guid>
       <description>Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &amp;ldquo;Infrastructure and System Monitoring using Prometheus&amp;rdquo;. You can find the used material here:
  Slides: https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus Slides in PDF: https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE Code: https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus  Feel free to share and distribute</description>
     </item>
     
     <item>
       <title>Identifying Docker container outage using Prometheus</title>
-      <link>http://mpas.github.io/post/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</link>
+      <link>http://mpas.github.io/posts/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</link>
       <pubDate>Thu, 17 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</guid>
+      <guid>http://mpas.github.io/posts/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</guid>
       <description>Prometheus is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.
 Metric data is pulled (on a regular time-interval) from so called exporters which expose the metrics coming from applications/operating systems etc..
 +------------------+ +----------+ Visualize data | +------------+ | | Grafana +---&amp;gt; coming from | | Dockerized | | +----+-----+ Prometheus | | Application| | | | +------------+ | ^ | +------------+ | Pull data +----------+ | | | CAdvisor +---------&amp;gt;-------+Prometheus+----------+ | +------------+ | +---------++ | | | | Operating System | | | with | | | Docker installed | | | | v +------------------+ Prometheus collects data coming from remote systems In the diagram above cAdvisor is a so called exporter.</description>

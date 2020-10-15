@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  
+  
+  <meta charset="utf-8">
+  <title>CodeVerse - HTTPServletRequestWrapper for ServletInputStream 3.1</title>
+  <meta name="description" content="">
+  <meta name="author" content="Marco Pas">
+
+  <meta name="generator" content="" />
+  <meta name="robots" content="index,follow">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  
+  
+  <link rel="stylesheet" href="/skeleton/normalize.css">
+  <link rel="stylesheet" href="/skeleton/skeleton.css">
+  
+  
+  <link rel="stylesheet" href="/fontawesome/all.min.css">
+ 
+  
+  <script src="/prism/prism.js"></script>
+  <link rel="stylesheet" href="/prism/prism.css">
+  
+  
+  <link rel="stylesheet" href="/css/custom.css">
+  
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+</head>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="http://mpas.github.io">CodeVerse</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        
+                        
+                            <li >
+                                <a href="/">Blog</a></li>
+                        
+                            <li >
+                                <a href="/posts">Post List</a></li>
+                        
+                            <li >
+                                <a href="/pages/about/">About Me</a></li>
+                        
+                            <li >
+                                <a href="/pages/resume">Resume</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="post-content">
+        <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">HTTPServletRequestWrapper for ServletInputStream 3.1</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.</p>
+<ul>
+<li>isFinished</li>
+<li>isReady</li>
+<li>setReadListener</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">com.google.common.primitives.Bytes</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.ReadListener</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.ServletInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequestWrapper</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.ByteArrayInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AuthenticationRequestWrapper</span> <span class="kd">extends</span> <span class="n">HttpServletRequestWrapper</span> <span class="o">{</span>
+
+    <span class="c1">// tag::variables[]
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">requestBody</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">bufferFilled</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="c1">// end::variables[]
+</span><span class="c1"></span>
+    <span class="cm">/**
+</span><span class="cm">     - Constructs a request object wrapping the given request.
+</span><span class="cm">     *
+</span><span class="cm">     - @param request The request to wrap
+</span><span class="cm">     - @throws IllegalArgumentException if the request is null
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="nf">AuthenticationRequestWrapper</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+    <span class="o">}</span>
+
+
+    <span class="c1">// tag::getRequestBody[]
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">getRequestBody</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">bufferFilled</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">requestBody</span><span class="o">,</span> <span class="n">requestBody</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="n">InputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+
+        <span class="kt">byte</span><span class="o">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">102400</span><span class="o">];</span> <span class="c1">// 100kb buffer
+</span><span class="c1"></span>
+        <span class="kt">int</span> <span class="n">bytesRead</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">((</span><span class="n">bytesRead</span> <span class="o">=</span> <span class="n">inputStream</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">))</span> <span class="o">!=</span> <span class="o">-</span><span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">requestBody</span> <span class="o">=</span> <span class="n">Bytes</span><span class="o">.</span><span class="na">concat</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">requestBody</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOfRange</span><span class="o">(</span><span class="n">buffer</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">bytesRead</span><span class="o">));</span> <span class="c1">// &lt;1&gt;
+</span><span class="c1"></span>        <span class="o">}</span>
+
+        <span class="n">bufferFilled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+        <span class="k">return</span> <span class="n">requestBody</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">// end::getRequestBody[]
+</span><span class="c1"></span>
+    <span class="c1">// tag::getInputStream[]
+</span><span class="c1"></span>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">ServletInputStream</span> <span class="nf">getInputStream</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">CustomServletInputStream</span><span class="o">(</span><span class="n">getRequestBody</span><span class="o">());</span> <span class="c1">// &lt;1&gt;
+</span><span class="c1"></span>    <span class="o">}</span>
+    <span class="c1">// end::getInputStream[]
+</span><span class="c1"></span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">CustomServletInputStream</span> <span class="kd">extends</span> <span class="n">ServletInputStream</span> <span class="o">{</span>
+
+        <span class="kd">private</span> <span class="n">ByteArrayInputStream</span> <span class="n">buffer</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">CustomServletInputStream</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">contents</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayInputStream</span><span class="o">(</span><span class="n">contents</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="na">read</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="na">available</span><span class="o">()</span> <span class="o">==</span> <span class="n">0</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isReady</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setReadListener</span><span class="o">(</span><span class="n">ReadListener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Not implemented&#34;</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2015-06-10
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/java">java</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+      </div>
+    </div>
+  </div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    
+                        <a title="Twitter" href="https://twitter.com/marcopas">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    
+                    
+                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    
+                    
+                        <a title="GitHub" href="https://github.com/mpas">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    
+                    
+                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
+                            <i class="fab fa-stack-overflow"></i>
+                        </a>
+                    
+                    
+                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
+                            <i class="far fa-envelope"></i>
+                        </a>
+                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+

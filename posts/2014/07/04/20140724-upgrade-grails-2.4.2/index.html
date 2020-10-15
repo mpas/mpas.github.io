@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  
+  
+  <meta charset="utf-8">
+  <title>CodeVerse - Upgrading from Grails 2.3.8 to 2.4.2</title>
+  <meta name="description" content="">
+  <meta name="author" content="Marco Pas">
+
+  <meta name="generator" content="" />
+  <meta name="robots" content="index,follow">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  
+  
+  <link rel="stylesheet" href="/skeleton/normalize.css">
+  <link rel="stylesheet" href="/skeleton/skeleton.css">
+  
+  
+  <link rel="stylesheet" href="/fontawesome/all.min.css">
+ 
+  
+  <script src="/prism/prism.js"></script>
+  <link rel="stylesheet" href="/prism/prism.css">
+  
+  
+  <link rel="stylesheet" href="/css/custom.css">
+  
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+</head>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="http://mpas.github.io">CodeVerse</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        
+                        
+                            <li >
+                                <a href="/">Blog</a></li>
+                        
+                            <li >
+                                <a href="/posts">Post List</a></li>
+                        
+                            <li >
+                                <a href="/pages/about/">About Me</a></li>
+                        
+                            <li >
+                                <a href="/pages/resume">Resume</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="post-content">
+        <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Upgrading from Grails 2.3.8 to 2.4.2</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">Error creating bean with name &#39;grailsApplication&#39; defined in ServletContext resource
+[/WEB-INF/applicationContext.xml]: Cannot resolve reference to
+bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResourceLoader&#39;;
+</code></pre></div><p>To solve this issue you need to delete some lines in the <code>&lt;grails-app&gt;/web-app/WEB-INF/applicationContext.xml</code> file.</p>
+<p>Delete the following lines:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;grailsResourceLoader&#34;</span> <span class="na">ref=</span><span class="s">&#34;grailsResourceLoader&#34;</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;grailsResourceLoader&#34;</span> <span class="na">class=</span><span class="s">&#34;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&#34;</span> <span class="nt">/&gt;</span>
+</code></pre></div><p>And you should be up and running quickly.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2014-07-04
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/grails">grails</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+      </div>
+    </div>
+  </div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    
+                        <a title="Twitter" href="https://twitter.com/marcopas">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    
+                    
+                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    
+                    
+                        <a title="GitHub" href="https://github.com/mpas">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    
+                    
+                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
+                            <i class="fab fa-stack-overflow"></i>
+                        </a>
+                    
+                    
+                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
+                            <i class="far fa-envelope"></i>
+                        </a>
+                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+

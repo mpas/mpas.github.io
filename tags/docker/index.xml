@@ -6,27 +6,23 @@
     <description>Recent content in docker on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 May 2017 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://mpas.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 12 May 2017 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Infrastructure and System Monitoring using Prometheus</title>
-      <link>http://mpas.github.io/post/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</link>
+      <link>http://mpas.github.io/posts/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</link>
       <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</guid>
+      <guid>http://mpas.github.io/posts/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</guid>
       <description>Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &amp;ldquo;Infrastructure and System Monitoring using Prometheus&amp;rdquo;. You can find the used material here:
  Slides: https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus Slides in PDF: https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE Code: https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus  Feel free to share and distribute</description>
     </item>
     
     <item>
       <title>Dockerize your Grails application</title>
-      <link>http://mpas.github.io/post/2016/11/25/20161125-dockerize-your-grails-application/</link>
+      <link>http://mpas.github.io/posts/2016/11/25/20161125-dockerize-your-grails-application/</link>
       <pubDate>Fri, 25 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/11/25/20161125-dockerize-your-grails-application/</guid>
+      <guid>http://mpas.github.io/posts/2016/11/25/20161125-dockerize-your-grails-application/</guid>
       <description>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..
 Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.
 Prerequisite : Docker is installed on your machine.
@@ -35,19 +31,19 @@ $ grails create-app docker-test --profile rest-api After the Grails application 
     
     <item>
       <title>Creating/Pushing Docker images using Gradle without plugins</title>
-      <link>http://mpas.github.io/post/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/</link>
+      <link>http://mpas.github.io/posts/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/</link>
       <pubDate>Thu, 24 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/</guid>
+      <guid>http://mpas.github.io/posts/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/</guid>
       <description>In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.</description>
     </item>
     
     <item>
       <title>Identifying Docker container outage using Prometheus</title>
-      <link>http://mpas.github.io/post/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</link>
+      <link>http://mpas.github.io/posts/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</link>
       <pubDate>Thu, 17 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</guid>
+      <guid>http://mpas.github.io/posts/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</guid>
       <description>Prometheus is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.
 Metric data is pulled (on a regular time-interval) from so called exporters which expose the metrics coming from applications/operating systems etc..
 +------------------+ +----------+ Visualize data | +------------+ | | Grafana +---&amp;gt; coming from | | Dockerized | | +----+-----+ Prometheus | | Application| | | | +------------+ | ^ | +------------+ | Pull data +----------+ | | | CAdvisor +---------&amp;gt;-------+Prometheus+----------+ | +------------+ | +---------++ | | | | Operating System | | | with | | | Docker installed | | | | v +------------------+ Prometheus collects data coming from remote systems In the diagram above cAdvisor is a so called exporter.</description>
@@ -55,10 +51,10 @@ Metric data is pulled (on a regular time-interval) from so called exporters whic
     
     <item>
       <title>Accessing localhost from a Docker Container using native Docker for Mac</title>
-      <link>http://mpas.github.io/post/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/</link>
+      <link>http://mpas.github.io/posts/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/</link>
       <pubDate>Tue, 01 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/</guid>
+      <guid>http://mpas.github.io/posts/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/</guid>
       <description>Ever had a need to access something from within a Docker container that runs on the host system?
 When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.
 A solution for this isto define a new local loopback to your localhost
@@ -67,10 +63,10 @@ $ sudo ifconfig lo0 alias 172.</description>
     
     <item>
       <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
-      <link>http://mpas.github.io/post/2015/06/11/20150611-docker-rabbitmq-default-users/</link>
+      <link>http://mpas.github.io/posts/2015/06/11/20150611-docker-rabbitmq-default-users/</link>
       <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2015/06/11/20150611-docker-rabbitmq-default-users/</guid>
+      <guid>http://mpas.github.io/posts/2015/06/11/20150611-docker-rabbitmq-default-users/</guid>
       <description>When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.
 The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.
 It involves a init.sh script that is used to create the users and vhosts.</description>
@@ -78,10 +74,10 @@ It involves a init.sh script that is used to create the users and vhosts.</descr
     
     <item>
       <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
-      <link>http://mpas.github.io/post/2015/06/05/20150605-docker-setup-registry/</link>
+      <link>http://mpas.github.io/posts/2015/06/05/20150605-docker-setup-registry/</link>
       <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2015/06/05/20150605-docker-setup-registry/</guid>
+      <guid>http://mpas.github.io/posts/2015/06/05/20150605-docker-setup-registry/</guid>
       <description>The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.</description>
     </item>
     

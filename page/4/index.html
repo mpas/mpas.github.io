@@ -19,15 +19,15 @@
 
   
   
-  <link rel="stylesheet" href="/css/normalize.css">
-  <link rel="stylesheet" href="/css/skeleton.css">
+  <link rel="stylesheet" href="/skeleton/normalize.css">
+  <link rel="stylesheet" href="/skeleton/skeleton.css">
   
   
-  <link rel="stylesheet" href="/css/font-awesome-all.min.css">
+  <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/js/prism.js"></script>
-  <link rel="stylesheet" href="/css/prism.css">
+  <script src="/prism/prism.js"></script>
+  <link rel="stylesheet" href="/prism/prism.css">
   
   
   <link rel="stylesheet" href="/css/custom.css">
@@ -54,13 +54,13 @@
                                 <a href="/">Blog</a></li>
                         
                             <li >
-                                <a href="/post">Post List</a></li>
+                                <a href="/posts">Post List</a></li>
                         
                             <li >
-                                <a href="/page/about/">About Me</a></li>
+                                <a href="/pages/about/">About Me</a></li>
                         
                             <li >
-                                <a href="/page/resume">Resume</a></li>
+                                <a href="/pages/resume">Resume</a></li>
                         
                     </ul>
                 </nav>
@@ -73,536 +73,106 @@
 <div class="container">
     <div class="row">
         <div class="post-list">
-        
-        
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Loading external Configuration files in a Grails application</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>The use of &lsquo;Config.groovy&rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &lsquo;Config.groovy&rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.</p>
-<p>A simple mechanism to load these property files is to place a short snippet of code in the &lsquo;Config.groovy&rsquo; that will load a specific configuration file from the filesystem, depending on the availability.</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;classpath:application-config.properties&#34;</span><span class="o">,</span> <span class="s2">&#34;file:./application-config.properties&#34;</span><span class="o">]</span>
-</code></pre></div><p>This snippet will first try to load the property file from the classpath and if that fails you have a backup on the filesystem. This opens opportunities to load a different property file during development! When you deploy the application you can place the &lsquo;application-config.properties&rsquo; file inside a folder which is available in the classpath. For Apache Tomcat this would be the &lsquo;lib&rsquo; folder!</p>
-<p>This gives the opportunity to configure the application outside the &lsquo;Config.groovy&rsquo; file so any changes made the the property file will be reflected in your environment.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
+            
+            
                 
-                    2012-09-16
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/configuration">configuration</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
+                <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Combining ImageMagick and Grails</h1>
+            <h1 class="post-title">HTTPServletRequestWrapper for ServletInputStream 3.1</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            <p>When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.</p>
-<p><strong>Steps:</strong></p>
+            <p>A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.</p>
 <ul>
-<li>Install ImageMagick according to the installation instructions.</li>
-<li>It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc. So remember where this utility is installed on your system!</li>
-<li>Make sure that ImageMagick is installed correctly be converting an image to a thumbnail by using the following command in a terminal.</li>
+<li>isFinished</li>
+<li>isReady</li>
+<li>setReadListener</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">/opt/local/bin/convert &lt;filename&gt; -thumbnail 70x70 &lt;thumbnail-filename&gt;
-</code></pre></div><p><strong>example:</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg
-</code></pre></div><p>Create some code that calls the ImageMagick convert utility with the correct parameters to enable you to achieve what you want. Something like below:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kt">def</span> <span class="nf">createThumbnail</span><span class="o">(</span><span class="n">File</span> <span class="n">file</span><span class="o">)</span> <span class="o">{</span>
-   <span class="kt">def</span> <span class="n">command</span> <span class="o">=</span> <span class="s2">&#34;/opt/local/bin/convert ${file.canonicalPath} &#34;</span> <span class="o">+</span>
-                 <span class="s2">&#34;-thumbnail 70x70 &#34;</span> <span class="o">+</span>
-                 <span class="s2">&#34;/images/thumbs&#34;</span> <span class="o">+</span> <span class="n">File</span><span class="o">.</span><span class="na">separator</span> <span class="o">+</span> <span class="s2">&#34;${file.name}&#34;</span>
-   <span class="kt">def</span> <span class="n">proc</span> <span class="o">=</span> <span class="n">Runtime</span><span class="o">.</span><span class="na">getRuntime</span><span class="o">().</span><span class="na">exec</span><span class="o">(</span><span class="n">command</span><span class="o">)</span>
-   <span class="kt">int</span> <span class="n">exitStatus</span><span class="o">;</span>
-   <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
-       <span class="k">try</span> <span class="o">{</span>
-           <span class="n">exitStatus</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="na">waitFor</span><span class="o">();</span>
-           <span class="k">break</span><span class="o">;</span>
-       <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-           <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s2">&#34;Creating thumbnail - Interrupted: Ignoring and waiting&#34;</span><span class="o">)</span>
-       <span class="o">}</span>
-   <span class="o">}</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">exitStatus</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s2">&#34;Error executing command: exitStatus=[${exitStatus}]&#34;</span><span class="o">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">com.google.common.primitives.Bytes</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.ReadListener</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.ServletInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequestWrapper</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.ByteArrayInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AuthenticationRequestWrapper</span> <span class="kd">extends</span> <span class="n">HttpServletRequestWrapper</span> <span class="o">{</span>
+
+    <span class="c1">// tag::variables[]
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">requestBody</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">bufferFilled</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="c1">// end::variables[]
+</span><span class="c1"></span>
+    <span class="cm">/**
+</span><span class="cm">     - Constructs a request object wrapping the given request.
+</span><span class="cm">     *
+</span><span class="cm">     - @param request The request to wrap
+</span><span class="cm">     - @throws IllegalArgumentException if the request is null
+</span><span class="cm">     */</span>
+    <span class="kd">public</span> <span class="nf">AuthenticationRequestWrapper</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
     <span class="o">}</span>
-    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s2">&#34;Succesfully created thumbnail&#34;</span><span class="o">)</span>
-    <span class="k">return</span> <span class="o">(</span><span class="n">exitStatus</span> <span class="o">==</span> <span class="mi">0</span><span class="o">);</span>
-<span class="o">}</span>
-</code></pre></div><p>The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.</p>
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2012-09-15
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/imagemagick">imagemagick</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
 
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Installing Vimball plugins when using Pathogen</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>No need to discuss that <a href="http://www.vim.org/">Vim</a> is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the <a href="http://www.installationwiki.org/Installing_Vim_Scripts">wiki</a>.</p>
-<h4 id="pathogen">Pathogen</h4>
-<p>When you instal a plugin one may copy the files to the plugin directory. In a later stage you also want to delete a plugin and then the hunt for files starts. You need to track down which files belong to the specific plugin you want to delete. <a href="http://tammersaleh.com/posts/the-modern-vim-config-with-pathogen">Pathogen</a> to the rescue :)</p>
-<p>Pathogen enables you to create sub-folders inside a bundle-folder which will acts a place holder for all your plugins nicely separated in a ‘folder per plugin’ structure. So if you need to delete a plugin then you just delete the correct plugin-folder and everything is gone.</p>
-<p>Normal installation of a Vim script is standard, you create a sub-folder below the bundle-folder, copy the Vim script and all is ok. BUT when you want to use a <a href="http://www.vim.org/scripts/script.php?script_id=1502">vimball</a> then you need to do some additional steps.</p>
-<ul>
-<li>Create a folder in which you want to later on extract the vimball. Preferably below the ‘bundle’ folder.</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">mkdir ~/.vim/bundle/align
-```console
-
-* Open the vimball with command ‘:e &#39;location of your vimball’/‘name of your vimball&#39;
-```console
-:e ~/Downloads/Align.vba
-</code></pre></div><ul>
-<li>Tell Vim to use the vimball by issuing command ‘:UseVimball &lsquo;location to extract’&rsquo;</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">:UseVimball ~/.vim/bundle/align
-</code></pre></div><ul>
-<li>Restart your Vim and your plugin should be available.</li>
-</ul>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2012-09-14
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/vim">vim</a>, <a href="/tags/pathogen">pathogen</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Installing Markdown on OSX and use it inside VIM</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Back again to one of my favorites which is called <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. Once every now and then i forget how easy it is. Normally i use <a href="http://macromates.com/">Textmate</a> to do all my writing, but recently i have picked up <a href="http://www.vim.org/">VIM</a> to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)</p>
-<p>Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different. But anything is different when using VIM :)</p>
-<h4 id="steps">Steps</h4>
-<ul>
-<li>download Markdown from - <a href="http://daringfireball.net/projects/markdown/">The home of Markdown</a>, It’s usual place as this is a Perl script you need to put it somewhere so OSX is able to execute it.</li>
-<li>start your terminal and create a directory inside <code>usr/local/bin</code></li>
-<li>extract the downloaded file and put the <code>Markdown.pl</code> file * inside the <code>user/local/bin</code> directory</li>
-<li>inside the terminal chmod the <code>Markdown.pl</code> to 777</li>
-<li>using the <a href="http://gothick.org.uk/2010/08/04/installing-markdown-as-a-os-x-service-using-automator-in-snow-leopard/">Installing Markdown as OSX Service</a> creates a service to use Markdown</li>
-<li>You are done… :)</li>
-</ul>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2012-09-13
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/vim">vim</a>, <a href="/tags/markdown">markdown</a>, <a href="/tags/osx">osx</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Introduction to Groovy &amp; Grails</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Recently i had the opportunity to show an exciting crowd a presentation about <a href="http://groovy.codehaus.org/">Groovy</a> &amp; <a href="http://www.grails.org/">Grails</a>.</p>
-<p>This happend during the <a href="http://www.devnology.nl/">Devnology</a> Community Event at Baarn. If you want to view the presentation &ndash;&gt; <a href="http://slidesha.re/cfL3eH">check it out here!</a></p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2012-09-12
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/presentation">presentation</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Change default homepage for a Grails application</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>You can set the default homepage for a Grails application by modifying the <code>grails-app/conf/UrlMappings.groovy</code> file. In a new Grails application this file will look like</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">UrlMappings</span> <span class="o">{</span>
-    <span class="kd">static</span> <span class="n">mappings</span> <span class="o">=</span> <span class="o">{</span>
-        <span class="s2">&#34;/$controller/$action?/$id?&#34;</span><span class="o">{</span>
-            <span class="n">constraints</span> <span class="o">{</span>
-                <span class="c1">// apply constraints here
-</span><span class="c1"></span>            <span class="o">}</span>
+    <span class="c1">// tag::getRequestBody[]
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">getRequestBody</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">bufferFilled</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">requestBody</span><span class="o">,</span> <span class="n">requestBody</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
         <span class="o">}</span>
-        <span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
-        <span class="s2">&#34;500&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/error&#39;</span><span class="o">)</span>
+
+        <span class="n">InputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+
+        <span class="kt">byte</span><span class="o">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">102400</span><span class="o">];</span> <span class="c1">// 100kb buffer
+</span><span class="c1"></span>
+        <span class="kt">int</span> <span class="n">bytesRead</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">((</span><span class="n">bytesRead</span> <span class="o">=</span> <span class="n">inputStream</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">))</span> <span class="o">!=</span> <span class="o">-</span><span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">requestBody</span> <span class="o">=</span> <span class="n">Bytes</span><span class="o">.</span><span class="na">concat</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">requestBody</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOfRange</span><span class="o">(</span><span class="n">buffer</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">bytesRead</span><span class="o">));</span> <span class="c1">// &lt;1&gt;
+</span><span class="c1"></span>        <span class="o">}</span>
+
+        <span class="n">bufferFilled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+
+        <span class="k">return</span> <span class="n">requestBody</span><span class="o">;</span>
     <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>Replace the line:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
-</code></pre></div><p>with:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">controller:</span><span class="s1">&#39;home&#39;</span><span class="o">,</span> <span class="nl">action:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
-</code></pre></div><p>This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the <strong>HomeController</strong> and corresponding <strong>index</strong> action related to that controller.</p>
+    <span class="c1">// end::getRequestBody[]
+</span><span class="c1"></span>
+    <span class="c1">// tag::getInputStream[]
+</span><span class="c1"></span>    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">ServletInputStream</span> <span class="nf">getInputStream</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">CustomServletInputStream</span><span class="o">(</span><span class="n">getRequestBody</span><span class="o">());</span> <span class="c1">// &lt;1&gt;
+</span><span class="c1"></span>    <span class="o">}</span>
+    <span class="c1">// end::getInputStream[]
+</span><span class="c1"></span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">CustomServletInputStream</span> <span class="kd">extends</span> <span class="n">ServletInputStream</span> <span class="o">{</span>
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2012-09-11
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/grails">grails</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
+        <span class="kd">private</span> <span class="n">ByteArrayInputStream</span> <span class="n">buffer</span><span class="o">;</span>
 
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Funcional Code Coverage using Cobertura</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.</p>
-<p>One can start to complain :), stop working on the project or even better master the concept of <a href="http://se-radio.net/podcast/2009-11/episode-148-software-archaeology-dave-thomas">Software Archeology</a>. An additional thing is to adopt the use of <a href="http://cobertura.sourceforge.net/">Cobertura</a> a code coverage tool which can easily be used to track down Functional Code Coverage. Normally the concept of Code Coverage is used to identify what code is executed during development and test phase. This to give an indication on how much code you cover with your testing strategy (often unit testing). This is <strong>IMHO</strong> something you will always want to know! But in the case you do not have unit tests or creating them is impossible due to the technical/organisational nature of the project, you can rely on creating functional tests and still track down the &lsquo;functional&rsquo; coverage with tools like <a href="http://cobertura.sourceforge.net/">Cobertura</a> (or alternatives like <a href="http://emma.sourceforge.net/">Emma</a>).</p>
-<p><strong>This tackles several problems:</strong><br>
-You are creating functional tests which can be used for regression testing
-You are creating awareness on how little is tested or is known about the system
-Note: By functional testing we mean that we are going to test via the Web layer of the JEE project To see an example on how the reporting looks like, check out this <a href="http://cobertura.sourceforge.net/sample/">sample</a> report!</p>
-<h4 id="how-to-get-code-coverage-information">How to get Code Coverage information</h4>
-<p><strong>General process:</strong></p>
-<ul>
-<li>Compile your software</li>
-<li>Instrument the compiled code</li>
-<li>Deploy your instrumented code and start the application</li>
-<li>Use the application or run automated functional tests</li>
-<li>Shutdown the application</li>
-<li>Generate your Code Coverage reports</li>
-<li>no step 7! All done :)</li>
-</ul>
-<p>The remaining part of this article is going to describe how you can get Functional Code Coverage information in the process of continously building, deploying and testing your software. Some elements are not explained due to the fact that other extensive information is given somewhere else on the web!</p>
-<h4 id="compile-instrument-and-build">Compile, Instrument and Build</h4>
-<p>The <a href="http://maven.apache.org/">Maven</a> project enables you to build your software with great ease. Giving a few simple commands makes it able to build a project, deploy it and even integrate it with tools and technologies such as  Cobertura. There is a even a <a href="http://mojo.codehaus.org/cobertura-maven-plugin/">Cobertura Maven</a> Plugin to easily use <a href="http://cobertura.sourceforge.net/">Cobertura</a> in a <a href="http://maven.apache.org/">Maven</a> build. We need to use Cobertura in the build phase because it will instrument the compiled code and generate a small file called &lsquo;cobertura.ser&rsquo; which is used as a kind of database that stores each call to a piece of code. The instrumented code and the database file are crucial because they contains all information needed to generate code coverage reports later on.</p>
-<h4 id="run-and-test">Run and Test</h4>
-<p>After the code is succesfully instrumented you may deploy the build artifacts together with the &lsquo;cobertura.ser&rsquo; file inside a JBoss JEE container and run your application.</p>
-<p>Note: In our project we used <a href="http://www.jboss.org/">JBoss</a> but offcourse you can use other application servers!</p>
-<p>The <a href="http://jakarta.apache.org/jmeter/">JMeter</a> project delivers an excellent tooling and technology which enables you to record your functional flow and lets you replay a scenario which was recorded earlier on. For more information on <a href="http://jakarta.apache.org/jmeter/">JMeter</a> recording and usage, please check the <a href="http://jakarta.apache.org/jmeter/">JMeter</a> project. But for now lets assume you have created a couple of functional tests, so you can execute them.</p>
-<h4 id="generate-coverage-reports">Generate coverage reports</h4>
-<p>After the functional tests have been executed, the modified database file &lsquo;cobertura.ser&rsquo; can be collected and reports can be generated. Cobertura has some nice predefined reporting templates. After these stepes you should have inisight on what code is actually executed during a functional flow and this may contribute to your understanding of the application.</p>
-<h4 id="not-once-but-do-it-always">Not once but do it always!</h4>
-<p>The process of compiling, instrumenting, deploying, testing and reporting can be fully automatized. The famous Hudson comes to the rescue! When corectly implemented Hudson will serve you all information that you need on the moments you need it!</p>
-<h4 id="tools--technologies">Tools &amp; Technologies</h4>
-<p>The folowing list provides information on the tools that are used:</p>
-<ul>
-<li><a href="http://maven.apache.org/">Maven</a> -&gt; used info for compiling and instrumenting your code (alternative to <a href="http://ant.apache.org/">Ant</a>)</li>
-<li><a href="http://cobertura.sourceforge.net/">Cobertura</a> -&gt; used to get Code Coverage information</li>
-<li><a href="http://www.jboss.org/">JBoss</a> -&gt; used for running a JEE project</li>
-<li><a href="http://jakarta.apache.org/jmeter/">JMeter</a> -&gt; used to record and playback functional tests</li>
-<li><a href="http://hudson-ci.org/">Hudson</a> -&gt; used to automatically build &amp; test your software</li>
-</ul>
+        <span class="kd">public</span> <span class="nf">CustomServletInputStream</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">contents</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayInputStream</span><span class="o">(</span><span class="n">contents</span><span class="o">);</span>
+        <span class="o">}</span>
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2012-09-10
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/coverage">coverage</a>, <a href="/tags/testing">testing</a>, <a href="/tags/cobertura">cobertura</a>, <a href="/tags/continous-integration">continous integration</a>, <a href="/tags/hudson">hudson</a>, <a href="/tags/jenkins">jenkins</a>, <a href="/tags/ssh">ssh</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="na">read</span><span class="o">();</span>
+        <span class="o">}</span>
 
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Distributed Deployment with Hudson &amp; SSH</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Have you already implemented an multi-server artifact deployment using a <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engine? If not, then read ahead and maybe this article is of help.</p>
-<h4 id="the-need-for-continuous-integration">The need for Continuous Integration</h4>
-<p>A good practice in a software development methodology and lifecycle is the use of a <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engine. The adoption of <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> improves you software quality by quickly reporting failed builds so you can modify/correct your code. Popular Continuous Integration Engines can often be extended with software quality tooling so you can report on specific quality aspect of your software.</p>
-<p>Thus informing developers and even other people who take an interest in the status of the latest build. <strong>IMHO</strong> a failed build can also be identified as code that compiles but that does not meet the quality standards set by your organization. You are off-course totally free in defining what in your opinion a failed build actually means!</p>
-<p>A good build compiles, quality requirements have been met and automatic functional and unit testing has been successful.</p>
-<p>There a few popular <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engines available:</p>
-<ul>
-<li><a href="http://hudson-ci.org/">Hudson Extensible Continuous Integration Server</a></li>
-<li><a href="http://cruisecontrol.sourceforge.net/">CruiseControl</a></li>
-<li><a href="http://www.atlassian.com/software/bamboo/">Bamboo</a></li>
-</ul>
-<p>Probably there a some more, but for me needs the [Hudson Extensible Continuous Integration Server] works perfect.</p>
-<h4 id="my-needs">My needs</h4>
-<p>My Continuous Integration Engine:</p>
-<ul>
-<li>Must support multiple programming languages Java/.Net/Ruby</li>
-<li>Runs on multiple operating systems (Windows/Mac/Linux)</li>
-<li>Pluggable in the sense that there must be integration with for example JUnit, JMeter, Cobertura, Checkstyle etc.</li>
-<li>Must be able to send out notifications using email, twitter, Instant Messaging</li>
-<li>Seemless integration with CVS/SubVersion and GIT</li>
-<li>Simple and easy Configuration</li>
-<li>Must support timed builds &amp; trigger builds from <a href="http://en.wikipedia.org/wiki/Revision_control">SCM</a> commits</li>
-<li>Maintain a link between modified code and</li>
-<li>and some more..</li>
-</ul>
-<p>All of these requirements and more have been succesfully fulfilled by using <a href="http://hudson-ci.org/">Hudson</a></p>
-<h4 id="hudson-and-automatic-deployment">Hudson and automatic deployment</h4>
-<p>In every project a recurring problem arises, artifacts of a software build have to be distributed accross different servers and environments. How are the build artifacts going to be distributed and deployed? Why not let the <a href="http://hudson-ci.org/">Hudson</a> server give a helping hand!!</p>
-<h4 id="deployment-scenario">Deployment Scenario</h4>
-<p>In the following scenario we will be distributing build artifacts from a central Hudson server to three different <a href="http://www.jboss.org/">JBoss</a> application servers al running Windows 2003 Server as Operating System. Next to the <a href="http://hudson-ci.org/">Hudson</a> server we have a <a href="http://subversion.tigris.org/">Subversion</a> system which is used for <a href="http://en.wikipedia.org/wiki/Revision_control">SCM</a> purposes.</p>
-<h4 id="distribution-of-build-artifacts">Distribution of build artifacts</h4>
-<p>After a succesfull build, the artifacts have to be distributed to remote machines. Offcourse the latest code has been checked out from the SVN repository, compiled and tested. The distribution of the artifacts can be done in various ways. One can use Ftp, shared folders, SCM checkin etc..</p>
-<p>For me the most easiest way to distribute build artifacts is using <a href="http://en.wikipedia.org/wiki/Secure_Shell">Secure Shell access aka SSH</a>. This is a secure and a standardized manner for distribution. Lets assume we have the build artifacts somewhere on our <a href="http://hudson-ci.org/">Hudson</a> server, we need a way of transfering them using <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to a remote machine.</p>
-<p>To accomplish this we need SSH access to the remote machine. With the help off <a href="http://www.itefix.no/i2/node/27">CopSSH</a> installing SSH is a breeze!</p>
-<h4 id="prepare-for-installation-of-ssh">Prepare for installation of SSH</h4>
-<p>Prepare yourself by downloading:</p>
-<ul>
-<li><a href="http://www.itefix.no/i2/node/27">CopSSH</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> service for Windows</li>
-<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Putty</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client (used for connection to the SSH service)</li>
-<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PSCP</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client for file transfer</li>
-<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Plink</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client for executing remote commands</li>
-</ul>
-<h4 id="installing-and-enable-remote-access-using-ssh">Installing and enable remote access using SSH</h4>
-<ul>
-<li>Install <a href="http://www.itefix.no/i2/node/27">CopSSH</a> on the remote system</li>
-<li>On the remote system enable a user for <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> access, see the installation guide of CopSSH</li>
-<li>Start <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Putty</a> on your local machine</li>
-<li>Using Putty connect to the remote system and exchange security credentials</li>
-</ul>
-<p>You are now officially ready to remotely access the system using SSH
-If you want to enable the Hudson server to access the remote system, start Putty on the Hudson server and repeat step 4!</p>
-<p><strong>Note</strong>: Make sure that your Hudson uses the same credentials then the account in which you exchange security credentials, otherwise remote access from Hudson server to the remote system will not work!</p>
-<h4 id="execute-remote-commands-and-exchange-files-using-ssh">Execute remote commands and Exchange files using SSH</h4>
-<p>If you can succesfully access the remote server using Putty, it is time to exchange files or execute remote commands. This can be done by using 2 small commandline utilities called PSCP for file transfer and Plink for executing remote commands such as remotely deleting files etc.</p>
-<p>Make sure these are in you PATH settings so you can execute them everywhere!</p>
-<p>Examples for executing a remote command (substitute the %parameters% with your own ones)</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">#create a directory
-plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  mkdir C:/tmp
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="na">available</span><span class="o">()</span> <span class="o">==</span> <span class="n">0</span><span class="o">;</span>
+        <span class="o">}</span>
 
-#delete a directory
-plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  rm -rf C:/tmp
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isReady</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
 
-#stop a windows service
-plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  net stop %SERVICENAME%
-
-#upload a file
-pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
-
-#upload multiple files
-pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
-</code></pre></div><h4 id="the-return-of-the-bat-file">The return of the .bat file</h4>
-<p>So far we have enabled remote access using SSH / CopSSH, executed remote commands and transferred files. All the needed ingredients are in place to enable our Hudson server to remotely deploy build artifacts. In the job configuration of Hudson you can trigger a batch file after a succesfull build, so whenever a succesfull build occurs trigger a batch that executes a few commands to quickly deploy build artifacts to any number of remote servers.</p>
-<p>In our case all deployment artifacts are copied to a central directory per project. So if we need to deploy a build, we can copy parts or the whole directory contents to a remote server.</p>
-<p>To give an example see the following batch files: Main example for a batchfile that triggers stopping of the remote Windows Services gives the instruction on which files need to be remotely deployed and start the services again.</p>
-<div class="highlight"><pre class="chroma"><code class="language-batch" data-lang="batch">-<span class="p">&gt;</span> filename = upload-project-to-development.bat
-<span class="p">@</span><span class="k">CLS</span>
-<span class="p">@</span><span class="k">ECHO</span> OFF
-<span class="k">SET</span> <span class="nv">USERNAME</span><span class="p">=</span><span class="nv">%1</span>
-<span class="k">SET</span> <span class="nv">PASSWORD</span><span class="p">=</span><span class="nv">%2</span>
-<span class="k">SET</span> <span class="nv">HOSTNAME</span><span class="p">=</span><span class="nv">%3</span>
-<span class="k">SET</span> <span class="nv">JBOSSDIR</span><span class="p">=</span><span class="nv">%4</span>
-<span class="k">SET</span> <span class="nv">SOURCEDIR</span><span class="p">=</span><span class="nv">%5</span>
-<span class="p">@</span><span class="k">ECHO</span> : - start upload procedure
-<span class="p">@</span><span class="k">ECHO</span> : -- stopping servers
-<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> net stop JBoss
-<span class="p">@</span><span class="k">ECHO</span> : -- uploading files CALL upload-files.bat <span class="nv">%USERNAME%</span> <span class="nv">%PASSWORD%</span> <span class="nv">%HOSTNAME%</span> <span class="nv">%JBOSSDIR%</span> <span class="nv">%SOURCEDIR%</span>\*.*
-<span class="p">@</span><span class="k">ECHO</span> : -- starting servers
-<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> net start JBoss
-<span class="p">@</span><span class="k">ECHO</span> : - finished upload procedure
-</code></pre></div><p>The above script can be called easily by the Hudson server after a succesfull deployment.</p>
-<p><strong>example:</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">upload-project-to-development scott tiger 10.0.0.100 d:/java/server/jboss-v5.0 d:/build_artifacts/projectx
-</code></pre></div><p><strong>The example above:</strong></p>
-<ul>
-<li>Stops the JBoss server on the 10.0.0.100 host</li>
-<li>Passes some parameters to a file called “upload-files.bat” script</li>
-<li>Starts the JBoss servers again</li>
-</ul>
-<p>The script that executes the actual maintenance and uploads is the “upload-files.bat file”. All parameters are passed in by the calling script.</p>
-<div class="highlight"><pre class="chroma"><code class="language-batch" data-lang="batch">-<span class="p">&gt;</span> filename = upload-files.bat
-<span class="p">@</span><span class="k">ECHO</span> OFF
-<span class="k">SET</span> <span class="nv">USERNAME</span><span class="p">=</span><span class="nv">%1</span>
-<span class="k">SET</span> <span class="nv">PASSWORD</span><span class="p">=</span><span class="nv">%2</span>
-<span class="k">SET</span> <span class="nv">HOSTNAME</span><span class="p">=</span><span class="nv">%3</span>
-<span class="k">SET</span> <span class="nv">JBOSSDIR</span><span class="p">=</span><span class="nv">%4</span>
-<span class="k">SET</span> <span class="nv">SOURCE</span><span class="p">=</span><span class="nv">%5</span>
-<span class="k">SET</span> <span class="nv">DESTINATION</span><span class="p">=</span><span class="nv">%JBOSSDIR%</span>/deploy
-<span class="p">@</span><span class="k">ECHO</span>  : - <span class="nv">%HOSTNAME%</span> - starting file copy
-<span class="p">@</span><span class="k">ECHO</span>  : -- <span class="nv">%HOSTNAME%</span> - deleting JBOSS tmp
-<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm -rf <span class="nv">%JBOSSDIR%</span>/tmp
-<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> mkdir <span class="nv">%JBOSSDIR%</span>/tmp
-<span class="p">@</span><span class="k">ECHO</span>  : -- <span class="nv">%HOSTNAME%</span> - deleting JBOSS work
-<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm -rf <span class="nv">%JBOSSDIR%</span>/work
-<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> mkdir <span class="nv">%JBOSSDIR%</span>/work
-<span class="p">@</span><span class="k">ECHO</span>  : -- <span class="nv">%HOSTNAME%</span> - deleting previous ears + jars
-<span class="p">@</span>plink -batch  -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm <span class="nv">%JBOSSDIR%</span>/deploy/*.ear
-<span class="p">@</span>plink -batch  -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm <span class="nv">%JBOSSDIR%</span>/deploy/*.jar
-<span class="p">@</span><span class="k">ECHO</span>  : -- <span class="nv">%HOSTNAME%</span> - copy remote files
-<span class="p">@</span>pscp -pw <span class="nv">%PASSWORD%</span> <span class="nv">%SOURCE%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span>:<span class="nv">%DESTINATION%</span>
-<span class="p">@</span><span class="k">ECHO</span>  : - <span class="nv">%HOSTNAME%</span> - finishing file copy
-</code></pre></div><p><strong>The example above:</strong></p>
-<ul>
-<li>Removes the JBoss tmp &amp; work directory</li>
-<li>Removes artifacts from previous builds</li>
-<li>Copies the artifacts to the remote JBoss deploy directory</li>
-</ul>
-<h4 id="steps-taken">Steps taken</h4>
-<p>So the list of tasks executed by calling the batch files with the correct parameters are:</p>
-<ul>
-<li>Stopping the remote JBoss server</li>
-<li>Removing the remote JBoss tmp &amp; work directories</li>
-<li>Removing the remote JBoss artifacts from previous deployments</li>
-<li>Copy files to the remote JBoss server</li>
-<li>Starting the JBoss server again</li>
-</ul>
-<h4 id="from-build-to-deployment">From build to deployment</h4>
-<p>So with a quick installation of SSH/Putty/Plink/PSCP we now have a modular and easy way of distributing files to remote systems. Offcourse there are lots of improvements to make, but for now it works without any problems!</p>
-<p>The given examples can be easily modified so that after a succesfull build the artifact deployment to all of your servers can be done in a very simple and easy way.
-Notes</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2012-09-09
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/deployment">deployment</a>, <a href="/tags/continous-integration">continous integration</a>, <a href="/tags/hudson">hudson</a>, <a href="/tags/ssh">ssh</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Using MySQL instead of in-memory database for a Grails application</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.</p>
-<ul>
-<li>Download the MySQL JDBC driver [called a connector] from the MySQL website</li>
-<li>Extract the zip or tar archive</li>
-<li>Copy the driver (at this time of writing called <code>mysql-connector-java-5.1.13-bin.jar</code> into the <code>grails-app/lib</code> directory</li>
-<li>Configure your application datasource in file <code>grails-app/conf/DataSource.groovy</code></li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">development</span> <span class="o">{</span>
-    <span class="n">dataSource</span> <span class="o">{</span>
-       <span class="n">dbCreate</span> <span class="o">=</span> <span class="s2">&#34;create-drop&#34;</span> <span class="c1">// one of &#39;create&#39;, &#39;create-drop&#39;,&#39;update&#39;
-</span><span class="c1"></span>       <span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;jdbc:mysql://localhost:&lt;port&gt;/&lt;database&gt;&#34;</span>
-       <span class="n">driverClassName</span> <span class="o">=</span> <span class="s2">&#34;com.mysql.jdbc.Driver&#34;</span>
-       <span class="n">port</span> <span class="o">=</span>  <span class="c1">// default 3306
-</span><span class="c1"></span>       <span class="n">username</span> <span class="o">=</span> <span class="s2">&#34;&lt;username&gt;&#34;</span>
-       <span class="n">password</span> <span class="o">=</span> <span class="s2">&#34;&lt;password&gt;&#34;</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setReadListener</span><span class="o">(</span><span class="n">ReadListener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Not implemented&#34;</span><span class="o">);</span>
+        <span class="o">}</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
@@ -611,22 +181,261 @@ Notes</p>
     <div class="row">
         <div class="twelve columns">
             <div class="post-meta-info">
-                Published on
-                
-                    2012-09-05
-                
+                Published on 2015-06-10
                 <span class="post-meta-info-taxonomy">
-                    
-                    
                     using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/mysql">mysql</a>
+                        <a href="/tags/java">java</a>
                 </span>
             </div>
         </div>
     </div>
 </article>
 
-        
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Installing Docker Registry 2.0.1 using self signed certificates</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.</p>
+<p>So the setup will be that we install the Docker Registry and proxy the SSL user access via self signed certificates using an NGINX proxy image provided by Container Solutions. <a href="http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/">Check here for more information</a></p>
+<p>Installation of the remote docker registry will be done by using on an Amazon EC2 (Linux AMI). Currently the free tier Amazon Linux AMI 2015.03 (HVM), SSD Volume Type - ami-a10897d6. So spin up the Amazon AMI and let&rsquo;s install Docker.</p>
+<p><strong>Note:</strong> when you spin up your Amazon AMI make sure to remember the FQDN/DNS name! We need this name to generate the SSL certificates!</p>
+<pre><code>Example:
+&lt;domain-name&gt; = ec2-52-16-247-220.eu-west-1.compute.amazonaws.com
+</code></pre>
+<p>So spin up your AMI and install Docker!</p>
+<h2 id="installing-docker">Installing docker</h2>
+<ul>
+<li>login into your Amazon AMI</li>
+<li>update the system and install Docker</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo yum update -y
+$ sudo wget -qO- https://get.docker.com/ | sh
+</code></pre></div><ul>
+<li>add the ec2-user to the <code>docker</code> group (optional)</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo usermod -aG docker ec2-user
+</code></pre></div><ul>
+<li>start Docker</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo service docker start
+</code></pre></div><ul>
+<li>make sure Docker can run the basic &ldquo;hello-world&rdquo;</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker run hello-world
+</code></pre></div><h2 id="create-docker-registry-data-and-configuration-directories">Create Docker Registry data and configuration directories</h2>
+<p>We are going to store the registry image data inside <code>/opt/docker/registry/data</code> and configuration files such as the ssl certificates and user login inside <code>/opt/docker/registry/conf</code>.</p>
+<ul>
+<li>create data folders for Docker Registry data and configuration</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo mkdir -p /opt/docker/registry/data
+$ sudo mkdir -p /opt/docker/registry/conf
+</code></pre></div><h2 id="run-the-docker-registry">Run the Docker Registry</h2>
+<p>Now we are able to run the Docker Registry, the data for images that will be pushed are going to be stored in <code>/opt/docker/registry/data</code> and the container will be named <code>docker-registry</code></p>
+<ul>
+<li>run the registry and name it <code>docker-registry</code></li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker run -d -v /opt/docker/registry/data:/tmp/registry-dev \
+--name docker-registry registry:2.0.1
+</code></pre></div><ul>
+<li>test if the registry is actually running</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker ps
+</code></pre></div><p><strong>So now we have a running Docker Registry, but still no SSL proxy and no user accounts to get access to the registry.</strong></p>
+<h2 id="generate-self-signed-certificates-for-our-ssl-proxy">Generate self signed certificates for our SSL proxy</h2>
+<p>The result of the certificate generation will be placed in <code>/opt/docker/registry/conf</code> and named <code>docker-registry.crt</code> and <code>docker-registry.key</code>.</p>
+<p><strong>Note:</strong> The <code>docker-registry.crt</code> file is important, we will need this later on to configure our local Docker client on the machine that is going to access the remote registry. So after generating the <code>docker-registry.crt</code> file, grab this and store it on your local machine in a place where you can find it.</p>
+<ul>
+<li>generate the certificates</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+-keyout /opt/docker/registry/conf/docker-registry.key \
+-out /opt/docker/registry/conf/docker-registry.crt
+</code></pre></div><p>Accept all defaults and make sure you give the correct FQDN /DNS name = <code>&lt;domain-name&gt;</code>.</p>
+<h2 id="create-passwords-for-access-to-the-docker-registry">Create passwords for access to the Docker Registry</h2>
+<p>In order to let users login into the registry we need to create users  (user1/user2). This will be done by using <code>htpasswd</code>. The user data will be stored in <code>docker-registry.htpasswd</code> file and placed in the <code>/opt/docker/registry/conf</code> directory.</p>
+<ul>
+<li>install htpasswd</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo yum install httpd-tools -y
+</code></pre></div><ul>
+<li>create the users</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo htpasswd -c /opt/docker/registry/conf/docker-registry.htpasswd user1
+$ sudo htpasswd /opt/docker/registry/conf/docker-registry.htpasswd user2
+</code></pre></div><p><strong>Note:</strong> when creating the second user omit the <code>-c</code> otherwise the docker-registry.htpasswd file will be get overwritten!</p>
+<h2 id="run-the-nginx-proxy">Run the NGINX Proxy</h2>
+<p>As mentioned we are going to use the image from <a href="http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/">Container Solutions</a> to run our NGINX proxy.</p>
+<ul>
+<li>start the NGINX proxy and name it <code>docker-registry-proxy</code></li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker run -d -p 443:443  \
+-e REGISTRY_HOST=&#34;docker-registry&#34; -e REGISTRY_PORT=&#34;5000&#34; -e SERVER_NAME=&#34;localhost&#34; \
+--link docker-registry:docker-registry \
+-v /opt/docker/registry/conf/docker-registry.htpasswd:/etc/nginx/.htpasswd:ro \
+-v /opt/docker/registry/conf:/etc/nginx/ssl:ro \
+--name docker-registry-proxy containersol/docker-registry-proxy
+</code></pre></div><p>After this step we have a running Docker Registry which is secured using Self Signed certificates and users are able to login using their username/password.</p>
+<p>To test this navigate to your registry by using a browser (Chrome) and access: <code>https://&lt;domain-name&gt;:443/v2/</code>. After accepting the security warning provide a username/password and the output should be <code>{}</code>.</p>
+<h2 id="configure-the-local-docker-client">Configure the local Docker client</h2>
+<p>Now that we have a running secured Docker Registry we can configure the Docker client on our machine that is going to access the remote Registry. For this we need a copy of the earlier <code>docker-registry.crt</code> file.</p>
+<ul>
+<li>copy the <code>docker-registry.crt</code> file from our server to your local machine. This file is located in <code>/opt/docker/registry/conf</code>. Put the copy in a place where you can find it.</li>
+</ul>
+<h3 id="ubuntu-docker-client">Ubuntu Docker Client</h3>
+<p>In order to get the local client working, we need to install Docker and register the <code>docker-registry.crt</code> certificate file!</p>
+<ul>
+<li>install docker</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo wget -qO- https://get.docker.com/ | sh
+$ sudo service docker start
+</code></pre></div><ul>
+<li>create a directory holding our extra certificates</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo mkdir /usr/share/ca-certificates/extra
+</code></pre></div><ul>
+<li>
+<p>copy the <code>docker-registry.crt</code> file to the directory <code>/usr/share/ca-certificates/extra</code></p>
+</li>
+<li>
+<p>register the certificate</p>
+</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo dpkg-reconfigure ca-certificates
+</code></pre></div><p>Now you are almost ready!</p>
+<ul>
+<li>restart the local Docker client</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo service docker restart
+</code></pre></div><ul>
+<li>login onto your remote registry using</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ docker login &lt;domain-name&gt;:port
+</code></pre></div><p>Now we have a remote Docker Registry and the Docker Client is able to connect!</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2015-06-05
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/docker">docker</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Upgrading from Grails 2.3.8 to 2.4.2</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">Error creating bean with name &#39;grailsApplication&#39; defined in ServletContext resource
+[/WEB-INF/applicationContext.xml]: Cannot resolve reference to
+bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResourceLoader&#39;;
+</code></pre></div><p>To solve this issue you need to delete some lines in the <code>&lt;grails-app&gt;/web-app/WEB-INF/applicationContext.xml</code> file.</p>
+<p>Delete the following lines:</p>
+<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;grailsResourceLoader&#34;</span> <span class="na">ref=</span><span class="s">&#34;grailsResourceLoader&#34;</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;grailsResourceLoader&#34;</span> <span class="na">class=</span><span class="s">&#34;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&#34;</span> <span class="nt">/&gt;</span>
+</code></pre></div><p>And you should be up and running quickly.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2014-07-04
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/grails">grails</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Skip a contenttype/section to be renderend</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.</p>
+<p>Example:
+You want to only render contenttype &lsquo;post&rsquo;  use the following code in your template:</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="p">{{</span> <span class="k">if</span> <span class="nx">eq</span> <span class="p">.</span><span class="nx">Type</span> <span class="s">&#34;post&#34;</span> <span class="p">}}</span>
+
+    <span class="p">{{</span> <span class="p">.</span><span class="nx">Title</span> <span class="p">}}</span>
+    <span class="p">{{</span> <span class="p">.</span><span class="nx">Content</span> <span class="p">}}</span>
+
+<span class="p">{{</span> <span class="nx">end</span> <span class="p">}}</span>
+</code></pre></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2014-06-09
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/hugo">hugo</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Bookreview : Instant Vert.x</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>For those who have not yet got into contact with <a href="http://vertx.io/">Vert.x</a>, the book <a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Instant Vert.x</a> (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.</p>
+<p>As the name suggests, you can read the book in &ldquo;an instant&rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.</p>
+<p>For those who have not yet had the opportunity to learn about Vert.x, I would not immediately recommend this book. The online documentation section on Vertx.io contains the same information. But if you like a book with information nicely put into digestible chapters then this book is a good fit.</p>
+<p>Personally i hoped to get some more technical information and how-to information from this book but it is really targeted towards people that are just starting or have a beginning interest in Vert.x.</p>
+<p>Overall, I really liked the compactness and pace of the book. It is an easy read and you quickly gain knowledge on the high level concepts of Vert.x. While noted earlier you can get the information also on Vertx.io website or other places, it&rsquo;s is nice to have all information aggregated in one place. This book is a good start in your journey to learn about Vert.x.</p>
+<ul>
+<li><a href="http://vertx.io/">Go to the Vert.x website</a></li>
+<li><a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Get the book at Pack Publishing</a></li>
+</ul>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2013-11-27
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/vertx">vertx</a>, <a href="/tags/java">java</a>, <a href="/tags/review">review</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
         </div>
     </div>
 </div>
@@ -642,6 +451,10 @@ Notes</p>
                 <a class="button" href="http://mpas.github.io/page/3">&larr; Newer Posts</a>
                 </li>
             
+            
+                <li>
+                <a class="button" href="http://mpas.github.io/page/5">Older Posts &rarr;</a>
+                </li>
             
             </ul>
         
@@ -673,8 +486,6 @@ Notes</p>
                         <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
                             <i class="fab fa-stack-overflow"></i>
                         </a>
-                    
-                    
                     
                     
                         <a title="Email" href="mailto:marco.pasopas@gmail.com">

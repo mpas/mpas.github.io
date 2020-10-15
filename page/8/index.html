@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  
+  
+  <meta charset="utf-8">
+  <title>CodeVerse - CodeVerse</title>
+  <meta name="description" content="">
+  <meta name="author" content="Marco Pas">
+
+  <meta name="generator" content="" />
+  <meta name="robots" content="index,follow">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  
+  
+  <link rel="stylesheet" href="/skeleton/normalize.css">
+  <link rel="stylesheet" href="/skeleton/skeleton.css">
+  
+  
+  <link rel="stylesheet" href="/fontawesome/all.min.css">
+ 
+  
+  <script src="/prism/prism.js"></script>
+  <link rel="stylesheet" href="/prism/prism.css">
+  
+  
+  <link rel="stylesheet" href="/css/custom.css">
+  
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+</head>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="http://mpas.github.io">CodeVerse</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        
+                        
+                            <li class="current">
+                                <a href="/">Blog</a></li>
+                        
+                            <li >
+                                <a href="/posts">Post List</a></li>
+                        
+                            <li >
+                                <a href="/pages/about/">About Me</a></li>
+                        
+                            <li >
+                                <a href="/pages/resume">Resume</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="post-list">
+            
+            
+                
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Change default homepage for a Grails application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>You can set the default homepage for a Grails application by modifying the <code>grails-app/conf/UrlMappings.groovy</code> file. In a new Grails application this file will look like</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">UrlMappings</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="n">mappings</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="s2">&#34;/$controller/$action?/$id?&#34;</span><span class="o">{</span>
+            <span class="n">constraints</span> <span class="o">{</span>
+                <span class="c1">// apply constraints here
+</span><span class="c1"></span>            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
+        <span class="s2">&#34;500&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/error&#39;</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>Replace the line:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
+</code></pre></div><p>with:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">controller:</span><span class="s1">&#39;home&#39;</span><span class="o">,</span> <span class="nl">action:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
+</code></pre></div><p>This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the <strong>HomeController</strong> and corresponding <strong>index</strong> action related to that controller.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2012-09-11
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/grails">grails</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Funcional Code Coverage using Cobertura</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.</p>
+<p>One can start to complain :), stop working on the project or even better master the concept of <a href="http://se-radio.net/podcast/2009-11/episode-148-software-archaeology-dave-thomas">Software Archeology</a>. An additional thing is to adopt the use of <a href="http://cobertura.sourceforge.net/">Cobertura</a> a code coverage tool which can easily be used to track down Functional Code Coverage. Normally the concept of Code Coverage is used to identify what code is executed during development and test phase. This to give an indication on how much code you cover with your testing strategy (often unit testing). This is <strong>IMHO</strong> something you will always want to know! But in the case you do not have unit tests or creating them is impossible due to the technical/organisational nature of the project, you can rely on creating functional tests and still track down the &lsquo;functional&rsquo; coverage with tools like <a href="http://cobertura.sourceforge.net/">Cobertura</a> (or alternatives like <a href="http://emma.sourceforge.net/">Emma</a>).</p>
+<p><strong>This tackles several problems:</strong><br>
+You are creating functional tests which can be used for regression testing
+You are creating awareness on how little is tested or is known about the system
+Note: By functional testing we mean that we are going to test via the Web layer of the JEE project To see an example on how the reporting looks like, check out this <a href="http://cobertura.sourceforge.net/sample/">sample</a> report!</p>
+<h4 id="how-to-get-code-coverage-information">How to get Code Coverage information</h4>
+<p><strong>General process:</strong></p>
+<ul>
+<li>Compile your software</li>
+<li>Instrument the compiled code</li>
+<li>Deploy your instrumented code and start the application</li>
+<li>Use the application or run automated functional tests</li>
+<li>Shutdown the application</li>
+<li>Generate your Code Coverage reports</li>
+<li>no step 7! All done :)</li>
+</ul>
+<p>The remaining part of this article is going to describe how you can get Functional Code Coverage information in the process of continously building, deploying and testing your software. Some elements are not explained due to the fact that other extensive information is given somewhere else on the web!</p>
+<h4 id="compile-instrument-and-build">Compile, Instrument and Build</h4>
+<p>The <a href="http://maven.apache.org/">Maven</a> project enables you to build your software with great ease. Giving a few simple commands makes it able to build a project, deploy it and even integrate it with tools and technologies such as  Cobertura. There is a even a <a href="http://mojo.codehaus.org/cobertura-maven-plugin/">Cobertura Maven</a> Plugin to easily use <a href="http://cobertura.sourceforge.net/">Cobertura</a> in a <a href="http://maven.apache.org/">Maven</a> build. We need to use Cobertura in the build phase because it will instrument the compiled code and generate a small file called &lsquo;cobertura.ser&rsquo; which is used as a kind of database that stores each call to a piece of code. The instrumented code and the database file are crucial because they contains all information needed to generate code coverage reports later on.</p>
+<h4 id="run-and-test">Run and Test</h4>
+<p>After the code is succesfully instrumented you may deploy the build artifacts together with the &lsquo;cobertura.ser&rsquo; file inside a JBoss JEE container and run your application.</p>
+<p>Note: In our project we used <a href="http://www.jboss.org/">JBoss</a> but offcourse you can use other application servers!</p>
+<p>The <a href="http://jakarta.apache.org/jmeter/">JMeter</a> project delivers an excellent tooling and technology which enables you to record your functional flow and lets you replay a scenario which was recorded earlier on. For more information on <a href="http://jakarta.apache.org/jmeter/">JMeter</a> recording and usage, please check the <a href="http://jakarta.apache.org/jmeter/">JMeter</a> project. But for now lets assume you have created a couple of functional tests, so you can execute them.</p>
+<h4 id="generate-coverage-reports">Generate coverage reports</h4>
+<p>After the functional tests have been executed, the modified database file &lsquo;cobertura.ser&rsquo; can be collected and reports can be generated. Cobertura has some nice predefined reporting templates. After these stepes you should have inisight on what code is actually executed during a functional flow and this may contribute to your understanding of the application.</p>
+<h4 id="not-once-but-do-it-always">Not once but do it always!</h4>
+<p>The process of compiling, instrumenting, deploying, testing and reporting can be fully automatized. The famous Hudson comes to the rescue! When corectly implemented Hudson will serve you all information that you need on the moments you need it!</p>
+<h4 id="tools--technologies">Tools &amp; Technologies</h4>
+<p>The folowing list provides information on the tools that are used:</p>
+<ul>
+<li><a href="http://maven.apache.org/">Maven</a> -&gt; used info for compiling and instrumenting your code (alternative to <a href="http://ant.apache.org/">Ant</a>)</li>
+<li><a href="http://cobertura.sourceforge.net/">Cobertura</a> -&gt; used to get Code Coverage information</li>
+<li><a href="http://www.jboss.org/">JBoss</a> -&gt; used for running a JEE project</li>
+<li><a href="http://jakarta.apache.org/jmeter/">JMeter</a> -&gt; used to record and playback functional tests</li>
+<li><a href="http://hudson-ci.org/">Hudson</a> -&gt; used to automatically build &amp; test your software</li>
+</ul>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2012-09-10
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/coverage">coverage</a>, <a href="/tags/testing">testing</a>, <a href="/tags/cobertura">cobertura</a>, <a href="/tags/continous-integration">continous integration</a>, <a href="/tags/hudson">hudson</a>, <a href="/tags/jenkins">jenkins</a>, <a href="/tags/ssh">ssh</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Distributed Deployment with Hudson &amp; SSH</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Have you already implemented an multi-server artifact deployment using a <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engine? If not, then read ahead and maybe this article is of help.</p>
+<h4 id="the-need-for-continuous-integration">The need for Continuous Integration</h4>
+<p>A good practice in a software development methodology and lifecycle is the use of a <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engine. The adoption of <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> improves you software quality by quickly reporting failed builds so you can modify/correct your code. Popular Continuous Integration Engines can often be extended with software quality tooling so you can report on specific quality aspect of your software.</p>
+<p>Thus informing developers and even other people who take an interest in the status of the latest build. <strong>IMHO</strong> a failed build can also be identified as code that compiles but that does not meet the quality standards set by your organization. You are off-course totally free in defining what in your opinion a failed build actually means!</p>
+<p>A good build compiles, quality requirements have been met and automatic functional and unit testing has been successful.</p>
+<p>There a few popular <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engines available:</p>
+<ul>
+<li><a href="http://hudson-ci.org/">Hudson Extensible Continuous Integration Server</a></li>
+<li><a href="http://cruisecontrol.sourceforge.net/">CruiseControl</a></li>
+<li><a href="http://www.atlassian.com/software/bamboo/">Bamboo</a></li>
+</ul>
+<p>Probably there a some more, but for me needs the [Hudson Extensible Continuous Integration Server] works perfect.</p>
+<h4 id="my-needs">My needs</h4>
+<p>My Continuous Integration Engine:</p>
+<ul>
+<li>Must support multiple programming languages Java/.Net/Ruby</li>
+<li>Runs on multiple operating systems (Windows/Mac/Linux)</li>
+<li>Pluggable in the sense that there must be integration with for example JUnit, JMeter, Cobertura, Checkstyle etc.</li>
+<li>Must be able to send out notifications using email, twitter, Instant Messaging</li>
+<li>Seemless integration with CVS/SubVersion and GIT</li>
+<li>Simple and easy Configuration</li>
+<li>Must support timed builds &amp; trigger builds from <a href="http://en.wikipedia.org/wiki/Revision_control">SCM</a> commits</li>
+<li>Maintain a link between modified code and</li>
+<li>and some more..</li>
+</ul>
+<p>All of these requirements and more have been succesfully fulfilled by using <a href="http://hudson-ci.org/">Hudson</a></p>
+<h4 id="hudson-and-automatic-deployment">Hudson and automatic deployment</h4>
+<p>In every project a recurring problem arises, artifacts of a software build have to be distributed accross different servers and environments. How are the build artifacts going to be distributed and deployed? Why not let the <a href="http://hudson-ci.org/">Hudson</a> server give a helping hand!!</p>
+<h4 id="deployment-scenario">Deployment Scenario</h4>
+<p>In the following scenario we will be distributing build artifacts from a central Hudson server to three different <a href="http://www.jboss.org/">JBoss</a> application servers al running Windows 2003 Server as Operating System. Next to the <a href="http://hudson-ci.org/">Hudson</a> server we have a <a href="http://subversion.tigris.org/">Subversion</a> system which is used for <a href="http://en.wikipedia.org/wiki/Revision_control">SCM</a> purposes.</p>
+<h4 id="distribution-of-build-artifacts">Distribution of build artifacts</h4>
+<p>After a succesfull build, the artifacts have to be distributed to remote machines. Offcourse the latest code has been checked out from the SVN repository, compiled and tested. The distribution of the artifacts can be done in various ways. One can use Ftp, shared folders, SCM checkin etc..</p>
+<p>For me the most easiest way to distribute build artifacts is using <a href="http://en.wikipedia.org/wiki/Secure_Shell">Secure Shell access aka SSH</a>. This is a secure and a standardized manner for distribution. Lets assume we have the build artifacts somewhere on our <a href="http://hudson-ci.org/">Hudson</a> server, we need a way of transfering them using <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to a remote machine.</p>
+<p>To accomplish this we need SSH access to the remote machine. With the help off <a href="http://www.itefix.no/i2/node/27">CopSSH</a> installing SSH is a breeze!</p>
+<h4 id="prepare-for-installation-of-ssh">Prepare for installation of SSH</h4>
+<p>Prepare yourself by downloading:</p>
+<ul>
+<li><a href="http://www.itefix.no/i2/node/27">CopSSH</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> service for Windows</li>
+<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Putty</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client (used for connection to the SSH service)</li>
+<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PSCP</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client for file transfer</li>
+<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Plink</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client for executing remote commands</li>
+</ul>
+<h4 id="installing-and-enable-remote-access-using-ssh">Installing and enable remote access using SSH</h4>
+<ul>
+<li>Install <a href="http://www.itefix.no/i2/node/27">CopSSH</a> on the remote system</li>
+<li>On the remote system enable a user for <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> access, see the installation guide of CopSSH</li>
+<li>Start <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Putty</a> on your local machine</li>
+<li>Using Putty connect to the remote system and exchange security credentials</li>
+</ul>
+<p>You are now officially ready to remotely access the system using SSH
+If you want to enable the Hudson server to access the remote system, start Putty on the Hudson server and repeat step 4!</p>
+<p><strong>Note</strong>: Make sure that your Hudson uses the same credentials then the account in which you exchange security credentials, otherwise remote access from Hudson server to the remote system will not work!</p>
+<h4 id="execute-remote-commands-and-exchange-files-using-ssh">Execute remote commands and Exchange files using SSH</h4>
+<p>If you can succesfully access the remote server using Putty, it is time to exchange files or execute remote commands. This can be done by using 2 small commandline utilities called PSCP for file transfer and Plink for executing remote commands such as remotely deleting files etc.</p>
+<p>Make sure these are in you PATH settings so you can execute them everywhere!</p>
+<p>Examples for executing a remote command (substitute the %parameters% with your own ones)</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">#create a directory
+plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  mkdir C:/tmp
+
+#delete a directory
+plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  rm -rf C:/tmp
+
+#stop a windows service
+plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  net stop %SERVICENAME%
+
+#upload a file
+pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
+
+#upload multiple files
+pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
+</code></pre></div><h4 id="the-return-of-the-bat-file">The return of the .bat file</h4>
+<p>So far we have enabled remote access using SSH / CopSSH, executed remote commands and transferred files. All the needed ingredients are in place to enable our Hudson server to remotely deploy build artifacts. In the job configuration of Hudson you can trigger a batch file after a succesfull build, so whenever a succesfull build occurs trigger a batch that executes a few commands to quickly deploy build artifacts to any number of remote servers.</p>
+<p>In our case all deployment artifacts are copied to a central directory per project. So if we need to deploy a build, we can copy parts or the whole directory contents to a remote server.</p>
+<p>To give an example see the following batch files: Main example for a batchfile that triggers stopping of the remote Windows Services gives the instruction on which files need to be remotely deployed and start the services again.</p>
+<div class="highlight"><pre class="chroma"><code class="language-batch" data-lang="batch">-<span class="p">&gt;</span> filename = upload-project-to-development.bat
+<span class="p">@</span><span class="k">CLS</span>
+<span class="p">@</span><span class="k">ECHO</span> OFF
+<span class="k">SET</span> <span class="nv">USERNAME</span><span class="p">=</span><span class="nv">%1</span>
+<span class="k">SET</span> <span class="nv">PASSWORD</span><span class="p">=</span><span class="nv">%2</span>
+<span class="k">SET</span> <span class="nv">HOSTNAME</span><span class="p">=</span><span class="nv">%3</span>
+<span class="k">SET</span> <span class="nv">JBOSSDIR</span><span class="p">=</span><span class="nv">%4</span>
+<span class="k">SET</span> <span class="nv">SOURCEDIR</span><span class="p">=</span><span class="nv">%5</span>
+<span class="p">@</span><span class="k">ECHO</span> : - start upload procedure
+<span class="p">@</span><span class="k">ECHO</span> : -- stopping servers
+<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> net stop JBoss
+<span class="p">@</span><span class="k">ECHO</span> : -- uploading files CALL upload-files.bat <span class="nv">%USERNAME%</span> <span class="nv">%PASSWORD%</span> <span class="nv">%HOSTNAME%</span> <span class="nv">%JBOSSDIR%</span> <span class="nv">%SOURCEDIR%</span>\*.*
+<span class="p">@</span><span class="k">ECHO</span> : -- starting servers
+<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> net start JBoss
+<span class="p">@</span><span class="k">ECHO</span> : - finished upload procedure
+</code></pre></div><p>The above script can be called easily by the Hudson server after a succesfull deployment.</p>
+<p><strong>example:</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">upload-project-to-development scott tiger 10.0.0.100 d:/java/server/jboss-v5.0 d:/build_artifacts/projectx
+</code></pre></div><p><strong>The example above:</strong></p>
+<ul>
+<li>Stops the JBoss server on the 10.0.0.100 host</li>
+<li>Passes some parameters to a file called “upload-files.bat” script</li>
+<li>Starts the JBoss servers again</li>
+</ul>
+<p>The script that executes the actual maintenance and uploads is the “upload-files.bat file”. All parameters are passed in by the calling script.</p>
+<div class="highlight"><pre class="chroma"><code class="language-batch" data-lang="batch">-<span class="p">&gt;</span> filename = upload-files.bat
+<span class="p">@</span><span class="k">ECHO</span> OFF
+<span class="k">SET</span> <span class="nv">USERNAME</span><span class="p">=</span><span class="nv">%1</span>
+<span class="k">SET</span> <span class="nv">PASSWORD</span><span class="p">=</span><span class="nv">%2</span>
+<span class="k">SET</span> <span class="nv">HOSTNAME</span><span class="p">=</span><span class="nv">%3</span>
+<span class="k">SET</span> <span class="nv">JBOSSDIR</span><span class="p">=</span><span class="nv">%4</span>
+<span class="k">SET</span> <span class="nv">SOURCE</span><span class="p">=</span><span class="nv">%5</span>
+<span class="k">SET</span> <span class="nv">DESTINATION</span><span class="p">=</span><span class="nv">%JBOSSDIR%</span>/deploy
+<span class="p">@</span><span class="k">ECHO</span>  : - <span class="nv">%HOSTNAME%</span> - starting file copy
+<span class="p">@</span><span class="k">ECHO</span>  : -- <span class="nv">%HOSTNAME%</span> - deleting JBOSS tmp
+<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm -rf <span class="nv">%JBOSSDIR%</span>/tmp
+<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> mkdir <span class="nv">%JBOSSDIR%</span>/tmp
+<span class="p">@</span><span class="k">ECHO</span>  : -- <span class="nv">%HOSTNAME%</span> - deleting JBOSS work
+<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm -rf <span class="nv">%JBOSSDIR%</span>/work
+<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> mkdir <span class="nv">%JBOSSDIR%</span>/work
+<span class="p">@</span><span class="k">ECHO</span>  : -- <span class="nv">%HOSTNAME%</span> - deleting previous ears + jars
+<span class="p">@</span>plink -batch  -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm <span class="nv">%JBOSSDIR%</span>/deploy/*.ear
+<span class="p">@</span>plink -batch  -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm <span class="nv">%JBOSSDIR%</span>/deploy/*.jar
+<span class="p">@</span><span class="k">ECHO</span>  : -- <span class="nv">%HOSTNAME%</span> - copy remote files
+<span class="p">@</span>pscp -pw <span class="nv">%PASSWORD%</span> <span class="nv">%SOURCE%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span>:<span class="nv">%DESTINATION%</span>
+<span class="p">@</span><span class="k">ECHO</span>  : - <span class="nv">%HOSTNAME%</span> - finishing file copy
+</code></pre></div><p><strong>The example above:</strong></p>
+<ul>
+<li>Removes the JBoss tmp &amp; work directory</li>
+<li>Removes artifacts from previous builds</li>
+<li>Copies the artifacts to the remote JBoss deploy directory</li>
+</ul>
+<h4 id="steps-taken">Steps taken</h4>
+<p>So the list of tasks executed by calling the batch files with the correct parameters are:</p>
+<ul>
+<li>Stopping the remote JBoss server</li>
+<li>Removing the remote JBoss tmp &amp; work directories</li>
+<li>Removing the remote JBoss artifacts from previous deployments</li>
+<li>Copy files to the remote JBoss server</li>
+<li>Starting the JBoss server again</li>
+</ul>
+<h4 id="from-build-to-deployment">From build to deployment</h4>
+<p>So with a quick installation of SSH/Putty/Plink/PSCP we now have a modular and easy way of distributing files to remote systems. Offcourse there are lots of improvements to make, but for now it works without any problems!</p>
+<p>The given examples can be easily modified so that after a succesfull build the artifact deployment to all of your servers can be done in a very simple and easy way.
+Notes</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2012-09-09
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/deployment">deployment</a>, <a href="/tags/continous-integration">continous integration</a>, <a href="/tags/hudson">hudson</a>, <a href="/tags/ssh">ssh</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Using MySQL instead of in-memory database for a Grails application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.</p>
+<ul>
+<li>Download the MySQL JDBC driver [called a connector] from the MySQL website</li>
+<li>Extract the zip or tar archive</li>
+<li>Copy the driver (at this time of writing called <code>mysql-connector-java-5.1.13-bin.jar</code> into the <code>grails-app/lib</code> directory</li>
+<li>Configure your application datasource in file <code>grails-app/conf/DataSource.groovy</code></li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">development</span> <span class="o">{</span>
+    <span class="n">dataSource</span> <span class="o">{</span>
+       <span class="n">dbCreate</span> <span class="o">=</span> <span class="s2">&#34;create-drop&#34;</span> <span class="c1">// one of &#39;create&#39;, &#39;create-drop&#39;,&#39;update&#39;
+</span><span class="c1"></span>       <span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;jdbc:mysql://localhost:&lt;port&gt;/&lt;database&gt;&#34;</span>
+       <span class="n">driverClassName</span> <span class="o">=</span> <span class="s2">&#34;com.mysql.jdbc.Driver&#34;</span>
+       <span class="n">port</span> <span class="o">=</span>  <span class="c1">// default 3306
+</span><span class="c1"></span>       <span class="n">username</span> <span class="o">=</span> <span class="s2">&#34;&lt;username&gt;&#34;</span>
+       <span class="n">password</span> <span class="o">=</span> <span class="s2">&#34;&lt;password&gt;&#34;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2012-09-05
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/mysql">mysql</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="twelve columns">
+        
+            <ul class="pager">
+            
+                <li>
+                <a class="button" href="http://mpas.github.io/page/7">&larr; Newer Posts</a>
+                </li>
+            
+            
+            </ul>
+        
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    
+                        <a title="Twitter" href="https://twitter.com/marcopas">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    
+                    
+                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    
+                    
+                        <a title="GitHub" href="https://github.com/mpas">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    
+                    
+                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
+                            <i class="fab fa-stack-overflow"></i>
+                        </a>
+                    
+                    
+                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
+                            <i class="far fa-envelope"></i>
+                        </a>
+                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+

@@ -6,17 +6,13 @@
     <description>Recent content in owa on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 17 Nov 2015 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://mpas.github.io/tags/owa/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 17 Nov 2015 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/owa/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</title>
-      <link>http://mpas.github.io/post/2015/11/17/20151117-davmail/</link>
+      <link>http://mpas.github.io/posts/2015/11/17/20151117-davmail/</link>
       <pubDate>Tue, 17 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2015/11/17/20151117-davmail/</guid>
+      <guid>http://mpas.github.io/posts/2015/11/17/20151117-davmail/</guid>
       <description>If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific PostBox mail client.
 As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.</description>
     </item>

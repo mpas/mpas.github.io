@@ -6,17 +6,13 @@
     <description>Recent content in markdown on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 13 Sep 2012 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://mpas.github.io/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 13 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Installing Markdown on OSX and use it inside VIM</title>
-      <link>http://mpas.github.io/post/2012/09/13/20120913-installing-markdown-on-osx-use-it-inside-vim/</link>
+      <link>http://mpas.github.io/posts/2012/09/13/20120913-installing-markdown-on-osx-use-it-inside-vim/</link>
       <pubDate>Thu, 13 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/13/20120913-installing-markdown-on-osx-use-it-inside-vim/</guid>
+      <guid>http://mpas.github.io/posts/2012/09/13/20120913-installing-markdown-on-osx-use-it-inside-vim/</guid>
       <description>Back again to one of my favorites which is called Markdown. Once every now and then i forget how easy it is. Normally i use Textmate to do all my writing, but recently i have picked up VIM to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)
 Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different.</description>
     </item>

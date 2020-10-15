@@ -6,20 +6,17 @@
     <description>Recent content in rest on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 19 Nov 2015 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://mpas.github.io/tags/rest/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 19 Nov 2015 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/rest/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Functional Rest API Testing with Grails/Rest Client Builder</title>
-      <link>http://mpas.github.io/post/2015/11/19/20151119-functional-rest-api-testing/</link>
+      <link>http://mpas.github.io/posts/2015/11/19/20151119-functional-rest-api-testing/</link>
       <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2015/11/19/20151119-functional-rest-api-testing/</guid>
+      <guid>http://mpas.github.io/posts/2015/11/19/20151119-functional-rest-api-testing/</guid>
       <description>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.
 When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.
-**Scenario:**Performing a GET request on a url (http://localhost:8080/helloworld) should return a HTTP Status 200 and data with a json payload</description>
+Scenario:
+Performing a GET request on a url (http://localhost:8080/helloworld) should return a HTTP Status 200 and data with a json payload</description>
     </item>
     
   </channel>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  
+  
+  <meta charset="utf-8">
+  <title>CodeVerse - Installing Docker Registry 2.0.1 using self signed certificates</title>
+  <meta name="description" content="">
+  <meta name="author" content="Marco Pas">
+
+  <meta name="generator" content="" />
+  <meta name="robots" content="index,follow">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  
+  
+  <link rel="stylesheet" href="/skeleton/normalize.css">
+  <link rel="stylesheet" href="/skeleton/skeleton.css">
+  
+  
+  <link rel="stylesheet" href="/fontawesome/all.min.css">
+ 
+  
+  <script src="/prism/prism.js"></script>
+  <link rel="stylesheet" href="/prism/prism.css">
+  
+  
+  <link rel="stylesheet" href="/css/custom.css">
+  
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+</head>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="http://mpas.github.io">CodeVerse</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        
+                        
+                            <li >
+                                <a href="/">Blog</a></li>
+                        
+                            <li >
+                                <a href="/posts">Post List</a></li>
+                        
+                            <li >
+                                <a href="/pages/about/">About Me</a></li>
+                        
+                            <li >
+                                <a href="/pages/resume">Resume</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="post-content">
+        <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Installing Docker Registry 2.0.1 using self signed certificates</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.</p>
+<p>So the setup will be that we install the Docker Registry and proxy the SSL user access via self signed certificates using an NGINX proxy image provided by Container Solutions. <a href="http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/">Check here for more information</a></p>
+<p>Installation of the remote docker registry will be done by using on an Amazon EC2 (Linux AMI). Currently the free tier Amazon Linux AMI 2015.03 (HVM), SSD Volume Type - ami-a10897d6. So spin up the Amazon AMI and let&rsquo;s install Docker.</p>
+<p><strong>Note:</strong> when you spin up your Amazon AMI make sure to remember the FQDN/DNS name! We need this name to generate the SSL certificates!</p>
+<pre><code>Example:
+&lt;domain-name&gt; = ec2-52-16-247-220.eu-west-1.compute.amazonaws.com
+</code></pre>
+<p>So spin up your AMI and install Docker!</p>
+<h2 id="installing-docker">Installing docker</h2>
+<ul>
+<li>login into your Amazon AMI</li>
+<li>update the system and install Docker</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo yum update -y
+$ sudo wget -qO- https://get.docker.com/ | sh
+</code></pre></div><ul>
+<li>add the ec2-user to the <code>docker</code> group (optional)</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo usermod -aG docker ec2-user
+</code></pre></div><ul>
+<li>start Docker</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo service docker start
+</code></pre></div><ul>
+<li>make sure Docker can run the basic &ldquo;hello-world&rdquo;</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker run hello-world
+</code></pre></div><h2 id="create-docker-registry-data-and-configuration-directories">Create Docker Registry data and configuration directories</h2>
+<p>We are going to store the registry image data inside <code>/opt/docker/registry/data</code> and configuration files such as the ssl certificates and user login inside <code>/opt/docker/registry/conf</code>.</p>
+<ul>
+<li>create data folders for Docker Registry data and configuration</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo mkdir -p /opt/docker/registry/data
+$ sudo mkdir -p /opt/docker/registry/conf
+</code></pre></div><h2 id="run-the-docker-registry">Run the Docker Registry</h2>
+<p>Now we are able to run the Docker Registry, the data for images that will be pushed are going to be stored in <code>/opt/docker/registry/data</code> and the container will be named <code>docker-registry</code></p>
+<ul>
+<li>run the registry and name it <code>docker-registry</code></li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker run -d -v /opt/docker/registry/data:/tmp/registry-dev \
+--name docker-registry registry:2.0.1
+</code></pre></div><ul>
+<li>test if the registry is actually running</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker ps
+</code></pre></div><p><strong>So now we have a running Docker Registry, but still no SSL proxy and no user accounts to get access to the registry.</strong></p>
+<h2 id="generate-self-signed-certificates-for-our-ssl-proxy">Generate self signed certificates for our SSL proxy</h2>
+<p>The result of the certificate generation will be placed in <code>/opt/docker/registry/conf</code> and named <code>docker-registry.crt</code> and <code>docker-registry.key</code>.</p>
+<p><strong>Note:</strong> The <code>docker-registry.crt</code> file is important, we will need this later on to configure our local Docker client on the machine that is going to access the remote registry. So after generating the <code>docker-registry.crt</code> file, grab this and store it on your local machine in a place where you can find it.</p>
+<ul>
+<li>generate the certificates</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+-keyout /opt/docker/registry/conf/docker-registry.key \
+-out /opt/docker/registry/conf/docker-registry.crt
+</code></pre></div><p>Accept all defaults and make sure you give the correct FQDN /DNS name = <code>&lt;domain-name&gt;</code>.</p>
+<h2 id="create-passwords-for-access-to-the-docker-registry">Create passwords for access to the Docker Registry</h2>
+<p>In order to let users login into the registry we need to create users  (user1/user2). This will be done by using <code>htpasswd</code>. The user data will be stored in <code>docker-registry.htpasswd</code> file and placed in the <code>/opt/docker/registry/conf</code> directory.</p>
+<ul>
+<li>install htpasswd</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo yum install httpd-tools -y
+</code></pre></div><ul>
+<li>create the users</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo htpasswd -c /opt/docker/registry/conf/docker-registry.htpasswd user1
+$ sudo htpasswd /opt/docker/registry/conf/docker-registry.htpasswd user2
+</code></pre></div><p><strong>Note:</strong> when creating the second user omit the <code>-c</code> otherwise the docker-registry.htpasswd file will be get overwritten!</p>
+<h2 id="run-the-nginx-proxy">Run the NGINX Proxy</h2>
+<p>As mentioned we are going to use the image from <a href="http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/">Container Solutions</a> to run our NGINX proxy.</p>
+<ul>
+<li>start the NGINX proxy and name it <code>docker-registry-proxy</code></li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker run -d -p 443:443  \
+-e REGISTRY_HOST=&#34;docker-registry&#34; -e REGISTRY_PORT=&#34;5000&#34; -e SERVER_NAME=&#34;localhost&#34; \
+--link docker-registry:docker-registry \
+-v /opt/docker/registry/conf/docker-registry.htpasswd:/etc/nginx/.htpasswd:ro \
+-v /opt/docker/registry/conf:/etc/nginx/ssl:ro \
+--name docker-registry-proxy containersol/docker-registry-proxy
+</code></pre></div><p>After this step we have a running Docker Registry which is secured using Self Signed certificates and users are able to login using their username/password.</p>
+<p>To test this navigate to your registry by using a browser (Chrome) and access: <code>https://&lt;domain-name&gt;:443/v2/</code>. After accepting the security warning provide a username/password and the output should be <code>{}</code>.</p>
+<h2 id="configure-the-local-docker-client">Configure the local Docker client</h2>
+<p>Now that we have a running secured Docker Registry we can configure the Docker client on our machine that is going to access the remote Registry. For this we need a copy of the earlier <code>docker-registry.crt</code> file.</p>
+<ul>
+<li>copy the <code>docker-registry.crt</code> file from our server to your local machine. This file is located in <code>/opt/docker/registry/conf</code>. Put the copy in a place where you can find it.</li>
+</ul>
+<h3 id="ubuntu-docker-client">Ubuntu Docker Client</h3>
+<p>In order to get the local client working, we need to install Docker and register the <code>docker-registry.crt</code> certificate file!</p>
+<ul>
+<li>install docker</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo wget -qO- https://get.docker.com/ | sh
+$ sudo service docker start
+</code></pre></div><ul>
+<li>create a directory holding our extra certificates</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo mkdir /usr/share/ca-certificates/extra
+</code></pre></div><ul>
+<li>
+<p>copy the <code>docker-registry.crt</code> file to the directory <code>/usr/share/ca-certificates/extra</code></p>
+</li>
+<li>
+<p>register the certificate</p>
+</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo dpkg-reconfigure ca-certificates
+</code></pre></div><p>Now you are almost ready!</p>
+<ul>
+<li>restart the local Docker client</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo service docker restart
+</code></pre></div><ul>
+<li>login onto your remote registry using</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ docker login &lt;domain-name&gt;:port
+</code></pre></div><p>Now we have a remote Docker Registry and the Docker Client is able to connect!</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2015-06-05
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/docker">docker</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+      </div>
+    </div>
+  </div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    
+                        <a title="Twitter" href="https://twitter.com/marcopas">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    
+                    
+                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    
+                    
+                        <a title="GitHub" href="https://github.com/mpas">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    
+                    
+                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
+                            <i class="fab fa-stack-overflow"></i>
+                        </a>
+                    
+                    
+                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
+                            <i class="far fa-envelope"></i>
+                        </a>
+                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+

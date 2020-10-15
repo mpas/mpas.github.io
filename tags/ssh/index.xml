@@ -6,27 +6,23 @@
     <description>Recent content in ssh on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 10 Sep 2012 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://mpas.github.io/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 10 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Funcional Code Coverage using Cobertura</title>
-      <link>http://mpas.github.io/post/2012/09/10/20120910-functional-code-coverage-using-cobertura/</link>
+      <link>http://mpas.github.io/posts/2012/09/10/20120910-functional-code-coverage-using-cobertura/</link>
       <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/10/20120910-functional-code-coverage-using-cobertura/</guid>
+      <guid>http://mpas.github.io/posts/2012/09/10/20120910-functional-code-coverage-using-cobertura/</guid>
       <description>So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.
 One can start to complain :), stop working on the project or even better master the concept of Software Archeology.</description>
     </item>
     
     <item>
       <title>Distributed Deployment with Hudson &amp; SSH</title>
-      <link>http://mpas.github.io/post/2012/09/09/20120909-distributed-deployment-with-hudson-and-ssh/</link>
+      <link>http://mpas.github.io/posts/2012/09/09/20120909-distributed-deployment-with-hudson-and-ssh/</link>
       <pubDate>Sun, 09 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/09/20120909-distributed-deployment-with-hudson-and-ssh/</guid>
+      <guid>http://mpas.github.io/posts/2012/09/09/20120909-distributed-deployment-with-hudson-and-ssh/</guid>
       <description>Have you already implemented an multi-server artifact deployment using a Continuous Integration Engine? If not, then read ahead and maybe this article is of help.
 The need for Continuous Integration A good practice in a software development methodology and lifecycle is the use of a Continuous Integration Engine. The adoption of Continuous Integration improves you software quality by quickly reporting failed builds so you can modify/correct your code. Popular Continuous Integration Engines can often be extended with software quality tooling so you can report on specific quality aspect of your software.</description>
     </item>

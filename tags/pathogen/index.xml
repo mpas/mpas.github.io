@@ -6,17 +6,13 @@
     <description>Recent content in pathogen on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 14 Sep 2012 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://mpas.github.io/tags/pathogen/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 14 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/pathogen/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Installing Vimball plugins when using Pathogen</title>
-      <link>http://mpas.github.io/post/2012/09/14/20120914-installing-vimball-plugins-using-pathogen/</link>
+      <link>http://mpas.github.io/posts/2012/09/14/20120914-installing-vimball-plugins-using-pathogen/</link>
       <pubDate>Fri, 14 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2012/09/14/20120914-installing-vimball-plugins-using-pathogen/</guid>
+      <guid>http://mpas.github.io/posts/2012/09/14/20120914-installing-vimball-plugins-using-pathogen/</guid>
       <description>No need to discuss that Vim is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the wiki.
 Pathogen When you instal a plugin one may copy the files to the plugin directory. In a later stage you also want to delete a plugin and then the hunt for files starts.</description>
     </item>

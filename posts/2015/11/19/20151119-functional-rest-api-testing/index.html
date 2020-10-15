@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  
+  
+  <meta charset="utf-8">
+  <title>CodeVerse - Functional Rest API Testing with Grails/Rest Client Builder</title>
+  <meta name="description" content="">
+  <meta name="author" content="Marco Pas">
+
+  <meta name="generator" content="" />
+  <meta name="robots" content="index,follow">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  
+  
+  <link rel="stylesheet" href="/skeleton/normalize.css">
+  <link rel="stylesheet" href="/skeleton/skeleton.css">
+  
+  
+  <link rel="stylesheet" href="/fontawesome/all.min.css">
+ 
+  
+  <script src="/prism/prism.js"></script>
+  <link rel="stylesheet" href="/prism/prism.css">
+  
+  
+  <link rel="stylesheet" href="/css/custom.css">
+  
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+</head>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="http://mpas.github.io">CodeVerse</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        
+                        
+                            <li >
+                                <a href="/">Blog</a></li>
+                        
+                            <li >
+                                <a href="/posts">Post List</a></li>
+                        
+                            <li >
+                                <a href="/pages/about/">About Me</a></li>
+                        
+                            <li >
+                                <a href="/pages/resume">Resume</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="post-content">
+        <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Functional Rest API Testing with Grails/Rest Client Builder</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.</p>
+<p>When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.</p>
+<p><strong>Scenario:</strong><br>
+Performing a GET request on a url (http://localhost:8080/helloworld) should return a <code>HTTP Status 200</code> and data with a json payload</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&#34;message&#34;</span><span class="p">:</span><span class="s2">&#34;helloworld&#34;</span><span class="p">}</span>
+</code></pre></div><p>So lets get started!</p>
+<p><strong>Create a Grails application</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ grails create-app RestHelloWorld
+</code></pre></div><p><strong>Update your <code>build.gradle</code> to include the Rest Client Builder dependencies which we will need later on</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="c1">// add the following line to the &#39;dependencies&#39; section
+</span><span class="c1"></span>    <span class="n">testCompile</span> <span class="s2">&#34;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&#34;</span>
+<span class="o">}</span>
+</code></pre></div><p><strong>Create an Integration Test</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails create-integration-test HelloWorld
+</code></pre></div><p><strong>Create a test method inside the integration test</strong></p>
+<p>Open up the created HelloWorldControllerSpec inside the <code>/src/integration-test/groovy/resthelloworld/</code> package</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kn">package</span> <span class="n">resthelloworld</span>
+
+<span class="kn">import</span> <span class="nn">grails.test.mixin.integration.Integration</span>
+<span class="kn">import</span> <span class="nn">grails.transaction.*</span>
+<span class="kn">import</span> <span class="nn">spock.lang.*</span>
+<span class="kn">import</span> <span class="nn">grails.plugins.rest.client.RestBuilder</span>
+<span class="kn">import</span> <span class="nn">grails.plugins.rest.client.RestResponse</span>
+
+<span class="nd">@Integration</span>
+<span class="nd">@Rollback</span>
+<span class="kd">class</span> <span class="nc">HelloWorldSpec</span> <span class="kd">extends</span> <span class="n">Specification</span> <span class="o">{</span>
+
+    <span class="kt">def</span> <span class="nf">setup</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kt">def</span> <span class="nf">cleanup</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kt">def</span> <span class="s2">&#34;Ask for a nice HelloWorld&#34;</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nl">given:</span>
+        <span class="n">RestBuilder</span> <span class="n">rest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RestBuilder</span><span class="o">()</span>
+
+        <span class="nl">when:</span>
+        <span class="n">RestResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">rest</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s2">&#34;http://localhost:8080/helloworld/&#34;</span><span class="o">)</span>
+
+        <span class="nl">then:</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">status</span> <span class="o">==</span> <span class="mi">200</span>
+
+        <span class="nl">and:</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">json</span><span class="o">.</span><span class="na">message</span> <span class="o">==</span> <span class="s2">&#34;helloworld&#34;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p><strong>Run your test</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails test-app
+</code></pre></div><p>Offcourse this will fail as we do not have implement the controller yet.</p>
+<p><strong>Create a Rest controller</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ cd RestHelloWorld
+$ grails create-controller HelloWorld
+</code></pre></div><p><strong>Note:</strong> The generation of the controller also create a Unit Test for the controller, default this test will fail. We are going to delete the generated Unit Test as we do not need it now. This test is located under the <code>/src/test/</code> groovy package.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy
+</code></pre></div><p><strong>Implement the controller function that will return data</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kn">package</span> <span class="n">resthelloworld</span>
+
+<span class="kd">class</span> <span class="nc">HelloWorldController</span> <span class="o">{</span>
+
+    <span class="kt">def</span> <span class="nf">index</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">render</span><span class="o">(</span><span class="nl">status:</span> <span class="mi">200</span><span class="o">,</span> <span class="nl">contentType:</span> <span class="s2">&#34;application/json&#34;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="o">[</span><span class="s2">&#34;message&#34;</span> <span class="o">:</span> <span class="s2">&#34;helloworld&#34;</span><span class="o">]</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p><strong>Modify UrlMapping</strong></p>
+<p>In order to get our newly generated controller accessible via Rest we need to modify our UrlMappings.</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">UrlMappings</span> <span class="o">{</span>
+
+    <span class="kd">static</span> <span class="n">mappings</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="s2">&#34;/$controller/$action?/$id?(.$format)?&#34;</span><span class="o">{</span>
+            <span class="n">constraints</span> <span class="o">{</span>
+                <span class="c1">// apply constraints here
+</span><span class="c1"></span>            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
+        <span class="s2">&#34;500&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/error&#39;</span><span class="o">)</span>
+        <span class="s2">&#34;404&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/notFound&#39;</span><span class="o">)</span>
+
+        <span class="c1">// add the line below
+</span><span class="c1"></span>        <span class="s2">&#34;/helloworld/&#34;</span>  <span class="o">(</span><span class="nl">controller:</span> <span class="s2">&#34;helloWorld&#34;</span><span class="o">,</span> <span class="nl">action:</span> <span class="s2">&#34;index&#34;</span><span class="o">,</span> <span class="nl">method:</span> <span class="s2">&#34;GET&#34;</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p><strong>Test your app</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails test-app
+</code></pre></div><p>You should find that your tests are fine now :)</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails test-app
+BUILD SUCCESSFUL
+
+Total time: 2.054 secs
+| Tests PASSED
+</code></pre></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2015-11-19
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>, <a href="/tags/rest">rest</a>, <a href="/tags/testing">testing</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+      </div>
+    </div>
+  </div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    
+                        <a title="Twitter" href="https://twitter.com/marcopas">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    
+                    
+                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    
+                    
+                        <a title="GitHub" href="https://github.com/mpas">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    
+                    
+                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
+                            <i class="fab fa-stack-overflow"></i>
+                        </a>
+                    
+                    
+                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
+                            <i class="far fa-envelope"></i>
+                        </a>
+                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+

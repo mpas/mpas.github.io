@@ -6,17 +6,13 @@
     <description>Recent content in devops on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 09 Oct 2016 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://mpas.github.io/tags/devops/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 09 Oct 2016 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/devops/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Terraform to the rescue</title>
-      <link>http://mpas.github.io/post/2016/10/09/20161009-terraform-to-the-rescue/</link>
+      <link>http://mpas.github.io/posts/2016/10/09/20161009-terraform-to-the-rescue/</link>
       <pubDate>Sun, 09 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/10/09/20161009-terraform-to-the-rescue/</guid>
+      <guid>http://mpas.github.io/posts/2016/10/09/20161009-terraform-to-the-rescue/</guid>
       <description>Getting exposed to Amazon Web Services is fun! Certainly when you see that the infrastructure is growing and supporting the daily need of developers and the business. You slowly start adding services and try to keep everything in a state so that it is repeatable and maintainable. At a certain moment it becomes clear that you need the concept of Infrastructure As Code.
 The Amazon way of doing this is by using AWS CloudFormation.</description>
     </item>

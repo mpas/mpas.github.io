@@ -19,15 +19,15 @@
 
   
   
-  <link rel="stylesheet" href="/css/normalize.css">
-  <link rel="stylesheet" href="/css/skeleton.css">
+  <link rel="stylesheet" href="/skeleton/normalize.css">
+  <link rel="stylesheet" href="/skeleton/skeleton.css">
   
   
-  <link rel="stylesheet" href="/css/font-awesome-all.min.css">
+  <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/js/prism.js"></script>
-  <link rel="stylesheet" href="/css/prism.css">
+  <script src="/prism/prism.js"></script>
+  <link rel="stylesheet" href="/prism/prism.css">
   
   
   <link rel="stylesheet" href="/css/custom.css">
@@ -54,13 +54,13 @@
                                 <a href="/">Blog</a></li>
                         
                             <li >
-                                <a href="/post">Post List</a></li>
+                                <a href="/posts">Post List</a></li>
                         
                             <li >
-                                <a href="/page/about/">About Me</a></li>
+                                <a href="/pages/about/">About Me</a></li>
                         
                             <li >
-                                <a href="/page/resume">Resume</a></li>
+                                <a href="/pages/resume">Resume</a></li>
                         
                     </ul>
                 </nav>
@@ -73,481 +73,300 @@
 <div class="container">
     <div class="row">
         <div class="post-list">
-        
-        
-        
-            <article class="post u-cf">
+            
+            
+                
+                <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Use backspace key to go back in Google Chrome</h1>
+            <h1 class="post-title">Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            <p>When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:</p>
-<ul>
-<li><a href="https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en">https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en</a></li>
-</ul>
+            <p>If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific <a href="http://www.postbox-inc.com">PostBox</a> mail client.</p>
+<p>As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.</p>
+<p>Enter the use of <a href="http://davmail.sourceforge.net/">DavMail</a>!</p>
+<h4 id="davmail-gateway">Davmail Gateway</h4>
+<p>Davmail is a local mail proxy that can work together with Microsoft Exchange [OWA] in a way that DavMail is actually connecting to a Exchange OWA and your mail client connects to DavMail as a proxy.</p>
+<img src="/images/201511/davmail-sequence.png" width="800" class="postimage">
+<h4 id="configure-davmail">Configure Davmail</h4>
+<p>In order to get DavMail working correctly you need to provide the correct settings so it can use the OWA endpoint.</p>
+<img src="/images/201511/davmail-settings-main.png" width="800" class="postimage">
+<h4 id="configure-postbox">Configure PostBox</h4>
+<p>In order to get PostBox working with DavMail you need to create an outgoing mail server and an account that will use that outgoing mailserver.</p>
+<h4 id="configure-postbox---outgoing-mailserver">Configure PostBox - Outgoing mailserver</h4>
+<img src="/images/201511/postbox-outgoing-mailserver.png" width="400" class="postimage">
+<h4 id="configure-postbox---account-setup">Configure PostBox - Account setup</h4>
+<img src="/images/201511/postbox-account-setup.png" width="800" class="postimage">
+<h4 id="configure-postbox---identity-setup">Configure PostBox - Identity setup</h4>
+<img src="/images/201511/postbox-identity-setup.png" width="800" class="postimage">
+<p>Now you are ready to send mail using your PostBox Client using DavMail and OWA.</p>
 
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
             <div class="post-meta-info">
-                Published on
-                
-                    2013-05-30
-                
+                Published on 2015-11-17
                 <span class="post-meta-info-taxonomy">
-                    
-                    
                     using tags:
-                        <a href="/tags/linux">linux</a>, <a href="/tags/mint">mint</a>, <a href="/tags/chrome">chrome</a>
+                        <a href="/tags/davmail">davmail</a>, <a href="/tags/exchange">exchange</a>, <a href="/tags/owa">owa</a>, <a href="/tags/postbox">postbox</a>
                 </span>
             </div>
         </div>
     </div>
 </article>
 
-        
-            <article class="post u-cf">
+            
+                <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Automount NTFS volume under Linux (Mint)</h1>
+            <h1 class="post-title">Cleaning Grails Domain Objects in a Spock Test</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            <p>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo pico /etc/fstab
-</code></pre></div><p>Add a line in the /etc/fstab file:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"># custom mount point
-/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
-</code></pre></div><p>And take the mount into effect.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ mount -a
-</code></pre></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2013-05-28
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/linux">linux</a>, <a href="/tags/mint">mint</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
+            <p>Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.</p>
+<p>Spock provides a <code>setup()</code> and <code>cleanup()</code> method.</p>
+<p>When you want to remove your domain objects after each feature test has run you can execute the following:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kt">def</span> <span class="nf">setup</span><span class="o">()</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span>
 
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Using Grails to power your Electric Car</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Past week I really enjoyed visiting &amp; speaking at the <a href="http://gr8conf.org/">Grails Conference (GR8Conf 2013)</a>. The organisation made it possible that for me to host a talk about &ldquo;Using Grails to power your Electric Car&rdquo;.</p>
-<p><a href="http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car">Using Grails to power your Electric Car</a></p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2013-05-25
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/gr8conf">gr8conf</a>, <a href="/tags/grails">grails</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Google Chrome not synchronizing extensions</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When installing a fresh version of Chrome it may occur that all Bookmarks sync ok but the extensions not. The following solution worked for my system.</p>
-<ul>
-<li>Open Google Chrome</li>
-<li>Goto &ldquo;Settings&rdquo;</li>
-<li>Open &ldquo;Advanced Settings&rdquo;</li>
-<li>Check &ldquo;Developer mode&rdquo;</li>
-<li>Press &ldquo;Update extensions now&rdquo;</li>
-</ul>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2013-05-24
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/chrome">chrome</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Simple Helloworld verticle</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Sourcecode:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">helloworld</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">org.vertx.java.core.Handler</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.vertx.java.core.http.HttpServerRequest</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.vertx.java.deploy.Verticle</span><span class="o">;</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Server</span> <span class="kd">extends</span> <span class="n">Verticle</span> <span class="o">{</span>
-
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">vertx</span><span class="o">.</span><span class="na">createHttpServer</span><span class="o">().</span><span class="na">requestHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">Handler</span><span class="o">&lt;</span><span class="n">HttpServerRequest</span><span class="o">&gt;()</span> <span class="o">{</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handle</span><span class="o">(</span><span class="n">HttpServerRequest</span> <span class="n">req</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">req</span><span class="o">.</span><span class="na">response</span><span class="o">.</span><span class="na">headers</span><span class="o">().</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;Content-Type&#34;</span><span class="o">,</span> <span class="s">&#34;text/html; charset-UTF-8&#34;</span><span class="o">);</span>
-            <span class="n">req</span><span class="o">.</span><span class="na">response</span><span class="o">.</span><span class="na">end</span><span class="o">(</span><span class="s">&#34;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#34;</span><span class="o">);</span>
-            <span class="o">}</span>
-        <span class="o">}).</span><span class="na">listen</span><span class="o">(</span><span class="n">8080</span><span class="o">);</span>
-    <span class="o">}</span>
-
+<span class="kt">def</span> <span class="nf">cleanup</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// make sure to clear out the database on after test
+</span><span class="c1"></span>        <span class="o">&lt;</span><span class="n">YourDomainObject</span><span class="o">&gt;.</span><span class="na">withNewSession</span> <span class="o">{</span>
+            <span class="o">&lt;</span><span class="n">YourDomainObject</span><span class="o">&gt;.</span><span class="na">findAll</span><span class="o">().</span><span class="na">each</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="nl">flush:</span> <span class="kc">true</span><span class="o">)</span> <span class="o">}</span>
+        <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div>
+</code></pre></div><p>We need the <code>.withNewSession</code> because there is no Hibernate session provided in the <code>setup()</code> and <code>cleanup()</code> methods.</p>
+
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
             <div class="post-meta-info">
-                Published on
-                
-                    2013-05-16
-                
+                Published on 2015-10-30
                 <span class="post-meta-info-taxonomy">
-                    
-                    
                     using tags:
-                        <a href="/tags/java">java</a>, <a href="/tags/vertx">vertx</a>
+                        <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>
                 </span>
             </div>
         </div>
     </div>
 </article>
 
-        
-            <article class="post u-cf">
+            
+                <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Grails migrations and &#39;Waiting for changelog lock&#39;</h1>
+            <h1 class="post-title">Adding WebSocket/Stomp support to a Spring Boot application</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            <p>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">...
-Waiting for changelog lock....
-Waiting for changelog lock....
-Waiting for changelog lock....
-...
-</code></pre></div><p>To solve this take the following steps:</p>
+            <p>Adding support for <a href="https://en.wikipedia.org/wiki/WebSocket">WebSockets</a> / <a href="https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol">Stomp</a> in a <a href="http://projects.spring.io/spring-boot/">Spring Boot</a> application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.</p>
+<p>The following example will enable a server to send messages to a WebSocket/Stomp client.</p>
 <ul>
-<li>Stop the application container (example: Tomcat)</li>
-<li>In the database look for a table called <code>DATABASECHANGELOGLOCK</code></li>
-<li>In the table there is a record with id=1, change the following values:</li>
+<li>Modify <code>build.gradle</code></li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">locked -&gt; 0
-lockgranted -&gt; null
-lockedby -&gt; null
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="n">compile</span><span class="o">(</span><span class="s2">&#34;org.springframework.boot:spring-boot-starter-web&#34;</span><span class="o">)</span>
+    <span class="n">compile</span><span class="o">(</span><span class="s2">&#34;org.springframework.boot:spring-boot-starter-websocket&#34;</span><span class="o">)</span>
+    <span class="n">compile</span><span class="o">(</span><span class="s2">&#34;org.springframework:spring-messaging&#34;</span><span class="o">)</span>
+    <span class="n">testCompile</span><span class="o">(</span><span class="s2">&#34;junit:junit&#34;</span><span class="o">)</span>
+<span class="o">}</span>
 </code></pre></div><ul>
-<li>After updating this record start the application container</li>
+<li>Create a WebSocket configuration class that holds the configuration</li>
 </ul>
-<p><strong>Notes:</strong><br>
-To see who has locked the database (normally the local machine):</p>
-<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">DATABASECHANGELOGLOCK</span><span class="p">;</span>
-<span class="k">To</span> <span class="k">update</span> <span class="n">the</span> <span class="n">record</span>
-<span class="k">update</span> <span class="n">DATABASECHANGELOGLOCK</span>
-<span class="k">set</span> <span class="n">locked</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">lockgranted</span><span class="o">=</span><span class="k">null</span><span class="p">,</span> <span class="n">lockedby</span><span class="o">=</span><span class="k">null</span>
-<span class="k">where</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span>
-</code></pre></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2013-02-28
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/migrations">migrations</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="nd">@Configuration</span>
+<span class="nd">@EnableWebSocketMessageBroker</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebSocketConfig</span> <span class="kd">extends</span> <span class="n">AbstractWebSocketMessageBrokerConfigurer</span> <span class="o">{</span>
 
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Testing constraints with Build Test Data</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>The <a href="http://grails.org/plugin/spock">Spock</a> &amp; <a href="http://grails.org/plugin/build-test-data">Build Test Data</a> plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!</p>
-<p>When testing constraints on an object it can be used as follows:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">Foo</span> <span class="o">{</span>
-    <span class="n">String</span> <span class="n">name</span>   <span class="c1">// name of foo
-</span><span class="c1"></span>    <span class="n">Integer</span> <span class="n">age</span>   <span class="c1">// age of foo
-</span><span class="c1"></span>
-    <span class="kd">static</span> <span class="n">constraints</span> <span class="o">=</span> <span class="o">{</span>
-        <span class="n">name</span> <span class="nl">nullable:</span> <span class="kc">false</span><span class="o">,</span> <span class="nl">blank:</span> <span class="kc">false</span> <span class="c1">// name may never be nullable or blank
-</span><span class="c1"></span>        <span class="n">age</span> <span class="nl">nullable:</span> <span class="kc">true</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>And the Spock test</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="nd">@Build</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
-<span class="nd">@TestFor</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
-<span class="kd">class</span> <span class="nc">FooSpec</span> <span class="kd">extends</span> <span class="n">Specification</span> <span class="o">{</span>
-
-    <span class="kt">def</span> <span class="s2">&#34;Name of Foo must exist&#34;</span><span class="o">()</span> <span class="o">{</span>
-        <span class="nl">given:</span> <span class="s2">&#34;setting up the constraints&#34;</span>
-        <span class="n">mockForConstraintsTests</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
-
-        <span class="nl">when:</span> <span class="s2">&#34;creating a Foo&#34;</span>
-        <span class="n">Foo</span> <span class="n">foo</span> <span class="o">=</span> <span class="n">Foo</span><span class="o">.</span><span class="na">buildWithoutSave</span><span class="o">()</span>
-
-        <span class="nl">then:</span> <span class="s2">&#34;validation should trigger&#34;</span>
-        <span class="n">assertFalse</span> <span class="n">foo</span><span class="o">.</span><span class="na">validate</span><span class="o">()</span>
-
-        <span class="nl">and:</span> <span class="s2">&#34;validation error should be on the value field&#34;</span>
-        <span class="k">assert</span> <span class="n">foo</span><span class="o">.</span><span class="na">errors</span><span class="o">.</span><span class="na">allErrors</span><span class="o">.</span><span class="na">first</span><span class="o">().</span><span class="na">field</span> <span class="o">==</span> <span class="s2">&#34;name&#34;</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">registerStompEndpoints</span><span class="o">(</span><span class="n">StompEndpointRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// the endpoint for websocket connections
+</span><span class="c1"></span>        <span class="n">registry</span><span class="o">.</span><span class="na">addEndpoint</span><span class="o">(</span><span class="s2">&#34;/stomp&#34;</span><span class="o">).</span><span class="na">withSockJS</span><span class="o">();</span>
     <span class="o">}</span>
 
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configureMessageBroker</span><span class="o">(</span><span class="n">MessageBrokerRegistry</span> <span class="n">config</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// use the /topic prefix for outgoing WebSocket communication
+</span><span class="c1"></span>        <span class="n">config</span><span class="o">.</span><span class="na">enableSimpleBroker</span><span class="o">(</span><span class="s2">&#34;/topic&#34;</span><span class="o">);</span>
+
+        <span class="c1">// use the /app prefix for others
+</span><span class="c1"></span>        <span class="n">config</span><span class="o">.</span><span class="na">setApplicationDestinationPrefixes</span><span class="o">(</span><span class="s2">&#34;/app&#34;</span><span class="o">);</span>
+    <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2013-01-13
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/build">build</a>, <a href="/tags/testdata">testdata</a>, <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>, <a href="/tags/test">test</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Getting the Enum from a String value</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">Enum</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">YourClassName</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s2">&#34;String Value&#34;</span><span class="o">)</span>
-</code></pre></div><p><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html">http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html</a></p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2013-01-03
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/enum">enum</a>, <a href="/tags/java">java</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Troubles getting vsftpd user logged in?</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message:
-500 OOPS: vsftpd: refusing to run with writable root inside chroot()</p>
-<p>After some googling around i found the following fix..
-chmod the folder that the ftp user comes in to as he first login (root folder) by using in terminal:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo chmod a-w /home/user
-</code></pre></div><p>Create a subfolder within the folder, either by the use of GUI or if you only have terminal it&rsquo;s:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo mkdir /home/user/newfolder
-</code></pre></div><p>Now you should be able to log in and read write within the &ldquo;newfolder&rdquo;.</p>
-<p>You will <strong>NOT</strong> be able to write in the root folder itself from the ftp with the chmod a-w, so that is the reason for the subfolder, there you can.</p>
-<p><a href="http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update">http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update</a></p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on
-                
-                    2012-09-18
-                
-                <span class="post-meta-info-taxonomy">
-                    
-                    
-                    using tags:
-                        <a href="/tags/ftps">ftps</a>, <a href="/tags/linux">linux</a>, <a href="/tags/ubuntu">ubuntu</a>, <a href="/tags/vsftpd">vsftpd</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-        
-            <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Loading Grails configuration files update!</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.</p>
+</code></pre></div><p>Now a client that connects to <code>/stomp</code> endpoint is able to receive WebSocket messages.</p>
 <ul>
-<li>You cannot deal with all Grails Mail settings in the configuration file</li>
-<li>You cannot use the log4j DSL to extract the logging configuration outside your application</li>
-<li>etc..</li>
+<li>Create a service that is going to send the data to a WebSocket endpoint</li>
 </ul>
-<p>In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this <a href="http://www.baselogic.com/blog/development/java-javaee-j2ee/getting-grails-external-configuration-working-in-the-real-world/">blogpost</a> which was the start for our implementation of loading the external configuration files.</p>
-<p>We modified some small things and added a way of loading a configuration file that is resident in the root of a Grails project. So when developing with IntelliJ for example the config file is at your fingertips in the root of the application project structure. We must also note that we are very happy with the fact that the Grails community was more then helpfull in helping us out here!</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="c1">// -------------------------------------------------------------------------------- //
-</span><span class="c1">// - START: CONFIGURATION FILE LOADING -------------------------------------------- //
-</span><span class="c1">// -------------------------------------------------------------------------------- //
-</span><span class="c1">// locations to search for config files that get merged into the main config
-</span><span class="c1">// config files can either be Java properties files or ConfigSlurper scripts
-</span><span class="c1"></span><span class="kt">def</span> <span class="n">ENV_NAME</span> <span class="o">=</span> <span class="s2">&#34;${appName}.config.location&#34;</span>
-<span class="k">if</span><span class="o">(!</span><span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">||</span> <span class="o">!(</span><span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="k">instanceof</span> <span class="n">List</span><span class="o">))</span> <span class="o">{</span>
-    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[]</span>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ScheduleTask</span> <span class="o">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">SimpMessagingTemplate</span> <span class="n">template</span><span class="o">;</span>
+
+    <span class="c1">// this will send a message to an endpoint on which a client can subscribe
+</span><span class="c1"></span>    <span class="nd">@Scheduled</span><span class="o">(</span><span class="n">fixedRate</span> <span class="o">=</span> <span class="mi">5000</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">trigger</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// sends the message to /topic/message
+</span><span class="c1"></span>        <span class="k">this</span><span class="o">.</span><span class="na">template</span><span class="o">.</span><span class="na">convertAndSend</span><span class="o">(</span><span class="s2">&#34;/topic/message&#34;</span><span class="o">,</span> <span class="s2">&#34;Date: &#34;</span> <span class="o">+</span> <span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
+    <span class="o">}</span>
+
 <span class="o">}</span>
-<span class="n">println</span> <span class="s2">&#34;--------------------------------------------------------------------------------&#34;</span>
-<span class="n">println</span> <span class="s2">&#34;- Loading configuration file                                                   -&#34;</span>
-<span class="n">println</span> <span class="s2">&#34;--------------------------------------------------------------------------------&#34;</span>
-<span class="c1">// 1: check for environment variable that has been set! This variable must point to the
-</span><span class="c1">// configuration file that must be used. Can be a .groovy or .properties file!
-</span><span class="c1"></span><span class="k">if</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">println</span><span class="o">(</span><span class="s2">&#34;Including System Environment configuration file: &#34;</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">))</span>
-    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">&lt;&lt;</span> <span class="s2">&#34;file:&#34;</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getenv</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span>
+</code></pre></div><ul>
+<li>Create a client that is able to receive the message</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>WebSocket Stomp Receiving Example<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>Messages:<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">ol</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;messages&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 
-<span class="c1">// 2: check for commandline properties!
-</span><span class="c1">// Use it like (examples):
-</span><span class="c1">//      grails -D[name of app].config.location=/tmp/[name of config file].groovy run-app
-</span><span class="c1">// or
-</span><span class="c1">//      grails -D[name of app].config.location=/tmp/[name of config file].properties run-app
-</span><span class="c1">//
-</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">println</span> <span class="s2">&#34;Including configuration file specified on command line: &#34;</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span>
-    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">&lt;&lt;</span> <span class="s2">&#34;file:&#34;</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="n">ENV_NAME</span><span class="o">)</span>
+    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/javascript&#34;</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;//cdn.jsdelivr.net/jquery/1.11.2/jquery.min.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/javascript&#34;</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/javascript&#34;</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 
-<span class="c1">// 3: check on local project config file in the project root directory
-</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s2">&#34;./${appName}-config.groovy&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">println</span> <span class="s2">&#34;*** User defined config: file:./${appName}-config.groovy ***&#34;</span>
-    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;file:./${appName}-config.groovy&#34;</span><span class="o">]</span>
-<span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s2">&#34;./${appName}-config.properties&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">println</span> <span class="s2">&#34;*** User defined config: file:./${appName}-config.properties ***&#34;</span>
-    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;file:./${appName}-config.groovy&#34;</span><span class="o">]</span>
+    <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/javascript&#34;</span><span class="p">&gt;</span>
+        <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">messageList</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&#34;#messages&#34;</span><span class="p">);</span>
 
-<span class="c1">// 4: check on local project config file in ${userHome}/.grails/...
-</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s2">&#34;${userHome}/.grails/${appName}-config.groovy&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">println</span> <span class="s2">&#34;*** User defined config: file:${userHome}/.grails/${appName}-config.groovy ***&#34;</span>
-    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;file:${userHome}/.grails/${appName}-config.groovy&#34;</span><span class="o">]</span>
-<span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s2">&#34;${userHome}/.grails/${appName}-config.properties&#34;</span><span class="o">).</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">println</span> <span class="s2">&#34;*** User defined config: file:${userHome}/.grails/${appName}-config.properties ***&#34;</span>
-    <span class="n">grails</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">locations</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;file:${userHome}/.grails/${appName}-config.properties&#34;</span><span class="o">]</span>
+            <span class="c1">// defined a connection to a new socket endpoint
+</span><span class="c1"></span>            <span class="kd">var</span> <span class="nx">socket</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SockJS</span><span class="p">(</span><span class="s1">&#39;/stomp&#39;</span><span class="p">);</span>
 
-<span class="c1">// 5: we have problem!!
-</span><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-    <span class="n">println</span> <span class="s2">&#34;********************************************************************************&#34;</span>
-    <span class="n">println</span> <span class="s2">&#34;* No external configuration file defined                                       *&#34;</span>
-    <span class="n">println</span> <span class="s2">&#34;********************************************************************************&#34;</span>
-<span class="o">}</span>
-<span class="n">println</span> <span class="s2">&#34;(*) grails.config.locations = ${grails.config.locations}&#34;</span>
-<span class="n">println</span> <span class="s2">&#34;--------------------------------------------------------------------------------&#34;</span>
-<span class="c1">// -------------------------------------------------------------------------------- //
-</span><span class="c1">// - END: CONFIGURATION FILE LOADING ---------------------------------------------- //
-</span><span class="c1">// -------------------------------------------------------------------------------- //
-</span></code></pre></div>
+            <span class="kd">var</span> <span class="nx">stompClient</span> <span class="o">=</span> <span class="nx">Stomp</span><span class="p">.</span><span class="nx">over</span><span class="p">(</span><span class="nx">socket</span><span class="p">);</span>
+
+            <span class="nx">stompClient</span><span class="p">.</span><span class="nx">connect</span><span class="p">({</span> <span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">frame</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// subscribe to the /topic/message endpoint
+</span><span class="c1"></span>                <span class="nx">stompClient</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s2">&#34;/topic/message&#34;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
+                    <span class="nx">messageList</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">&#34;&lt;li&gt;&#34;</span> <span class="o">+</span> <span class="nx">message</span> <span class="o">+</span> <span class="s2">&#34;&lt;/li&gt;&#34;</span><span class="p">);</span>
+                <span class="p">});</span>
+            <span class="p">});</span>
+        <span class="p">});</span>
+    <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div><p>The whole example project  can be downloaded <a href="https://github.com/mpas/spring-boot-websocket-stomp-server-send-example">https://github.com/mpas/spring-boot-websocket-stomp-server-send-example</a></p>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
             <div class="post-meta-info">
-                Published on
-                
-                    2012-09-17
-                
+                Published on 2015-06-16
                 <span class="post-meta-info-taxonomy">
-                    
-                    
                     using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/configuration">configuration</a>
+                        <a href="/tags/spring-boot">spring-boot</a>, <a href="/tags/websocket">websocket</a>
                 </span>
             </div>
         </div>
     </div>
 </article>
 
-        
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Run a Grails 3 generated Fat Jar file in production mode</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When creating a Grails WAR/JAR file using:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails war
+</code></pre></div><p>The resulting artifact can be run in production mode using:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ java -Dgrails.env=prod -Dserver.port=9000 -jar &lt;name-of-jar-file&gt;.jar
+</code></pre></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2015-06-11
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/grails">grails</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Setting up Docker RabbitMQ with predefined users/vhosts</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.</p>
+<p>The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.</p>
+<p>It involves a init.sh script that is used to create the users and vhosts.</p>
+<p>The Docker File</p>
+<div class="highlight"><pre class="chroma"><code class="language-docker" data-lang="docker"><span class="k">FROM</span><span class="s"> rabbitmq:3-management</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Add script to create default users / vhosts</span><span class="err">
+</span><span class="err"></span><span class="k">ADD</span> init.sh /init.sh<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Set correct executable permissions</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> chmod +x /init.sh<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Define default command</span><span class="err">
+</span><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="err">&amp;quot;/init.sh&amp;quot;</span><span class="p">]</span><span class="err">
+</span></code></pre></div><p>The init.sh script</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
+</span><span class="cp"></span>
+<span class="c1"># Create Default RabbitMQ setup</span>
+<span class="o">(</span> sleep <span class="m">10</span> <span class="p">;</span> <span class="se">\
+</span><span class="se"></span>
+<span class="c1"># Create users</span>
+<span class="c1"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;</span>
+rabbitmqctl add_user test_user test_user <span class="p">;</span> <span class="se">\
+</span><span class="se"></span>
+<span class="c1"># Set user rights</span>
+<span class="c1"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;</span>
+rabbitmqctl set_user_tags test_user administrator <span class="p">;</span> <span class="se">\
+</span><span class="se"></span>
+<span class="c1"># Create vhosts</span>
+<span class="c1"># rabbitmqctl add_vhost &lt;vhostname&gt;</span>
+rabbitmqctl add_vhost dummy <span class="p">;</span> <span class="se">\
+</span><span class="se"></span>
+<span class="c1"># Set vhost permissions</span>
+<span class="c1"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &#34;.*&#34; &#34;.*&#34; &#34;.*&#34;</span>
+rabbitmqctl set_permissions -p dummy test_user <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="p">;</span> <span class="se">\
+</span><span class="se"></span><span class="o">)</span> <span class="p">&amp;</span>    
+rabbitmq-server <span class="nv">$@</span>
+</code></pre></div><p>Place both of these files in a directory and build your image:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ docker build -t my_rabbitmq_image .
+</code></pre></div><p>Start a container based on the image using:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">$</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span><span class="o">=</span><span class="kc">true</span> <span class="o">--</span><span class="n">name</span> <span class="n">my_rabbitmq_container</span> <span class="o">-</span><span class="n">p</span> <span class="mi">5672</span><span class="o">:</span><span class="mi">5672</span> <span class="o">-</span><span class="n">p</span> <span class="mi">15672</span><span class="o">:</span><span class="mi">15672</span>  <span class="n">my_rabbitmq_image</span>
+</code></pre></div><p>Then in your browser navigate to http://localhost:15672 and see if all is ok!</p>
+<p><strong>Note:</strong> When using Boot2Docker make sure to replace the localhost with the correct IP.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2015-06-11
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/docker">docker</a>, <a href="/tags/rabbitmq">rabbitmq</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
         </div>
     </div>
 </div>
@@ -598,8 +417,6 @@ chmod the folder that the ftp user comes in to as he first login (root folder) b
                         <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
                             <i class="fab fa-stack-overflow"></i>
                         </a>
-                    
-                    
                     
                     
                         <a title="Email" href="mailto:marco.pasopas@gmail.com">

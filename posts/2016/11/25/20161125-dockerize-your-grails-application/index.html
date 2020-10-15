@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  
+  
+  <meta charset="utf-8">
+  <title>CodeVerse - Dockerize your Grails application</title>
+  <meta name="description" content="">
+  <meta name="author" content="Marco Pas">
+
+  <meta name="generator" content="" />
+  <meta name="robots" content="index,follow">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  
+  
+  <link rel="stylesheet" href="/skeleton/normalize.css">
+  <link rel="stylesheet" href="/skeleton/skeleton.css">
+  
+  
+  <link rel="stylesheet" href="/fontawesome/all.min.css">
+ 
+  
+  <script src="/prism/prism.js"></script>
+  <link rel="stylesheet" href="/prism/prism.css">
+  
+  
+  <link rel="stylesheet" href="/css/custom.css">
+  
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+</head>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="http://mpas.github.io">CodeVerse</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        
+                        
+                            <li >
+                                <a href="/">Blog</a></li>
+                        
+                            <li >
+                                <a href="/posts">Post List</a></li>
+                        
+                            <li >
+                                <a href="/pages/about/">About Me</a></li>
+                        
+                            <li >
+                                <a href="/pages/resume">Resume</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="post-content">
+        <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Dockerize your Grails application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..</p>
+<p>Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.</p>
+<p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails create-app docker-test --profile rest-api
+</code></pre></div><p>After the Grails application has been created, we will need to add the following files to our project.</p>
+<ul>
+<li>Dockerfile (determines what our Docker image will contain)</li>
+<li>docker-entrypoint.sh (script that is responsible for starting our Grails application)</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile">// file: /src/main/docker/Dockerfile<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">FROM</span><span class="s"> openjdk:latest</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># set environment options</span><span class="err">
+</span><span class="err"></span><span class="k">ENV</span> <span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">&#34;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&#34;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> mkdir -p /app<span class="err">
+</span><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /app</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">COPY</span> /app/application.jar application.jar<span class="err">
+</span><span class="err"></span><span class="k">COPY</span> /app/docker-entrypoint.sh docker-entrypoint.sh<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Set file permissions</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> chmod +x /app/docker-entrypoint.sh<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Set start script as enrypoint</span><span class="err">
+</span><span class="err"></span><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;./docker-entrypoint.sh&#34;</span><span class="p">]</span><span class="err">
+</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">// file: /src/main/docker/app/docker-entrypoint.sh
+<span class="c1">#!/bin/bash</span>
+<span class="nb">set</span> -e
+
+<span class="nb">exec</span> java <span class="si">${</span><span class="nv">JAVA_OPTS</span><span class="si">}</span> -jar application.jar <span class="nv">$@</span>
+<span class="c1"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span>
+</code></pre></div><p>Next step is to add the tasks to our <code>build.gradle</code> so it can generate the Docker image.</p>
+<p>So add the following snippet to your <code>build.gradle</code> file!</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="c1">// file: /build.gradle
+</span><span class="c1"></span><span class="n">String</span> <span class="nf">getDockerImageName</span><span class="o">()</span> <span class="o">{</span>
+  <span class="s2">&#34;docker-test&#34;</span>
+<span class="o">}</span>
+
+<span class="n">task</span> <span class="nf">buildDockerImage</span><span class="o">(</span><span class="nl">type:</span><span class="n">Exec</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;docker&#39;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Build a docker image&#39;</span>
+    <span class="n">commandLine</span> <span class="s1">&#39;docker&#39;</span><span class="o">,</span> <span class="s1">&#39;build&#39;</span><span class="o">,</span> <span class="s1">&#39;-f&#39;</span><span class="o">,</span> <span class="s1">&#39;build/docker/Dockerfile&#39;</span><span class="o">,</span> <span class="s1">&#39;-t&#39;</span><span class="o">,</span> <span class="s2">&#34;${dockerImageName}&#34;</span><span class="o">,</span> <span class="s1">&#39;build/docker&#39;</span>
+
+    <span class="n">doFirst</span> <span class="o">{</span>
+        <span class="n">println</span> <span class="s2">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
+        <span class="cm">/* copy the generate war file to /build/docker/app */</span>
+        <span class="n">copy</span> <span class="o">{</span>
+            <span class="n">from</span> <span class="n">war</span><span class="o">.</span><span class="na">archivePath</span>
+            <span class="n">into</span> <span class="s1">&#39;build/docker/app/&#39;</span>
+        <span class="o">}</span>
+        <span class="cm">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
+        <span class="n">copy</span> <span class="o">{</span>
+            <span class="n">from</span> <span class="s1">&#39;src/main/docker/app/&#39;</span>
+            <span class="n">into</span> <span class="s1">&#39;build/docker/app&#39;</span>
+        <span class="o">}</span>
+        <span class="cm">/* copy Dockerfile from src/main/docker into the build/docker */</span>
+        <span class="n">copy</span> <span class="o">{</span>
+            <span class="n">from</span><span class="o">(</span><span class="s1">&#39;src/main/docker/&#39;</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">include</span> <span class="s1">&#39;Dockerfile&#39;</span>
+            <span class="o">}</span>
+            <span class="n">into</span> <span class="s1">&#39;build/docker&#39;</span>
+        <span class="o">}</span>
+        <span class="cm">/* rename war file to application.jar */</span>
+        <span class="n">file</span><span class="o">(</span><span class="s2">&#34;build/docker/app/${war.archiveName}&#34;</span><span class="o">).</span><span class="na">renameTo</span><span class="o">(</span><span class="s2">&#34;build/docker/app/application.jar&#34;</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>Now that we have everyting in place we can build the image and start the container,</p>
+<p>Create the docker image using assemble target and buildDockerImage</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ ./gradlew assemble buildDockerImage
+</code></pre></div><p>Run a container based on the previous created image</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ docker run -it --rm -p 8080:8080 docker-test
+</code></pre></div><p>This will run the container in interactive mode (<code>-it</code>) and the container will be removed when we stop the container (<code>--rm</code>). Port 8080 in the container will be available on port 8080 on your host system (<code>-p 8080:8080</code>).</p>
+<p>This will run the specified container and the endpoint will be available using your browser. Just visit http://localhost:8080</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2016-11-25
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/docker">docker</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+      </div>
+    </div>
+  </div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    
+                        <a title="Twitter" href="https://twitter.com/marcopas">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    
+                    
+                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    
+                    
+                        <a title="GitHub" href="https://github.com/mpas">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    
+                    
+                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
+                            <i class="fab fa-stack-overflow"></i>
+                        </a>
+                    
+                    
+                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
+                            <i class="far fa-envelope"></i>
+                        </a>
+                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+

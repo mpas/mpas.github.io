@@ -6,17 +6,13 @@
     <description>Recent content in gradle on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 24 Nov 2016 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://mpas.github.io/tags/gradle/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 24 Nov 2016 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/gradle/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Creating/Pushing Docker images using Gradle without plugins</title>
-      <link>http://mpas.github.io/post/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/</link>
+      <link>http://mpas.github.io/posts/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/</link>
       <pubDate>Thu, 24 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/post/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/</guid>
+      <guid>http://mpas.github.io/posts/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/</guid>
       <description>In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.</description>
     </item>
     
