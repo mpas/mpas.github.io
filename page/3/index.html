@@ -79,6 +79,126 @@
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Functional Rest API Testing with Grails/Rest Client Builder</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.</p>
+<p>When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.</p>
+<p><strong>Scenario:</strong><br>
+Performing a GET request on a url (http://localhost:8080/helloworld) should return a <code>HTTP Status 200</code> and data with a json payload</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span><span class="nt">&#34;message&#34;</span><span class="p">:</span><span class="s2">&#34;helloworld&#34;</span><span class="p">}</span>
+</code></pre></div><p>So lets get started!</p>
+<p><strong>Create a Grails application</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ grails create-app RestHelloWorld
+</code></pre></div><p><strong>Update your <code>build.gradle</code> to include the Rest Client Builder dependencies which we will need later on</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="c1">// add the following line to the &#39;dependencies&#39; section
+</span><span class="c1"></span>    <span class="n">testCompile</span> <span class="s2">&#34;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&#34;</span>
+<span class="o">}</span>
+</code></pre></div><p><strong>Create an Integration Test</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails create-integration-test HelloWorld
+</code></pre></div><p><strong>Create a test method inside the integration test</strong></p>
+<p>Open up the created HelloWorldControllerSpec inside the <code>/src/integration-test/groovy/resthelloworld/</code> package</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kn">package</span> <span class="n">resthelloworld</span>
+
+<span class="kn">import</span> <span class="nn">grails.test.mixin.integration.Integration</span>
+<span class="kn">import</span> <span class="nn">grails.transaction.*</span>
+<span class="kn">import</span> <span class="nn">spock.lang.*</span>
+<span class="kn">import</span> <span class="nn">grails.plugins.rest.client.RestBuilder</span>
+<span class="kn">import</span> <span class="nn">grails.plugins.rest.client.RestResponse</span>
+
+<span class="nd">@Integration</span>
+<span class="nd">@Rollback</span>
+<span class="kd">class</span> <span class="nc">HelloWorldSpec</span> <span class="kd">extends</span> <span class="n">Specification</span> <span class="o">{</span>
+
+    <span class="kt">def</span> <span class="nf">setup</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kt">def</span> <span class="nf">cleanup</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kt">def</span> <span class="s2">&#34;Ask for a nice HelloWorld&#34;</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nl">given:</span>
+        <span class="n">RestBuilder</span> <span class="n">rest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RestBuilder</span><span class="o">()</span>
+
+        <span class="nl">when:</span>
+        <span class="n">RestResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">rest</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s2">&#34;http://localhost:8080/helloworld/&#34;</span><span class="o">)</span>
+
+        <span class="nl">then:</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">status</span> <span class="o">==</span> <span class="mi">200</span>
+
+        <span class="nl">and:</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">json</span><span class="o">.</span><span class="na">message</span> <span class="o">==</span> <span class="s2">&#34;helloworld&#34;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p><strong>Run your test</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails test-app
+</code></pre></div><p>Offcourse this will fail as we do not have implement the controller yet.</p>
+<p><strong>Create a Rest controller</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ cd RestHelloWorld
+$ grails create-controller HelloWorld
+</code></pre></div><p><strong>Note:</strong> The generation of the controller also create a Unit Test for the controller, default this test will fail. We are going to delete the generated Unit Test as we do not need it now. This test is located under the <code>/src/test/</code> groovy package.</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy
+</code></pre></div><p><strong>Implement the controller function that will return data</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kn">package</span> <span class="n">resthelloworld</span>
+
+<span class="kd">class</span> <span class="nc">HelloWorldController</span> <span class="o">{</span>
+
+    <span class="kt">def</span> <span class="nf">index</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">render</span><span class="o">(</span><span class="nl">status:</span> <span class="mi">200</span><span class="o">,</span> <span class="nl">contentType:</span> <span class="s2">&#34;application/json&#34;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="o">[</span><span class="s2">&#34;message&#34;</span> <span class="o">:</span> <span class="s2">&#34;helloworld&#34;</span><span class="o">]</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p><strong>Modify UrlMapping</strong></p>
+<p>In order to get our newly generated controller accessible via Rest we need to modify our UrlMappings.</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">UrlMappings</span> <span class="o">{</span>
+
+    <span class="kd">static</span> <span class="n">mappings</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="s2">&#34;/$controller/$action?/$id?(.$format)?&#34;</span><span class="o">{</span>
+            <span class="n">constraints</span> <span class="o">{</span>
+                <span class="c1">// apply constraints here
+</span><span class="c1"></span>            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
+        <span class="s2">&#34;500&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/error&#39;</span><span class="o">)</span>
+        <span class="s2">&#34;404&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/notFound&#39;</span><span class="o">)</span>
+
+        <span class="c1">// add the line below
+</span><span class="c1"></span>        <span class="s2">&#34;/helloworld/&#34;</span>  <span class="o">(</span><span class="nl">controller:</span> <span class="s2">&#34;helloWorld&#34;</span><span class="o">,</span> <span class="nl">action:</span> <span class="s2">&#34;index&#34;</span><span class="o">,</span> <span class="nl">method:</span> <span class="s2">&#34;GET&#34;</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p><strong>Test your app</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails test-app
+</code></pre></div><p>You should find that your tests are fine now :)</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails test-app
+BUILD SUCCESSFUL
+
+Total time: 2.054 secs
+| Tests PASSED
+</code></pre></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2015-11-19
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>, <a href="/tags/rest">rest</a>, <a href="/tags/testing">testing</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</h1>
         </div>
     </div>
@@ -292,74 +412,6 @@
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/grails">grails</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Setting up Docker RabbitMQ with predefined users/vhosts</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.</p>
-<p>The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.</p>
-<p>It involves a init.sh script that is used to create the users and vhosts.</p>
-<p>The Docker File</p>
-<div class="highlight"><pre class="chroma"><code class="language-docker" data-lang="docker"><span class="k">FROM</span><span class="s"> rabbitmq:3-management</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Add script to create default users / vhosts</span><span class="err">
-</span><span class="err"></span><span class="k">ADD</span> init.sh /init.sh<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Set correct executable permissions</span><span class="err">
-</span><span class="err"></span><span class="k">RUN</span> chmod +x /init.sh<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Define default command</span><span class="err">
-</span><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="err">&amp;quot;/init.sh&amp;quot;</span><span class="p">]</span><span class="err">
-</span></code></pre></div><p>The init.sh script</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
-</span><span class="cp"></span>
-<span class="c1"># Create Default RabbitMQ setup</span>
-<span class="o">(</span> sleep <span class="m">10</span> <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Create users</span>
-<span class="c1"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;</span>
-rabbitmqctl add_user test_user test_user <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Set user rights</span>
-<span class="c1"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;</span>
-rabbitmqctl set_user_tags test_user administrator <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Create vhosts</span>
-<span class="c1"># rabbitmqctl add_vhost &lt;vhostname&gt;</span>
-rabbitmqctl add_vhost dummy <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Set vhost permissions</span>
-<span class="c1"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &#34;.*&#34; &#34;.*&#34; &#34;.*&#34;</span>
-rabbitmqctl set_permissions -p dummy test_user <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="p">;</span> <span class="se">\
-</span><span class="se"></span><span class="o">)</span> <span class="p">&amp;</span>    
-rabbitmq-server <span class="nv">$@</span>
-</code></pre></div><p>Place both of these files in a directory and build your image:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ docker build -t my_rabbitmq_image .
-</code></pre></div><p>Start a container based on the image using:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">$</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span><span class="o">=</span><span class="kc">true</span> <span class="o">--</span><span class="n">name</span> <span class="n">my_rabbitmq_container</span> <span class="o">-</span><span class="n">p</span> <span class="mi">5672</span><span class="o">:</span><span class="mi">5672</span> <span class="o">-</span><span class="n">p</span> <span class="mi">15672</span><span class="o">:</span><span class="mi">15672</span>  <span class="n">my_rabbitmq_image</span>
-</code></pre></div><p>Then in your browser navigate to http://localhost:15672 and see if all is ok!</p>
-<p><strong>Note:</strong> When using Boot2Docker make sure to replace the localhost with the correct IP.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2015-06-11
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/docker">docker</a>, <a href="/tags/rabbitmq">rabbitmq</a>
                 </span>
             </div>
         </div>

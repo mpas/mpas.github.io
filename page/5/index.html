@@ -79,6 +79,40 @@
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Bookreview : Instant Vert.x</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>For those who have not yet got into contact with <a href="http://vertx.io/">Vert.x</a>, the book <a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Instant Vert.x</a> (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.</p>
+<p>As the name suggests, you can read the book in &ldquo;an instant&rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.</p>
+<p>For those who have not yet had the opportunity to learn about Vert.x, I would not immediately recommend this book. The online documentation section on Vertx.io contains the same information. But if you like a book with information nicely put into digestible chapters then this book is a good fit.</p>
+<p>Personally i hoped to get some more technical information and how-to information from this book but it is really targeted towards people that are just starting or have a beginning interest in Vert.x.</p>
+<p>Overall, I really liked the compactness and pace of the book. It is an easy read and you quickly gain knowledge on the high level concepts of Vert.x. While noted earlier you can get the information also on Vertx.io website or other places, it&rsquo;s is nice to have all information aggregated in one place. This book is a good start in your journey to learn about Vert.x.</p>
+<ul>
+<li><a href="http://vertx.io/">Go to the Vert.x website</a></li>
+<li><a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Get the book at Pack Publishing</a></li>
+</ul>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2013-11-27
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/vertx">vertx</a>, <a href="/tags/java">java</a>, <a href="/tags/review">review</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Use backspace key to go back in Google Chrome</h1>
         </div>
     </div>
@@ -190,50 +224,6 @@
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/chrome">chrome</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Simple Helloworld verticle</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Sourcecode:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">helloworld</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">org.vertx.java.core.Handler</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.vertx.java.core.http.HttpServerRequest</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.vertx.java.deploy.Verticle</span><span class="o">;</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Server</span> <span class="kd">extends</span> <span class="n">Verticle</span> <span class="o">{</span>
-
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">vertx</span><span class="o">.</span><span class="na">createHttpServer</span><span class="o">().</span><span class="na">requestHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">Handler</span><span class="o">&lt;</span><span class="n">HttpServerRequest</span><span class="o">&gt;()</span> <span class="o">{</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handle</span><span class="o">(</span><span class="n">HttpServerRequest</span> <span class="n">req</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">req</span><span class="o">.</span><span class="na">response</span><span class="o">.</span><span class="na">headers</span><span class="o">().</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;Content-Type&#34;</span><span class="o">,</span> <span class="s">&#34;text/html; charset-UTF-8&#34;</span><span class="o">);</span>
-            <span class="n">req</span><span class="o">.</span><span class="na">response</span><span class="o">.</span><span class="na">end</span><span class="o">(</span><span class="s">&#34;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#34;</span><span class="o">);</span>
-            <span class="o">}</span>
-        <span class="o">}).</span><span class="na">listen</span><span class="o">(</span><span class="n">8080</span><span class="o">);</span>
-    <span class="o">}</span>
-
-<span class="o">}</span>
-</code></pre></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2013-05-16
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/java">java</a>, <a href="/tags/vertx">vertx</a>
                 </span>
             </div>
         </div>

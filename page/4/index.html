@@ -79,6 +79,74 @@
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Setting up Docker RabbitMQ with predefined users/vhosts</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.</p>
+<p>The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.</p>
+<p>It involves a init.sh script that is used to create the users and vhosts.</p>
+<p>The Docker File</p>
+<div class="highlight"><pre class="chroma"><code class="language-docker" data-lang="docker"><span class="k">FROM</span><span class="s"> rabbitmq:3-management</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Add script to create default users / vhosts</span><span class="err">
+</span><span class="err"></span><span class="k">ADD</span> init.sh /init.sh<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Set correct executable permissions</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> chmod +x /init.sh<span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c"># Define default command</span><span class="err">
+</span><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="err">&amp;quot;/init.sh&amp;quot;</span><span class="p">]</span><span class="err">
+</span></code></pre></div><p>The init.sh script</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
+</span><span class="cp"></span>
+<span class="c1"># Create Default RabbitMQ setup</span>
+<span class="o">(</span> sleep <span class="m">10</span> <span class="p">;</span> <span class="se">\
+</span><span class="se"></span>
+<span class="c1"># Create users</span>
+<span class="c1"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;</span>
+rabbitmqctl add_user test_user test_user <span class="p">;</span> <span class="se">\
+</span><span class="se"></span>
+<span class="c1"># Set user rights</span>
+<span class="c1"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;</span>
+rabbitmqctl set_user_tags test_user administrator <span class="p">;</span> <span class="se">\
+</span><span class="se"></span>
+<span class="c1"># Create vhosts</span>
+<span class="c1"># rabbitmqctl add_vhost &lt;vhostname&gt;</span>
+rabbitmqctl add_vhost dummy <span class="p">;</span> <span class="se">\
+</span><span class="se"></span>
+<span class="c1"># Set vhost permissions</span>
+<span class="c1"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &#34;.*&#34; &#34;.*&#34; &#34;.*&#34;</span>
+rabbitmqctl set_permissions -p dummy test_user <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="p">;</span> <span class="se">\
+</span><span class="se"></span><span class="o">)</span> <span class="p">&amp;</span>    
+rabbitmq-server <span class="nv">$@</span>
+</code></pre></div><p>Place both of these files in a directory and build your image:</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ docker build -t my_rabbitmq_image .
+</code></pre></div><p>Start a container based on the image using:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">$</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span><span class="o">=</span><span class="kc">true</span> <span class="o">--</span><span class="n">name</span> <span class="n">my_rabbitmq_container</span> <span class="o">-</span><span class="n">p</span> <span class="mi">5672</span><span class="o">:</span><span class="mi">5672</span> <span class="o">-</span><span class="n">p</span> <span class="mi">15672</span><span class="o">:</span><span class="mi">15672</span>  <span class="n">my_rabbitmq_image</span>
+</code></pre></div><p>Then in your browser navigate to http://localhost:15672 and see if all is ok!</p>
+<p><strong>Note:</strong> When using Boot2Docker make sure to replace the localhost with the correct IP.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2015-06-11
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/docker">docker</a>, <a href="/tags/rabbitmq">rabbitmq</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">HTTPServletRequestWrapper for ServletInputStream 3.1</h1>
         </div>
     </div>
@@ -395,40 +463,6 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/hugo">hugo</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Bookreview : Instant Vert.x</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>For those who have not yet got into contact with <a href="http://vertx.io/">Vert.x</a>, the book <a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Instant Vert.x</a> (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.</p>
-<p>As the name suggests, you can read the book in &ldquo;an instant&rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.</p>
-<p>For those who have not yet had the opportunity to learn about Vert.x, I would not immediately recommend this book. The online documentation section on Vertx.io contains the same information. But if you like a book with information nicely put into digestible chapters then this book is a good fit.</p>
-<p>Personally i hoped to get some more technical information and how-to information from this book but it is really targeted towards people that are just starting or have a beginning interest in Vert.x.</p>
-<p>Overall, I really liked the compactness and pace of the book. It is an easy read and you quickly gain knowledge on the high level concepts of Vert.x. While noted earlier you can get the information also on Vertx.io website or other places, it&rsquo;s is nice to have all information aggregated in one place. This book is a good start in your journey to learn about Vert.x.</p>
-<ul>
-<li><a href="http://vertx.io/">Go to the Vert.x website</a></li>
-<li><a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Get the book at Pack Publishing</a></li>
-</ul>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2013-11-27
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/vertx">vertx</a>, <a href="/tags/java">java</a>, <a href="/tags/review">review</a>
                 </span>
             </div>
         </div>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>emacs on CodeVerse</title>
+    <link>http://mpas.github.io/tags/emacs/</link>
+    <description>Recent content in emacs on CodeVerse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 16 Oct 2020 07:09:45 +0200</lastBuildDate><atom:link href="http://mpas.github.io/tags/emacs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Get pretty org-bullets in Doom Emacs</title>
+      <link>http://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/</link>
+      <pubDate>Fri, 16 Oct 2020 07:09:45 +0200</pubDate>
+      
+      <guid>http://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/</guid>
+      <description>When installing Doom Emacs and using org-mode the defaults bullets are *. In order to get some fancy bullets the following steps need to be taken.
+ Add the org-mode +pretty flag to your org settings in init.el To read more on the available flags check the [org-mode Doom Emacs module lang/orgdoom-emacs-org-mode-flags  :lang (org +pretty ) ; organize your plain life in plain text Set the bullets you want to use in your config.</description>
+    </item>
+    
+  </channel>
+</rss>
