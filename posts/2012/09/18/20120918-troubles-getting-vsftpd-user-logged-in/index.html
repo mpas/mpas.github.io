@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -102,10 +98,10 @@ if (!doNotTrack) {
 500 OOPS: vsftpd: refusing to run with writable root inside chroot()</p>
 <p>After some googling around i found the following fix..
 chmod the folder that the ftp user comes in to as he first login (root folder) by using in terminal:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo chmod a-w /home/user
-</code></pre></div><p>Create a subfolder within the folder, either by the use of GUI or if you only have terminal it&rsquo;s:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo mkdir /home/user/newfolder
-</code></pre></div><p>Now you should be able to log in and read write within the &ldquo;newfolder&rdquo;.</p>
+<pre><code class="language-console" data-lang="console">sudo chmod a-w /home/user
+</code></pre><p>Create a subfolder within the folder, either by the use of GUI or if you only have terminal it&rsquo;s:</p>
+<pre><code class="language-console" data-lang="console">sudo mkdir /home/user/newfolder
+</code></pre><p>Now you should be able to log in and read write within the &ldquo;newfolder&rdquo;.</p>
 <p>You will <strong>NOT</strong> be able to write in the root folder itself from the ftp with the chmod a-w, so that is the reason for the subfolder, there you can.</p>
 <p><a href="http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update">http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update</a></p>
 
@@ -162,7 +158,7 @@ chmod the folder that the ftp user comes in to as he first login (root folder) b
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -95,6 +91,35 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Run a Grails 3 generated Fat Jar file in production mode</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When creating a Grails WAR/JAR file using:</p>
+<pre><code class="language-console" data-lang="console">$ grails war
+</code></pre><p>The resulting artifact can be run in production mode using:</p>
+<pre><code class="language-console" data-lang="console">$ java -Dgrails.env=prod -Dserver.port=9000 -jar &lt;name-of-jar-file&gt;.jar
+</code></pre>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2015-06-11
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/grails">grails</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Setting up Docker RabbitMQ with predefined users/vhosts</h1>
         </div>
     </div>
@@ -104,43 +129,43 @@ if (!doNotTrack) {
 <p>The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.</p>
 <p>It involves a init.sh script that is used to create the users and vhosts.</p>
 <p>The Docker File</p>
-<div class="highlight"><pre class="chroma"><code class="language-docker" data-lang="docker"><span class="k">FROM</span><span class="s"> rabbitmq:3-management</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Add script to create default users / vhosts</span><span class="err">
-</span><span class="err"></span><span class="k">ADD</span> init.sh /init.sh<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Set correct executable permissions</span><span class="err">
-</span><span class="err"></span><span class="k">RUN</span> chmod +x /init.sh<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Define default command</span><span class="err">
-</span><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="err">&amp;quot;/init.sh&amp;quot;</span><span class="p">]</span><span class="err">
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> rabbitmq:3-management</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Add script to create default users / vhosts</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ADD</span> init.sh /init.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set correct executable permissions</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chmod +x /init.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Define default command</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#960050;background-color:#1e0010">&amp;quot;/init.sh&amp;quot;</span>]<span style="color:#960050;background-color:#1e0010">
 </span></code></pre></div><p>The init.sh script</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
-</span><span class="cp"></span>
-<span class="c1"># Create Default RabbitMQ setup</span>
-<span class="o">(</span> sleep <span class="m">10</span> <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Create users</span>
-<span class="c1"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;</span>
-rabbitmqctl add_user test_user test_user <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Set user rights</span>
-<span class="c1"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;</span>
-rabbitmqctl set_user_tags test_user administrator <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Create vhosts</span>
-<span class="c1"># rabbitmqctl add_vhost &lt;vhostname&gt;</span>
-rabbitmqctl add_vhost dummy <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Set vhost permissions</span>
-<span class="c1"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &#34;.*&#34; &#34;.*&#34; &#34;.*&#34;</span>
-rabbitmqctl set_permissions -p dummy test_user <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="p">;</span> <span class="se">\
-</span><span class="se"></span><span class="o">)</span> <span class="p">&amp;</span>    
-rabbitmq-server <span class="nv">$@</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># Create Default RabbitMQ setup</span>
+<span style="color:#f92672">(</span> sleep <span style="color:#ae81ff">10</span> ; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>
+<span style="color:#75715e"># Create users</span>
+<span style="color:#75715e"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;</span>
+rabbitmqctl add_user test_user test_user ; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>
+<span style="color:#75715e"># Set user rights</span>
+<span style="color:#75715e"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;</span>
+rabbitmqctl set_user_tags test_user administrator ; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>
+<span style="color:#75715e"># Create vhosts</span>
+<span style="color:#75715e"># rabbitmqctl add_vhost &lt;vhostname&gt;</span>
+rabbitmqctl add_vhost dummy ; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>
+<span style="color:#75715e"># Set vhost permissions</span>
+<span style="color:#75715e"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &#34;.*&#34; &#34;.*&#34; &#34;.*&#34;</span>
+rabbitmqctl set_permissions -p dummy test_user <span style="color:#e6db74">&#34;.*&#34;</span> <span style="color:#e6db74">&#34;.*&#34;</span> <span style="color:#e6db74">&#34;.*&#34;</span> ; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span><span style="color:#f92672">)</span> &amp;    
+rabbitmq-server $@
 </code></pre></div><p>Place both of these files in a directory and build your image:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ docker build -t my_rabbitmq_image .
-</code></pre></div><p>Start a container based on the image using:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">$</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span><span class="o">=</span><span class="kc">true</span> <span class="o">--</span><span class="n">name</span> <span class="n">my_rabbitmq_container</span> <span class="o">-</span><span class="n">p</span> <span class="mi">5672</span><span class="o">:</span><span class="mi">5672</span> <span class="o">-</span><span class="n">p</span> <span class="mi">15672</span><span class="o">:</span><span class="mi">15672</span>  <span class="n">my_rabbitmq_image</span>
+<pre><code class="language-console" data-lang="console">$ docker build -t my_rabbitmq_image .
+</code></pre><p>Start a container based on the image using:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">$ docker run <span style="color:#f92672">--</span>rm<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span> <span style="color:#f92672">--</span>name my_rabbitmq_container <span style="color:#f92672">-</span>p <span style="color:#ae81ff">5672</span><span style="color:#f92672">:</span><span style="color:#ae81ff">5672</span> <span style="color:#f92672">-</span>p <span style="color:#ae81ff">15672</span><span style="color:#f92672">:</span><span style="color:#ae81ff">15672</span>  my_rabbitmq_image
 </code></pre></div><p>Then in your browser navigate to http://localhost:15672 and see if all is ok!</p>
 <p><strong>Note:</strong> When using Boot2Docker make sure to replace the localhost with the correct IP.</p>
 
@@ -174,91 +199,91 @@ rabbitmq-server <span class="nv">$@</span>
 <li>isReady</li>
 <li>setReadListener</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">com.google.common.primitives.Bytes</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.servlet.ReadListener</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.servlet.ServletInputStream</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequestWrapper</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.io.ByteArrayInputStream</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> com.google.common.primitives.Bytes<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> javax.servlet.ReadListener<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> javax.servlet.ServletInputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequest<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequestWrapper<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.ByteArrayInputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.util.Arrays<span style="color:#f92672">;</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AuthenticationRequestWrapper</span> <span class="kd">extends</span> <span class="n">HttpServletRequestWrapper</span> <span class="o">{</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span> <span style="color:#66d9ef">extends</span> HttpServletRequestWrapper <span style="color:#f92672">{</span>
 
-    <span class="c1">// tag::variables[]
-</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">requestBody</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
-    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">bufferFilled</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-    <span class="c1">// end::variables[]
-</span><span class="c1"></span>
-    <span class="cm">/**
-</span><span class="cm">     - Constructs a request object wrapping the given request.
-</span><span class="cm">     *
-</span><span class="cm">     - @param request The request to wrap
-</span><span class="cm">     - @throws IllegalArgumentException if the request is null
-</span><span class="cm">     */</span>
-    <span class="kd">public</span> <span class="nf">AuthenticationRequestWrapper</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
-    <span class="o">}</span>
+    <span style="color:#75715e">// tag::variables[]
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> requestBody <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>0<span style="color:#f92672">];</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+    <span style="color:#75715e">// end::variables[]
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     - Constructs a request object wrapping the given request.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     - @param request The request to wrap
+</span><span style="color:#75715e">     - @throws IllegalArgumentException if the request is null
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">super</span><span style="color:#f92672">(</span>request<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
 
-    <span class="c1">// tag::getRequestBody[]
-</span><span class="c1"></span>    <span class="kd">public</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">getRequestBody</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">bufferFilled</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">requestBody</span><span class="o">,</span> <span class="n">requestBody</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
-        <span class="o">}</span>
+    <span style="color:#75715e">// tag::getRequestBody[]
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> <span style="color:#a6e22e">getRequestBody</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>bufferFilled<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOf</span><span style="color:#f92672">(</span>requestBody<span style="color:#f92672">,</span> requestBody<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
 
-        <span class="n">InputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+        InputStream inputStream <span style="color:#f92672">=</span> <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
 
-        <span class="kt">byte</span><span class="o">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">102400</span><span class="o">];</span> <span class="c1">// 100kb buffer
-</span><span class="c1"></span>
-        <span class="kt">int</span> <span class="n">bytesRead</span><span class="o">;</span>
-        <span class="k">while</span> <span class="o">((</span><span class="n">bytesRead</span> <span class="o">=</span> <span class="n">inputStream</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">))</span> <span class="o">!=</span> <span class="o">-</span><span class="n">1</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">requestBody</span> <span class="o">=</span> <span class="n">Bytes</span><span class="o">.</span><span class="na">concat</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">requestBody</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOfRange</span><span class="o">(</span><span class="n">buffer</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">bytesRead</span><span class="o">));</span> <span class="c1">// &lt;1&gt;
-</span><span class="c1"></span>        <span class="o">}</span>
+        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> buffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>102400<span style="color:#f92672">];</span> <span style="color:#75715e">// 100kb buffer
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">int</span> bytesRead<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span>bytesRead <span style="color:#f92672">=</span> inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">))</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            requestBody <span style="color:#f92672">=</span> Bytes<span style="color:#f92672">.</span><span style="color:#a6e22e">concat</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">requestBody</span><span style="color:#f92672">,</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOfRange</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> bytesRead<span style="color:#f92672">));</span> <span style="color:#75715e">// &lt;1&gt;
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
 
-        <span class="n">bufferFilled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
 
-        <span class="k">return</span> <span class="n">requestBody</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="c1">// end::getRequestBody[]
-</span><span class="c1"></span>
-    <span class="c1">// tag::getInputStream[]
-</span><span class="c1"></span>    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">ServletInputStream</span> <span class="nf">getInputStream</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="n">CustomServletInputStream</span><span class="o">(</span><span class="n">getRequestBody</span><span class="o">());</span> <span class="c1">// &lt;1&gt;
-</span><span class="c1"></span>    <span class="o">}</span>
-    <span class="c1">// end::getInputStream[]
-</span><span class="c1"></span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">CustomServletInputStream</span> <span class="kd">extends</span> <span class="n">ServletInputStream</span> <span class="o">{</span>
+        <span style="color:#66d9ef">return</span> requestBody<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">// end::getRequestBody[]
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">// tag::getInputStream[]
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> ServletInputStream <span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> CustomServletInputStream<span style="color:#f92672">(</span>getRequestBody<span style="color:#f92672">());</span> <span style="color:#75715e">// &lt;1&gt;
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">// end::getInputStream[]
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomServletInputStream</span> <span style="color:#66d9ef">extends</span> ServletInputStream <span style="color:#f92672">{</span>
 
-        <span class="kd">private</span> <span class="n">ByteArrayInputStream</span> <span class="n">buffer</span><span class="o">;</span>
+        <span style="color:#66d9ef">private</span> ByteArrayInputStream buffer<span style="color:#f92672">;</span>
 
-        <span class="kd">public</span> <span class="nf">CustomServletInputStream</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">contents</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">this</span><span class="o">.</span><span class="na">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayInputStream</span><span class="o">(</span><span class="n">contents</span><span class="o">);</span>
-        <span class="o">}</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">CustomServletInputStream</span><span style="color:#f92672">(</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> contents<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">buffer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ByteArrayInputStream<span style="color:#f92672">(</span>contents<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
 
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="na">read</span><span class="o">();</span>
-        <span class="o">}</span>
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">read</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
 
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">()</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="na">available</span><span class="o">()</span> <span class="o">==</span> <span class="n">0</span><span class="o">;</span>
-        <span class="o">}</span>
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isFinished</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> 0<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
 
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isReady</span><span class="o">()</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-        <span class="o">}</span>
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isReady</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
 
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setReadListener</span><span class="o">(</span><span class="n">ReadListener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Not implemented&#34;</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setReadListener</span><span style="color:#f92672">(</span>ReadListener listener<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Not implemented&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div>
         </div>
     </div>
@@ -297,73 +322,73 @@ rabbitmq-server <span class="nv">$@</span>
 <li>login into your Amazon AMI</li>
 <li>update the system and install Docker</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo yum update -y
+<pre><code class="language-console" data-lang="console">$ sudo yum update -y
 $ sudo wget -qO- https://get.docker.com/ | sh
-</code></pre></div><ul>
+</code></pre><ul>
 <li>add the ec2-user to the <code>docker</code> group (optional)</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo usermod -aG docker ec2-user
-</code></pre></div><ul>
+<pre><code class="language-console" data-lang="console">$ sudo usermod -aG docker ec2-user
+</code></pre><ul>
 <li>start Docker</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo service docker start
-</code></pre></div><ul>
+<pre><code class="language-console" data-lang="console">$ sudo service docker start
+</code></pre><ul>
 <li>make sure Docker can run the basic &ldquo;hello-world&rdquo;</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker run hello-world
-</code></pre></div><h2 id="create-docker-registry-data-and-configuration-directories">Create Docker Registry data and configuration directories</h2>
+<pre><code class="language-console" data-lang="console">$ sudo docker run hello-world
+</code></pre><h2 id="create-docker-registry-data-and-configuration-directories">Create Docker Registry data and configuration directories</h2>
 <p>We are going to store the registry image data inside <code>/opt/docker/registry/data</code> and configuration files such as the ssl certificates and user login inside <code>/opt/docker/registry/conf</code>.</p>
 <ul>
 <li>create data folders for Docker Registry data and configuration</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo mkdir -p /opt/docker/registry/data
+<pre><code class="language-console" data-lang="console">$ sudo mkdir -p /opt/docker/registry/data
 $ sudo mkdir -p /opt/docker/registry/conf
-</code></pre></div><h2 id="run-the-docker-registry">Run the Docker Registry</h2>
+</code></pre><h2 id="run-the-docker-registry">Run the Docker Registry</h2>
 <p>Now we are able to run the Docker Registry, the data for images that will be pushed are going to be stored in <code>/opt/docker/registry/data</code> and the container will be named <code>docker-registry</code></p>
 <ul>
 <li>run the registry and name it <code>docker-registry</code></li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker run -d -v /opt/docker/registry/data:/tmp/registry-dev \
+<pre><code class="language-console" data-lang="console">$ sudo docker run -d -v /opt/docker/registry/data:/tmp/registry-dev \
 --name docker-registry registry:2.0.1
-</code></pre></div><ul>
+</code></pre><ul>
 <li>test if the registry is actually running</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker ps
-</code></pre></div><p><strong>So now we have a running Docker Registry, but still no SSL proxy and no user accounts to get access to the registry.</strong></p>
+<pre><code class="language-console" data-lang="console">$ sudo docker ps
+</code></pre><p><strong>So now we have a running Docker Registry, but still no SSL proxy and no user accounts to get access to the registry.</strong></p>
 <h2 id="generate-self-signed-certificates-for-our-ssl-proxy">Generate self signed certificates for our SSL proxy</h2>
 <p>The result of the certificate generation will be placed in <code>/opt/docker/registry/conf</code> and named <code>docker-registry.crt</code> and <code>docker-registry.key</code>.</p>
 <p><strong>Note:</strong> The <code>docker-registry.crt</code> file is important, we will need this later on to configure our local Docker client on the machine that is going to access the remote registry. So after generating the <code>docker-registry.crt</code> file, grab this and store it on your local machine in a place where you can find it.</p>
 <ul>
 <li>generate the certificates</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+<pre><code class="language-console" data-lang="console">$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 -keyout /opt/docker/registry/conf/docker-registry.key \
 -out /opt/docker/registry/conf/docker-registry.crt
-</code></pre></div><p>Accept all defaults and make sure you give the correct FQDN /DNS name = <code>&lt;domain-name&gt;</code>.</p>
+</code></pre><p>Accept all defaults and make sure you give the correct FQDN /DNS name = <code>&lt;domain-name&gt;</code>.</p>
 <h2 id="create-passwords-for-access-to-the-docker-registry">Create passwords for access to the Docker Registry</h2>
 <p>In order to let users login into the registry we need to create users  (user1/user2). This will be done by using <code>htpasswd</code>. The user data will be stored in <code>docker-registry.htpasswd</code> file and placed in the <code>/opt/docker/registry/conf</code> directory.</p>
 <ul>
 <li>install htpasswd</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo yum install httpd-tools -y
-</code></pre></div><ul>
+<pre><code class="language-console" data-lang="console">$ sudo yum install httpd-tools -y
+</code></pre><ul>
 <li>create the users</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo htpasswd -c /opt/docker/registry/conf/docker-registry.htpasswd user1
+<pre><code class="language-console" data-lang="console">$ sudo htpasswd -c /opt/docker/registry/conf/docker-registry.htpasswd user1
 $ sudo htpasswd /opt/docker/registry/conf/docker-registry.htpasswd user2
-</code></pre></div><p><strong>Note:</strong> when creating the second user omit the <code>-c</code> otherwise the docker-registry.htpasswd file will be get overwritten!</p>
+</code></pre><p><strong>Note:</strong> when creating the second user omit the <code>-c</code> otherwise the docker-registry.htpasswd file will be get overwritten!</p>
 <h2 id="run-the-nginx-proxy">Run the NGINX Proxy</h2>
 <p>As mentioned we are going to use the image from <a href="http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/">Container Solutions</a> to run our NGINX proxy.</p>
 <ul>
 <li>start the NGINX proxy and name it <code>docker-registry-proxy</code></li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo docker run -d -p 443:443  \
--e REGISTRY_HOST=&#34;docker-registry&#34; -e REGISTRY_PORT=&#34;5000&#34; -e SERVER_NAME=&#34;localhost&#34; \
+<pre><code class="language-console" data-lang="console">$ sudo docker run -d -p 443:443  \
+-e REGISTRY_HOST=&quot;docker-registry&quot; -e REGISTRY_PORT=&quot;5000&quot; -e SERVER_NAME=&quot;localhost&quot; \
 --link docker-registry:docker-registry \
 -v /opt/docker/registry/conf/docker-registry.htpasswd:/etc/nginx/.htpasswd:ro \
 -v /opt/docker/registry/conf:/etc/nginx/ssl:ro \
 --name docker-registry-proxy containersol/docker-registry-proxy
-</code></pre></div><p>After this step we have a running Docker Registry which is secured using Self Signed certificates and users are able to login using their username/password.</p>
+</code></pre><p>After this step we have a running Docker Registry which is secured using Self Signed certificates and users are able to login using their username/password.</p>
 <p>To test this navigate to your registry by using a browser (Chrome) and access: <code>https://&lt;domain-name&gt;:443/v2/</code>. After accepting the security warning provide a username/password and the output should be <code>{}</code>.</p>
 <h2 id="configure-the-local-docker-client">Configure the local Docker client</h2>
 <p>Now that we have a running secured Docker Registry we can configure the Docker client on our machine that is going to access the remote Registry. For this we need a copy of the earlier <code>docker-registry.crt</code> file.</p>
@@ -375,13 +400,13 @@ $ sudo htpasswd /opt/docker/registry/conf/docker-registry.htpasswd user2
 <ul>
 <li>install docker</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo wget -qO- https://get.docker.com/ | sh
+<pre><code class="language-console" data-lang="console">$ sudo wget -qO- https://get.docker.com/ | sh
 $ sudo service docker start
-</code></pre></div><ul>
+</code></pre><ul>
 <li>create a directory holding our extra certificates</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo mkdir /usr/share/ca-certificates/extra
-</code></pre></div><ul>
+<pre><code class="language-console" data-lang="console">$ sudo mkdir /usr/share/ca-certificates/extra
+</code></pre><ul>
 <li>
 <p>copy the <code>docker-registry.crt</code> file to the directory <code>/usr/share/ca-certificates/extra</code></p>
 </li>
@@ -389,17 +414,17 @@ $ sudo service docker start
 <p>register the certificate</p>
 </li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo dpkg-reconfigure ca-certificates
-</code></pre></div><p>Now you are almost ready!</p>
+<pre><code class="language-console" data-lang="console">$ sudo dpkg-reconfigure ca-certificates
+</code></pre><p>Now you are almost ready!</p>
 <ul>
 <li>restart the local Docker client</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo service docker restart
-</code></pre></div><ul>
+<pre><code class="language-console" data-lang="console">$ sudo service docker restart
+</code></pre><ul>
 <li>login onto your remote registry using</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ docker login &lt;domain-name&gt;:port
-</code></pre></div><p>Now we have a remote Docker Registry and the Docker Client is able to connect!</p>
+<pre><code class="language-console" data-lang="console">$ docker login &lt;domain-name&gt;:port
+</code></pre><p>Now we have a remote Docker Registry and the Docker Client is able to connect!</p>
 
         </div>
     </div>
@@ -426,14 +451,14 @@ $ sudo service docker start
     <div class="row">
         <div class="twelve columns">
             <p>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">Error creating bean with name &#39;grailsApplication&#39; defined in ServletContext resource
+<pre><code class="language-console" data-lang="console">Error creating bean with name 'grailsApplication' defined in ServletContext resource
 [/WEB-INF/applicationContext.xml]: Cannot resolve reference to
-bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResourceLoader&#39;;
-</code></pre></div><p>To solve this issue you need to delete some lines in the <code>&lt;grails-app&gt;/web-app/WEB-INF/applicationContext.xml</code> file.</p>
+bean 'grailsResourceLoader' while setting bean property 'grailsResourceLoader';
+</code></pre><p>To solve this issue you need to delete some lines in the <code>&lt;grails-app&gt;/web-app/WEB-INF/applicationContext.xml</code> file.</p>
 <p>Delete the following lines:</p>
-<div class="highlight"><pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;grailsResourceLoader&#34;</span> <span class="na">ref=</span><span class="s">&#34;grailsResourceLoader&#34;</span> <span class="nt">/&gt;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;grailsResourceLoader&#34;</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;grailsResourceLoader&#34;</span> <span style="color:#f92672">/&gt;</span>
 
-<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;grailsResourceLoader&#34;</span> <span class="na">class=</span><span class="s">&#34;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&#34;</span> <span class="nt">/&gt;</span>
+<span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;grailsResourceLoader&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&#34;</span> <span style="color:#f92672">/&gt;</span>
 </code></pre></div><p>And you should be up and running quickly.</p>
 
         </div>
@@ -445,40 +470,6 @@ bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResou
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/grails">grails</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Skip a contenttype/section to be renderend</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.</p>
-<p>Example:
-You want to only render contenttype &lsquo;post&rsquo;  use the following code in your template:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="p">{{</span> <span class="k">if</span> <span class="nx">eq</span> <span class="p">.</span><span class="nx">Type</span> <span class="s">&#34;post&#34;</span> <span class="p">}}</span>
-
-    <span class="p">{{</span> <span class="p">.</span><span class="nx">Title</span> <span class="p">}}</span>
-    <span class="p">{{</span> <span class="p">.</span><span class="nx">Content</span> <span class="p">}}</span>
-
-<span class="p">{{</span> <span class="nx">end</span> <span class="p">}}</span>
-</code></pre></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2014-06-09
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/hugo">hugo</a>
                 </span>
             </div>
         </div>
@@ -546,7 +537,7 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

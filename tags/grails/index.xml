@@ -39,8 +39,7 @@ Let us first enable the actuator endpoints
       <guid>http://mpas.github.io/posts/2015/11/19/20151119-functional-rest-api-testing/</guid>
       <description>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.
 When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.
-Scenario:
-Performing a GET request on a url (http://localhost:8080/helloworld) should return a HTTP Status 200 and data with a json payload</description>
+Scenario:Performing a GET request on a url (http://localhost:8080/helloworld) should return a HTTP Status 200 and data with a json payload</description>
     </item>
     
     <item>
@@ -73,7 +72,7 @@ $ java -Dgrails.env=prod -Dserver.port=9000 -jar &amp;lt;name-of-jar-file&amp;gt
       
       <guid>http://mpas.github.io/posts/2014/07/04/20140724-upgrade-grails-2.4.2/</guid>
       <description>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.
-Error creating bean with name &amp;#39;grailsApplication&amp;#39; defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean &amp;#39;grailsResourceLoader&amp;#39; while setting bean property &amp;#39;grailsResourceLoader&amp;#39;; To solve this issue you need to delete some lines in the &amp;lt;grails-app&amp;gt;/web-app/WEB-INF/applicationContext.xml file.
+Error creating bean with name &#39;grailsApplication&#39; defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResourceLoader&#39;; To solve this issue you need to delete some lines in the &amp;lt;grails-app&amp;gt;/web-app/WEB-INF/applicationContext.xml file.
 Delete the following lines:
 &amp;lt;property name=&amp;#34;grailsResourceLoader&amp;#34; ref=&amp;#34;grailsResourceLoader&amp;#34; /&amp;gt; &amp;lt;bean id=&amp;#34;grailsResourceLoader&amp;#34; class=&amp;#34;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&amp;#34; /&amp;gt; And you should be up and running quickly.</description>
     </item>

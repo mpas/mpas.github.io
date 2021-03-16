@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -99,21 +95,21 @@ if (!doNotTrack) {
     <div class="row">
         <div class="twelve columns">
             <p>You can set the default homepage for a Grails application by modifying the <code>grails-app/conf/UrlMappings.groovy</code> file. In a new Grails application this file will look like</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">UrlMappings</span> <span class="o">{</span>
-    <span class="kd">static</span> <span class="n">mappings</span> <span class="o">=</span> <span class="o">{</span>
-        <span class="s2">&#34;/$controller/$action?/$id?&#34;</span><span class="o">{</span>
-            <span class="n">constraints</span> <span class="o">{</span>
-                <span class="c1">// apply constraints here
-</span><span class="c1"></span>            <span class="o">}</span>
-        <span class="o">}</span>
-        <span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
-        <span class="s2">&#34;500&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/error&#39;</span><span class="o">)</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UrlMappings</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">static</span> mappings <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">&#34;/$controller/$action?/$id?&#34;</span><span style="color:#f92672">{</span>
+            constraints <span style="color:#f92672">{</span>
+                <span style="color:#75715e">// apply constraints here
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
+        <span style="color:#e6db74">&#34;500&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#39;/error&#39;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><p>Replace the line:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
 </code></pre></div><p>with:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">controller:</span><span class="s1">&#39;home&#39;</span><span class="o">,</span> <span class="nl">action:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>controller:<span style="color:#e6db74">&#39;home&#39;</span><span style="color:#f92672">,</span> action:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
 </code></pre></div><p>This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the <strong>HomeController</strong> and corresponding <strong>index</strong> action related to that controller.</p>
 
         </div>
@@ -169,7 +165,7 @@ if (!doNotTrack) {
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

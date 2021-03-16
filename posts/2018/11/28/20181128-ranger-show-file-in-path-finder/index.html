@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -103,39 +99,39 @@ if (!doNotTrack) {
 or use the excellent alternative called <code>Path Finder</code>. (<a href="https://cocoatech.com/#/">https://cocoatech.com/#/</a>)</p>
 <p>To reveal your files in the Finder or Path Finder create a <code>commands.py</code> in <code>~/.config/ranger</code> and paste the following
 code.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">ranger.api.commands</span> <span class="kn">import</span> <span class="n">Command</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> ranger.api.commands <span style="color:#f92672">import</span> Command
 
-<span class="k">class</span> <span class="nc">show_files_in_path_finder</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
-    <span class="s2">&#34;&#34;&#34;
-</span><span class="s2">    :show_files_in_path_finder
-</span><span class="s2">
-</span><span class="s2">    Present selected files in finder
-</span><span class="s2">    &#34;&#34;&#34;</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">show_files_in_path_finder</span>(Command):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    :show_files_in_path_finder
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Present selected files in finder
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
 
-    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">import</span> <span class="nn">subprocess</span>
-        <span class="n">files</span> <span class="o">=</span> <span class="s2">&#34;,&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">file</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">thistab</span><span class="o">.</span><span class="n">get_selection</span><span class="p">()])</span>
-        <span class="n">reveal_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Path Finder</span><span class="se">\&#34;</span><span class="s2"> to reveal {{{0}}}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
-        <span class="n">activate_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Path Finder</span><span class="se">\&#34;</span><span class="s2"> to activate&#34;</span>
-        <span class="n">script</span> <span class="o">=</span> <span class="s2">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reveal_script</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
-        <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&#34;osascript&#34;</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">reveal_script</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">])</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
+        <span style="color:#f92672">import</span> subprocess
+        files <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">.</span>join([<span style="color:#e6db74">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span style="color:#f92672">.</span>format(file<span style="color:#f92672">.</span>path) <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>thistab<span style="color:#f92672">.</span>get_selection()])
+        reveal_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Path Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to reveal {{{0}}}&#34;</span><span style="color:#f92672">.</span>format(files)
+        activate_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Path Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to activate&#34;</span>
+        script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span style="color:#f92672">.</span>format(reveal_script, activate_script)
+        self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>notify(script)
+        subprocess<span style="color:#f92672">.</span>check_output([<span style="color:#e6db74">&#34;osascript&#34;</span>, <span style="color:#e6db74">&#34;-e&#34;</span>, reveal_script, <span style="color:#e6db74">&#34;-e&#34;</span>, activate_script])
 
-<span class="k">class</span> <span class="nc">show_files_in_finder</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
-    <span class="s2">&#34;&#34;&#34;
-</span><span class="s2">    :show_files_in_finder
-</span><span class="s2">
-</span><span class="s2">    Present selected files in finder
-</span><span class="s2">    &#34;&#34;&#34;</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">show_files_in_finder</span>(Command):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    :show_files_in_finder
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Present selected files in finder
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
 
-    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">import</span> <span class="nn">subprocess</span>
-        <span class="n">files</span> <span class="o">=</span> <span class="s2">&#34;,&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">file</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">thistab</span><span class="o">.</span><span class="n">get_selection</span><span class="p">()])</span>
-        <span class="n">reveal_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Finder</span><span class="se">\&#34;</span><span class="s2"> to reveal {{{0}}}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
-        <span class="n">activate_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Finder</span><span class="se">\&#34;</span><span class="s2"> to set frontmost to true&#34;</span>
-        <span class="n">script</span> <span class="o">=</span> <span class="s2">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reveal_script</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
-        <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&#34;osascript&#34;</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">reveal_script</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">])</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
+        <span style="color:#f92672">import</span> subprocess
+        files <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">.</span>join([<span style="color:#e6db74">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span style="color:#f92672">.</span>format(file<span style="color:#f92672">.</span>path) <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>thistab<span style="color:#f92672">.</span>get_selection()])
+        reveal_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to reveal {{{0}}}&#34;</span><span style="color:#f92672">.</span>format(files)
+        activate_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to set frontmost to true&#34;</span>
+        script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span style="color:#f92672">.</span>format(reveal_script, activate_script)
+        self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>notify(script)
+        subprocess<span style="color:#f92672">.</span>check_output([<span style="color:#e6db74">&#34;osascript&#34;</span>, <span style="color:#e6db74">&#34;-e&#34;</span>, reveal_script, <span style="color:#e6db74">&#34;-e&#34;</span>, activate_script])
 </code></pre></div><p>Restart Ranger and now you can execute the commands :show_files_in_pathfinder or :show_files_in_finder.</p>
 
         </div>
@@ -191,7 +187,7 @@ code.</p>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -105,16 +101,16 @@ if (!doNotTrack) {
 <li>Copy the driver (at this time of writing called <code>mysql-connector-java-5.1.13-bin.jar</code> into the <code>grails-app/lib</code> directory</li>
 <li>Configure your application datasource in file <code>grails-app/conf/DataSource.groovy</code></li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">development</span> <span class="o">{</span>
-    <span class="n">dataSource</span> <span class="o">{</span>
-       <span class="n">dbCreate</span> <span class="o">=</span> <span class="s2">&#34;create-drop&#34;</span> <span class="c1">// one of &#39;create&#39;, &#39;create-drop&#39;,&#39;update&#39;
-</span><span class="c1"></span>       <span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;jdbc:mysql://localhost:&lt;port&gt;/&lt;database&gt;&#34;</span>
-       <span class="n">driverClassName</span> <span class="o">=</span> <span class="s2">&#34;com.mysql.jdbc.Driver&#34;</span>
-       <span class="n">port</span> <span class="o">=</span>  <span class="c1">// default 3306
-</span><span class="c1"></span>       <span class="n">username</span> <span class="o">=</span> <span class="s2">&#34;&lt;username&gt;&#34;</span>
-       <span class="n">password</span> <span class="o">=</span> <span class="s2">&#34;&lt;password&gt;&#34;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">development <span style="color:#f92672">{</span>
+    dataSource <span style="color:#f92672">{</span>
+       dbCreate <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;create-drop&#34;</span> <span style="color:#75715e">// one of &#39;create&#39;, &#39;create-drop&#39;,&#39;update&#39;
+</span><span style="color:#75715e"></span>       url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;jdbc:mysql://localhost:&lt;port&gt;/&lt;database&gt;&#34;</span>
+       driverClassName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;com.mysql.jdbc.Driver&#34;</span>
+       port <span style="color:#f92672">=</span>  <span style="color:#75715e">// default 3306
+</span><span style="color:#75715e"></span>       username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;username&gt;&#34;</span>
+       password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;password&gt;&#34;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div>
         </div>
     </div>
@@ -169,7 +165,7 @@ if (!doNotTrack) {
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

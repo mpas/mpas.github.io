@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -95,6 +91,42 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Installing Markdown on OSX and use it inside VIM</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Back again to one of my favorites which is called <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. Once every now and then i forget how easy it is. Normally i use <a href="http://macromates.com/">Textmate</a> to do all my writing, but recently i have picked up <a href="http://www.vim.org/">VIM</a> to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)</p>
+<p>Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different. But anything is different when using VIM :)</p>
+<h4 id="steps">Steps</h4>
+<ul>
+<li>download Markdown from - <a href="http://daringfireball.net/projects/markdown/">The home of Markdown</a>, It’s usual place as this is a Perl script you need to put it somewhere so OSX is able to execute it.</li>
+<li>start your terminal and create a directory inside <code>usr/local/bin</code></li>
+<li>extract the downloaded file and put the <code>Markdown.pl</code> file * inside the <code>user/local/bin</code> directory</li>
+<li>inside the terminal chmod the <code>Markdown.pl</code> to 777</li>
+<li>using the <a href="http://gothick.org.uk/2010/08/04/installing-markdown-as-a-os-x-service-using-automator-in-snow-leopard/">Installing Markdown as OSX Service</a> creates a service to use Markdown</li>
+<li>You are done… :)</li>
+</ul>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2012-09-13
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/vim">vim</a>, <a href="/tags/markdown">markdown</a>, <a href="/tags/osx">osx</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Introduction to Groovy &amp; Grails</h1>
         </div>
     </div>
@@ -128,21 +160,21 @@ if (!doNotTrack) {
     <div class="row">
         <div class="twelve columns">
             <p>You can set the default homepage for a Grails application by modifying the <code>grails-app/conf/UrlMappings.groovy</code> file. In a new Grails application this file will look like</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">UrlMappings</span> <span class="o">{</span>
-    <span class="kd">static</span> <span class="n">mappings</span> <span class="o">=</span> <span class="o">{</span>
-        <span class="s2">&#34;/$controller/$action?/$id?&#34;</span><span class="o">{</span>
-            <span class="n">constraints</span> <span class="o">{</span>
-                <span class="c1">// apply constraints here
-</span><span class="c1"></span>            <span class="o">}</span>
-        <span class="o">}</span>
-        <span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
-        <span class="s2">&#34;500&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/error&#39;</span><span class="o">)</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UrlMappings</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">static</span> mappings <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">&#34;/$controller/$action?/$id?&#34;</span><span style="color:#f92672">{</span>
+            constraints <span style="color:#f92672">{</span>
+                <span style="color:#75715e">// apply constraints here
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
+        <span style="color:#e6db74">&#34;500&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#39;/error&#39;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><p>Replace the line:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">view:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
 </code></pre></div><p>with:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="s2">&#34;/&#34;</span><span class="o">(</span><span class="nl">controller:</span><span class="s1">&#39;home&#39;</span><span class="o">,</span> <span class="nl">action:</span><span class="s2">&#34;/index&#34;</span><span class="o">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>controller:<span style="color:#e6db74">&#39;home&#39;</span><span style="color:#f92672">,</span> action:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
 </code></pre></div><p>This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the <strong>HomeController</strong> and corresponding <strong>index</strong> action related to that controller.</p>
 
         </div>
@@ -287,7 +319,7 @@ If you want to enable the Hudson server to access the remote system, start Putty
 <p>If you can succesfully access the remote server using Putty, it is time to exchange files or execute remote commands. This can be done by using 2 small commandline utilities called PSCP for file transfer and Plink for executing remote commands such as remotely deleting files etc.</p>
 <p>Make sure these are in you PATH settings so you can execute them everywhere!</p>
 <p>Examples for executing a remote command (substitute the %parameters% with your own ones)</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">#create a directory
+<pre><code class="language-console" data-lang="console">#create a directory
 plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  mkdir C:/tmp
 
 #delete a directory
@@ -301,56 +333,56 @@ pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
 
 #upload multiple files
 pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
-</code></pre></div><h4 id="the-return-of-the-bat-file">The return of the .bat file</h4>
+</code></pre><h4 id="the-return-of-the-bat-file">The return of the .bat file</h4>
 <p>So far we have enabled remote access using SSH / CopSSH, executed remote commands and transferred files. All the needed ingredients are in place to enable our Hudson server to remotely deploy build artifacts. In the job configuration of Hudson you can trigger a batch file after a succesfull build, so whenever a succesfull build occurs trigger a batch that executes a few commands to quickly deploy build artifacts to any number of remote servers.</p>
 <p>In our case all deployment artifacts are copied to a central directory per project. So if we need to deploy a build, we can copy parts or the whole directory contents to a remote server.</p>
 <p>To give an example see the following batch files: Main example for a batchfile that triggers stopping of the remote Windows Services gives the instruction on which files need to be remotely deployed and start the services again.</p>
-<div class="highlight"><pre class="chroma"><code class="language-batch" data-lang="batch">-<span class="p">&gt;</span> filename = upload-project-to-development.bat
-<span class="p">@</span><span class="k">CLS</span>
-<span class="p">@</span><span class="k">ECHO</span> OFF
-<span class="k">SET</span> <span class="nv">USERNAME</span><span class="p">=</span><span class="nv">%1</span>
-<span class="k">SET</span> <span class="nv">PASSWORD</span><span class="p">=</span><span class="nv">%2</span>
-<span class="k">SET</span> <span class="nv">HOSTNAME</span><span class="p">=</span><span class="nv">%3</span>
-<span class="k">SET</span> <span class="nv">JBOSSDIR</span><span class="p">=</span><span class="nv">%4</span>
-<span class="k">SET</span> <span class="nv">SOURCEDIR</span><span class="p">=</span><span class="nv">%5</span>
-<span class="p">@</span><span class="k">ECHO</span> : - start upload procedure
-<span class="p">@</span><span class="k">ECHO</span> : -- stopping servers
-<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> net stop JBoss
-<span class="p">@</span><span class="k">ECHO</span> : -- uploading files CALL upload-files.bat <span class="nv">%USERNAME%</span> <span class="nv">%PASSWORD%</span> <span class="nv">%HOSTNAME%</span> <span class="nv">%JBOSSDIR%</span> <span class="nv">%SOURCEDIR%</span>\*.*
-<span class="p">@</span><span class="k">ECHO</span> : -- starting servers
-<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> net start JBoss
-<span class="p">@</span><span class="k">ECHO</span> : - finished upload procedure
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-batch" data-lang="batch">-&gt; filename = upload-project-to-development.bat
+@<span style="color:#66d9ef">CLS</span>
+@<span style="color:#66d9ef">ECHO</span> OFF
+<span style="color:#66d9ef">SET</span> USERNAME=%1
+<span style="color:#66d9ef">SET</span> PASSWORD=%2
+<span style="color:#66d9ef">SET</span> HOSTNAME=%3
+<span style="color:#66d9ef">SET</span> JBOSSDIR=%4
+<span style="color:#66d9ef">SET</span> SOURCEDIR=%5
+@<span style="color:#66d9ef">ECHO</span> : - start upload procedure
+@<span style="color:#66d9ef">ECHO</span> : -- stopping servers
+@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% net stop JBoss
+@<span style="color:#66d9ef">ECHO</span> : -- uploading files CALL upload-files.bat %USERNAME% %PASSWORD% %HOSTNAME% %JBOSSDIR% %SOURCEDIR%\*.*
+@<span style="color:#66d9ef">ECHO</span> : -- starting servers
+@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% net start JBoss
+@<span style="color:#66d9ef">ECHO</span> : - finished upload procedure
 </code></pre></div><p>The above script can be called easily by the Hudson server after a succesfull deployment.</p>
 <p><strong>example:</strong></p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">upload-project-to-development scott tiger 10.0.0.100 d:/java/server/jboss-v5.0 d:/build_artifacts/projectx
-</code></pre></div><p><strong>The example above:</strong></p>
+<pre><code class="language-console" data-lang="console">upload-project-to-development scott tiger 10.0.0.100 d:/java/server/jboss-v5.0 d:/build_artifacts/projectx
+</code></pre><p><strong>The example above:</strong></p>
 <ul>
 <li>Stops the JBoss server on the 10.0.0.100 host</li>
 <li>Passes some parameters to a file called “upload-files.bat” script</li>
 <li>Starts the JBoss servers again</li>
 </ul>
 <p>The script that executes the actual maintenance and uploads is the “upload-files.bat file”. All parameters are passed in by the calling script.</p>
-<div class="highlight"><pre class="chroma"><code class="language-batch" data-lang="batch">-<span class="p">&gt;</span> filename = upload-files.bat
-<span class="p">@</span><span class="k">ECHO</span> OFF
-<span class="k">SET</span> <span class="nv">USERNAME</span><span class="p">=</span><span class="nv">%1</span>
-<span class="k">SET</span> <span class="nv">PASSWORD</span><span class="p">=</span><span class="nv">%2</span>
-<span class="k">SET</span> <span class="nv">HOSTNAME</span><span class="p">=</span><span class="nv">%3</span>
-<span class="k">SET</span> <span class="nv">JBOSSDIR</span><span class="p">=</span><span class="nv">%4</span>
-<span class="k">SET</span> <span class="nv">SOURCE</span><span class="p">=</span><span class="nv">%5</span>
-<span class="k">SET</span> <span class="nv">DESTINATION</span><span class="p">=</span><span class="nv">%JBOSSDIR%</span>/deploy
-<span class="p">@</span><span class="k">ECHO</span>  : - <span class="nv">%HOSTNAME%</span> - starting file copy
-<span class="p">@</span><span class="k">ECHO</span>  : -- <span class="nv">%HOSTNAME%</span> - deleting JBOSS tmp
-<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm -rf <span class="nv">%JBOSSDIR%</span>/tmp
-<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> mkdir <span class="nv">%JBOSSDIR%</span>/tmp
-<span class="p">@</span><span class="k">ECHO</span>  : -- <span class="nv">%HOSTNAME%</span> - deleting JBOSS work
-<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm -rf <span class="nv">%JBOSSDIR%</span>/work
-<span class="p">@</span>plink -batch -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> mkdir <span class="nv">%JBOSSDIR%</span>/work
-<span class="p">@</span><span class="k">ECHO</span>  : -- <span class="nv">%HOSTNAME%</span> - deleting previous ears + jars
-<span class="p">@</span>plink -batch  -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm <span class="nv">%JBOSSDIR%</span>/deploy/*.ear
-<span class="p">@</span>plink -batch  -pw <span class="nv">%PASSWORD%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span> rm <span class="nv">%JBOSSDIR%</span>/deploy/*.jar
-<span class="p">@</span><span class="k">ECHO</span>  : -- <span class="nv">%HOSTNAME%</span> - copy remote files
-<span class="p">@</span>pscp -pw <span class="nv">%PASSWORD%</span> <span class="nv">%SOURCE%</span> <span class="nv">%USERNAME%</span>@<span class="nv">%HOSTNAME%</span>:<span class="nv">%DESTINATION%</span>
-<span class="p">@</span><span class="k">ECHO</span>  : - <span class="nv">%HOSTNAME%</span> - finishing file copy
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-batch" data-lang="batch">-&gt; filename = upload-files.bat
+@<span style="color:#66d9ef">ECHO</span> OFF
+<span style="color:#66d9ef">SET</span> USERNAME=%1
+<span style="color:#66d9ef">SET</span> PASSWORD=%2
+<span style="color:#66d9ef">SET</span> HOSTNAME=%3
+<span style="color:#66d9ef">SET</span> JBOSSDIR=%4
+<span style="color:#66d9ef">SET</span> SOURCE=%5
+<span style="color:#66d9ef">SET</span> DESTINATION=%JBOSSDIR%/deploy
+@<span style="color:#66d9ef">ECHO</span>  : - %HOSTNAME% - starting file copy
+@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - deleting JBOSS tmp
+@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm -rf %JBOSSDIR%/tmp
+@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% mkdir %JBOSSDIR%/tmp
+@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - deleting JBOSS work
+@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm -rf %JBOSSDIR%/work
+@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% mkdir %JBOSSDIR%/work
+@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - deleting previous ears + jars
+@plink -batch  -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm %JBOSSDIR%/deploy/*.ear
+@plink -batch  -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm %JBOSSDIR%/deploy/*.jar
+@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - copy remote files
+@pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
+@<span style="color:#66d9ef">ECHO</span>  : - %HOSTNAME% - finishing file copy
 </code></pre></div><p><strong>The example above:</strong></p>
 <ul>
 <li>Removes the JBoss tmp &amp; work directory</li>
@@ -387,48 +419,6 @@ Notes</p>
 </article>
 
             
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Using MySQL instead of in-memory database for a Grails application</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.</p>
-<ul>
-<li>Download the MySQL JDBC driver [called a connector] from the MySQL website</li>
-<li>Extract the zip or tar archive</li>
-<li>Copy the driver (at this time of writing called <code>mysql-connector-java-5.1.13-bin.jar</code> into the <code>grails-app/lib</code> directory</li>
-<li>Configure your application datasource in file <code>grails-app/conf/DataSource.groovy</code></li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">development</span> <span class="o">{</span>
-    <span class="n">dataSource</span> <span class="o">{</span>
-       <span class="n">dbCreate</span> <span class="o">=</span> <span class="s2">&#34;create-drop&#34;</span> <span class="c1">// one of &#39;create&#39;, &#39;create-drop&#39;,&#39;update&#39;
-</span><span class="c1"></span>       <span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;jdbc:mysql://localhost:&lt;port&gt;/&lt;database&gt;&#34;</span>
-       <span class="n">driverClassName</span> <span class="o">=</span> <span class="s2">&#34;com.mysql.jdbc.Driver&#34;</span>
-       <span class="n">port</span> <span class="o">=</span>  <span class="c1">// default 3306
-</span><span class="c1"></span>       <span class="n">username</span> <span class="o">=</span> <span class="s2">&#34;&lt;username&gt;&#34;</span>
-       <span class="n">password</span> <span class="o">=</span> <span class="s2">&#34;&lt;password&gt;&#34;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2012-09-05
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/mysql">mysql</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
         </div>
     </div>
 </div>
@@ -444,6 +434,10 @@ Notes</p>
                 <a class="button" href="http://mpas.github.io/page/7">&larr; Newer Posts</a>
                 </li>
             
+            
+                <li>
+                <a class="button" href="http://mpas.github.io/page/9">Older Posts &rarr;</a>
+                </li>
             
             </ul>
         
@@ -485,7 +479,7 @@ Notes</p>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

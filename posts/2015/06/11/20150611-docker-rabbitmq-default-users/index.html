@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -102,43 +98,43 @@ if (!doNotTrack) {
 <p>The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.</p>
 <p>It involves a init.sh script that is used to create the users and vhosts.</p>
 <p>The Docker File</p>
-<div class="highlight"><pre class="chroma"><code class="language-docker" data-lang="docker"><span class="k">FROM</span><span class="s"> rabbitmq:3-management</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Add script to create default users / vhosts</span><span class="err">
-</span><span class="err"></span><span class="k">ADD</span> init.sh /init.sh<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Set correct executable permissions</span><span class="err">
-</span><span class="err"></span><span class="k">RUN</span> chmod +x /init.sh<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Define default command</span><span class="err">
-</span><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="err">&amp;quot;/init.sh&amp;quot;</span><span class="p">]</span><span class="err">
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> rabbitmq:3-management</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Add script to create default users / vhosts</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ADD</span> init.sh /init.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set correct executable permissions</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chmod +x /init.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Define default command</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#960050;background-color:#1e0010">&amp;quot;/init.sh&amp;quot;</span>]<span style="color:#960050;background-color:#1e0010">
 </span></code></pre></div><p>The init.sh script</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
-</span><span class="cp"></span>
-<span class="c1"># Create Default RabbitMQ setup</span>
-<span class="o">(</span> sleep <span class="m">10</span> <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Create users</span>
-<span class="c1"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;</span>
-rabbitmqctl add_user test_user test_user <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Set user rights</span>
-<span class="c1"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;</span>
-rabbitmqctl set_user_tags test_user administrator <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Create vhosts</span>
-<span class="c1"># rabbitmqctl add_vhost &lt;vhostname&gt;</span>
-rabbitmqctl add_vhost dummy <span class="p">;</span> <span class="se">\
-</span><span class="se"></span>
-<span class="c1"># Set vhost permissions</span>
-<span class="c1"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &#34;.*&#34; &#34;.*&#34; &#34;.*&#34;</span>
-rabbitmqctl set_permissions -p dummy test_user <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="s2">&#34;.*&#34;</span> <span class="p">;</span> <span class="se">\
-</span><span class="se"></span><span class="o">)</span> <span class="p">&amp;</span>    
-rabbitmq-server <span class="nv">$@</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># Create Default RabbitMQ setup</span>
+<span style="color:#f92672">(</span> sleep <span style="color:#ae81ff">10</span> ; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>
+<span style="color:#75715e"># Create users</span>
+<span style="color:#75715e"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;</span>
+rabbitmqctl add_user test_user test_user ; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>
+<span style="color:#75715e"># Set user rights</span>
+<span style="color:#75715e"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;</span>
+rabbitmqctl set_user_tags test_user administrator ; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>
+<span style="color:#75715e"># Create vhosts</span>
+<span style="color:#75715e"># rabbitmqctl add_vhost &lt;vhostname&gt;</span>
+rabbitmqctl add_vhost dummy ; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>
+<span style="color:#75715e"># Set vhost permissions</span>
+<span style="color:#75715e"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &#34;.*&#34; &#34;.*&#34; &#34;.*&#34;</span>
+rabbitmqctl set_permissions -p dummy test_user <span style="color:#e6db74">&#34;.*&#34;</span> <span style="color:#e6db74">&#34;.*&#34;</span> <span style="color:#e6db74">&#34;.*&#34;</span> ; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span><span style="color:#f92672">)</span> &amp;    
+rabbitmq-server $@
 </code></pre></div><p>Place both of these files in a directory and build your image:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ docker build -t my_rabbitmq_image .
-</code></pre></div><p>Start a container based on the image using:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">$</span> <span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span><span class="o">=</span><span class="kc">true</span> <span class="o">--</span><span class="n">name</span> <span class="n">my_rabbitmq_container</span> <span class="o">-</span><span class="n">p</span> <span class="mi">5672</span><span class="o">:</span><span class="mi">5672</span> <span class="o">-</span><span class="n">p</span> <span class="mi">15672</span><span class="o">:</span><span class="mi">15672</span>  <span class="n">my_rabbitmq_image</span>
+<pre><code class="language-console" data-lang="console">$ docker build -t my_rabbitmq_image .
+</code></pre><p>Start a container based on the image using:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">$ docker run <span style="color:#f92672">--</span>rm<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span> <span style="color:#f92672">--</span>name my_rabbitmq_container <span style="color:#f92672">-</span>p <span style="color:#ae81ff">5672</span><span style="color:#f92672">:</span><span style="color:#ae81ff">5672</span> <span style="color:#f92672">-</span>p <span style="color:#ae81ff">15672</span><span style="color:#f92672">:</span><span style="color:#ae81ff">15672</span>  my_rabbitmq_image
 </code></pre></div><p>Then in your browser navigate to http://localhost:15672 and see if all is ok!</p>
 <p><strong>Note:</strong> When using Boot2Docker make sure to replace the localhost with the correct IP.</p>
 
@@ -195,7 +191,7 @@ rabbitmq-server <span class="nv">$@</span>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

@@ -6,15 +6,15 @@
     <description>Recent content in org on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 16 Oct 2020 07:09:45 +0200</lastBuildDate><atom:link href="http://mpas.github.io/tags/org/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 16 Oct 2020 20:21:00 +0200</lastBuildDate><atom:link href="http://mpas.github.io/tags/org/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Get pretty org-bullets in Doom Emacs</title>
-      <link>http://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/</link>
-      <pubDate>Fri, 16 Oct 2020 07:09:45 +0200</pubDate>
+      <link>http://mpas.github.io/posts/2020/10/16/20201016-test-org-bullets-doom-emacs/</link>
+      <pubDate>Fri, 16 Oct 2020 20:21:00 +0200</pubDate>
       
-      <guid>http://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/</guid>
-      <description>When installing Doom Emacs and using org-mode the defaults bullets are *. In order to get some fancy bullets the following steps need to be taken.
- Add the org-mode +pretty flag to your org settings in init.el To read more on the available flags check the [org-mode Doom Emacs module lang/orgdoom-emacs-org-mode-flags  :lang (org +pretty ) ; organize your plain life in plain text Set the bullets you want to use in your config.</description>
+      <guid>http://mpas.github.io/posts/2020/10/16/20201016-test-org-bullets-doom-emacs/</guid>
+      <description>When installing Doom Emacs and using org-mode the defaults bullets are `*`. In order to get some fancy bullets the following steps need to be taken.
+ Add the org-mode +pretty flag to your org settings in init.el To read more on the available flags check the org-mode Doom Emacs module `lang/org`  :lang (org +pretty ) ; organize your plain life in plain text (setq org-superstar-headline-bullets-list &amp;#39;(&amp;#34;⁖&amp;#34; &amp;#34;◉&amp;#34; &amp;#34;○&amp;#34; &amp;#34;✸&amp;#34; &amp;#34;✿&amp;#34;) ) </description>
     </item>
     
   </channel>

@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -109,50 +105,50 @@ if (!doNotTrack) {
 | &gt;-- docker (contains a Dockerfile)
 | &gt;--- app (contains data that can be used in your Dockerfile)
 </code></pre>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="cm">/*
-</span><span class="cm">    You can put some logic in the getDockerImageName to determine how your
-</span><span class="cm">    Docker image should be created.
-</span><span class="cm">*/</span>
-<span class="n">String</span> <span class="nf">getDockerImageName</span><span class="o">()</span> <span class="o">{</span>
-  <span class="s2">&#34;my-first-docker-image&#34;</span>
-<span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#75715e">/*
+</span><span style="color:#75715e">    You can put some logic in the getDockerImageName to determine how your
+</span><span style="color:#75715e">    Docker image should be created.
+</span><span style="color:#75715e">*/</span>
+String <span style="color:#a6e22e">getDockerImageName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  <span style="color:#e6db74">&#34;my-first-docker-image&#34;</span>
+<span style="color:#f92672">}</span>
 
-<span class="cm">/*
-</span><span class="cm">    Execute a docker build using commandline pointing to our Dockerfile that
-</span><span class="cm">    has been copied to /build/docker/.
-</span><span class="cm">*/</span>
-<span class="n">task</span> <span class="nf">buildDockerImage</span><span class="o">(</span><span class="nl">type:</span><span class="n">Exec</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;docker&#39;</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Build a docker image&#39;</span>
-    <span class="n">commandLine</span> <span class="s1">&#39;docker&#39;</span><span class="o">,</span> <span class="s1">&#39;build&#39;</span><span class="o">,</span> <span class="s1">&#39;-f&#39;</span><span class="o">,</span> <span class="s1">&#39;build/docker/Dockerfile&#39;</span><span class="o">,</span> <span class="s1">&#39;-t&#39;</span><span class="o">,</span> <span class="s2">&#34;${dockerImageName}&#34;</span><span class="o">,</span> <span class="s1">&#39;build/docker&#39;</span>
+<span style="color:#75715e">/*
+</span><span style="color:#75715e">    Execute a docker build using commandline pointing to our Dockerfile that
+</span><span style="color:#75715e">    has been copied to /build/docker/.
+</span><span style="color:#75715e">*/</span>
+task <span style="color:#a6e22e">buildDockerImage</span><span style="color:#f92672">(</span>type:Exec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;docker&#39;</span>
+    description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Build a docker image&#39;</span>
+    commandLine <span style="color:#e6db74">&#39;docker&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-f&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker/Dockerfile&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-t&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${dockerImageName}&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker&#39;</span>
 
-    <span class="n">doFirst</span> <span class="o">{</span>
-        <span class="n">println</span> <span class="s2">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
-        <span class="cm">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
-        <span class="n">copy</span> <span class="o">{</span>
-            <span class="n">from</span> <span class="s1">&#39;src/main/docker/app/&#39;</span>
-            <span class="n">into</span> <span class="s1">&#39;build/docker/app&#39;</span>
-        <span class="o">}</span>
-        <span class="cm">/* copy Dockerfile from src/main/docker into the build/docker */</span>
-        <span class="n">copy</span> <span class="o">{</span>
-            <span class="n">from</span><span class="o">(</span><span class="s1">&#39;src/main/docker/&#39;</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">include</span> <span class="s1">&#39;Dockerfile&#39;</span>
-            <span class="o">}</span>
-            <span class="n">into</span> <span class="s1">&#39;build/docker&#39;</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+    doFirst <span style="color:#f92672">{</span>
+        println <span style="color:#e6db74">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
+        <span style="color:#75715e">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
+        copy <span style="color:#f92672">{</span>
+            from <span style="color:#e6db74">&#39;src/main/docker/app/&#39;</span>
+            into <span style="color:#e6db74">&#39;build/docker/app&#39;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">/* copy Dockerfile from src/main/docker into the build/docker */</span>
+        copy <span style="color:#f92672">{</span>
+            from<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;src/main/docker/&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                include <span style="color:#e6db74">&#39;Dockerfile&#39;</span>
+            <span style="color:#f92672">}</span>
+            into <span style="color:#e6db74">&#39;build/docker&#39;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><h2 id="pushing-an-image">pushing an image</h2>
 <p>Pushing an image without using plugins is just as easy.</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pushDockerImage</span><span class="o">(</span><span class="nl">type:</span> <span class="n">Exec</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;docker&#39;</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Push a docker image&#39;</span>
-    <span class="n">commandLine</span> <span class="s1">&#39;docker&#39;</span><span class="o">,</span> <span class="s1">&#39;push&#39;</span><span class="o">,</span> <span class="s2">&#34;${dockerImageName}&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">pushDockerImage<span style="color:#f92672">(</span>type: Exec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;docker&#39;</span>
+    description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Push a docker image&#39;</span>
+    commandLine <span style="color:#e6db74">&#39;docker&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;push&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${dockerImageName}&#34;</span>
 
-    <span class="n">doFirst</span> <span class="o">{</span>
-        <span class="n">println</span> <span class="s2">&#34;&gt;&gt; Pushing image: ${dockerImageName}&#34;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+    doFirst <span style="color:#f92672">{</span>
+        println <span style="color:#e6db74">&#34;&gt;&gt; Pushing image: ${dockerImageName}&#34;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><p>Using this approach without using unneeded Gradle plugins resulted in a an easy way to create containers on different platforms.</p>
 
         </div>
@@ -208,7 +204,7 @@ if (!doNotTrack) {
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

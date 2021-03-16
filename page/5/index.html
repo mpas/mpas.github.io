@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -92,6 +88,40 @@ if (!doNotTrack) {
             
             
                 
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Skip a contenttype/section to be renderend</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.</p>
+<p>Example:
+You want to only render contenttype &lsquo;post&rsquo;  use the following code in your template:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">{{ <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">eq</span> .<span style="color:#a6e22e">Type</span> <span style="color:#e6db74">&#34;post&#34;</span> }}
+
+    {{ .<span style="color:#a6e22e">Title</span> }}
+    {{ .<span style="color:#a6e22e">Content</span> }}
+
+{{ <span style="color:#a6e22e">end</span> }}
+</code></pre></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2014-06-09
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/hugo">hugo</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
@@ -164,13 +194,13 @@ if (!doNotTrack) {
     <div class="row">
         <div class="twelve columns">
             <p>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ sudo pico /etc/fstab
-</code></pre></div><p>Add a line in the /etc/fstab file:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"># custom mount point
+<pre><code class="language-console" data-lang="console">$ sudo pico /etc/fstab
+</code></pre><p>Add a line in the /etc/fstab file:</p>
+<pre><code class="language-console" data-lang="console"># custom mount point
 /dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
-</code></pre></div><p>And take the mount into effect.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ mount -a
-</code></pre></div>
+</code></pre><p>And take the mount into effect.</p>
+<pre><code class="language-console" data-lang="console">$ mount -a
+</code></pre>
         </div>
     </div>
     <div class="row">
@@ -207,39 +237,6 @@ if (!doNotTrack) {
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/gr8conf">gr8conf</a>, <a href="/tags/grails">grails</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Google Chrome not synchronizing extensions</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When installing a fresh version of Chrome it may occur that all Bookmarks sync ok but the extensions not. The following solution worked for my system.</p>
-<ul>
-<li>Open Google Chrome</li>
-<li>Goto &ldquo;Settings&rdquo;</li>
-<li>Open &ldquo;Advanced Settings&rdquo;</li>
-<li>Check &ldquo;Developer mode&rdquo;</li>
-<li>Press &ldquo;Update extensions now&rdquo;</li>
-</ul>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2013-05-24
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/chrome">chrome</a>
                 </span>
             </div>
         </div>
@@ -307,7 +304,7 @@ if (!doNotTrack) {
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

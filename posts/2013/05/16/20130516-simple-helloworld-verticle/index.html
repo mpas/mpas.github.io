@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -99,24 +95,24 @@ if (!doNotTrack) {
     <div class="row">
         <div class="twelve columns">
             <p>Sourcecode:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">helloworld</span><span class="o">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> helloworld<span style="color:#f92672">;</span>
 
-<span class="kn">import</span> <span class="nn">org.vertx.java.core.Handler</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.vertx.java.core.http.HttpServerRequest</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.vertx.java.deploy.Verticle</span><span class="o">;</span>
+<span style="color:#f92672">import</span> org.vertx.java.core.Handler<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.vertx.java.core.http.HttpServerRequest<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.vertx.java.deploy.Verticle<span style="color:#f92672">;</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Server</span> <span class="kd">extends</span> <span class="n">Verticle</span> <span class="o">{</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span> <span style="color:#66d9ef">extends</span> Verticle <span style="color:#f92672">{</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">vertx</span><span class="o">.</span><span class="na">createHttpServer</span><span class="o">().</span><span class="na">requestHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">Handler</span><span class="o">&lt;</span><span class="n">HttpServerRequest</span><span class="o">&gt;()</span> <span class="o">{</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handle</span><span class="o">(</span><span class="n">HttpServerRequest</span> <span class="n">req</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">req</span><span class="o">.</span><span class="na">response</span><span class="o">.</span><span class="na">headers</span><span class="o">().</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;Content-Type&#34;</span><span class="o">,</span> <span class="s">&#34;text/html; charset-UTF-8&#34;</span><span class="o">);</span>
-            <span class="n">req</span><span class="o">.</span><span class="na">response</span><span class="o">.</span><span class="na">end</span><span class="o">(</span><span class="s">&#34;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#34;</span><span class="o">);</span>
-            <span class="o">}</span>
-        <span class="o">}).</span><span class="na">listen</span><span class="o">(</span><span class="n">8080</span><span class="o">);</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">start</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        vertx<span style="color:#f92672">.</span><span style="color:#a6e22e">createHttpServer</span><span style="color:#f92672">().</span><span style="color:#a6e22e">requestHandler</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Handler<span style="color:#f92672">&lt;</span>HttpServerRequest<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handle</span><span style="color:#f92672">(</span>HttpServerRequest req<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            req<span style="color:#f92672">.</span><span style="color:#a6e22e">response</span><span style="color:#f92672">.</span><span style="color:#a6e22e">headers</span><span style="color:#f92672">().</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Content-Type&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;text/html; charset-UTF-8&#34;</span><span style="color:#f92672">);</span>
+            req<span style="color:#f92672">.</span><span style="color:#a6e22e">response</span><span style="color:#f92672">.</span><span style="color:#a6e22e">end</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}).</span><span style="color:#a6e22e">listen</span><span style="color:#f92672">(</span>8080<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-<span class="o">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div>
         </div>
     </div>
@@ -171,7 +167,7 @@ if (!doNotTrack) {
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

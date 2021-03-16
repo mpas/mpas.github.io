@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -103,19 +99,19 @@ it may be useful to run the metrics on a different port.</p>
 <p>This enables you to hide the metrics for the public and use the different port in
 an AWS infrastucture so that the metrics are only available internal.</p>
 <p>Let us first enable the actuator endpoints</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">// File: grails-app/conf/application.yml
+<pre><code class="language-console" data-lang="console">// File: grails-app/conf/application.yml
 
 # Spring Actuator Endpoints are Disabled by Default
 endpoints:
     enabled: true
     jmx:
         enabled: true
-</code></pre></div><p>Change the port on which the metrics runs, add the lines below to the appl</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">// File: grails-app/conf/application.yml
+</code></pre><p>Change the port on which the metrics runs, add the lines below to the appl</p>
+<pre><code class="language-console" data-lang="console">// File: grails-app/conf/application.yml
 
 management:
     port: 9000
-</code></pre></div><p>Now when you start your Grails application it run on port <code>8080</code> and the metrics
+</code></pre><p>Now when you start your Grails application it run on port <code>8080</code> and the metrics
 are available on port <code>9090</code>/metrics</p>
 
         </div>
@@ -171,7 +167,7 @@ are available on port <code>9090</code>/metrics</p>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

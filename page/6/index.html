@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -95,30 +91,63 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Google Chrome not synchronizing extensions</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When installing a fresh version of Chrome it may occur that all Bookmarks sync ok but the extensions not. The following solution worked for my system.</p>
+<ul>
+<li>Open Google Chrome</li>
+<li>Goto &ldquo;Settings&rdquo;</li>
+<li>Open &ldquo;Advanced Settings&rdquo;</li>
+<li>Check &ldquo;Developer mode&rdquo;</li>
+<li>Press &ldquo;Update extensions now&rdquo;</li>
+</ul>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2013-05-24
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/chrome">chrome</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Simple Helloworld verticle</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
             <p>Sourcecode:</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">helloworld</span><span class="o">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> helloworld<span style="color:#f92672">;</span>
 
-<span class="kn">import</span> <span class="nn">org.vertx.java.core.Handler</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.vertx.java.core.http.HttpServerRequest</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.vertx.java.deploy.Verticle</span><span class="o">;</span>
+<span style="color:#f92672">import</span> org.vertx.java.core.Handler<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.vertx.java.core.http.HttpServerRequest<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.vertx.java.deploy.Verticle<span style="color:#f92672">;</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Server</span> <span class="kd">extends</span> <span class="n">Verticle</span> <span class="o">{</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span> <span style="color:#66d9ef">extends</span> Verticle <span style="color:#f92672">{</span>
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">vertx</span><span class="o">.</span><span class="na">createHttpServer</span><span class="o">().</span><span class="na">requestHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">Handler</span><span class="o">&lt;</span><span class="n">HttpServerRequest</span><span class="o">&gt;()</span> <span class="o">{</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handle</span><span class="o">(</span><span class="n">HttpServerRequest</span> <span class="n">req</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">req</span><span class="o">.</span><span class="na">response</span><span class="o">.</span><span class="na">headers</span><span class="o">().</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;Content-Type&#34;</span><span class="o">,</span> <span class="s">&#34;text/html; charset-UTF-8&#34;</span><span class="o">);</span>
-            <span class="n">req</span><span class="o">.</span><span class="na">response</span><span class="o">.</span><span class="na">end</span><span class="o">(</span><span class="s">&#34;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#34;</span><span class="o">);</span>
-            <span class="o">}</span>
-        <span class="o">}).</span><span class="na">listen</span><span class="o">(</span><span class="n">8080</span><span class="o">);</span>
-    <span class="o">}</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">start</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        vertx<span style="color:#f92672">.</span><span style="color:#a6e22e">createHttpServer</span><span style="color:#f92672">().</span><span style="color:#a6e22e">requestHandler</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Handler<span style="color:#f92672">&lt;</span>HttpServerRequest<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handle</span><span style="color:#f92672">(</span>HttpServerRequest req<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            req<span style="color:#f92672">.</span><span style="color:#a6e22e">response</span><span style="color:#f92672">.</span><span style="color:#a6e22e">headers</span><span style="color:#f92672">().</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Content-Type&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;text/html; charset-UTF-8&#34;</span><span style="color:#f92672">);</span>
+            req<span style="color:#f92672">.</span><span style="color:#a6e22e">response</span><span style="color:#f92672">.</span><span style="color:#a6e22e">end</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}).</span><span style="color:#a6e22e">listen</span><span style="color:#f92672">(</span>8080<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-<span class="o">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div>
         </div>
     </div>
@@ -145,30 +174,30 @@ if (!doNotTrack) {
     <div class="row">
         <div class="twelve columns">
             <p>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">...
+<pre><code class="language-console" data-lang="console">...
 Waiting for changelog lock....
 Waiting for changelog lock....
 Waiting for changelog lock....
 ...
-</code></pre></div><p>To solve this take the following steps:</p>
+</code></pre><p>To solve this take the following steps:</p>
 <ul>
 <li>Stop the application container (example: Tomcat)</li>
 <li>In the database look for a table called <code>DATABASECHANGELOGLOCK</code></li>
 <li>In the table there is a record with id=1, change the following values:</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">locked -&gt; 0
+<pre><code class="language-console" data-lang="console">locked -&gt; 0
 lockgranted -&gt; null
 lockedby -&gt; null
-</code></pre></div><ul>
+</code></pre><ul>
 <li>After updating this record start the application container</li>
 </ul>
 <p><strong>Notes:</strong><br>
 To see who has locked the database (normally the local machine):</p>
-<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">DATABASECHANGELOGLOCK</span><span class="p">;</span>
-<span class="k">To</span> <span class="k">update</span> <span class="n">the</span> <span class="n">record</span>
-<span class="k">update</span> <span class="n">DATABASECHANGELOGLOCK</span>
-<span class="k">set</span> <span class="n">locked</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">lockgranted</span><span class="o">=</span><span class="k">null</span><span class="p">,</span> <span class="n">lockedby</span><span class="o">=</span><span class="k">null</span>
-<span class="k">where</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> DATABASECHANGELOGLOCK;
+<span style="color:#66d9ef">To</span> <span style="color:#66d9ef">update</span> the record
+<span style="color:#66d9ef">update</span> DATABASECHANGELOGLOCK
+<span style="color:#66d9ef">set</span> locked<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, lockgranted<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span>, lockedby<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span>
+<span style="color:#66d9ef">where</span> id<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 </code></pre></div>
         </div>
     </div>
@@ -196,35 +225,35 @@ To see who has locked the database (normally the local machine):</p>
         <div class="twelve columns">
             <p>The <a href="http://grails.org/plugin/spock">Spock</a> &amp; <a href="http://grails.org/plugin/build-test-data">Build Test Data</a> plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!</p>
 <p>When testing constraints on an object it can be used as follows:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">Foo</span> <span class="o">{</span>
-    <span class="n">String</span> <span class="n">name</span>   <span class="c1">// name of foo
-</span><span class="c1"></span>    <span class="n">Integer</span> <span class="n">age</span>   <span class="c1">// age of foo
-</span><span class="c1"></span>
-    <span class="kd">static</span> <span class="n">constraints</span> <span class="o">=</span> <span class="o">{</span>
-        <span class="n">name</span> <span class="nl">nullable:</span> <span class="kc">false</span><span class="o">,</span> <span class="nl">blank:</span> <span class="kc">false</span> <span class="c1">// name may never be nullable or blank
-</span><span class="c1"></span>        <span class="n">age</span> <span class="nl">nullable:</span> <span class="kc">true</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span> <span style="color:#f92672">{</span>
+    String name   <span style="color:#75715e">// name of foo
+</span><span style="color:#75715e"></span>    Integer age   <span style="color:#75715e">// age of foo
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">static</span> constraints <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+        name nullable: <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> blank: <span style="color:#66d9ef">false</span> <span style="color:#75715e">// name may never be nullable or blank
+</span><span style="color:#75715e"></span>        age nullable: <span style="color:#66d9ef">true</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><p>And the Spock test</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="nd">@Build</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
-<span class="nd">@TestFor</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
-<span class="kd">class</span> <span class="nc">FooSpec</span> <span class="kd">extends</span> <span class="n">Specification</span> <span class="o">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#a6e22e">@Build</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@TestFor</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FooSpec</span> <span style="color:#66d9ef">extends</span> Specification <span style="color:#f92672">{</span>
 
-    <span class="kt">def</span> <span class="s2">&#34;Name of Foo must exist&#34;</span><span class="o">()</span> <span class="o">{</span>
-        <span class="nl">given:</span> <span class="s2">&#34;setting up the constraints&#34;</span>
-        <span class="n">mockForConstraintsTests</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#e6db74">&#34;Name of Foo must exist&#34;</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        given: <span style="color:#e6db74">&#34;setting up the constraints&#34;</span>
+        mockForConstraintsTests<span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
 
-        <span class="nl">when:</span> <span class="s2">&#34;creating a Foo&#34;</span>
-        <span class="n">Foo</span> <span class="n">foo</span> <span class="o">=</span> <span class="n">Foo</span><span class="o">.</span><span class="na">buildWithoutSave</span><span class="o">()</span>
+        when: <span style="color:#e6db74">&#34;creating a Foo&#34;</span>
+        Foo foo <span style="color:#f92672">=</span> Foo<span style="color:#f92672">.</span><span style="color:#a6e22e">buildWithoutSave</span><span style="color:#f92672">()</span>
 
-        <span class="nl">then:</span> <span class="s2">&#34;validation should trigger&#34;</span>
-        <span class="n">assertFalse</span> <span class="n">foo</span><span class="o">.</span><span class="na">validate</span><span class="o">()</span>
+        then: <span style="color:#e6db74">&#34;validation should trigger&#34;</span>
+        assertFalse foo<span style="color:#f92672">.</span><span style="color:#a6e22e">validate</span><span style="color:#f92672">()</span>
 
-        <span class="nl">and:</span> <span class="s2">&#34;validation error should be on the value field&#34;</span>
-        <span class="k">assert</span> <span class="n">foo</span><span class="o">.</span><span class="na">errors</span><span class="o">.</span><span class="na">allErrors</span><span class="o">.</span><span class="na">first</span><span class="o">().</span><span class="na">field</span> <span class="o">==</span> <span class="s2">&#34;name&#34;</span>
-    <span class="o">}</span>
+        and: <span style="color:#e6db74">&#34;validation error should be on the value field&#34;</span>
+        <span style="color:#66d9ef">assert</span> foo<span style="color:#f92672">.</span><span style="color:#a6e22e">errors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">allErrors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">first</span><span style="color:#f92672">().</span><span style="color:#a6e22e">field</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;name&#34;</span>
+    <span style="color:#f92672">}</span>
 
-<span class="o">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div>
         </div>
     </div>
@@ -251,7 +280,7 @@ To see who has locked the database (normally the local machine):</p>
     <div class="row">
         <div class="twelve columns">
             <p>Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">Enum</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">YourClassName</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s2">&#34;String Value&#34;</span><span class="o">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">Enum<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>YourClassName<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;String Value&#34;</span><span style="color:#f92672">)</span>
 </code></pre></div><p><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html">http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html</a></p>
 
         </div>
@@ -263,41 +292,6 @@ To see who has locked the database (normally the local machine):</p>
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/enum">enum</a>, <a href="/tags/java">java</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Troubles getting vsftpd user logged in?</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message:
-500 OOPS: vsftpd: refusing to run with writable root inside chroot()</p>
-<p>After some googling around i found the following fix..
-chmod the folder that the ftp user comes in to as he first login (root folder) by using in terminal:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo chmod a-w /home/user
-</code></pre></div><p>Create a subfolder within the folder, either by the use of GUI or if you only have terminal it&rsquo;s:</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">sudo mkdir /home/user/newfolder
-</code></pre></div><p>Now you should be able to log in and read write within the &ldquo;newfolder&rdquo;.</p>
-<p>You will <strong>NOT</strong> be able to write in the root folder itself from the ftp with the chmod a-w, so that is the reason for the subfolder, there you can.</p>
-<p><a href="http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update">http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update</a></p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2012-09-18
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/ftps">ftps</a>, <a href="/tags/linux">linux</a>, <a href="/tags/ubuntu">ubuntu</a>, <a href="/tags/vsftpd">vsftpd</a>
                 </span>
             </div>
         </div>
@@ -365,7 +359,7 @@ chmod the folder that the ftp user comes in to as he first login (root folder) b
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

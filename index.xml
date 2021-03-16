@@ -6,15 +6,27 @@
     <description>Recent content on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 16 Oct 2020 07:09:45 +0200</lastBuildDate><atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 16 Mar 2021 10:20:00 +0100</lastBuildDate><atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Time tracking with Org Mode and sum time per tag</title>
+      <link>http://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</link>
+      <pubDate>Tue, 16 Mar 2021 10:20:00 +0100</pubDate>
+      
+      <guid>http://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</guid>
+      <description>Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you aggregate time across tasks belonging to tags?
+This can be achieved by using a simple formula and the usage of an awesome Org package called Org Aggregate.
+Input data The data below is used for time tracking, note that individual items are tagged!
+- Take out the trash :private: :LOGBOOK: CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:30] =&amp;gt; 0:06 :END: - Update document for client :client1: :LOGBOOK: CLOCK: [2021-03-12 Fri 12:45]--[2021-03-12 Fri 13:30] =&amp;gt; 0:45 :END: - Create my awesome note for work :work: :LOGBOOK: CLOCK: [2021-03-13 Sat 11:24]--[2021-03-13 Sat 12:53] =&amp;gt; 1:29 :END: - Fill in timesheet :work: :LOGBOOK: CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:40] =&amp;gt; 0:16 :END: Reporting #+BEGIN: clocktable :scope file :maxlevel 3 :tags t :match &amp;#34;work|client1&amp;#34; :header &amp;#34;#+TBLNAME: timetable\n&amp;#34; #+TBLNAME: timetable | Tags | Headline | Time | | | T | |---------+---------------------------------------+------+------+------+-------| | | *Total time* | *2:30* | | | | |---------+---------------------------------------+------+------+------+-------| | | Report with filtered tags and sum.</description>
+    </item>
+    
     <item>
       <title>Get pretty org-bullets in Doom Emacs</title>
-      <link>http://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/</link>
-      <pubDate>Fri, 16 Oct 2020 07:09:45 +0200</pubDate>
+      <link>http://mpas.github.io/posts/2020/10/16/20201016-test-org-bullets-doom-emacs/</link>
+      <pubDate>Fri, 16 Oct 2020 20:21:00 +0200</pubDate>
       
-      <guid>http://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/</guid>
-      <description>When installing Doom Emacs and using org-mode the defaults bullets are *. In order to get some fancy bullets the following steps need to be taken.
- Add the org-mode +pretty flag to your org settings in init.el To read more on the available flags check the [org-mode Doom Emacs module lang/orgdoom-emacs-org-mode-flags  :lang (org +pretty ) ; organize your plain life in plain text Set the bullets you want to use in your config.</description>
+      <guid>http://mpas.github.io/posts/2020/10/16/20201016-test-org-bullets-doom-emacs/</guid>
+      <description>When installing Doom Emacs and using org-mode the defaults bullets are `*`. In order to get some fancy bullets the following steps need to be taken.
+ Add the org-mode +pretty flag to your org settings in init.el To read more on the available flags check the org-mode Doom Emacs module `lang/org`  :lang (org +pretty ) ; organize your plain life in plain text (setq org-superstar-headline-bullets-list &amp;#39;(&amp;#34;⁖&amp;#34; &amp;#34;◉&amp;#34; &amp;#34;○&amp;#34; &amp;#34;✸&amp;#34; &amp;#34;✿&amp;#34;) ) </description>
     </item>
     
     <item>
@@ -95,8 +107,9 @@ Metric data is pulled (on a regular time-interval) from so called exporters whic
       <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>http://mpas.github.io/posts/2016/11/16/20161116-building-a-consul-cluster-using-terraform-aws/</guid>
-      <description>[Consul](http://Consul.io) has multiple components, but as a whole, it is a tool for discovering and configuring services in your infrastructure. It provides several key features:  Service Discovery Health Checking Key/Value Store Multi Datacenter  For more information on Consul itself please have a look in the excellent documentation.
- Consul Intro Consul documentation  Is it really easy? Setting up a Consul cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;</description>
+      <description>Service Discovery Health Checking Key/Value Store Multi Datacenter  For more information on Consul itself please have a look in the excellent documentation.
+ Consul Intro Consul documentation  Is it really easy? Setting up a Consul cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;
+But hey.. what if you need to deploy this cluster on an AWS environment?</description>
     </item>
     
     <item>
@@ -141,8 +154,7 @@ The Amazon way of doing this is by using AWS CloudFormation.</description>
       <guid>http://mpas.github.io/posts/2015/11/19/20151119-functional-rest-api-testing/</guid>
       <description>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.
 When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.
-Scenario:
-Performing a GET request on a url (http://localhost:8080/helloworld) should return a HTTP Status 200 and data with a json payload</description>
+Scenario:Performing a GET request on a url (http://localhost:8080/helloworld) should return a HTTP Status 200 and data with a json payload</description>
     </item>
     
     <item>
@@ -225,7 +237,7 @@ It involves a init.sh script that is used to create the users and vhosts.</descr
       
       <guid>http://mpas.github.io/posts/2014/07/04/20140724-upgrade-grails-2.4.2/</guid>
       <description>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.
-Error creating bean with name &amp;#39;grailsApplication&amp;#39; defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean &amp;#39;grailsResourceLoader&amp;#39; while setting bean property &amp;#39;grailsResourceLoader&amp;#39;; To solve this issue you need to delete some lines in the &amp;lt;grails-app&amp;gt;/web-app/WEB-INF/applicationContext.xml file.
+Error creating bean with name &#39;grailsApplication&#39; defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResourceLoader&#39;; To solve this issue you need to delete some lines in the &amp;lt;grails-app&amp;gt;/web-app/WEB-INF/applicationContext.xml file.
 Delete the following lines:
 &amp;lt;property name=&amp;#34;grailsResourceLoader&amp;#34; ref=&amp;#34;grailsResourceLoader&amp;#34; /&amp;gt; &amp;lt;bean id=&amp;#34;grailsResourceLoader&amp;#34; class=&amp;#34;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&amp;#34; /&amp;gt; And you should be up and running quickly.</description>
     </item>

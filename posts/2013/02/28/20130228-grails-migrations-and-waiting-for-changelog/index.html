@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -99,30 +95,30 @@ if (!doNotTrack) {
     <div class="row">
         <div class="twelve columns">
             <p>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">...
+<pre><code class="language-console" data-lang="console">...
 Waiting for changelog lock....
 Waiting for changelog lock....
 Waiting for changelog lock....
 ...
-</code></pre></div><p>To solve this take the following steps:</p>
+</code></pre><p>To solve this take the following steps:</p>
 <ul>
 <li>Stop the application container (example: Tomcat)</li>
 <li>In the database look for a table called <code>DATABASECHANGELOGLOCK</code></li>
 <li>In the table there is a record with id=1, change the following values:</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">locked -&gt; 0
+<pre><code class="language-console" data-lang="console">locked -&gt; 0
 lockgranted -&gt; null
 lockedby -&gt; null
-</code></pre></div><ul>
+</code></pre><ul>
 <li>After updating this record start the application container</li>
 </ul>
 <p><strong>Notes:</strong><br>
 To see who has locked the database (normally the local machine):</p>
-<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">DATABASECHANGELOGLOCK</span><span class="p">;</span>
-<span class="k">To</span> <span class="k">update</span> <span class="n">the</span> <span class="n">record</span>
-<span class="k">update</span> <span class="n">DATABASECHANGELOGLOCK</span>
-<span class="k">set</span> <span class="n">locked</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">lockgranted</span><span class="o">=</span><span class="k">null</span><span class="p">,</span> <span class="n">lockedby</span><span class="o">=</span><span class="k">null</span>
-<span class="k">where</span> <span class="n">id</span><span class="o">=</span><span class="mi">1</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> DATABASECHANGELOGLOCK;
+<span style="color:#66d9ef">To</span> <span style="color:#66d9ef">update</span> the record
+<span style="color:#66d9ef">update</span> DATABASECHANGELOGLOCK
+<span style="color:#66d9ef">set</span> locked<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, lockgranted<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span>, lockedby<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span>
+<span style="color:#66d9ef">where</span> id<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 </code></pre></div>
         </div>
     </div>
@@ -177,7 +173,7 @@ To see who has locked the database (normally the local machine):</p>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

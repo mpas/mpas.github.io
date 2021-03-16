@@ -6,11 +6,11 @@
     <description>Recent content in Tags on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 16 Oct 2020 07:09:45 +0200</lastBuildDate><atom:link href="http://mpas.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 16 Oct 2020 20:21:00 +0200</lastBuildDate><atom:link href="http://mpas.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>doom</title>
       <link>http://mpas.github.io/tags/doom/</link>
-      <pubDate>Fri, 16 Oct 2020 07:09:45 +0200</pubDate>
+      <pubDate>Fri, 16 Oct 2020 20:21:00 +0200</pubDate>
       
       <guid>http://mpas.github.io/tags/doom/</guid>
       <description></description>
@@ -19,7 +19,7 @@
     <item>
       <title>emacs</title>
       <link>http://mpas.github.io/tags/emacs/</link>
-      <pubDate>Fri, 16 Oct 2020 07:09:45 +0200</pubDate>
+      <pubDate>Fri, 16 Oct 2020 20:21:00 +0200</pubDate>
       
       <guid>http://mpas.github.io/tags/emacs/</guid>
       <description></description>
@@ -28,9 +28,18 @@
     <item>
       <title>org</title>
       <link>http://mpas.github.io/tags/org/</link>
-      <pubDate>Fri, 16 Oct 2020 07:09:45 +0200</pubDate>
+      <pubDate>Fri, 16 Oct 2020 20:21:00 +0200</pubDate>
       
       <guid>http://mpas.github.io/tags/org/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>orgmode</title>
+      <link>http://mpas.github.io/tags/orgmode/</link>
+      <pubDate>Fri, 16 Oct 2020 20:21:00 +0200</pubDate>
+      
+      <guid>http://mpas.github.io/tags/orgmode/</guid>
       <description></description>
     </item>
     

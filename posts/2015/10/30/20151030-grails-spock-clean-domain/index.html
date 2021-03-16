@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -101,14 +97,14 @@ if (!doNotTrack) {
             <p>Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.</p>
 <p>Spock provides a <code>setup()</code> and <code>cleanup()</code> method.</p>
 <p>When you want to remove your domain objects after each feature test has run you can execute the following:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kt">def</span> <span class="nf">setup</span><span class="o">()</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">setup</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> <span style="color:#f92672">...</span> <span style="color:#f92672">}</span>
 
-<span class="kt">def</span> <span class="nf">cleanup</span><span class="o">()</span> <span class="o">{</span>
-        <span class="c1">// make sure to clear out the database on after test
-</span><span class="c1"></span>        <span class="o">&lt;</span><span class="n">YourDomainObject</span><span class="o">&gt;.</span><span class="na">withNewSession</span> <span class="o">{</span>
-            <span class="o">&lt;</span><span class="n">YourDomainObject</span><span class="o">&gt;.</span><span class="na">findAll</span><span class="o">().</span><span class="na">each</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="nl">flush:</span> <span class="kc">true</span><span class="o">)</span> <span class="o">}</span>
-        <span class="o">}</span>
-<span class="o">}</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cleanup</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// make sure to clear out the database on after test
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">&lt;</span>YourDomainObject<span style="color:#f92672">&gt;.</span><span style="color:#a6e22e">withNewSession</span> <span style="color:#f92672">{</span>
+            <span style="color:#f92672">&lt;</span>YourDomainObject<span style="color:#f92672">&gt;.</span><span style="color:#a6e22e">findAll</span><span style="color:#f92672">().</span><span style="color:#a6e22e">each</span> <span style="color:#f92672">{</span> it<span style="color:#f92672">.</span><span style="color:#a6e22e">delete</span><span style="color:#f92672">(</span>flush: <span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><p>We need the <code>.withNewSession</code> because there is no Hibernate session provided in the <code>setup()</code> and <code>cleanup()</code> methods.</p>
 
         </div>
@@ -164,7 +160,7 @@ if (!doNotTrack) {
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

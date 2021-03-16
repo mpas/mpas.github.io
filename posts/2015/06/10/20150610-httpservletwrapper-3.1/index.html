@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -104,91 +100,91 @@ if (!doNotTrack) {
 <li>isReady</li>
 <li>setReadListener</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">com.google.common.primitives.Bytes</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.servlet.ReadListener</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.servlet.ServletInputStream</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequest</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.servlet.http.HttpServletRequestWrapper</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.io.ByteArrayInputStream</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> com.google.common.primitives.Bytes<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> javax.servlet.ReadListener<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> javax.servlet.ServletInputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequest<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequestWrapper<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.ByteArrayInputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.util.Arrays<span style="color:#f92672">;</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AuthenticationRequestWrapper</span> <span class="kd">extends</span> <span class="n">HttpServletRequestWrapper</span> <span class="o">{</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span> <span style="color:#66d9ef">extends</span> HttpServletRequestWrapper <span style="color:#f92672">{</span>
 
-    <span class="c1">// tag::variables[]
-</span><span class="c1"></span>    <span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">requestBody</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
-    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">bufferFilled</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-    <span class="c1">// end::variables[]
-</span><span class="c1"></span>
-    <span class="cm">/**
-</span><span class="cm">     - Constructs a request object wrapping the given request.
-</span><span class="cm">     *
-</span><span class="cm">     - @param request The request to wrap
-</span><span class="cm">     - @throws IllegalArgumentException if the request is null
-</span><span class="cm">     */</span>
-    <span class="kd">public</span> <span class="nf">AuthenticationRequestWrapper</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
-    <span class="o">}</span>
+    <span style="color:#75715e">// tag::variables[]
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> requestBody <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>0<span style="color:#f92672">];</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+    <span style="color:#75715e">// end::variables[]
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     - Constructs a request object wrapping the given request.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     - @param request The request to wrap
+</span><span style="color:#75715e">     - @throws IllegalArgumentException if the request is null
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">super</span><span style="color:#f92672">(</span>request<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
 
-    <span class="c1">// tag::getRequestBody[]
-</span><span class="c1"></span>    <span class="kd">public</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">getRequestBody</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">bufferFilled</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">requestBody</span><span class="o">,</span> <span class="n">requestBody</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
-        <span class="o">}</span>
+    <span style="color:#75715e">// tag::getRequestBody[]
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> <span style="color:#a6e22e">getRequestBody</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>bufferFilled<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOf</span><span style="color:#f92672">(</span>requestBody<span style="color:#f92672">,</span> requestBody<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
 
-        <span class="n">InputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+        InputStream inputStream <span style="color:#f92672">=</span> <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
 
-        <span class="kt">byte</span><span class="o">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">102400</span><span class="o">];</span> <span class="c1">// 100kb buffer
-</span><span class="c1"></span>
-        <span class="kt">int</span> <span class="n">bytesRead</span><span class="o">;</span>
-        <span class="k">while</span> <span class="o">((</span><span class="n">bytesRead</span> <span class="o">=</span> <span class="n">inputStream</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">))</span> <span class="o">!=</span> <span class="o">-</span><span class="n">1</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">requestBody</span> <span class="o">=</span> <span class="n">Bytes</span><span class="o">.</span><span class="na">concat</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">requestBody</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOfRange</span><span class="o">(</span><span class="n">buffer</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">bytesRead</span><span class="o">));</span> <span class="c1">// &lt;1&gt;
-</span><span class="c1"></span>        <span class="o">}</span>
+        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> buffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>102400<span style="color:#f92672">];</span> <span style="color:#75715e">// 100kb buffer
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">int</span> bytesRead<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span>bytesRead <span style="color:#f92672">=</span> inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">))</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            requestBody <span style="color:#f92672">=</span> Bytes<span style="color:#f92672">.</span><span style="color:#a6e22e">concat</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">requestBody</span><span style="color:#f92672">,</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOfRange</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> bytesRead<span style="color:#f92672">));</span> <span style="color:#75715e">// &lt;1&gt;
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
 
-        <span class="n">bufferFilled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
 
-        <span class="k">return</span> <span class="n">requestBody</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="c1">// end::getRequestBody[]
-</span><span class="c1"></span>
-    <span class="c1">// tag::getInputStream[]
-</span><span class="c1"></span>    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="n">ServletInputStream</span> <span class="nf">getInputStream</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="n">CustomServletInputStream</span><span class="o">(</span><span class="n">getRequestBody</span><span class="o">());</span> <span class="c1">// &lt;1&gt;
-</span><span class="c1"></span>    <span class="o">}</span>
-    <span class="c1">// end::getInputStream[]
-</span><span class="c1"></span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">CustomServletInputStream</span> <span class="kd">extends</span> <span class="n">ServletInputStream</span> <span class="o">{</span>
+        <span style="color:#66d9ef">return</span> requestBody<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">// end::getRequestBody[]
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">// tag::getInputStream[]
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> ServletInputStream <span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> CustomServletInputStream<span style="color:#f92672">(</span>getRequestBody<span style="color:#f92672">());</span> <span style="color:#75715e">// &lt;1&gt;
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+    <span style="color:#75715e">// end::getInputStream[]
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomServletInputStream</span> <span style="color:#66d9ef">extends</span> ServletInputStream <span style="color:#f92672">{</span>
 
-        <span class="kd">private</span> <span class="n">ByteArrayInputStream</span> <span class="n">buffer</span><span class="o">;</span>
+        <span style="color:#66d9ef">private</span> ByteArrayInputStream buffer<span style="color:#f92672">;</span>
 
-        <span class="kd">public</span> <span class="nf">CustomServletInputStream</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">contents</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">this</span><span class="o">.</span><span class="na">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayInputStream</span><span class="o">(</span><span class="n">contents</span><span class="o">);</span>
-        <span class="o">}</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">CustomServletInputStream</span><span style="color:#f92672">(</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> contents<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">buffer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ByteArrayInputStream<span style="color:#f92672">(</span>contents<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
 
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">read</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="na">read</span><span class="o">();</span>
-        <span class="o">}</span>
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">read</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
 
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isFinished</span><span class="o">()</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">buffer</span><span class="o">.</span><span class="na">available</span><span class="o">()</span> <span class="o">==</span> <span class="n">0</span><span class="o">;</span>
-        <span class="o">}</span>
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isFinished</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> 0<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
 
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isReady</span><span class="o">()</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-        <span class="o">}</span>
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isReady</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
 
-        <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setReadListener</span><span class="o">(</span><span class="n">ReadListener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
-            <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Not implemented&#34;</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setReadListener</span><span style="color:#f92672">(</span>ReadListener listener<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Not implemented&#34;</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div>
         </div>
     </div>
@@ -243,7 +239,7 @@ if (!doNotTrack) {
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

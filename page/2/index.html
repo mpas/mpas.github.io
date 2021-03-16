@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -95,6 +91,87 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Creating/Pushing Docker images using Gradle without plugins</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.</p>
+<p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
+<h2 id="creating-an-image">Creating an image</h2>
+<p>The following snippet will create a Docker image using the task <code>gradle buildDockerImage</code></p>
+<pre><code>- application layout
+| build.gradle
+| &gt; src
+| &gt;- main
+| &gt;-- docker (contains a Dockerfile)
+| &gt;--- app (contains data that can be used in your Dockerfile)
+</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#75715e">/*
+</span><span style="color:#75715e">    You can put some logic in the getDockerImageName to determine how your
+</span><span style="color:#75715e">    Docker image should be created.
+</span><span style="color:#75715e">*/</span>
+String <span style="color:#a6e22e">getDockerImageName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  <span style="color:#e6db74">&#34;my-first-docker-image&#34;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">/*
+</span><span style="color:#75715e">    Execute a docker build using commandline pointing to our Dockerfile that
+</span><span style="color:#75715e">    has been copied to /build/docker/.
+</span><span style="color:#75715e">*/</span>
+task <span style="color:#a6e22e">buildDockerImage</span><span style="color:#f92672">(</span>type:Exec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;docker&#39;</span>
+    description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Build a docker image&#39;</span>
+    commandLine <span style="color:#e6db74">&#39;docker&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-f&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker/Dockerfile&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-t&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${dockerImageName}&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker&#39;</span>
+
+    doFirst <span style="color:#f92672">{</span>
+        println <span style="color:#e6db74">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
+        <span style="color:#75715e">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
+        copy <span style="color:#f92672">{</span>
+            from <span style="color:#e6db74">&#39;src/main/docker/app/&#39;</span>
+            into <span style="color:#e6db74">&#39;build/docker/app&#39;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">/* copy Dockerfile from src/main/docker into the build/docker */</span>
+        copy <span style="color:#f92672">{</span>
+            from<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;src/main/docker/&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                include <span style="color:#e6db74">&#39;Dockerfile&#39;</span>
+            <span style="color:#f92672">}</span>
+            into <span style="color:#e6db74">&#39;build/docker&#39;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="pushing-an-image">pushing an image</h2>
+<p>Pushing an image without using plugins is just as easy.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">pushDockerImage<span style="color:#f92672">(</span>type: Exec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;docker&#39;</span>
+    description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Push a docker image&#39;</span>
+    commandLine <span style="color:#e6db74">&#39;docker&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;push&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${dockerImageName}&#34;</span>
+
+    doFirst <span style="color:#f92672">{</span>
+        println <span style="color:#e6db74">&#34;&gt;&gt; Pushing image: ${dockerImageName}&#34;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Using this approach without using unneeded Gradle plugins resulted in a an easy way to create containers on different platforms.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2016-11-24
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/docker">docker</a>, <a href="/tags/gradle">gradle</a>, <a href="/tags/groovy">groovy</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Identifying Docker container outage using Prometheus</h1>
         </div>
     </div>
@@ -102,7 +179,7 @@ if (!doNotTrack) {
         <div class="twelve columns">
             <p><a href="https://prometheus.io/">Prometheus</a> is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.</p>
 <p>Metric data is <strong>pulled</strong> (on a regular time-interval) from so called exporters which expose the metrics coming from applications/operating systems etc..</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">+------------------+                               +----------+     Visualize data
+<pre><code class="language-console" data-lang="console">+------------------+                               +----------+     Visualize data
 |  +------------+  |                               | Grafana  +---&gt; coming from
 |  | Dockerized |  |                               +----+-----+     Prometheus
 |  | Application|  |                                    |
@@ -117,15 +194,15 @@ if (!doNotTrack) {
 |                  |                        v
 +------------------+           Prometheus collects data
                                coming from remote systems
-</code></pre></div><p>In the diagram above cAdvisor is a so called exporter. There are other exporters like e.g. <a href="https://github.com/prometheus/node_exporter">Node Exporter</a> that exposes machine metrics. <strong>cAdvisor</strong> is used to get Docker container metrics.</p>
+</code></pre><p>In the diagram above cAdvisor is a so called exporter. There are other exporters like e.g. <a href="https://github.com/prometheus/node_exporter">Node Exporter</a> that exposes machine metrics. <strong>cAdvisor</strong> is used to get Docker container metrics.</p>
 <h2 id="cadvisor">cAdvisor</h2>
 <p><a href="https://github.com/google/cadvisor">cAdvisor</a> is a project coming from Google and analyzes resource usage and performance characteristics of running Docker  containers! When running a Dockerized application and starting a cAdvisor container you will have instant metrics available for all running containers.</p>
 <p>A lot of metrics are exposed by cAdvisor of which one is the metric <code>container_last_seen</code>. You can use this metric in Prometheus to identify if a container has left the building :) The challenge with Prometheus is that it keeps the data for a specific amount of time the so called <code>Stale Timeout</code>. This means that Prometheus will keep reporting back that the data has been received until this timeout has occurred (default 5 minutes). This is of course too much if we need to identify if a container has gone.</p>
 <p>So if you would normally query like this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">count</span><span class="p">(</span><span class="n">container_last_seen</span><span class="err">{</span><span class="n">job</span><span class="o">=</span><span class="s2">&#34;&lt;jobname&gt;&#34;</span><span class="p">,</span><span class="n">name</span><span class="o">=~</span><span class="s2">&#34;.*&lt;containername&gt;.*&#34;</span><span class="err">}</span><span class="p">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">count</span>(container_last_seen<span style="color:#960050;background-color:#1e0010">{</span>job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;jobname&gt;&#34;</span>,name<span style="color:#f92672">=~</span><span style="color:#e6db74">&#34;.*&lt;containername&gt;.*&#34;</span><span style="color:#960050;background-color:#1e0010">}</span>)
 </code></pre></div><p>This would get results until 5 minutes.. way to far&hellip;</p>
 <p>A simple alternate query to identify if the container has gone is like below:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">count</span><span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">container_last_seen</span><span class="err">{</span><span class="n">job</span><span class="o">=</span><span class="s2">&#34;&lt;jobname&gt;&#34;</span><span class="p">,</span><span class="n">name</span><span class="o">=~</span><span class="s2">&#34;.*&lt;containername&gt;.*&#34;</span><span class="err">}</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span> <span class="k">OR</span> <span class="n">vector</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">count</span>(time() <span style="color:#f92672">-</span> container_last_seen<span style="color:#960050;background-color:#1e0010">{</span>job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;jobname&gt;&#34;</span>,name<span style="color:#f92672">=~</span><span style="color:#e6db74">&#34;.*&lt;containername&gt;.*&#34;</span><span style="color:#960050;background-color:#1e0010">}</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">30</span>) <span style="color:#66d9ef">OR</span> vector(<span style="color:#ae81ff">0</span>)
 </code></pre></div><p>The &lsquo;30&rsquo; is the time in seconds before we want to be notified if a container has gone. This time has to be larger then the pull interval for your job.</p>
 <p>When using the mentioned query you can create a nice <a href="http://docs.grafana.org/reference/singlestat/">Singlestat</a> panel in Grafan so you can display an alert when the container is gone.</p>
 
@@ -153,8 +230,7 @@ if (!doNotTrack) {
     </div>
     <div class="row">
         <div class="twelve columns">
-            <img style="float: right;" width="150" src="https://www.consul.io/assets/images/logo_large-475cebb0.png">
-[Consul](http://Consul.io) has multiple components, but as a whole, it is a tool for discovering and configuring services in your infrastructure. It provides several key features:
+            <!-- raw HTML omitted -->
 <ul>
 <li>Service Discovery</li>
 <li>Health Checking</li>
@@ -173,182 +249,182 @@ you create the cluster and how can you make sure it is always available?</strong
 <p>This simple write up is just an example to give you an idea how this Consul cluster can be created and provisioned by using Terraform only. The goal is to have a cluster using the official Docker images provided by Consul itself running on EC2 nodes.</p>
 <h2 id="creating-a-consul-cluster">Creating a Consul cluster</h2>
 <p>The principle is not that hard&hellip; Consul nodes can discover each other based on IP Address. If you feed the Consul cluster members with IP Addresses that are part of the cluster you are good to go. In the example case we are going to start a number of Consul cluster members. The first node will be unable to form a cluster but if the second node starts up it will get the ip from the first node and the the first node will then know the ip of the second one.. etc.. So if you start up more than 2 nodes you will be good to go.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">+------+   +------+  +------+  +------+  +------+
+<pre><code class="language-console" data-lang="console">+------+   +------+  +------+  +------+  +------+
 |Consul|   |Consul|  |Consul|  |Consul|  |Consul|
 |Node 1|   |Node 2|  |Node 3|  |Node 4|  |Node n|
 +------+   +------+  +------+  +------+  +------+
     &lt; Find each other based on ip address &gt;
-</code></pre></div><p>The power is in the user-data script that is used for bootstrapping the Consul cluster nodes. In the example case they will find each other based on a query using <code>aws ec2 describe-instances</code> that will find nodes with a specific name, and from those identified nodes we will extract the IP Addresses that will be used to joint the Consul cluster. You can always modify the query to your own needs off course. The user-data script is used in the launch configuration.</p>
+</code></pre><p>The power is in the user-data script that is used for bootstrapping the Consul cluster nodes. In the example case they will find each other based on a query using <code>aws ec2 describe-instances</code> that will find nodes with a specific name, and from those identified nodes we will extract the IP Addresses that will be used to joint the Consul cluster. You can always modify the query to your own needs off course. The user-data script is used in the launch configuration.</p>
 <p>So enough talk&hellip; lets start :)</p>
 <p><strong>The given examples are intentionally kept simple!! So you will need to tweak your Terraform code according to your needs</strong></p>
 <h2 id="step-1-define-a-launch-configuration">Step 1: Define a launch Configuration</h2>
 <p>The core component of our Consul cluster is the launch configuration. This launch configuration determines what user-data file needs to be executed when launching a new instance.</p>
-<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="kr">resource</span> <span class="s2">&#34;aws_launch_configuration&#34;</span> <span class="s2">&#34;consul-cluster&#34;</span> <span class="p">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_launch_configuration&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
 
-  <span class="cm">/*
-</span><span class="cm">    in this case we use a docker optimized ami, because we are going
-</span><span class="cm">    to use the official Consul docker image as a starter.
-</span><span class="cm">    You can always use an ami on which you install docker manually!
-</span><span class="cm">  */</span>
-  <span class="na">image_id</span>  = <span class="s2">&#34;docker-optimized-ami-0123456789&#34;</span>
+  <span style="color:#75715e">/*
+</span><span style="color:#75715e">    in this case we use a docker optimized ami, because we are going
+</span><span style="color:#75715e">    to use the official Consul docker image as a starter.
+</span><span style="color:#75715e">    You can always use an ami on which you install docker manually!
+</span><span style="color:#75715e">  */</span>
+  <span style="color:#a6e22e">image_id</span>  = <span style="color:#e6db74">&#34;docker-optimized-ami-0123456789&#34;</span>
 
-  <span class="cm">/*
-</span><span class="cm">    the user-data script that holds the magic
-</span><span class="cm">  */</span>
-  <span class="na">user_data</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">data</span><span class="p">.</span><span class="nx">template_file</span><span class="p">.</span><span class="nx">consul</span><span class="o">-</span><span class="nx">cluster</span><span class="p">.</span><span class="nx">rendered</span><span class="si">}</span><span class="s2">&#34;</span>
-  <span class="na">instance_type</span> = <span class="s2">&#34;t2.micro&#34;</span>
+  <span style="color:#75715e">/*
+</span><span style="color:#75715e">    the user-data script that holds the magic
+</span><span style="color:#75715e">  */</span>
+  <span style="color:#a6e22e">user_data</span> = <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>data.<span style="color:#a6e22e">template_file</span>.<span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">rendered</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+  <span style="color:#a6e22e">instance_type</span> = <span style="color:#e6db74">&#34;t2.micro&#34;</span>
 
-  <span class="cm">/*
-</span><span class="cm">    make sure you open the correct ports so the Consul nodes can
-</span><span class="cm">    discover each other the actual security group is not shown
-</span><span class="cm">  */</span>
-  <span class="na">security_groups</span> = <span class="p">[</span><span class="s2">&#34;sg-0123456789&#34;</span><span class="p">]</span>
-  <span class="na">key_name</span> = <span class="nx">your</span><span class="o">-</span><span class="nx">deploy</span><span class="o">-</span><span class="nx">key</span>
+  <span style="color:#75715e">/*
+</span><span style="color:#75715e">    make sure you open the correct ports so the Consul nodes can
+</span><span style="color:#75715e">    discover each other the actual security group is not shown
+</span><span style="color:#75715e">  */</span>
+  <span style="color:#a6e22e">security_groups</span> = [<span style="color:#e6db74">&#34;sg-0123456789&#34;</span>]
+  <span style="color:#a6e22e">key_name</span> = <span style="color:#a6e22e">your</span><span style="color:#f92672">-</span><span style="color:#a6e22e">deploy</span><span style="color:#f92672">-</span><span style="color:#a6e22e">key</span>
 
-  <span class="cm">/*
-</span><span class="cm">    us a policy which grants read access to the EC2 api
-</span><span class="cm">  */</span>
-  <span class="na">iam_instance_profile</span> = <span class="s2">&#34;arn:aws:iam::0123456789:read_ec2_policy/ec2&#34;</span>
-<span class="p">}</span>
+  <span style="color:#75715e">/*
+</span><span style="color:#75715e">    us a policy which grants read access to the EC2 api
+</span><span style="color:#75715e">  */</span>
+  <span style="color:#a6e22e">iam_instance_profile</span> = <span style="color:#e6db74">&#34;arn:aws:iam::0123456789:read_ec2_policy/ec2&#34;</span>
+}
 
-<span class="cm">/*
-</span><span class="cm">    The template file used for the user-data
-</span><span class="cm">*/</span>
-<span class="kr">data</span> <span class="s2">&#34;template_file&#34;</span> <span class="s2">&#34;consul-cluster&#34;</span> <span class="p">{</span>
-  <span class="na">template</span> = <span class="s2">&#34;user-data-consul-cluster.tpl&#34;</span><span class="p">)}</span><span class="s2">&#34;
-</span><span class="s2">  vars {
-</span><span class="s2">    // the name must match the Name tag of the autoscaling group
-</span><span class="s2">    consul_cluster_name = &#34;</span><span class="nx">consul</span><span class="o">-</span><span class="nx">cluster</span><span class="o">-</span><span class="nx">member</span><span class="s2">&#34;
-</span><span class="s2">
-</span><span class="s2">    // the number of instances that need to be in the cluster to be healthy
-</span><span class="s2">    consul_cluster_min_size = 3
-</span><span class="s2">  }
-</span><span class="s2">}
+<span style="color:#75715e">/*
+</span><span style="color:#75715e">    The template file used for the user-data
+</span><span style="color:#75715e">*/</span>
+<span style="color:#66d9ef">data</span> <span style="color:#e6db74">&#34;template_file&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+  <span style="color:#a6e22e">template</span> = <span style="color:#e6db74">&#34;user-data-consul-cluster.tpl&#34;</span>)}<span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">  vars {
+</span><span style="color:#e6db74">    // the name must match the Name tag of the autoscaling group
+</span><span style="color:#e6db74">    consul_cluster_name = &#34;</span><span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span><span style="color:#f92672">-</span><span style="color:#a6e22e">member</span><span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    // the number of instances that need to be in the cluster to be healthy
+</span><span style="color:#e6db74">    consul_cluster_min_size = 3
+</span><span style="color:#e6db74">  }
+</span><span style="color:#e6db74">}
 </span></code></pre></div><h2 id="step-2-create-the-template-file">Step 2: Create the template file</h2>
 <p>The user-data file is going to query AWS using the aws describe-instances api and will return ec2 nodes that have a matching name using the --filters option. <code>'Name=tag:Name,Values=${consul_cluster_name}'</code></p>
 <p>All the retrieved instances are then queried for their private ip and the values are stored in a list. After completing the list the instance ip for the current machine is removed.</p>
 <p>A Consul specific join string is composed and provided to the docker image. This enables the Consul docker image to check for available servers when starting.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">// File: user-data-consul-cluster.tpl
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">// File: user-data-consul-cluster.tpl
 
-<span class="c1">#!/bin/bash -ex</span>
-<span class="nb">exec</span> &gt; &gt;<span class="o">(</span>tee /var/log/user-data.log<span class="p">|</span>logger -t user-data -s 2&gt;/dev/console<span class="o">)</span> 2&gt;<span class="p">&amp;</span><span class="m">1</span>
+<span style="color:#75715e">#!/bin/bash -ex</span>
+exec &gt; &gt;<span style="color:#f92672">(</span>tee /var/log/user-data.log|logger -t user-data -s 2&gt;/dev/console<span style="color:#f92672">)</span> 2&gt;&amp;<span style="color:#ae81ff">1</span>
 
-<span class="nb">echo</span> <span class="s1">&#39;installing additional software&#39;</span>
-<span class="k">for</span> i in <span class="o">{</span>1..5<span class="o">}</span>
-<span class="k">do</span>
-    yum install -y aws-cli <span class="o">&amp;&amp;</span> <span class="nb">break</span> <span class="o">||</span> sleep <span class="m">120</span>
-<span class="k">done</span>
+echo <span style="color:#e6db74">&#39;installing additional software&#39;</span>
+<span style="color:#66d9ef">for</span> i in <span style="color:#f92672">{</span>1..5<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">do</span>
+    yum install -y aws-cli <span style="color:#f92672">&amp;&amp;</span> break <span style="color:#f92672">||</span> sleep <span style="color:#ae81ff">120</span>
+<span style="color:#66d9ef">done</span>
 
-<span class="c1">################################################################################</span>
-<span class="c1"># Running Consul</span>
-<span class="c1">################################################################################</span>
-<span class="c1"># get current instance ip</span>
-<span class="nv">INSTANCE_IP</span><span class="o">=</span><span class="k">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span class="k">)</span>
+<span style="color:#75715e">################################################################################</span>
+<span style="color:#75715e"># Running Consul</span>
+<span style="color:#75715e">################################################################################</span>
+<span style="color:#75715e"># get current instance ip</span>
+INSTANCE_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span style="color:#66d9ef">)</span>
 
-<span class="c1"># get list of available Consul servers; based on Name (value) tag!</span>
-<span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span>aws ec2 describe-instances --region us-east-1 <span class="se">\
-</span><span class="se"></span>--filters <span class="s1">&#39;Name=tag:Name,Values=${consul_cluster_name}&#39;</span> <span class="se">\
-</span><span class="se"></span><span class="s1">&#39;Name=instance-state-name,Values=running&#39;</span> <span class="se">\
-</span><span class="se"></span>--query <span class="s2">&#34;Reservations[*].Instances[*].PrivateIpAddress&#34;</span> <span class="se">\
-</span><span class="se"></span>--output<span class="o">=</span>text<span class="k">)</span>
+<span style="color:#75715e"># get list of available Consul servers; based on Name (value) tag!</span>
+IP_LIST<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>aws ec2 describe-instances --region us-east-1 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>--filters <span style="color:#e6db74">&#39;Name=tag:Name,Values=${consul_cluster_name}&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span><span style="color:#e6db74">&#39;Name=instance-state-name,Values=running&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>--query <span style="color:#e6db74">&#34;Reservations[*].Instances[*].PrivateIpAddress&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>--output<span style="color:#f92672">=</span>text<span style="color:#66d9ef">)</span>
 
-<span class="c1"># remove the current instance ip from the list of available servers</span>
-<span class="nv">IP_LIST</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$$</span><span class="s2">{IP_LIST/</span><span class="nv">$$</span><span class="s2">INSTANCE_IP/}&#34;</span>
+<span style="color:#75715e"># remove the current instance ip from the list of available servers</span>
+IP_LIST<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$$<span style="color:#e6db74">{IP_LIST/</span>$$<span style="color:#e6db74">INSTANCE_IP/}&#34;</span>
 
-<span class="c1"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;</span>
-<span class="nv">IP_LIST</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$$</span>IP_LIST <span class="p">|</span> tr -s <span class="s2">&#34; &#34;</span> <span class="p">|</span> tr -d <span class="s1">&#39;\r\n&#39;</span> <span class="p">|</span> tr -s <span class="s1">&#39; &#39;</span> <span class="s1">&#39;,&#39;</span><span class="k">)</span>
+<span style="color:#75715e"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;</span>
+IP_LIST<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo $$IP_LIST | tr -s <span style="color:#e6db74">&#34; &#34;</span> | tr -d <span style="color:#e6db74">&#39;\r\n&#39;</span> | tr -s <span style="color:#e6db74">&#39; &#39;</span> <span style="color:#e6db74">&#39;,&#39;</span><span style="color:#66d9ef">)</span>
 
-<span class="c1"># create join string</span>
-<span class="k">for</span> i in <span class="k">$(</span><span class="nb">echo</span> <span class="nv">$IP_LIST</span> <span class="p">|</span> sed <span class="s2">&#34;s/,/ /g&#34;</span><span class="k">)</span>
-<span class="k">do</span>
-    <span class="nv">JOIN_STRING</span><span class="o">+=</span><span class="s2">&#34;-retry-join </span><span class="nv">$i</span><span class="s2"> &#34;</span>
-<span class="k">done</span>
+<span style="color:#75715e"># create join string</span>
+<span style="color:#66d9ef">for</span> i in <span style="color:#66d9ef">$(</span>echo $IP_LIST | sed <span style="color:#e6db74">&#34;s/,/ /g&#34;</span><span style="color:#66d9ef">)</span>
+<span style="color:#66d9ef">do</span>
+    JOIN_STRING<span style="color:#f92672">+=</span><span style="color:#e6db74">&#34;-retry-join </span>$i<span style="color:#e6db74"> &#34;</span>
+<span style="color:#66d9ef">done</span>
 
-<span class="c1"># - run Consul</span>
-docker run -d --net<span class="o">=</span>host <span class="se">\
-</span><span class="se"></span>-e <span class="s1">&#39;CONSUL_LOCAL_CONFIG={&#34;skip_leave_on_interrupt&#34;: true}&#39;</span> <span class="se">\
-</span><span class="se"></span>--name consul-server consul:latest <span class="se">\
-</span><span class="se"></span>agent -server -bind<span class="o">=</span><span class="nv">$INSTANCE_IP</span> <span class="nv">$JOIN_STRING</span> <span class="se">\
-</span><span class="se"></span>-bootstrap-expect<span class="o">=</span><span class="si">${</span><span class="nv">consul_cluster_min_size</span><span class="si">}</span> -ui -client 0.0.0.0
-<span class="c1"># ------------------------------------------------------------------------------</span>
+<span style="color:#75715e"># - run Consul</span>
+docker run -d --net<span style="color:#f92672">=</span>host <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-e <span style="color:#e6db74">&#39;CONSUL_LOCAL_CONFIG={&#34;skip_leave_on_interrupt&#34;: true}&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>--name consul-server consul:latest <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>agent -server -bind<span style="color:#f92672">=</span>$INSTANCE_IP $JOIN_STRING <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-bootstrap-expect<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>consul_cluster_min_size<span style="color:#e6db74">}</span> -ui -client 0.0.0.0
+<span style="color:#75715e"># ------------------------------------------------------------------------------</span>
 </code></pre></div><h2 id="step-3-create-an-autoscaling-group">Step 3: Create an autoscaling group</h2>
-<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="cm">/*
-</span><span class="cm">    creates an autoscaling group so servers are created when needed
-</span><span class="cm">*/</span>
-<span class="kr">resource</span> <span class="s2">&#34;aws_autoscaling_group&#34;</span> <span class="s2">&#34;consul-cluster&#34;</span> <span class="p">{</span>
-  <span class="na">min_size</span> = <span class="m">3</span>
-  <span class="na">max_size</span> = <span class="m">5</span>
-  <span class="na">desired_capacity</span> = <span class="m">3</span>
-  <span class="na">min_elb_capacity</span> = <span class="m">3</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#75715e">/*
+</span><span style="color:#75715e">    creates an autoscaling group so servers are created when needed
+</span><span style="color:#75715e">*/</span>
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_autoscaling_group&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+  <span style="color:#a6e22e">min_size</span> = <span style="color:#ae81ff">3</span>
+  <span style="color:#a6e22e">max_size</span> = <span style="color:#ae81ff">5</span>
+  <span style="color:#a6e22e">desired_capacity</span> = <span style="color:#ae81ff">3</span>
+  <span style="color:#a6e22e">min_elb_capacity</span> = <span style="color:#ae81ff">3</span>
 
-  <span class="na">launch_configuration</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nx">aws_launch_configuration</span><span class="p">.</span><span class="nx">consul</span><span class="o">-</span><span class="nx">cluster</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="s2">&#34;</span>
-  <span class="na">load_balancers</span> = <span class="p">[</span><span class="s2">&#34;</span><span class="si">${</span><span class="nx">aws_elb</span><span class="p">.</span><span class="nx">consul</span><span class="p">.</span><span class="nx">id</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">]</span>
+  <span style="color:#a6e22e">launch_configuration</span> = <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">aws_launch_configuration</span>.<span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+  <span style="color:#a6e22e">load_balancers</span> = [<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">aws_elb</span>.<span style="color:#a6e22e">consul</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>]
 
-  <span class="nx">tag</span> <span class="p">{</span>
-    <span class="na">key</span> = <span class="s2">&#34;Name&#34;</span>
-    <span class="cm">/*
-</span><span class="cm">      note: this is the value that is being searched for in the user-data
-</span><span class="cm">    */</span>
-    <span class="na">value</span> = <span class="s2">&#34;consul-cluster-member&#34;</span>
-    <span class="na">propagate_at_launch</span> = <span class="kc">true</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+  <span style="color:#a6e22e">tag</span> {
+    <span style="color:#a6e22e">key</span> = <span style="color:#e6db74">&#34;Name&#34;</span>
+    <span style="color:#75715e">/*
+</span><span style="color:#75715e">      note: this is the value that is being searched for in the user-data
+</span><span style="color:#75715e">    */</span>
+    <span style="color:#a6e22e">value</span> = <span style="color:#e6db74">&#34;consul-cluster-member&#34;</span>
+    <span style="color:#a6e22e">propagate_at_launch</span> = <span style="color:#66d9ef">true</span>
+  }
+}
 </code></pre></div><h2 id="step-4-create-an-elb-as-frontend-for-the-consul-cluster">Step 4: Create an ELB as frontend for the Consul cluster</h2>
-<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="kr">resource</span> <span class="s2">&#34;aws_elb&#34;</span> <span class="s2">&#34;consul-cluster&#34;</span> <span class="p">{</span>
-  <span class="na">name</span> = <span class="s2">&#34;consul-cluster&#34;</span>
-  <span class="na">subnets</span> = <span class="p">[</span><span class="s2">&#34;sn-0123456789&#34;</span><span class="p">]</span>
-  <span class="na">security_groups</span> = <span class="p">[</span><span class="s2">&#34;sg-0123456789&#34;</span><span class="p">]</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_elb&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+  <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;consul-cluster&#34;</span>
+  <span style="color:#a6e22e">subnets</span> = [<span style="color:#e6db74">&#34;sn-0123456789&#34;</span>]
+  <span style="color:#a6e22e">security_groups</span> = [<span style="color:#e6db74">&#34;sg-0123456789&#34;</span>]
 
-  <span class="nx">listener</span> <span class="p">{</span>
-    <span class="na">instance_port</span> = <span class="m">8300</span>
-    <span class="na">instance_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
-    <span class="na">lb_port</span> = <span class="m">8300</span>
-    <span class="na">lb_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
-  <span class="p">}</span>
+  <span style="color:#a6e22e">listener</span> {
+    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8300</span>
+    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8300</span>
+    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+  }
 
-  <span class="nx">listener</span> <span class="p">{</span>
-    <span class="na">instance_port</span> = <span class="m">8301</span>
-    <span class="na">instance_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
-    <span class="na">lb_port</span> = <span class="m">8301</span>
-    <span class="na">lb_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
-  <span class="p">}</span>
+  <span style="color:#a6e22e">listener</span> {
+    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8301</span>
+    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8301</span>
+    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+  }
 
-  <span class="nx">listener</span> <span class="p">{</span>
-    <span class="na">instance_port</span> = <span class="m">8302</span>
-    <span class="na">instance_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
-    <span class="na">lb_port</span> = <span class="m">8302</span>
-    <span class="na">lb_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
-  <span class="p">}</span>
+  <span style="color:#a6e22e">listener</span> {
+    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8302</span>
+    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8302</span>
+    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+  }
 
-  <span class="nx">listener</span> <span class="p">{</span>
-    <span class="na">instance_port</span> = <span class="m">8400</span>
-    <span class="na">instance_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
-    <span class="na">lb_port</span> = <span class="m">8400</span>
-    <span class="na">lb_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
-  <span class="p">}</span>
+  <span style="color:#a6e22e">listener</span> {
+    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8400</span>
+    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8400</span>
+    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+  }
 
-  <span class="nx">listener</span> <span class="p">{</span>
-    <span class="na">instance_port</span> = <span class="m">8500</span>
-    <span class="na">instance_protocol</span> = <span class="s2">&#34;http&#34;</span>
-    <span class="na">lb_port</span> = <span class="m">8500</span>
-    <span class="na">lb_protocol</span> = <span class="s2">&#34;http&#34;</span>
-  <span class="p">}</span>
+  <span style="color:#a6e22e">listener</span> {
+    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8500</span>
+    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;http&#34;</span>
+    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8500</span>
+    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;http&#34;</span>
+  }
 
-  <span class="nx">listener</span> <span class="p">{</span>
-    <span class="na">instance_port</span> = <span class="m">8600</span>
-    <span class="na">instance_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
-    <span class="na">lb_port</span> = <span class="m">8600</span>
-    <span class="na">lb_protocol</span> = <span class="s2">&#34;tcp&#34;</span>
-  <span class="p">}</span>
+  <span style="color:#a6e22e">listener</span> {
+    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8600</span>
+    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8600</span>
+    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+  }
 
-  <span class="nx">health_check</span> <span class="p">{</span>
-    <span class="na">target</span> = <span class="s2">&#34;HTTP:8500/v1/status/leader&#34;</span>
-    <span class="na">healthy_threshold</span> = <span class="m">2</span>
-    <span class="na">unhealthy_threshold</span> = <span class="m">2</span>
-    <span class="na">interval</span> = <span class="m">30</span>
-    <span class="na">timeout</span> = <span class="m">5</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+  <span style="color:#a6e22e">health_check</span> {
+    <span style="color:#a6e22e">target</span> = <span style="color:#e6db74">&#34;HTTP:8500/v1/status/leader&#34;</span>
+    <span style="color:#a6e22e">healthy_threshold</span> = <span style="color:#ae81ff">2</span>
+    <span style="color:#a6e22e">unhealthy_threshold</span> = <span style="color:#ae81ff">2</span>
+    <span style="color:#a6e22e">interval</span> = <span style="color:#ae81ff">30</span>
+    <span style="color:#a6e22e">timeout</span> = <span style="color:#ae81ff">5</span>
+  }
+}
 </code></pre></div><p>When putting all the pieces together you should now have a running Consul cluster!</p>
 
         </div>
@@ -380,19 +456,19 @@ it may be useful to run the metrics on a different port.</p>
 <p>This enables you to hide the metrics for the public and use the different port in
 an AWS infrastucture so that the metrics are only available internal.</p>
 <p>Let us first enable the actuator endpoints</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">// File: grails-app/conf/application.yml
+<pre><code class="language-console" data-lang="console">// File: grails-app/conf/application.yml
 
 # Spring Actuator Endpoints are Disabled by Default
 endpoints:
     enabled: true
     jmx:
         enabled: true
-</code></pre></div><p>Change the port on which the metrics runs, add the lines below to the appl</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">// File: grails-app/conf/application.yml
+</code></pre><p>Change the port on which the metrics runs, add the lines below to the appl</p>
+<pre><code class="language-console" data-lang="console">// File: grails-app/conf/application.yml
 
 management:
     port: 9000
-</code></pre></div><p>Now when you start your Grails application it run on port <code>8080</code> and the metrics
+</code></pre><p>Now when you start your Grails application it run on port <code>8080</code> and the metrics
 are available on port <code>9090</code>/metrics</p>
 
         </div>
@@ -422,7 +498,7 @@ are available on port <code>9090</code>/metrics</p>
             <p>Ever had a need to access something from within a <a href="https://www.docker.com/">Docker</a> container that runs on the host system?</p>
 <p>When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.</p>
 <p>A solution for this isto define a new local loopback to your localhost</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ sudo ifconfig lo0 <span class="nb">alias</span> 172.16.123.1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo ifconfig lo0 alias 172.16.123.1
 </code></pre></div><p>This will define a loopback network interface that points to your localhost. When you need to access the localhost you can use this ip.</p>
 
         </div>
@@ -434,44 +510,6 @@ are available on port <code>9090</code>/metrics</p>
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/docker">docker</a>, <a href="/tags/osx">osx</a>, <a href="/tags/mac">mac</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Terraform to the rescue</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Getting exposed to <a href="https://aws.amazon.com/">Amazon Web Services</a> is fun! Certainly when you see that the infrastructure is growing and supporting the daily need of developers and the business. You slowly start adding services and try to keep everything in a state so that it is repeatable and maintainable. At a certain moment it becomes clear that you need the concept of <a href="https://en.wikipedia.org/wiki/Infrastructure_as_Code">Infrastructure As Code</a>.</p>
-<p>The Amazon way of doing this is by using <a href="https://aws.amazon.com/cloudformation/">AWS CloudFormation</a>. This enables you to define the infrastructure in a JSON/YAML format and apply the changes to the infrastructure.</p>
-<p>Our team manages a bunch of environments using services like AWS ECS, EC2, ElasticSearch, RDS and more.. Maintaining this infrastructure in CloudFormation seemed the standard way of doing things until we started a proof-of-concept with <a href="https://www.terraform.io/">Terraform</a>.</p>
-<p><strong>Why did we start this proof-of-concept??</strong> Mainly because the overwhelming pieces of code that we needed to maintain in CloudFormation became unmaintainable. The use of Terraform was so successful that we decide to rewrite our entire infrastructure codebase using Terraform.</p>
-<p>The advantages when using Terraform are:</p>
-<ul>
-<li>less code to maintain because Terraform is less verbose</li>
-<li>when using Terraform an infrastructure change can be planned, this shows what is going to be changed before actually executing the change</li>
-</ul>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ terraform plan
-</code></pre></div><p>See what the changes are and then when everything seems ok&hellip;</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ terraform apply
-</code></pre></div><p>Currently we have our entire Infrastructure in Terraform and we could never be more happier. Terraform came to our rescue!</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2016-10-09
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/devops">devops</a>, <a href="/tags/aws">aws</a>, <a href="/tags/terraform">terraform</a>
                 </span>
             </div>
         </div>
@@ -539,7 +577,7 @@ are available on port <code>9090</code>/metrics</p>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

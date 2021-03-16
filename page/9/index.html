@@ -4,7 +4,7 @@
   
   
   <meta charset="utf-8">
-  <title>CodeVerse - Get pretty org-bullets in Doom Emacs</title>
+  <title>CodeVerse - CodeVerse</title>
   <meta name="description" content="">
   <meta name="author" content="Marco Pas">
 
@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -66,7 +62,7 @@ if (!doNotTrack) {
                     <ul id="navbar">
                         
                         
-                            <li >
+                            <li class="current">
                                 <a href="/">Blog</a></li>
                         
                             <li >
@@ -86,52 +82,75 @@ if (!doNotTrack) {
 </div>
 
 
-
-  <div class="container">
+<div class="container">
     <div class="row">
-      <div class="post-content">
-        <article class="post u-cf">
+        <div class="post-list">
+            
+            
+                
+                <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Get pretty org-bullets in Doom Emacs</h1>
+            <h1 class="post-title">Using MySQL instead of in-memory database for a Grails application</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            <p>When installing <a href="https://github.com/hlissner/doom-emacs">Doom Emacs</a> and using org-mode the defaults bullets are <code>*</code>. In order to get some fancy bullets the following steps need to be taken.</p>
-<ol>
-<li>Add the org-mode <code>+pretty</code> flag to your org settings in <code>init.el</code> To read more on the available flags check the [org-mode Doom Emacs module <code>lang/org</code><a href="https://github.com/hlissner/doom-emacs/tree/develop/modules/lang/org#module-flags">doom-emacs-org-mode-flags</a></li>
-</ol>
-<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="ss">:lang</span>
-<span class="p">(</span><span class="nv">org</span> <span class="nv">+pretty</span> <span class="p">)</span> <span class="c1">; organize your plain life in plain text</span>
-</code></pre></div><ol start="2">
-<li>Set the bullets you want to use in your <code>config.el</code></li>
-</ol>
-<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="k">setq</span>
-    <span class="nv">org-superstar-headline-bullets-list</span> <span class="o">&#39;</span><span class="p">(</span><span class="s">&#34;⁖&#34;</span> <span class="s">&#34;◉&#34;</span> <span class="s">&#34;○&#34;</span> <span class="s">&#34;✸&#34;</span> <span class="s">&#34;✿&#34;</span><span class="p">)</span>
-<span class="p">)</span>
-</code></pre></div><ol start="3">
-<li>Reload your Doom configuration and you should be fine :)</li>
-</ol>
-
+            <p>A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.</p>
+<ul>
+<li>Download the MySQL JDBC driver [called a connector] from the MySQL website</li>
+<li>Extract the zip or tar archive</li>
+<li>Copy the driver (at this time of writing called <code>mysql-connector-java-5.1.13-bin.jar</code> into the <code>grails-app/lib</code> directory</li>
+<li>Configure your application datasource in file <code>grails-app/conf/DataSource.groovy</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">development <span style="color:#f92672">{</span>
+    dataSource <span style="color:#f92672">{</span>
+       dbCreate <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;create-drop&#34;</span> <span style="color:#75715e">// one of &#39;create&#39;, &#39;create-drop&#39;,&#39;update&#39;
+</span><span style="color:#75715e"></span>       url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;jdbc:mysql://localhost:&lt;port&gt;/&lt;database&gt;&#34;</span>
+       driverClassName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;com.mysql.jdbc.Driver&#34;</span>
+       port <span style="color:#f92672">=</span>  <span style="color:#75715e">// default 3306
+</span><span style="color:#75715e"></span>       username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;username&gt;&#34;</span>
+       password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;password&gt;&#34;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
             <div class="post-meta-info">
-                Published on 2020-10-16
+                Published on 2012-09-05
                 <span class="post-meta-info-taxonomy">
                     using tags:
-                        <a href="/tags/emacs">emacs</a>, <a href="/tags/doom">doom</a>, <a href="/tags/org">org</a>
+                        <a href="/tags/grails">grails</a>, <a href="/tags/mysql">mysql</a>
                 </span>
             </div>
         </div>
     </div>
 </article>
 
-      </div>
+            
+        </div>
     </div>
-  </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="twelve columns">
+        
+            <ul class="pager">
+            
+                <li>
+                <a class="button" href="http://mpas.github.io/page/8">&larr; Newer Posts</a>
+                </li>
+            
+            
+            </ul>
+        
+        </div>
+    </div>
+</div>
 
 <footer>
     <div class="container">
@@ -167,7 +186,7 @@ if (!doNotTrack) {
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

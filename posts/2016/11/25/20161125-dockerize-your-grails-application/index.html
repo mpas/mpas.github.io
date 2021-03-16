@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -101,77 +97,77 @@ if (!doNotTrack) {
             <p>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..</p>
 <p>Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.</p>
 <p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails create-app docker-test --profile rest-api
-</code></pre></div><p>After the Grails application has been created, we will need to add the following files to our project.</p>
+<pre><code class="language-console" data-lang="console">$ grails create-app docker-test --profile rest-api
+</code></pre><p>After the Grails application has been created, we will need to add the following files to our project.</p>
 <ul>
 <li>Dockerfile (determines what our Docker image will contain)</li>
 <li>docker-entrypoint.sh (script that is responsible for starting our Grails application)</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile">// file: /src/main/docker/Dockerfile<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">FROM</span><span class="s"> openjdk:latest</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># set environment options</span><span class="err">
-</span><span class="err"></span><span class="k">ENV</span> <span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">&#34;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&#34;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">RUN</span> mkdir -p /app<span class="err">
-</span><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /app</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">COPY</span> /app/application.jar application.jar<span class="err">
-</span><span class="err"></span><span class="k">COPY</span> /app/docker-entrypoint.sh docker-entrypoint.sh<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Set file permissions</span><span class="err">
-</span><span class="err"></span><span class="k">RUN</span> chmod +x /app/docker-entrypoint.sh<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Set start script as enrypoint</span><span class="err">
-</span><span class="err"></span><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;./docker-entrypoint.sh&#34;</span><span class="p">]</span><span class="err">
-</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">// file: /src/main/docker/app/docker-entrypoint.sh
-<span class="c1">#!/bin/bash</span>
-<span class="nb">set</span> -e
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile">// file: /src/main/docker/Dockerfile<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:latest</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># set environment options</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> JAVA_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /app<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /app</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /app/application.jar application.jar<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /app/docker-entrypoint.sh docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set file permissions</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chmod +x /app/docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set start script as enrypoint</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;./docker-entrypoint.sh&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">// file: /src/main/docker/app/docker-entrypoint.sh
+<span style="color:#75715e">#!/bin/bash</span>
+set -e
 
-<span class="nb">exec</span> java <span class="si">${</span><span class="nv">JAVA_OPTS</span><span class="si">}</span> -jar application.jar <span class="nv">$@</span>
-<span class="c1"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span>
+exec java <span style="color:#e6db74">${</span>JAVA_OPTS<span style="color:#e6db74">}</span> -jar application.jar $@
+<span style="color:#75715e"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span>
 </code></pre></div><p>Next step is to add the tasks to our <code>build.gradle</code> so it can generate the Docker image.</p>
 <p>So add the following snippet to your <code>build.gradle</code> file!</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="c1">// file: /build.gradle
-</span><span class="c1"></span><span class="n">String</span> <span class="nf">getDockerImageName</span><span class="o">()</span> <span class="o">{</span>
-  <span class="s2">&#34;docker-test&#34;</span>
-<span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#75715e">// file: /build.gradle
+</span><span style="color:#75715e"></span>String <span style="color:#a6e22e">getDockerImageName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  <span style="color:#e6db74">&#34;docker-test&#34;</span>
+<span style="color:#f92672">}</span>
 
-<span class="n">task</span> <span class="nf">buildDockerImage</span><span class="o">(</span><span class="nl">type:</span><span class="n">Exec</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;docker&#39;</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Build a docker image&#39;</span>
-    <span class="n">commandLine</span> <span class="s1">&#39;docker&#39;</span><span class="o">,</span> <span class="s1">&#39;build&#39;</span><span class="o">,</span> <span class="s1">&#39;-f&#39;</span><span class="o">,</span> <span class="s1">&#39;build/docker/Dockerfile&#39;</span><span class="o">,</span> <span class="s1">&#39;-t&#39;</span><span class="o">,</span> <span class="s2">&#34;${dockerImageName}&#34;</span><span class="o">,</span> <span class="s1">&#39;build/docker&#39;</span>
+task <span style="color:#a6e22e">buildDockerImage</span><span style="color:#f92672">(</span>type:Exec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;docker&#39;</span>
+    description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Build a docker image&#39;</span>
+    commandLine <span style="color:#e6db74">&#39;docker&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-f&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker/Dockerfile&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-t&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${dockerImageName}&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker&#39;</span>
 
-    <span class="n">doFirst</span> <span class="o">{</span>
-        <span class="n">println</span> <span class="s2">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
-        <span class="cm">/* copy the generate war file to /build/docker/app */</span>
-        <span class="n">copy</span> <span class="o">{</span>
-            <span class="n">from</span> <span class="n">war</span><span class="o">.</span><span class="na">archivePath</span>
-            <span class="n">into</span> <span class="s1">&#39;build/docker/app/&#39;</span>
-        <span class="o">}</span>
-        <span class="cm">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
-        <span class="n">copy</span> <span class="o">{</span>
-            <span class="n">from</span> <span class="s1">&#39;src/main/docker/app/&#39;</span>
-            <span class="n">into</span> <span class="s1">&#39;build/docker/app&#39;</span>
-        <span class="o">}</span>
-        <span class="cm">/* copy Dockerfile from src/main/docker into the build/docker */</span>
-        <span class="n">copy</span> <span class="o">{</span>
-            <span class="n">from</span><span class="o">(</span><span class="s1">&#39;src/main/docker/&#39;</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">include</span> <span class="s1">&#39;Dockerfile&#39;</span>
-            <span class="o">}</span>
-            <span class="n">into</span> <span class="s1">&#39;build/docker&#39;</span>
-        <span class="o">}</span>
-        <span class="cm">/* rename war file to application.jar */</span>
-        <span class="n">file</span><span class="o">(</span><span class="s2">&#34;build/docker/app/${war.archiveName}&#34;</span><span class="o">).</span><span class="na">renameTo</span><span class="o">(</span><span class="s2">&#34;build/docker/app/application.jar&#34;</span><span class="o">)</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+    doFirst <span style="color:#f92672">{</span>
+        println <span style="color:#e6db74">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
+        <span style="color:#75715e">/* copy the generate war file to /build/docker/app */</span>
+        copy <span style="color:#f92672">{</span>
+            from war<span style="color:#f92672">.</span><span style="color:#a6e22e">archivePath</span>
+            into <span style="color:#e6db74">&#39;build/docker/app/&#39;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
+        copy <span style="color:#f92672">{</span>
+            from <span style="color:#e6db74">&#39;src/main/docker/app/&#39;</span>
+            into <span style="color:#e6db74">&#39;build/docker/app&#39;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">/* copy Dockerfile from src/main/docker into the build/docker */</span>
+        copy <span style="color:#f92672">{</span>
+            from<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;src/main/docker/&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                include <span style="color:#e6db74">&#39;Dockerfile&#39;</span>
+            <span style="color:#f92672">}</span>
+            into <span style="color:#e6db74">&#39;build/docker&#39;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">/* rename war file to application.jar */</span>
+        file<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;build/docker/app/${war.archiveName}&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">renameTo</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;build/docker/app/application.jar&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><p>Now that we have everyting in place we can build the image and start the container,</p>
 <p>Create the docker image using assemble target and buildDockerImage</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ ./gradlew assemble buildDockerImage
-</code></pre></div><p>Run a container based on the previous created image</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ docker run -it --rm -p 8080:8080 docker-test
-</code></pre></div><p>This will run the container in interactive mode (<code>-it</code>) and the container will be removed when we stop the container (<code>--rm</code>). Port 8080 in the container will be available on port 8080 on your host system (<code>-p 8080:8080</code>).</p>
+<pre><code class="language-console" data-lang="console">$ ./gradlew assemble buildDockerImage
+</code></pre><p>Run a container based on the previous created image</p>
+<pre><code class="language-console" data-lang="console">$ docker run -it --rm -p 8080:8080 docker-test
+</code></pre><p>This will run the container in interactive mode (<code>-it</code>) and the container will be removed when we stop the container (<code>--rm</code>). Port 8080 in the container will be available on port 8080 on your host system (<code>-p 8080:8080</code>).</p>
 <p>This will run the specified container and the endpoint will be available using your browser. Just visit http://localhost:8080</p>
 
         </div>
@@ -227,7 +223,7 @@ if (!doNotTrack) {
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

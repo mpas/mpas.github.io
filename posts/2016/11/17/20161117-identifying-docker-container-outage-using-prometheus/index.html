@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -100,7 +96,7 @@ if (!doNotTrack) {
         <div class="twelve columns">
             <p><a href="https://prometheus.io/">Prometheus</a> is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.</p>
 <p>Metric data is <strong>pulled</strong> (on a regular time-interval) from so called exporters which expose the metrics coming from applications/operating systems etc..</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">+------------------+                               +----------+     Visualize data
+<pre><code class="language-console" data-lang="console">+------------------+                               +----------+     Visualize data
 |  +------------+  |                               | Grafana  +---&gt; coming from
 |  | Dockerized |  |                               +----+-----+     Prometheus
 |  | Application|  |                                    |
@@ -115,15 +111,15 @@ if (!doNotTrack) {
 |                  |                        v
 +------------------+           Prometheus collects data
                                coming from remote systems
-</code></pre></div><p>In the diagram above cAdvisor is a so called exporter. There are other exporters like e.g. <a href="https://github.com/prometheus/node_exporter">Node Exporter</a> that exposes machine metrics. <strong>cAdvisor</strong> is used to get Docker container metrics.</p>
+</code></pre><p>In the diagram above cAdvisor is a so called exporter. There are other exporters like e.g. <a href="https://github.com/prometheus/node_exporter">Node Exporter</a> that exposes machine metrics. <strong>cAdvisor</strong> is used to get Docker container metrics.</p>
 <h2 id="cadvisor">cAdvisor</h2>
 <p><a href="https://github.com/google/cadvisor">cAdvisor</a> is a project coming from Google and analyzes resource usage and performance characteristics of running Docker  containers! When running a Dockerized application and starting a cAdvisor container you will have instant metrics available for all running containers.</p>
 <p>A lot of metrics are exposed by cAdvisor of which one is the metric <code>container_last_seen</code>. You can use this metric in Prometheus to identify if a container has left the building :) The challenge with Prometheus is that it keeps the data for a specific amount of time the so called <code>Stale Timeout</code>. This means that Prometheus will keep reporting back that the data has been received until this timeout has occurred (default 5 minutes). This is of course too much if we need to identify if a container has gone.</p>
 <p>So if you would normally query like this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">count</span><span class="p">(</span><span class="n">container_last_seen</span><span class="err">{</span><span class="n">job</span><span class="o">=</span><span class="s2">&#34;&lt;jobname&gt;&#34;</span><span class="p">,</span><span class="n">name</span><span class="o">=~</span><span class="s2">&#34;.*&lt;containername&gt;.*&#34;</span><span class="err">}</span><span class="p">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">count</span>(container_last_seen<span style="color:#960050;background-color:#1e0010">{</span>job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;jobname&gt;&#34;</span>,name<span style="color:#f92672">=~</span><span style="color:#e6db74">&#34;.*&lt;containername&gt;.*&#34;</span><span style="color:#960050;background-color:#1e0010">}</span>)
 </code></pre></div><p>This would get results until 5 minutes.. way to far&hellip;</p>
 <p>A simple alternate query to identify if the container has gone is like below:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sql" data-lang="sql"><span class="k">count</span><span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">container_last_seen</span><span class="err">{</span><span class="n">job</span><span class="o">=</span><span class="s2">&#34;&lt;jobname&gt;&#34;</span><span class="p">,</span><span class="n">name</span><span class="o">=~</span><span class="s2">&#34;.*&lt;containername&gt;.*&#34;</span><span class="err">}</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">)</span> <span class="k">OR</span> <span class="n">vector</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">count</span>(time() <span style="color:#f92672">-</span> container_last_seen<span style="color:#960050;background-color:#1e0010">{</span>job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;jobname&gt;&#34;</span>,name<span style="color:#f92672">=~</span><span style="color:#e6db74">&#34;.*&lt;containername&gt;.*&#34;</span><span style="color:#960050;background-color:#1e0010">}</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">30</span>) <span style="color:#66d9ef">OR</span> vector(<span style="color:#ae81ff">0</span>)
 </code></pre></div><p>The &lsquo;30&rsquo; is the time in seconds before we want to be notified if a container has gone. This time has to be larger then the pull interval for your job.</p>
 <p>When using the mentioned query you can create a nice <a href="http://docs.grafana.org/reference/singlestat/">Singlestat</a> panel in Grafan so you can display an alert when the container is gone.</p>
 
@@ -180,7 +176,7 @@ if (!doNotTrack) {
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

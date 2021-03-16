@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -95,26 +91,132 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Time tracking with Org Mode and sum time per tag</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you <strong>aggregate time across tasks belonging to tags</strong>?</p>
+<p>This can be achieved by using a simple formula and the usage of an awesome Org package called <a href="https://github.com/tbanel/orgaggregate">Org Aggregate</a>.</p>
+<h2 id="input-data">Input data</h2>
+<p>The data below is used for time tracking, note that individual items are <strong>tagged</strong>!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">- Take out the trash :private:
+:LOGBOOK:
+CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:30] =&gt;  0:06
+:END:
+- Update document for client :client1:
+:LOGBOOK:
+CLOCK: [2021-03-12 Fri 12:45]--[2021-03-12 Fri 13:30] =&gt;  0:45
+:END:
+- Create my awesome note for work :work:
+:LOGBOOK:
+CLOCK: [2021-03-13 Sat 11:24]--[2021-03-13 Sat 12:53] =&gt;  1:29
+:END:
+- Fill in timesheet :work:
+:LOGBOOK:
+CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:40] =&gt;  0:16
+:END:
+</code></pre></div><h2 id="reporting">Reporting</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">#+BEGIN: clocktable :scope file :maxlevel 3 :tags t :match &#34;work|client1&#34; :header &#34;#+TBLNAME: timetable\n&#34;
+#+TBLNAME: timetable
+| Tags    | Headline                              | Time |      |      |     T |
+|---------+---------------------------------------+------+------+------+-------|
+|         | *Total time*                            | *2:30* |      |      |       |
+|---------+---------------------------------------+------+------+------+-------|
+|         | Report with filtered tags and sum...  | 2:30 |      |      |       |
+|         | \_  Input data                        |      | 2:30 |      |       |
+| client1 | \_    Update document for client      |      |      | 0:45 | 00:45 |
+| work    | \_    Create my awesome note for work |      |      | 1:29 | 01:29 |
+| work    | \_    Fill in timesheet               |      |      | 0:16 | 00:16 |
+#+TBLFM: $6=&#39;(convert-org-clocktable-time-to-hhmm $5)::@1$6=&#39;(format &#34;%s&#34; &#34;T&#34;)
+#+END:
+</code></pre></div><ul>
+<li><strong>:tags t</strong> used to display the tags</li>
+<li><strong>:match</strong> &ldquo;work|client'= used to filter the tags of interest</li>
+<li><strong>:header</strong> &ldquo;#+TBLNAME: timetable\n&rdquo;= used to name our table so we can process it later on using <a href="https://github.com/tbanel/orgaggregate">Org Aggregate</a></li>
+<li><strong>#+TBLFM:</strong> is using a function to correctly display time in <strong>hh:mm</strong> so we can use it later on to sum. <strong>Note:</strong> this is required as the package <a href="https://github.com/tbanel/orgaggregate">Org Aggregate</a> that we are using to aggregate data is expecting the time in a <strong>hh:mm</strong> format</li>
+</ul>
+<!-- raw HTML omitted -->
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun convert-org-clocktable-time-to-hhmm (time-string)
+  <span style="color:#e6db74">&#34;Converts a time string to HH:MM&#34;</span>
+  (if (<span style="color:#a6e22e">&gt;</span> (<span style="color:#a6e22e">length</span> time-string) <span style="color:#ae81ff">0</span>)
+      (progn
+        (let* ((s (s-replace <span style="color:#e6db74">&#34;*&#34;</span> <span style="color:#e6db74">&#34;&#34;</span> time-string))
+               (splits (split-string s <span style="color:#e6db74">&#34;:&#34;</span>))
+               (hours (<span style="color:#a6e22e">car</span> splits))
+               (minutes (<span style="color:#a6e22e">car</span> (last splits)))
+               )
+          (if (<span style="color:#a6e22e">=</span> (<span style="color:#a6e22e">length</span> hours) <span style="color:#ae81ff">1</span>)
+              (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;0%s:%s&#34;</span> hours minutes)
+            (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;%s:%s&#34;</span> hours minutes))))
+    time-string))</code></pre></td></tr></table>
+</div>
+</div>
+<p>Use <a href="https://github.com/tbanel/orgaggregate">Org Aggregate</a> to sum the times of the tags</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">#+BEGIN: aggregate :table &#34;timetable&#34; :cols &#34;Tags sum(T);U&#34; :cond (not (equal Tags &#34;&#34;))
+#+TBLNAME: timetable
+| Tags    | sum(T);U |
+|---------+----------|
+| client1 |    00:45 |
+| work    |    01:45 |
+#+END:
+</code></pre></div><ul>
+<li><strong>:cond</strong> used to filter empty rows from the data input!</li>
+</ul>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2021-03-16
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Get pretty org-bullets in Doom Emacs</h1>
         </div>
     </div>
     <div class="row">
         <div class="twelve columns">
-            <p>When installing <a href="https://github.com/hlissner/doom-emacs">Doom Emacs</a> and using org-mode the defaults bullets are <code>*</code>. In order to get some fancy bullets the following steps need to be taken.</p>
+            <p>When installing <a href="https://github.com/hlissner/doom-emacs">Doom Emacs</a> and using org-mode the defaults bullets are `*`. In order to get some fancy bullets the following steps need to be taken.</p>
 <ol>
-<li>Add the org-mode <code>+pretty</code> flag to your org settings in <code>init.el</code> To read more on the available flags check the [org-mode Doom Emacs module <code>lang/org</code><a href="https://github.com/hlissner/doom-emacs/tree/develop/modules/lang/org#module-flags">doom-emacs-org-mode-flags</a></li>
+<li>Add the org-mode <code>+pretty</code> flag to your org settings in <code>init.el</code> To read more on the available flags check the <a href="https://github.com/hlissner/doom-emacs/tree/develop/modules/lang/org#module-flags">org-mode Doom Emacs module `lang/org`</a></li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="ss">:lang</span>
-<span class="p">(</span><span class="nv">org</span> <span class="nv">+pretty</span> <span class="p">)</span> <span class="c1">; organize your plain life in plain text</span>
-</code></pre></div><ol start="2">
-<li>Set the bullets you want to use in your <code>config.el</code></li>
-</ol>
-<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="k">setq</span>
-    <span class="nv">org-superstar-headline-bullets-list</span> <span class="o">&#39;</span><span class="p">(</span><span class="s">&#34;⁖&#34;</span> <span class="s">&#34;◉&#34;</span> <span class="s">&#34;○&#34;</span> <span class="s">&#34;✸&#34;</span> <span class="s">&#34;✿&#34;</span><span class="p">)</span>
-<span class="p">)</span>
-</code></pre></div><ol start="3">
-<li>Reload your Doom configuration and you should be fine :)</li>
-</ol>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">:lang
+(org +pretty ) <span style="color:#75715e">; organize your plain life in plain text</span>
+</code></pre></div><!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(setq
+    org-superstar-headline-bullets-list <span style="color:#f92672">&#39;</span>(<span style="color:#e6db74">&#34;⁖&#34;</span> <span style="color:#e6db74">&#34;◉&#34;</span> <span style="color:#e6db74">&#34;○&#34;</span> <span style="color:#e6db74">&#34;✸&#34;</span> <span style="color:#e6db74">&#34;✿&#34;</span>)
+)
+</code></pre></div><!-- raw HTML omitted -->
 
         </div>
     </div>
@@ -124,7 +226,7 @@ if (!doNotTrack) {
                 Published on 2020-10-16
                 <span class="post-meta-info-taxonomy">
                     using tags:
-                        <a href="/tags/emacs">emacs</a>, <a href="/tags/doom">doom</a>, <a href="/tags/org">org</a>
+                        <a href="/tags/emacs">emacs</a>, <a href="/tags/doom">doom</a>, <a href="/tags/org">org</a>, <a href="/tags/orgmode">orgmode</a>
                 </span>
             </div>
         </div>
@@ -145,39 +247,39 @@ if (!doNotTrack) {
 or use the excellent alternative called <code>Path Finder</code>. (<a href="https://cocoatech.com/#/">https://cocoatech.com/#/</a>)</p>
 <p>To reveal your files in the Finder or Path Finder create a <code>commands.py</code> in <code>~/.config/ranger</code> and paste the following
 code.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">ranger.api.commands</span> <span class="kn">import</span> <span class="n">Command</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> ranger.api.commands <span style="color:#f92672">import</span> Command
 
-<span class="k">class</span> <span class="nc">show_files_in_path_finder</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
-    <span class="s2">&#34;&#34;&#34;
-</span><span class="s2">    :show_files_in_path_finder
-</span><span class="s2">
-</span><span class="s2">    Present selected files in finder
-</span><span class="s2">    &#34;&#34;&#34;</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">show_files_in_path_finder</span>(Command):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    :show_files_in_path_finder
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Present selected files in finder
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
 
-    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">import</span> <span class="nn">subprocess</span>
-        <span class="n">files</span> <span class="o">=</span> <span class="s2">&#34;,&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">file</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">thistab</span><span class="o">.</span><span class="n">get_selection</span><span class="p">()])</span>
-        <span class="n">reveal_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Path Finder</span><span class="se">\&#34;</span><span class="s2"> to reveal {{{0}}}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
-        <span class="n">activate_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Path Finder</span><span class="se">\&#34;</span><span class="s2"> to activate&#34;</span>
-        <span class="n">script</span> <span class="o">=</span> <span class="s2">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reveal_script</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
-        <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&#34;osascript&#34;</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">reveal_script</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">])</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
+        <span style="color:#f92672">import</span> subprocess
+        files <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">.</span>join([<span style="color:#e6db74">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span style="color:#f92672">.</span>format(file<span style="color:#f92672">.</span>path) <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>thistab<span style="color:#f92672">.</span>get_selection()])
+        reveal_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Path Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to reveal {{{0}}}&#34;</span><span style="color:#f92672">.</span>format(files)
+        activate_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Path Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to activate&#34;</span>
+        script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span style="color:#f92672">.</span>format(reveal_script, activate_script)
+        self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>notify(script)
+        subprocess<span style="color:#f92672">.</span>check_output([<span style="color:#e6db74">&#34;osascript&#34;</span>, <span style="color:#e6db74">&#34;-e&#34;</span>, reveal_script, <span style="color:#e6db74">&#34;-e&#34;</span>, activate_script])
 
-<span class="k">class</span> <span class="nc">show_files_in_finder</span><span class="p">(</span><span class="n">Command</span><span class="p">):</span>
-    <span class="s2">&#34;&#34;&#34;
-</span><span class="s2">    :show_files_in_finder
-</span><span class="s2">
-</span><span class="s2">    Present selected files in finder
-</span><span class="s2">    &#34;&#34;&#34;</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">show_files_in_finder</span>(Command):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    :show_files_in_finder
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Present selected files in finder
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
 
-    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">import</span> <span class="nn">subprocess</span>
-        <span class="n">files</span> <span class="o">=</span> <span class="s2">&#34;,&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">file</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">thistab</span><span class="o">.</span><span class="n">get_selection</span><span class="p">()])</span>
-        <span class="n">reveal_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Finder</span><span class="se">\&#34;</span><span class="s2"> to reveal {{{0}}}&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
-        <span class="n">activate_script</span> <span class="o">=</span> <span class="s2">&#34;tell application </span><span class="se">\&#34;</span><span class="s2">Finder</span><span class="se">\&#34;</span><span class="s2"> to set frontmost to true&#34;</span>
-        <span class="n">script</span> <span class="o">=</span> <span class="s2">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reveal_script</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fm</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
-        <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&#34;osascript&#34;</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">reveal_script</span><span class="p">,</span> <span class="s2">&#34;-e&#34;</span><span class="p">,</span> <span class="n">activate_script</span><span class="p">])</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
+        <span style="color:#f92672">import</span> subprocess
+        files <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">.</span>join([<span style="color:#e6db74">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span style="color:#f92672">.</span>format(file<span style="color:#f92672">.</span>path) <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>thistab<span style="color:#f92672">.</span>get_selection()])
+        reveal_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to reveal {{{0}}}&#34;</span><span style="color:#f92672">.</span>format(files)
+        activate_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to set frontmost to true&#34;</span>
+        script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span style="color:#f92672">.</span>format(reveal_script, activate_script)
+        self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>notify(script)
+        subprocess<span style="color:#f92672">.</span>check_output([<span style="color:#e6db74">&#34;osascript&#34;</span>, <span style="color:#e6db74">&#34;-e&#34;</span>, reveal_script, <span style="color:#e6db74">&#34;-e&#34;</span>, activate_script])
 </code></pre></div><p>Restart Ranger and now you can execute the commands :show_files_in_pathfinder or :show_files_in_finder.</p>
 
         </div>
@@ -239,77 +341,77 @@ code.</p>
             <p>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..</p>
 <p>Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.</p>
 <p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ grails create-app docker-test --profile rest-api
-</code></pre></div><p>After the Grails application has been created, we will need to add the following files to our project.</p>
+<pre><code class="language-console" data-lang="console">$ grails create-app docker-test --profile rest-api
+</code></pre><p>After the Grails application has been created, we will need to add the following files to our project.</p>
 <ul>
 <li>Dockerfile (determines what our Docker image will contain)</li>
 <li>docker-entrypoint.sh (script that is responsible for starting our Grails application)</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile">// file: /src/main/docker/Dockerfile<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">FROM</span><span class="s"> openjdk:latest</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># set environment options</span><span class="err">
-</span><span class="err"></span><span class="k">ENV</span> <span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">&#34;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&#34;</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">RUN</span> mkdir -p /app<span class="err">
-</span><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /app</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">COPY</span> /app/application.jar application.jar<span class="err">
-</span><span class="err"></span><span class="k">COPY</span> /app/docker-entrypoint.sh docker-entrypoint.sh<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Set file permissions</span><span class="err">
-</span><span class="err"></span><span class="k">RUN</span> chmod +x /app/docker-entrypoint.sh<span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="c"># Set start script as enrypoint</span><span class="err">
-</span><span class="err"></span><span class="k">ENTRYPOINT</span> <span class="p">[</span><span class="s2">&#34;./docker-entrypoint.sh&#34;</span><span class="p">]</span><span class="err">
-</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">// file: /src/main/docker/app/docker-entrypoint.sh
-<span class="c1">#!/bin/bash</span>
-<span class="nb">set</span> -e
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile">// file: /src/main/docker/Dockerfile<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:latest</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># set environment options</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> JAVA_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /app<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /app</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /app/application.jar application.jar<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /app/docker-entrypoint.sh docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set file permissions</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chmod +x /app/docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set start script as enrypoint</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;./docker-entrypoint.sh&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">// file: /src/main/docker/app/docker-entrypoint.sh
+<span style="color:#75715e">#!/bin/bash</span>
+set -e
 
-<span class="nb">exec</span> java <span class="si">${</span><span class="nv">JAVA_OPTS</span><span class="si">}</span> -jar application.jar <span class="nv">$@</span>
-<span class="c1"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span>
+exec java <span style="color:#e6db74">${</span>JAVA_OPTS<span style="color:#e6db74">}</span> -jar application.jar $@
+<span style="color:#75715e"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span>
 </code></pre></div><p>Next step is to add the tasks to our <code>build.gradle</code> so it can generate the Docker image.</p>
 <p>So add the following snippet to your <code>build.gradle</code> file!</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="c1">// file: /build.gradle
-</span><span class="c1"></span><span class="n">String</span> <span class="nf">getDockerImageName</span><span class="o">()</span> <span class="o">{</span>
-  <span class="s2">&#34;docker-test&#34;</span>
-<span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#75715e">// file: /build.gradle
+</span><span style="color:#75715e"></span>String <span style="color:#a6e22e">getDockerImageName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  <span style="color:#e6db74">&#34;docker-test&#34;</span>
+<span style="color:#f92672">}</span>
 
-<span class="n">task</span> <span class="nf">buildDockerImage</span><span class="o">(</span><span class="nl">type:</span><span class="n">Exec</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;docker&#39;</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Build a docker image&#39;</span>
-    <span class="n">commandLine</span> <span class="s1">&#39;docker&#39;</span><span class="o">,</span> <span class="s1">&#39;build&#39;</span><span class="o">,</span> <span class="s1">&#39;-f&#39;</span><span class="o">,</span> <span class="s1">&#39;build/docker/Dockerfile&#39;</span><span class="o">,</span> <span class="s1">&#39;-t&#39;</span><span class="o">,</span> <span class="s2">&#34;${dockerImageName}&#34;</span><span class="o">,</span> <span class="s1">&#39;build/docker&#39;</span>
+task <span style="color:#a6e22e">buildDockerImage</span><span style="color:#f92672">(</span>type:Exec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;docker&#39;</span>
+    description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Build a docker image&#39;</span>
+    commandLine <span style="color:#e6db74">&#39;docker&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-f&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker/Dockerfile&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-t&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${dockerImageName}&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker&#39;</span>
 
-    <span class="n">doFirst</span> <span class="o">{</span>
-        <span class="n">println</span> <span class="s2">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
-        <span class="cm">/* copy the generate war file to /build/docker/app */</span>
-        <span class="n">copy</span> <span class="o">{</span>
-            <span class="n">from</span> <span class="n">war</span><span class="o">.</span><span class="na">archivePath</span>
-            <span class="n">into</span> <span class="s1">&#39;build/docker/app/&#39;</span>
-        <span class="o">}</span>
-        <span class="cm">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
-        <span class="n">copy</span> <span class="o">{</span>
-            <span class="n">from</span> <span class="s1">&#39;src/main/docker/app/&#39;</span>
-            <span class="n">into</span> <span class="s1">&#39;build/docker/app&#39;</span>
-        <span class="o">}</span>
-        <span class="cm">/* copy Dockerfile from src/main/docker into the build/docker */</span>
-        <span class="n">copy</span> <span class="o">{</span>
-            <span class="n">from</span><span class="o">(</span><span class="s1">&#39;src/main/docker/&#39;</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">include</span> <span class="s1">&#39;Dockerfile&#39;</span>
-            <span class="o">}</span>
-            <span class="n">into</span> <span class="s1">&#39;build/docker&#39;</span>
-        <span class="o">}</span>
-        <span class="cm">/* rename war file to application.jar */</span>
-        <span class="n">file</span><span class="o">(</span><span class="s2">&#34;build/docker/app/${war.archiveName}&#34;</span><span class="o">).</span><span class="na">renameTo</span><span class="o">(</span><span class="s2">&#34;build/docker/app/application.jar&#34;</span><span class="o">)</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+    doFirst <span style="color:#f92672">{</span>
+        println <span style="color:#e6db74">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
+        <span style="color:#75715e">/* copy the generate war file to /build/docker/app */</span>
+        copy <span style="color:#f92672">{</span>
+            from war<span style="color:#f92672">.</span><span style="color:#a6e22e">archivePath</span>
+            into <span style="color:#e6db74">&#39;build/docker/app/&#39;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
+        copy <span style="color:#f92672">{</span>
+            from <span style="color:#e6db74">&#39;src/main/docker/app/&#39;</span>
+            into <span style="color:#e6db74">&#39;build/docker/app&#39;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">/* copy Dockerfile from src/main/docker into the build/docker */</span>
+        copy <span style="color:#f92672">{</span>
+            from<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;src/main/docker/&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                include <span style="color:#e6db74">&#39;Dockerfile&#39;</span>
+            <span style="color:#f92672">}</span>
+            into <span style="color:#e6db74">&#39;build/docker&#39;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">/* rename war file to application.jar */</span>
+        file<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;build/docker/app/${war.archiveName}&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">renameTo</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;build/docker/app/application.jar&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><p>Now that we have everyting in place we can build the image and start the container,</p>
 <p>Create the docker image using assemble target and buildDockerImage</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ ./gradlew assemble buildDockerImage
-</code></pre></div><p>Run a container based on the previous created image</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">$ docker run -it --rm -p 8080:8080 docker-test
-</code></pre></div><p>This will run the container in interactive mode (<code>-it</code>) and the container will be removed when we stop the container (<code>--rm</code>). Port 8080 in the container will be available on port 8080 on your host system (<code>-p 8080:8080</code>).</p>
+<pre><code class="language-console" data-lang="console">$ ./gradlew assemble buildDockerImage
+</code></pre><p>Run a container based on the previous created image</p>
+<pre><code class="language-console" data-lang="console">$ docker run -it --rm -p 8080:8080 docker-test
+</code></pre><p>This will run the container in interactive mode (<code>-it</code>) and the container will be removed when we stop the container (<code>--rm</code>). Port 8080 in the container will be available on port 8080 on your host system (<code>-p 8080:8080</code>).</p>
 <p>This will run the specified container and the endpoint will be available using your browser. Just visit http://localhost:8080</p>
 
         </div>
@@ -321,87 +423,6 @@ code.</p>
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/grails">grails</a>, <a href="/tags/docker">docker</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Creating/Pushing Docker images using Gradle without plugins</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.</p>
-<p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
-<h2 id="creating-an-image">Creating an image</h2>
-<p>The following snippet will create a Docker image using the task <code>gradle buildDockerImage</code></p>
-<pre><code>- application layout
-| build.gradle
-| &gt; src
-| &gt;- main
-| &gt;-- docker (contains a Dockerfile)
-| &gt;--- app (contains data that can be used in your Dockerfile)
-</code></pre>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="cm">/*
-</span><span class="cm">    You can put some logic in the getDockerImageName to determine how your
-</span><span class="cm">    Docker image should be created.
-</span><span class="cm">*/</span>
-<span class="n">String</span> <span class="nf">getDockerImageName</span><span class="o">()</span> <span class="o">{</span>
-  <span class="s2">&#34;my-first-docker-image&#34;</span>
-<span class="o">}</span>
-
-<span class="cm">/*
-</span><span class="cm">    Execute a docker build using commandline pointing to our Dockerfile that
-</span><span class="cm">    has been copied to /build/docker/.
-</span><span class="cm">*/</span>
-<span class="n">task</span> <span class="nf">buildDockerImage</span><span class="o">(</span><span class="nl">type:</span><span class="n">Exec</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;docker&#39;</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Build a docker image&#39;</span>
-    <span class="n">commandLine</span> <span class="s1">&#39;docker&#39;</span><span class="o">,</span> <span class="s1">&#39;build&#39;</span><span class="o">,</span> <span class="s1">&#39;-f&#39;</span><span class="o">,</span> <span class="s1">&#39;build/docker/Dockerfile&#39;</span><span class="o">,</span> <span class="s1">&#39;-t&#39;</span><span class="o">,</span> <span class="s2">&#34;${dockerImageName}&#34;</span><span class="o">,</span> <span class="s1">&#39;build/docker&#39;</span>
-
-    <span class="n">doFirst</span> <span class="o">{</span>
-        <span class="n">println</span> <span class="s2">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
-        <span class="cm">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
-        <span class="n">copy</span> <span class="o">{</span>
-            <span class="n">from</span> <span class="s1">&#39;src/main/docker/app/&#39;</span>
-            <span class="n">into</span> <span class="s1">&#39;build/docker/app&#39;</span>
-        <span class="o">}</span>
-        <span class="cm">/* copy Dockerfile from src/main/docker into the build/docker */</span>
-        <span class="n">copy</span> <span class="o">{</span>
-            <span class="n">from</span><span class="o">(</span><span class="s1">&#39;src/main/docker/&#39;</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">include</span> <span class="s1">&#39;Dockerfile&#39;</span>
-            <span class="o">}</span>
-            <span class="n">into</span> <span class="s1">&#39;build/docker&#39;</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><h2 id="pushing-an-image">pushing an image</h2>
-<p>Pushing an image without using plugins is just as easy.</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pushDockerImage</span><span class="o">(</span><span class="nl">type:</span> <span class="n">Exec</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;docker&#39;</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Push a docker image&#39;</span>
-    <span class="n">commandLine</span> <span class="s1">&#39;docker&#39;</span><span class="o">,</span> <span class="s1">&#39;push&#39;</span><span class="o">,</span> <span class="s2">&#34;${dockerImageName}&#34;</span>
-
-    <span class="n">doFirst</span> <span class="o">{</span>
-        <span class="n">println</span> <span class="s2">&#34;&gt;&gt; Pushing image: ${dockerImageName}&#34;</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div><p>Using this approach without using unneeded Gradle plugins resulted in a an easy way to create containers on different platforms.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2016-11-24
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/docker">docker</a>, <a href="/tags/gradle">gradle</a>, <a href="/tags/groovy">groovy</a>
                 </span>
             </div>
         </div>
@@ -465,7 +486,7 @@ code.</p>
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

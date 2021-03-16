@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -100,35 +96,35 @@ if (!doNotTrack) {
         <div class="twelve columns">
             <p>The <a href="http://grails.org/plugin/spock">Spock</a> &amp; <a href="http://grails.org/plugin/build-test-data">Build Test Data</a> plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!</p>
 <p>When testing constraints on an object it can be used as follows:</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="kd">class</span> <span class="nc">Foo</span> <span class="o">{</span>
-    <span class="n">String</span> <span class="n">name</span>   <span class="c1">// name of foo
-</span><span class="c1"></span>    <span class="n">Integer</span> <span class="n">age</span>   <span class="c1">// age of foo
-</span><span class="c1"></span>
-    <span class="kd">static</span> <span class="n">constraints</span> <span class="o">=</span> <span class="o">{</span>
-        <span class="n">name</span> <span class="nl">nullable:</span> <span class="kc">false</span><span class="o">,</span> <span class="nl">blank:</span> <span class="kc">false</span> <span class="c1">// name may never be nullable or blank
-</span><span class="c1"></span>        <span class="n">age</span> <span class="nl">nullable:</span> <span class="kc">true</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span> <span style="color:#f92672">{</span>
+    String name   <span style="color:#75715e">// name of foo
+</span><span style="color:#75715e"></span>    Integer age   <span style="color:#75715e">// age of foo
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">static</span> constraints <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+        name nullable: <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> blank: <span style="color:#66d9ef">false</span> <span style="color:#75715e">// name may never be nullable or blank
+</span><span style="color:#75715e"></span>        age nullable: <span style="color:#66d9ef">true</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><p>And the Spock test</p>
-<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="nd">@Build</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
-<span class="nd">@TestFor</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
-<span class="kd">class</span> <span class="nc">FooSpec</span> <span class="kd">extends</span> <span class="n">Specification</span> <span class="o">{</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#a6e22e">@Build</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@TestFor</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FooSpec</span> <span style="color:#66d9ef">extends</span> Specification <span style="color:#f92672">{</span>
 
-    <span class="kt">def</span> <span class="s2">&#34;Name of Foo must exist&#34;</span><span class="o">()</span> <span class="o">{</span>
-        <span class="nl">given:</span> <span class="s2">&#34;setting up the constraints&#34;</span>
-        <span class="n">mockForConstraintsTests</span><span class="o">(</span><span class="n">Foo</span><span class="o">)</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#e6db74">&#34;Name of Foo must exist&#34;</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        given: <span style="color:#e6db74">&#34;setting up the constraints&#34;</span>
+        mockForConstraintsTests<span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
 
-        <span class="nl">when:</span> <span class="s2">&#34;creating a Foo&#34;</span>
-        <span class="n">Foo</span> <span class="n">foo</span> <span class="o">=</span> <span class="n">Foo</span><span class="o">.</span><span class="na">buildWithoutSave</span><span class="o">()</span>
+        when: <span style="color:#e6db74">&#34;creating a Foo&#34;</span>
+        Foo foo <span style="color:#f92672">=</span> Foo<span style="color:#f92672">.</span><span style="color:#a6e22e">buildWithoutSave</span><span style="color:#f92672">()</span>
 
-        <span class="nl">then:</span> <span class="s2">&#34;validation should trigger&#34;</span>
-        <span class="n">assertFalse</span> <span class="n">foo</span><span class="o">.</span><span class="na">validate</span><span class="o">()</span>
+        then: <span style="color:#e6db74">&#34;validation should trigger&#34;</span>
+        assertFalse foo<span style="color:#f92672">.</span><span style="color:#a6e22e">validate</span><span style="color:#f92672">()</span>
 
-        <span class="nl">and:</span> <span class="s2">&#34;validation error should be on the value field&#34;</span>
-        <span class="k">assert</span> <span class="n">foo</span><span class="o">.</span><span class="na">errors</span><span class="o">.</span><span class="na">allErrors</span><span class="o">.</span><span class="na">first</span><span class="o">().</span><span class="na">field</span> <span class="o">==</span> <span class="s2">&#34;name&#34;</span>
-    <span class="o">}</span>
+        and: <span style="color:#e6db74">&#34;validation error should be on the value field&#34;</span>
+        <span style="color:#66d9ef">assert</span> foo<span style="color:#f92672">.</span><span style="color:#a6e22e">errors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">allErrors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">first</span><span style="color:#f92672">().</span><span style="color:#a6e22e">field</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;name&#34;</span>
+    <span style="color:#f92672">}</span>
 
-<span class="o">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div>
         </div>
     </div>
@@ -183,7 +179,7 @@ if (!doNotTrack) {
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>

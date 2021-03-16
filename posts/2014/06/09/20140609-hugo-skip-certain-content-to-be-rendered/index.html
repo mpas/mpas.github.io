@@ -42,10 +42,6 @@ if (!doNotTrack) {
   <link rel="stylesheet" href="/fontawesome/all.min.css">
  
   
-  <script src="/prism/prism.js"></script>
-  <link rel="stylesheet" href="/prism/prism.css">
-  
-  
   <link rel="stylesheet" href="/css/custom.css">
   
   
@@ -101,12 +97,12 @@ if (!doNotTrack) {
             <p>When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.</p>
 <p>Example:
 You want to only render contenttype &lsquo;post&rsquo;  use the following code in your template:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="p">{{</span> <span class="k">if</span> <span class="nx">eq</span> <span class="p">.</span><span class="nx">Type</span> <span class="s">&#34;post&#34;</span> <span class="p">}}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">{{ <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">eq</span> .<span style="color:#a6e22e">Type</span> <span style="color:#e6db74">&#34;post&#34;</span> }}
 
-    <span class="p">{{</span> <span class="p">.</span><span class="nx">Title</span> <span class="p">}}</span>
-    <span class="p">{{</span> <span class="p">.</span><span class="nx">Content</span> <span class="p">}}</span>
+    {{ .<span style="color:#a6e22e">Title</span> }}
+    {{ .<span style="color:#a6e22e">Content</span> }}
 
-<span class="p">{{</span> <span class="nx">end</span> <span class="p">}}</span>
+{{ <span style="color:#a6e22e">end</span> }}
 </code></pre></div>
         </div>
     </div>
@@ -161,7 +157,7 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
         </div>
 
         <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2020 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
         </div>
     </div>
 </footer>
