@@ -12,6 +12,10 @@
   <meta name="robots" content="index,follow">
 
   
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({startOnLoad:true});</script>
+
+  
   
 <script type="application/javascript">
 var doNotTrack = false;
@@ -25,7 +29,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -88,6 +91,106 @@ if (!doNotTrack) {
             
             
                 
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Dockerize your Grails application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..</p>
+<p>Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.</p>
+<p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
+<pre><code class="language-console" data-lang="console">$ grails create-app docker-test --profile rest-api
+</code></pre><p>After the Grails application has been created, we will need to add the following files to our project.</p>
+<ul>
+<li>Dockerfile (determines what our Docker image will contain)</li>
+<li>docker-entrypoint.sh (script that is responsible for starting our Grails application)</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile">// file: /src/main/docker/Dockerfile<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:latest</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># set environment options</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> JAVA_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /app<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /app</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /app/application.jar application.jar<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /app/docker-entrypoint.sh docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set file permissions</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chmod +x /app/docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set start script as enrypoint</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;./docker-entrypoint.sh&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">// file: /src/main/docker/app/docker-entrypoint.sh
+<span style="color:#75715e">#!/bin/bash</span>
+set -e
+
+exec java <span style="color:#e6db74">${</span>JAVA_OPTS<span style="color:#e6db74">}</span> -jar application.jar $@
+<span style="color:#75715e"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span>
+</code></pre></div><p>Next step is to add the tasks to our <code>build.gradle</code> so it can generate the Docker image.</p>
+<p>So add the following snippet to your <code>build.gradle</code> file!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#75715e">// file: /build.gradle
+</span><span style="color:#75715e"></span>String <span style="color:#a6e22e">getDockerImageName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+  <span style="color:#e6db74">&#34;docker-test&#34;</span>
+<span style="color:#f92672">}</span>
+
+task <span style="color:#a6e22e">buildDockerImage</span><span style="color:#f92672">(</span>type:Exec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;docker&#39;</span>
+    description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Build a docker image&#39;</span>
+    commandLine <span style="color:#e6db74">&#39;docker&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-f&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker/Dockerfile&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-t&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${dockerImageName}&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker&#39;</span>
+
+    doFirst <span style="color:#f92672">{</span>
+        println <span style="color:#e6db74">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
+        <span style="color:#75715e">/* copy the generate war file to /build/docker/app */</span>
+        copy <span style="color:#f92672">{</span>
+            from war<span style="color:#f92672">.</span><span style="color:#a6e22e">archivePath</span>
+            into <span style="color:#e6db74">&#39;build/docker/app/&#39;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
+        copy <span style="color:#f92672">{</span>
+            from <span style="color:#e6db74">&#39;src/main/docker/app/&#39;</span>
+            into <span style="color:#e6db74">&#39;build/docker/app&#39;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">/* copy Dockerfile from src/main/docker into the build/docker */</span>
+        copy <span style="color:#f92672">{</span>
+            from<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;src/main/docker/&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                include <span style="color:#e6db74">&#39;Dockerfile&#39;</span>
+            <span style="color:#f92672">}</span>
+            into <span style="color:#e6db74">&#39;build/docker&#39;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">/* rename war file to application.jar */</span>
+        file<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;build/docker/app/${war.archiveName}&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">renameTo</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;build/docker/app/application.jar&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Now that we have everyting in place we can build the image and start the container,</p>
+<p>Create the docker image using assemble target and buildDockerImage</p>
+<pre><code class="language-console" data-lang="console">$ ./gradlew assemble buildDockerImage
+</code></pre><p>Run a container based on the previous created image</p>
+<pre><code class="language-console" data-lang="console">$ docker run -it --rm -p 8080:8080 docker-test
+</code></pre><p>This will run the container in interactive mode (<code>-it</code>) and the container will be removed when we stop the container (<code>--rm</code>). Port 8080 in the container will be available on port 8080 on your host system (<code>-p 8080:8080</code>).</p>
+<p>This will run the specified container and the endpoint will be available using your browser. Just visit http://localhost:8080</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2016-11-25
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/docker">docker</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
@@ -480,36 +583,6 @@ are available on port <code>9090</code>/metrics</p>
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/grails">grails</a>, <a href="/tags/springboot">springboot</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Accessing localhost from a Docker Container using native Docker for Mac</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Ever had a need to access something from within a <a href="https://www.docker.com/">Docker</a> container that runs on the host system?</p>
-<p>When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.</p>
-<p>A solution for this isto define a new local loopback to your localhost</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo ifconfig lo0 alias 172.16.123.1
-</code></pre></div><p>This will define a loopback network interface that points to your localhost. When you need to access the localhost you can use this ip.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2016-11-01
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/docker">docker</a>, <a href="/tags/osx">osx</a>, <a href="/tags/mac">mac</a>
                 </span>
             </div>
         </div>

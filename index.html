@@ -12,6 +12,10 @@
   <meta name="robots" content="index,follow">
 
   
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({startOnLoad:true});</script>
+
+  
   
 <script type="application/javascript">
 var doNotTrack = false;
@@ -25,7 +29,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -88,6 +91,103 @@ if (!doNotTrack) {
             
             
                 
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Paste image from clipboard directly in an org file</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Personally I really like using org-mode files for creating documentation and presentations.
+When working with screenshots my normal workflows always has been.</p>
+<ol>
+<li>Capture screenshot to clipboard</li>
+<li>Save the screenshot to a relative <code>./images</code> folder and give it a descriptive name.</li>
+<li>Manually create link to the screenshot</li>
+</ol>
+<p>This works ok but after a while you get the feel that the whole process can be automated.</p>
+<p>The following function can help in automating the whole process.</p>
+<ol>
+<li>Capture screenshot</li>
+<li>In your org-document paste using C-M-y (or call <code>my/insert-clipboard-image</code>) and automatically add the screenshot to an =./images- directory and insert the link to the image.</li>
+</ol>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="color:#75715e">;; Overview</span>
+<span style="color:#75715e">;; --------</span>
+<span style="color:#75715e">;; Inserts an image from the clipboard by prompting the user for a filename.</span>
+<span style="color:#75715e">;; Default extension for the pasted filename is .png</span>
+
+<span style="color:#75715e">;; A ./images directory will be created relative to the current Org-mode document to store the images.</span>
+
+<span style="color:#75715e">;; The default name format of the pasted image is:</span>
+<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;image-filename&gt;.png</span>
+
+<span style="color:#75715e">;; Important</span>
+<span style="color:#75715e">;; --------</span>
+<span style="color:#75715e">;; This function depends on &#39;pngpaste&#39; to paste the clipboard image</span>
+<span style="color:#75715e">;; -&gt; $ brew install pngpaste</span>
+
+<span style="color:#75715e">;; Basic Customization</span>
+<span style="color:#75715e">;; -------------------</span>
+<span style="color:#75715e">;; Include the current Org-mode header as part of the image name.</span>
+<span style="color:#75715e">;; (setq my/insert-clipboard-image-use-headername t)</span>
+<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;headername&gt;_-_&lt;image-filename&gt;.png</span>
+
+<span style="color:#75715e">;; Include the buffername as part of the image name.</span>
+<span style="color:#75715e">;; (setq my/insert-clipboard-image-use-buffername t)</span>
+<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;buffername&gt;_-_&lt;image-filename&gt;.png</span>
+
+<span style="color:#75715e">;; Full name format</span>
+<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;buffername&gt;_-_&lt;headername&gt;_-_&lt;image-filename&gt;.png</span>
+(defun my/insert-clipboard-image (filename)
+  <span style="color:#e6db74">&#34;Inserts an image from the clipboard&#34;</span>
+  (interactive <span style="color:#e6db74">&#34;sFilename to paste: &#34;</span>)
+  (let ((file
+         (<span style="color:#a6e22e">concat</span>
+          (<span style="color:#a6e22e">file-name-directory</span> <span style="color:#a6e22e">buffer-file-name</span>)
+          <span style="color:#e6db74">&#34;images/&#34;</span>
+          (<span style="color:#a6e22e">format-time-string</span> <span style="color:#e6db74">&#34;%Y%m%d_%H%M%S_-_&#34;</span>)
+          (if (bound-and-true-p my/insert-clipboard-image-use-buffername)
+              (<span style="color:#a6e22e">concat</span> (s-replace <span style="color:#e6db74">&#34;-&#34;</span> <span style="color:#e6db74">&#34;_&#34;</span>
+                                 (<span style="color:#a6e22e">downcase</span> (file-name-sans-extension (<span style="color:#a6e22e">buffer-name</span>)))) <span style="color:#e6db74">&#34;_-_&#34;</span>)
+            <span style="color:#e6db74">&#34;&#34;</span>)
+          (if (bound-and-true-p my/insert-clipboard-image-use-headername)
+              (<span style="color:#a6e22e">concat</span> (s-replace <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#e6db74">&#34;_&#34;</span> (<span style="color:#a6e22e">downcase</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">4</span> (org-heading-components)))) <span style="color:#e6db74">&#34;_-_&#34;</span>)
+            <span style="color:#e6db74">&#34;&#34;</span>)
+          filename <span style="color:#e6db74">&#34;.png&#34;</span>)))
+
+    <span style="color:#75715e">;; create images directory</span>
+    (unless (<span style="color:#a6e22e">file-exists-p</span> (<span style="color:#a6e22e">file-name-directory</span> file))
+      (make-directory (<span style="color:#a6e22e">file-name-directory</span> file)))
+
+    <span style="color:#75715e">;; paste file from clipboard</span>
+    (shell-command (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;pngpaste &#34;</span> file))
+    (<span style="color:#a6e22e">insert</span> (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;[[./images/&#34;</span> (<span style="color:#a6e22e">file-name-nondirectory</span> file) <span style="color:#e6db74">&#34;]]&#34;</span>))))
+
+(map! :desc <span style="color:#e6db74">&#34;Insert clipboard image&#34;</span>
+      :n <span style="color:#e6db74">&#34;C-M-y&#34;</span> <span style="color:#e6db74">&#39;my/insert-clipboard-image</span>)
+</code></pre></div><p>A nice setting in org-mode that also helps when viewing large screenshots is the following:</p>
+<p>This display the taken screenshot in a acceptable format in your org-mode file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(after! org
+  (setq org-image-actual-width (<span style="color:#a6e22e">/</span> (display-pixel-width) <span style="color:#ae81ff">2</span>)))
+</code></pre></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2021-03-29
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/emacs">emacs</a>, <a href="/tags/orgmode">orgmode</a>, <a href="/tags/elisp">elisp</a>, <a href="/tags/screenshot">screenshot</a>, <a href="/tags/image">image</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
@@ -323,106 +423,6 @@ code.</p>
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/infrastructure">infrastructure</a>, <a href="/tags/monitoring">monitoring</a>, <a href="/tags/docker">docker</a>, <a href="/tags/prometheus">prometheus</a>, <a href="/tags/talks">talks</a>, <a href="/tags/devoxx">devoxx</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Dockerize your Grails application</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..</p>
-<p>Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.</p>
-<p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
-<pre><code class="language-console" data-lang="console">$ grails create-app docker-test --profile rest-api
-</code></pre><p>After the Grails application has been created, we will need to add the following files to our project.</p>
-<ul>
-<li>Dockerfile (determines what our Docker image will contain)</li>
-<li>docker-entrypoint.sh (script that is responsible for starting our Grails application)</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile">// file: /src/main/docker/Dockerfile<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:latest</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># set environment options</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> JAVA_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&#34;</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /app<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /app</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /app/application.jar application.jar<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /app/docker-entrypoint.sh docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set file permissions</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chmod +x /app/docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set start script as enrypoint</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;./docker-entrypoint.sh&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">// file: /src/main/docker/app/docker-entrypoint.sh
-<span style="color:#75715e">#!/bin/bash</span>
-set -e
-
-exec java <span style="color:#e6db74">${</span>JAVA_OPTS<span style="color:#e6db74">}</span> -jar application.jar $@
-<span style="color:#75715e"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span>
-</code></pre></div><p>Next step is to add the tasks to our <code>build.gradle</code> so it can generate the Docker image.</p>
-<p>So add the following snippet to your <code>build.gradle</code> file!</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#75715e">// file: /build.gradle
-</span><span style="color:#75715e"></span>String <span style="color:#a6e22e">getDockerImageName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-  <span style="color:#e6db74">&#34;docker-test&#34;</span>
-<span style="color:#f92672">}</span>
-
-task <span style="color:#a6e22e">buildDockerImage</span><span style="color:#f92672">(</span>type:Exec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-    group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;docker&#39;</span>
-    description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Build a docker image&#39;</span>
-    commandLine <span style="color:#e6db74">&#39;docker&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-f&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker/Dockerfile&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-t&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${dockerImageName}&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker&#39;</span>
-
-    doFirst <span style="color:#f92672">{</span>
-        println <span style="color:#e6db74">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
-        <span style="color:#75715e">/* copy the generate war file to /build/docker/app */</span>
-        copy <span style="color:#f92672">{</span>
-            from war<span style="color:#f92672">.</span><span style="color:#a6e22e">archivePath</span>
-            into <span style="color:#e6db74">&#39;build/docker/app/&#39;</span>
-        <span style="color:#f92672">}</span>
-        <span style="color:#75715e">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
-        copy <span style="color:#f92672">{</span>
-            from <span style="color:#e6db74">&#39;src/main/docker/app/&#39;</span>
-            into <span style="color:#e6db74">&#39;build/docker/app&#39;</span>
-        <span style="color:#f92672">}</span>
-        <span style="color:#75715e">/* copy Dockerfile from src/main/docker into the build/docker */</span>
-        copy <span style="color:#f92672">{</span>
-            from<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;src/main/docker/&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                include <span style="color:#e6db74">&#39;Dockerfile&#39;</span>
-            <span style="color:#f92672">}</span>
-            into <span style="color:#e6db74">&#39;build/docker&#39;</span>
-        <span style="color:#f92672">}</span>
-        <span style="color:#75715e">/* rename war file to application.jar */</span>
-        file<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;build/docker/app/${war.archiveName}&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">renameTo</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;build/docker/app/application.jar&#34;</span><span style="color:#f92672">)</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>Now that we have everyting in place we can build the image and start the container,</p>
-<p>Create the docker image using assemble target and buildDockerImage</p>
-<pre><code class="language-console" data-lang="console">$ ./gradlew assemble buildDockerImage
-</code></pre><p>Run a container based on the previous created image</p>
-<pre><code class="language-console" data-lang="console">$ docker run -it --rm -p 8080:8080 docker-test
-</code></pre><p>This will run the container in interactive mode (<code>-it</code>) and the container will be removed when we stop the container (<code>--rm</code>). Port 8080 in the container will be available on port 8080 on your host system (<code>-p 8080:8080</code>).</p>
-<p>This will run the specified container and the endpoint will be available using your browser. Just visit http://localhost:8080</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2016-11-25
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/docker">docker</a>
                 </span>
             </div>
         </div>

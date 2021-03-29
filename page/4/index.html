@@ -12,6 +12,10 @@
   <meta name="robots" content="index,follow">
 
   
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({startOnLoad:true});</script>
+
+  
   
 <script type="application/javascript">
 var doNotTrack = false;
@@ -25,7 +29,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -88,6 +91,120 @@ if (!doNotTrack) {
             
             
                 
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Adding WebSocket/Stomp support to a Spring Boot application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Adding support for <a href="https://en.wikipedia.org/wiki/WebSocket">WebSockets</a> / <a href="https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol">Stomp</a> in a <a href="http://projects.spring.io/spring-boot/">Spring Boot</a> application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.</p>
+<p>The following example will enable a server to send messages to a WebSocket/Stomp client.</p>
+<ul>
+<li>Modify <code>build.gradle</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">dependencies <span style="color:#f92672">{</span>
+    compile<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.springframework.boot:spring-boot-starter-web&#34;</span><span style="color:#f92672">)</span>
+    compile<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.springframework.boot:spring-boot-starter-websocket&#34;</span><span style="color:#f92672">)</span>
+    compile<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.springframework:spring-messaging&#34;</span><span style="color:#f92672">)</span>
+    testCompile<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;junit:junit&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>Create a WebSocket configuration class that holds the configuration</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#a6e22e">@Configuration</span>
+<span style="color:#a6e22e">@EnableWebSocketMessageBroker</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WebSocketConfig</span> <span style="color:#66d9ef">extends</span> AbstractWebSocketMessageBrokerConfigurer <span style="color:#f92672">{</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">registerStompEndpoints</span><span style="color:#f92672">(</span>StompEndpointRegistry registry<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// the endpoint for websocket connections
+</span><span style="color:#75715e"></span>        registry<span style="color:#f92672">.</span><span style="color:#a6e22e">addEndpoint</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/stomp&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">withSockJS</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configureMessageBroker</span><span style="color:#f92672">(</span>MessageBrokerRegistry config<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// use the /topic prefix for outgoing WebSocket communication
+</span><span style="color:#75715e"></span>        config<span style="color:#f92672">.</span><span style="color:#a6e22e">enableSimpleBroker</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/topic&#34;</span><span style="color:#f92672">);</span>
+
+        <span style="color:#75715e">// use the /app prefix for others
+</span><span style="color:#75715e"></span>        config<span style="color:#f92672">.</span><span style="color:#a6e22e">setApplicationDestinationPrefixes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/app&#34;</span><span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Now a client that connects to <code>/stomp</code> endpoint is able to receive WebSocket messages.</p>
+<ul>
+<li>Create a service that is going to send the data to a WebSocket endpoint</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#a6e22e">@Service</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ScheduleTask</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#a6e22e">@Autowired</span>
+    <span style="color:#66d9ef">private</span> SimpMessagingTemplate template<span style="color:#f92672">;</span>
+
+    <span style="color:#75715e">// this will send a message to an endpoint on which a client can subscribe
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Scheduled</span><span style="color:#f92672">(</span>fixedRate <span style="color:#f92672">=</span> <span style="color:#ae81ff">5000</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">trigger</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// sends the message to /topic/message
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">template</span><span style="color:#f92672">.</span><span style="color:#a6e22e">convertAndSend</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/topic/message&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Date: &#34;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">new</span> Date<span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>Create a client that is able to receive the message</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+&lt;<span style="color:#f92672">html</span>&gt;
+&lt;<span style="color:#f92672">head</span>&gt;
+    &lt;<span style="color:#f92672">title</span>&gt;WebSocket Stomp Receiving Example&lt;/<span style="color:#f92672">title</span>&gt;
+&lt;/<span style="color:#f92672">head</span>&gt;
+&lt;<span style="color:#f92672">body</span>&gt;
+    &lt;<span style="color:#f92672">div</span>&gt;
+        &lt;<span style="color:#f92672">h3</span>&gt;Messages:&lt;/<span style="color:#f92672">h3</span>&gt;
+        &lt;<span style="color:#f92672">ol</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;messages&#34;</span>&gt;&lt;/<span style="color:#f92672">ol</span>&gt;
+    &lt;/<span style="color:#f92672">div</span>&gt;
+
+    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/javascript&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;//cdn.jsdelivr.net/jquery/1.11.2/jquery.min.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/javascript&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/javascript&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js&#34;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+
+    &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/javascript&#34;</span>&gt;
+        <span style="color:#a6e22e">$</span>(document).<span style="color:#a6e22e">ready</span>(<span style="color:#66d9ef">function</span>() {
+            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">messageList</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#messages&#34;</span>);
+
+            <span style="color:#75715e">// defined a connection to a new socket endpoint
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">socket</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">SockJS</span>(<span style="color:#e6db74">&#39;/stomp&#39;</span>);
+
+            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">stompClient</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Stomp</span>.<span style="color:#a6e22e">over</span>(<span style="color:#a6e22e">socket</span>);
+
+            <span style="color:#a6e22e">stompClient</span>.<span style="color:#a6e22e">connect</span>({ }, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">frame</span>) {
+                <span style="color:#75715e">// subscribe to the /topic/message endpoint
+</span><span style="color:#75715e"></span>                <span style="color:#a6e22e">stompClient</span>.<span style="color:#a6e22e">subscribe</span>(<span style="color:#e6db74">&#34;/topic/message&#34;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">data</span>) {
+                    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">message</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">body</span>;
+                    <span style="color:#a6e22e">messageList</span>.<span style="color:#a6e22e">append</span>(<span style="color:#e6db74">&#34;&lt;li&gt;&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">message</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&lt;/li&gt;&#34;</span>);
+                });
+            });
+        });
+    &lt;/<span style="color:#f92672">script</span>&gt;
+&lt;/<span style="color:#f92672">body</span>&gt;
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><p>The whole example project  can be downloaded <a href="https://github.com/mpas/spring-boot-websocket-stomp-server-send-example">https://github.com/mpas/spring-boot-websocket-stomp-server-send-example</a></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2015-06-16
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/spring-boot">spring-boot</a>, <a href="/tags/websocket">websocket</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
@@ -435,41 +552,6 @@ $ sudo service docker start
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/docker">docker</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Upgrading from Grails 2.3.8 to 2.4.2</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.</p>
-<pre><code class="language-console" data-lang="console">Error creating bean with name 'grailsApplication' defined in ServletContext resource
-[/WEB-INF/applicationContext.xml]: Cannot resolve reference to
-bean 'grailsResourceLoader' while setting bean property 'grailsResourceLoader';
-</code></pre><p>To solve this issue you need to delete some lines in the <code>&lt;grails-app&gt;/web-app/WEB-INF/applicationContext.xml</code> file.</p>
-<p>Delete the following lines:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;grailsResourceLoader&#34;</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;grailsResourceLoader&#34;</span> <span style="color:#f92672">/&gt;</span>
-
-<span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;grailsResourceLoader&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&#34;</span> <span style="color:#f92672">/&gt;</span>
-</code></pre></div><p>And you should be up and running quickly.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2014-07-04
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/grails">grails</a>
                 </span>
             </div>
         </div>

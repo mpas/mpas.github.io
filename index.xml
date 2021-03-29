@@ -6,7 +6,18 @@
     <description>Recent content on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 16 Mar 2021 10:20:00 +0100</lastBuildDate><atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 29 Mar 2021 18:55:00 +0200</lastBuildDate><atom:link href="http://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Paste image from clipboard directly in an org file</title>
+      <link>http://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-in-an-org-file/</link>
+      <pubDate>Mon, 29 Mar 2021 18:55:00 +0200</pubDate>
+      
+      <guid>http://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-in-an-org-file/</guid>
+      <description>Personally I really like using org-mode files for creating documentation and presentations. When working with screenshots my normal workflows always has been.
+ Capture screenshot to clipboard Save the screenshot to a relative ./images folder and give it a descriptive name. Manually create link to the screenshot  This works ok but after a while you get the feel that the whole process can be automated.
+The following function can help in automating the whole process.</description>
+    </item>
+    
     <item>
       <title>Time tracking with Org Mode and sum time per tag</title>
       <link>http://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</link>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  
+  
+  <meta charset="utf-8">
+  <title>CodeVerse - Paste image from clipboard directly in an org file</title>
+  <meta name="description" content="">
+  <meta name="author" content="Marco Pas">
+
+  <meta name="generator" content="" />
+  <meta name="robots" content="index,follow">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({startOnLoad:true});</script>
+
+  
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-180712180-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  
+  
+  <link rel="stylesheet" href="/skeleton/normalize.css">
+  <link rel="stylesheet" href="/skeleton/skeleton.css">
+  
+  
+  <link rel="stylesheet" href="/fontawesome/all.min.css">
+ 
+  
+  <link rel="stylesheet" href="/css/custom.css">
+  
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+
+</head>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="six columns">
+                <div id="brand">
+                    <a href="http://mpas.github.io">CodeVerse</a>
+                </div>
+            </div>
+            <div class="six columns">
+                <nav class="u-pull-right">
+                    <ul id="navbar">
+                        
+                        
+                            <li >
+                                <a href="/">Blog</a></li>
+                        
+                            <li >
+                                <a href="/posts">Post List</a></li>
+                        
+                            <li >
+                                <a href="/pages/about/">About Me</a></li>
+                        
+                            <li >
+                                <a href="/pages/resume">Resume</a></li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="post-content">
+        <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Paste image from clipboard directly in an org file</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Personally I really like using org-mode files for creating documentation and presentations.
+When working with screenshots my normal workflows always has been.</p>
+<ol>
+<li>Capture screenshot to clipboard</li>
+<li>Save the screenshot to a relative <code>./images</code> folder and give it a descriptive name.</li>
+<li>Manually create link to the screenshot</li>
+</ol>
+<p>This works ok but after a while you get the feel that the whole process can be automated.</p>
+<p>The following function can help in automating the whole process.</p>
+<ol>
+<li>Capture screenshot</li>
+<li>In your org-document paste using C-M-y (or call <code>my/insert-clipboard-image</code>) and automatically add the screenshot to an =./images- directory and insert the link to the image.</li>
+</ol>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="color:#75715e">;; Overview</span>
+<span style="color:#75715e">;; --------</span>
+<span style="color:#75715e">;; Inserts an image from the clipboard by prompting the user for a filename.</span>
+<span style="color:#75715e">;; Default extension for the pasted filename is .png</span>
+
+<span style="color:#75715e">;; A ./images directory will be created relative to the current Org-mode document to store the images.</span>
+
+<span style="color:#75715e">;; The default name format of the pasted image is:</span>
+<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;image-filename&gt;.png</span>
+
+<span style="color:#75715e">;; Important</span>
+<span style="color:#75715e">;; --------</span>
+<span style="color:#75715e">;; This function depends on &#39;pngpaste&#39; to paste the clipboard image</span>
+<span style="color:#75715e">;; -&gt; $ brew install pngpaste</span>
+
+<span style="color:#75715e">;; Basic Customization</span>
+<span style="color:#75715e">;; -------------------</span>
+<span style="color:#75715e">;; Include the current Org-mode header as part of the image name.</span>
+<span style="color:#75715e">;; (setq my/insert-clipboard-image-use-headername t)</span>
+<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;headername&gt;_-_&lt;image-filename&gt;.png</span>
+
+<span style="color:#75715e">;; Include the buffername as part of the image name.</span>
+<span style="color:#75715e">;; (setq my/insert-clipboard-image-use-buffername t)</span>
+<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;buffername&gt;_-_&lt;image-filename&gt;.png</span>
+
+<span style="color:#75715e">;; Full name format</span>
+<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;buffername&gt;_-_&lt;headername&gt;_-_&lt;image-filename&gt;.png</span>
+(defun my/insert-clipboard-image (filename)
+  <span style="color:#e6db74">&#34;Inserts an image from the clipboard&#34;</span>
+  (interactive <span style="color:#e6db74">&#34;sFilename to paste: &#34;</span>)
+  (let ((file
+         (<span style="color:#a6e22e">concat</span>
+          (<span style="color:#a6e22e">file-name-directory</span> <span style="color:#a6e22e">buffer-file-name</span>)
+          <span style="color:#e6db74">&#34;images/&#34;</span>
+          (<span style="color:#a6e22e">format-time-string</span> <span style="color:#e6db74">&#34;%Y%m%d_%H%M%S_-_&#34;</span>)
+          (if (bound-and-true-p my/insert-clipboard-image-use-buffername)
+              (<span style="color:#a6e22e">concat</span> (s-replace <span style="color:#e6db74">&#34;-&#34;</span> <span style="color:#e6db74">&#34;_&#34;</span>
+                                 (<span style="color:#a6e22e">downcase</span> (file-name-sans-extension (<span style="color:#a6e22e">buffer-name</span>)))) <span style="color:#e6db74">&#34;_-_&#34;</span>)
+            <span style="color:#e6db74">&#34;&#34;</span>)
+          (if (bound-and-true-p my/insert-clipboard-image-use-headername)
+              (<span style="color:#a6e22e">concat</span> (s-replace <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#e6db74">&#34;_&#34;</span> (<span style="color:#a6e22e">downcase</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">4</span> (org-heading-components)))) <span style="color:#e6db74">&#34;_-_&#34;</span>)
+            <span style="color:#e6db74">&#34;&#34;</span>)
+          filename <span style="color:#e6db74">&#34;.png&#34;</span>)))
+
+    <span style="color:#75715e">;; create images directory</span>
+    (unless (<span style="color:#a6e22e">file-exists-p</span> (<span style="color:#a6e22e">file-name-directory</span> file))
+      (make-directory (<span style="color:#a6e22e">file-name-directory</span> file)))
+
+    <span style="color:#75715e">;; paste file from clipboard</span>
+    (shell-command (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;pngpaste &#34;</span> file))
+    (<span style="color:#a6e22e">insert</span> (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;[[./images/&#34;</span> (<span style="color:#a6e22e">file-name-nondirectory</span> file) <span style="color:#e6db74">&#34;]]&#34;</span>))))
+
+(map! :desc <span style="color:#e6db74">&#34;Insert clipboard image&#34;</span>
+      :n <span style="color:#e6db74">&#34;C-M-y&#34;</span> <span style="color:#e6db74">&#39;my/insert-clipboard-image</span>)
+</code></pre></div><p>A nice setting in org-mode that also helps when viewing large screenshots is the following:</p>
+<p>This display the taken screenshot in a acceptable format in your org-mode file.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(after! org
+  (setq org-image-actual-width (<span style="color:#a6e22e">/</span> (display-pixel-width) <span style="color:#ae81ff">2</span>)))
+</code></pre></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2021-03-29
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/emacs">emacs</a>, <a href="/tags/orgmode">orgmode</a>, <a href="/tags/elisp">elisp</a>, <a href="/tags/screenshot">screenshot</a>, <a href="/tags/image">image</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+      </div>
+    </div>
+  </div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="twelve columns">
+                <div id="social">
+                    
+                        <a title="Twitter" href="https://twitter.com/marcopas">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    
+                    
+                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    
+                    
+                        <a title="GitHub" href="https://github.com/mpas">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    
+                    
+                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
+                            <i class="fab fa-stack-overflow"></i>
+                        </a>
+                    
+                    
+                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
+                            <i class="far fa-envelope"></i>
+                        </a>
+                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+
