@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>timetracking on CodeVerse</title>
-    <link>http://mpas.github.io/tags/timetracking/</link>
+    <link>https://mpas.github.io/tags/timetracking/</link>
     <description>Recent content in timetracking on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 16 Mar 2021 10:20:00 +0100</lastBuildDate><atom:link href="http://mpas.github.io/tags/timetracking/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 16 Mar 2021 10:20:00 +0100</lastBuildDate><atom:link href="https://mpas.github.io/tags/timetracking/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Time tracking with Org Mode and sum time per tag</title>
-      <link>http://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</link>
+      <link>https://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</link>
       <pubDate>Tue, 16 Mar 2021 10:20:00 +0100</pubDate>
       
-      <guid>http://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</guid>
+      <guid>https://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</guid>
       <description>Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you aggregate time across tasks belonging to tags?
 This can be achieved by using a simple formula and the usage of an awesome Org package called Org Aggregate.
 Input data The data below is used for time tracking, note that individual items are tagged!

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>build on CodeVerse</title>
-    <link>http://mpas.github.io/tags/build/</link>
+    <link>https://mpas.github.io/tags/build/</link>
     <description>Recent content in build on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 13 Jan 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/build/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Jan 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/build/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Testing constraints with Build Test Data</title>
-      <link>http://mpas.github.io/posts/2013/01/13/20130113-testing-constraints-with-build-test-data/</link>
+      <link>https://mpas.github.io/posts/2013/01/13/20130113-testing-constraints-with-build-test-data/</link>
       <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2013/01/13/20130113-testing-constraints-with-build-test-data/</guid>
+      <guid>https://mpas.github.io/posts/2013/01/13/20130113-testing-constraints-with-build-test-data/</guid>
       <description>The Spock &amp;amp; Build Test Data plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!
 When testing constraints on an object it can be used as follows:
 class Foo { String name // name of foo  Integer age // age of foo  static constraints = { name nullable: false, blank: false // name may never be nullable or blank  age nullable: true } } And the Spock test</description>

@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pages on CodeVerse</title>
-    <link>http://mpas.github.io/pages/</link>
+    <link>https://mpas.github.io/pages/</link>
     <description>Recent content in Pages on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0200</lastBuildDate><atom:link href="http://mpas.github.io/pages/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0200</lastBuildDate><atom:link href="https://mpas.github.io/pages/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About</title>
-      <link>http://mpas.github.io/pages/about/</link>
+      <link>https://mpas.github.io/pages/about/</link>
       <pubDate>Tue, 06 Oct 2020 00:00:00 +0200</pubDate>
       
-      <guid>http://mpas.github.io/pages/about/</guid>
+      <guid>https://mpas.github.io/pages/about/</guid>
       <description>I am software geek and a hands on developer/system architect. Interested in all kinds of software related technologies (languages, architectures and methodologies). Strong believer in the fact that one should keep knowledge up-to-date, but also understand why you should choose a particular technology for a given problem.
 Keeping knowledge up-to-date if fundamental and that is why regular visits to conferences like QCon, Devoxx, BuildStuf and various Meetup communities are part of my working habbit.</description>
     </item>
     
     <item>
       <title>Resume</title>
-      <link>http://mpas.github.io/pages/resume/</link>
+      <link>https://mpas.github.io/pages/resume/</link>
       <pubDate>Tue, 06 Oct 2020 00:00:00 +0200</pubDate>
       
-      <guid>http://mpas.github.io/pages/resume/</guid>
+      <guid>https://mpas.github.io/pages/resume/</guid>
       <description>You can find my resume online at http://mpas.github.io/resume</description>
     </item>
     

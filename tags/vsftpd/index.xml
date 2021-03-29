@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>vsftpd on CodeVerse</title>
-    <link>http://mpas.github.io/tags/vsftpd/</link>
+    <link>https://mpas.github.io/tags/vsftpd/</link>
     <description>Recent content in vsftpd on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 18 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/vsftpd/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/vsftpd/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Troubles getting vsftpd user logged in?</title>
-      <link>http://mpas.github.io/posts/2012/09/18/20120918-troubles-getting-vsftpd-user-logged-in/</link>
+      <link>https://mpas.github.io/posts/2012/09/18/20120918-troubles-getting-vsftpd-user-logged-in/</link>
       <pubDate>Tue, 18 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2012/09/18/20120918-troubles-getting-vsftpd-user-logged-in/</guid>
+      <guid>https://mpas.github.io/posts/2012/09/18/20120918-troubles-getting-vsftpd-user-logged-in/</guid>
       <description>Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message: 500 OOPS: vsftpd: refusing to run with writable root inside chroot()
 After some googling around i found the following fix.. chmod the folder that the ftp user comes in to as he first login (root folder) by using in terminal:</description>
     </item>

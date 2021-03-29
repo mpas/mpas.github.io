@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>grails on CodeVerse</title>
-    <link>http://mpas.github.io/tags/grails/</link>
+    <link>https://mpas.github.io/tags/grails/</link>
     <description>Recent content in grails on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 25 Nov 2016 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/grails/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 25 Nov 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/grails/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Dockerize your Grails application</title>
-      <link>http://mpas.github.io/posts/2016/11/25/20161125-dockerize-your-grails-application/</link>
+      <link>https://mpas.github.io/posts/2016/11/25/20161125-dockerize-your-grails-application/</link>
       <pubDate>Fri, 25 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2016/11/25/20161125-dockerize-your-grails-application/</guid>
+      <guid>https://mpas.github.io/posts/2016/11/25/20161125-dockerize-your-grails-application/</guid>
       <description>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..
 Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.
 Prerequisite : Docker is installed on your machine.
@@ -21,10 +21,10 @@ $ grails create-app docker-test --profile rest-api After the Grails application 
     
     <item>
       <title>Change the port of actuator endpoint in a Grails application</title>
-      <link>http://mpas.github.io/posts/2016/11/02/20161101-change-the-port-of-actuator-endpoint/</link>
+      <link>https://mpas.github.io/posts/2016/11/02/20161101-change-the-port-of-actuator-endpoint/</link>
       <pubDate>Wed, 02 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2016/11/02/20161101-change-the-port-of-actuator-endpoint/</guid>
+      <guid>https://mpas.github.io/posts/2016/11/02/20161101-change-the-port-of-actuator-endpoint/</guid>
       <description>When using actuator endpoints to expose metrics in a Grails (Spring Boot) application, it may be useful to run the metrics on a different port.
 This enables you to hide the metrics for the public and use the different port in an AWS infrastucture so that the metrics are only available internal.
 Let us first enable the actuator endpoints
@@ -33,10 +33,10 @@ Let us first enable the actuator endpoints
     
     <item>
       <title>Functional Rest API Testing with Grails/Rest Client Builder</title>
-      <link>http://mpas.github.io/posts/2015/11/19/20151119-functional-rest-api-testing/</link>
+      <link>https://mpas.github.io/posts/2015/11/19/20151119-functional-rest-api-testing/</link>
       <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2015/11/19/20151119-functional-rest-api-testing/</guid>
+      <guid>https://mpas.github.io/posts/2015/11/19/20151119-functional-rest-api-testing/</guid>
       <description>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.
 When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.
 Scenario:Performing a GET request on a url (http://localhost:8080/helloworld) should return a HTTP Status 200 and data with a json payload</description>
@@ -44,10 +44,10 @@ Scenario:Performing a GET request on a url (http://localhost:8080/helloworld) sh
     
     <item>
       <title>Cleaning Grails Domain Objects in a Spock Test</title>
-      <link>http://mpas.github.io/posts/2015/10/30/20151030-grails-spock-clean-domain/</link>
+      <link>https://mpas.github.io/posts/2015/10/30/20151030-grails-spock-clean-domain/</link>
       <pubDate>Fri, 30 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2015/10/30/20151030-grails-spock-clean-domain/</guid>
+      <guid>https://mpas.github.io/posts/2015/10/30/20151030-grails-spock-clean-domain/</guid>
       <description>Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.
 Spock provides a setup() and cleanup() method.
 When you want to remove your domain objects after each feature test has run you can execute the following:
@@ -56,10 +56,10 @@ def setup() { .</description>
     
     <item>
       <title>Run a Grails 3 generated Fat Jar file in production mode</title>
-      <link>http://mpas.github.io/posts/2015/06/11/20150611-run-grails-war-in-production-mode/</link>
+      <link>https://mpas.github.io/posts/2015/06/11/20150611-run-grails-war-in-production-mode/</link>
       <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2015/06/11/20150611-run-grails-war-in-production-mode/</guid>
+      <guid>https://mpas.github.io/posts/2015/06/11/20150611-run-grails-war-in-production-mode/</guid>
       <description>When creating a Grails WAR/JAR file using:
 $ grails war The resulting artifact can be run in production mode using:
 $ java -Dgrails.env=prod -Dserver.port=9000 -jar &amp;lt;name-of-jar-file&amp;gt;.jar </description>
@@ -67,10 +67,10 @@ $ java -Dgrails.env=prod -Dserver.port=9000 -jar &amp;lt;name-of-jar-file&amp;gt
     
     <item>
       <title>Upgrading from Grails 2.3.8 to 2.4.2</title>
-      <link>http://mpas.github.io/posts/2014/07/04/20140724-upgrade-grails-2.4.2/</link>
+      <link>https://mpas.github.io/posts/2014/07/04/20140724-upgrade-grails-2.4.2/</link>
       <pubDate>Fri, 04 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2014/07/04/20140724-upgrade-grails-2.4.2/</guid>
+      <guid>https://mpas.github.io/posts/2014/07/04/20140724-upgrade-grails-2.4.2/</guid>
       <description>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.
 Error creating bean with name &#39;grailsApplication&#39; defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResourceLoader&#39;; To solve this issue you need to delete some lines in the &amp;lt;grails-app&amp;gt;/web-app/WEB-INF/applicationContext.xml file.
 Delete the following lines:
@@ -79,20 +79,20 @@ Delete the following lines:
     
     <item>
       <title>Using Grails to power your Electric Car</title>
-      <link>http://mpas.github.io/posts/2013/05/25/20130525-grails-to-power-your-electric-car/</link>
+      <link>https://mpas.github.io/posts/2013/05/25/20130525-grails-to-power-your-electric-car/</link>
       <pubDate>Sat, 25 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2013/05/25/20130525-grails-to-power-your-electric-car/</guid>
+      <guid>https://mpas.github.io/posts/2013/05/25/20130525-grails-to-power-your-electric-car/</guid>
       <description>Past week I really enjoyed visiting &amp;amp; speaking at the Grails Conference (GR8Conf 2013). The organisation made it possible that for me to host a talk about &amp;ldquo;Using Grails to power your Electric Car&amp;rdquo;.
 Using Grails to power your Electric Car</description>
     </item>
     
     <item>
       <title>Grails migrations and &#39;Waiting for changelog lock&#39;</title>
-      <link>http://mpas.github.io/posts/2013/02/28/20130228-grails-migrations-and-waiting-for-changelog/</link>
+      <link>https://mpas.github.io/posts/2013/02/28/20130228-grails-migrations-and-waiting-for-changelog/</link>
       <pubDate>Thu, 28 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2013/02/28/20130228-grails-migrations-and-waiting-for-changelog/</guid>
+      <guid>https://mpas.github.io/posts/2013/02/28/20130228-grails-migrations-and-waiting-for-changelog/</guid>
       <description>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.
 ... Waiting for changelog lock.... Waiting for changelog lock.... Waiting for changelog lock.... ... To solve this take the following steps:
  Stop the application container (example: Tomcat) In the database look for a table called DATABASECHANGELOGLOCK In the table there is a record with id=1, change the following values:  locked -&amp;gt; 0 lockgranted -&amp;gt; null lockedby -&amp;gt; null  After updating this record start the application container  Notes:</description>
@@ -100,10 +100,10 @@ Using Grails to power your Electric Car</description>
     
     <item>
       <title>Testing constraints with Build Test Data</title>
-      <link>http://mpas.github.io/posts/2013/01/13/20130113-testing-constraints-with-build-test-data/</link>
+      <link>https://mpas.github.io/posts/2013/01/13/20130113-testing-constraints-with-build-test-data/</link>
       <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2013/01/13/20130113-testing-constraints-with-build-test-data/</guid>
+      <guid>https://mpas.github.io/posts/2013/01/13/20130113-testing-constraints-with-build-test-data/</guid>
       <description>The Spock &amp;amp; Build Test Data plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!
 When testing constraints on an object it can be used as follows:
 class Foo { String name // name of foo  Integer age // age of foo  static constraints = { name nullable: false, blank: false // name may never be nullable or blank  age nullable: true } } And the Spock test</description>
@@ -111,30 +111,30 @@ class Foo { String name // name of foo  Integer age // age of foo  static constr
     
     <item>
       <title>Loading Grails configuration files update!</title>
-      <link>http://mpas.github.io/posts/2012/09/17/20120917-grails-load-external-configuration-files-update/</link>
+      <link>https://mpas.github.io/posts/2012/09/17/20120917-grails-load-external-configuration-files-update/</link>
       <pubDate>Mon, 17 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2012/09/17/20120917-grails-load-external-configuration-files-update/</guid>
+      <guid>https://mpas.github.io/posts/2012/09/17/20120917-grails-load-external-configuration-files-update/</guid>
       <description>We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.
  You cannot deal with all Grails Mail settings in the configuration file You cannot use the log4j DSL to extract the logging configuration outside your application etc..  In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this blogpost which was the start for our implementation of loading the external configuration files.</description>
     </item>
     
     <item>
       <title>Loading external Configuration files in a Grails application</title>
-      <link>http://mpas.github.io/posts/2012/09/16/20120916-grails-load-external-configuration-files/</link>
+      <link>https://mpas.github.io/posts/2012/09/16/20120916-grails-load-external-configuration-files/</link>
       <pubDate>Sun, 16 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2012/09/16/20120916-grails-load-external-configuration-files/</guid>
+      <guid>https://mpas.github.io/posts/2012/09/16/20120916-grails-load-external-configuration-files/</guid>
       <description>The use of &amp;lsquo;Config.groovy&amp;rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &amp;lsquo;Config.groovy&amp;rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.
 A simple mechanism to load these property files is to place a short snippet of code in the &amp;lsquo;Config.</description>
     </item>
     
     <item>
       <title>Combining ImageMagick and Grails</title>
-      <link>http://mpas.github.io/posts/2012/09/15/20120915-grails-and-imagemagick/</link>
+      <link>https://mpas.github.io/posts/2012/09/15/20120915-grails-and-imagemagick/</link>
       <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2012/09/15/20120915-grails-and-imagemagick/</guid>
+      <guid>https://mpas.github.io/posts/2012/09/15/20120915-grails-and-imagemagick/</guid>
       <description>When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.
 Steps:
  Install ImageMagick according to the installation instructions. It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc.</description>
@@ -142,20 +142,20 @@ Steps:
     
     <item>
       <title>Introduction to Groovy &amp; Grails</title>
-      <link>http://mpas.github.io/posts/2012/09/12/20120912-introduction-groovy-and-grails/</link>
+      <link>https://mpas.github.io/posts/2012/09/12/20120912-introduction-groovy-and-grails/</link>
       <pubDate>Wed, 12 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2012/09/12/20120912-introduction-groovy-and-grails/</guid>
+      <guid>https://mpas.github.io/posts/2012/09/12/20120912-introduction-groovy-and-grails/</guid>
       <description>Recently i had the opportunity to show an exciting crowd a presentation about Groovy &amp;amp; Grails.
 This happend during the Devnology Community Event at Baarn. If you want to view the presentation &amp;ndash;&amp;gt; check it out here!</description>
     </item>
     
     <item>
       <title>Change default homepage for a Grails application</title>
-      <link>http://mpas.github.io/posts/2012/09/11/20120911-grails-change-default-homepage/</link>
+      <link>https://mpas.github.io/posts/2012/09/11/20120911-grails-change-default-homepage/</link>
       <pubDate>Tue, 11 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2012/09/11/20120911-grails-change-default-homepage/</guid>
+      <guid>https://mpas.github.io/posts/2012/09/11/20120911-grails-change-default-homepage/</guid>
       <description>You can set the default homepage for a Grails application by modifying the grails-app/conf/UrlMappings.groovy file. In a new Grails application this file will look like
 class UrlMappings { static mappings = { &amp;#34;/$controller/$action?/$id?&amp;#34;{ constraints { // apply constraints here  } } &amp;#34;/&amp;#34;(view:&amp;#34;/index&amp;#34;) &amp;#34;500&amp;#34;(view:&amp;#39;/error&amp;#39;) } } Replace the line:
 &amp;#34;/&amp;#34;(view:&amp;#34;/index&amp;#34;) with:
@@ -164,10 +164,10 @@ class UrlMappings { static mappings = { &amp;#34;/$controller/$action?/$id?&amp;
     
     <item>
       <title>Using MySQL instead of in-memory database for a Grails application</title>
-      <link>http://mpas.github.io/posts/2012/09/05/20120905-grails-replace-in-memory-db-with-mysql/</link>
+      <link>https://mpas.github.io/posts/2012/09/05/20120905-grails-replace-in-memory-db-with-mysql/</link>
       <pubDate>Wed, 05 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2012/09/05/20120905-grails-replace-in-memory-db-with-mysql/</guid>
+      <guid>https://mpas.github.io/posts/2012/09/05/20120905-grails-replace-in-memory-db-with-mysql/</guid>
       <description>A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.
  Download the MySQL JDBC driver [called a connector] from the MySQL website Extract the zip or tar archive Copy the driver (at this time of writing called mysql-connector-java-5.1.13-bin.jar into the grails-app/lib directory Configure your application datasource in file grails-app/conf/DataSource.groovy  development { dataSource { dbCreate = &amp;#34;create-drop&amp;#34; // one of &amp;#39;create&amp;#39;, &amp;#39;create-drop&amp;#39;,&amp;#39;update&amp;#39;  url = &amp;#34;jdbc:mysql://localhost:&amp;lt;port&amp;gt;/&amp;lt;database&amp;gt;&amp;#34; driverClassName = &amp;#34;com.</description>
     </item>

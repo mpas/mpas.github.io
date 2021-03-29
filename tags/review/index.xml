@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>review on CodeVerse</title>
-    <link>http://mpas.github.io/tags/review/</link>
+    <link>https://mpas.github.io/tags/review/</link>
     <description>Recent content in review on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 27 Nov 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/review/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 27 Nov 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/review/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bookreview : Instant Vert.x</title>
-      <link>http://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/</link>
+      <link>https://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/</link>
       <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/</guid>
+      <guid>https://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/</guid>
       <description>For those who have not yet got into contact with Vert.x, the book Instant Vert.x (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.
 As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.</description>
     </item>

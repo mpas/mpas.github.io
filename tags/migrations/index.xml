@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>migrations on CodeVerse</title>
-    <link>http://mpas.github.io/tags/migrations/</link>
+    <link>https://mpas.github.io/tags/migrations/</link>
     <description>Recent content in migrations on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 Feb 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/migrations/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 28 Feb 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/migrations/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Grails migrations and &#39;Waiting for changelog lock&#39;</title>
-      <link>http://mpas.github.io/posts/2013/02/28/20130228-grails-migrations-and-waiting-for-changelog/</link>
+      <link>https://mpas.github.io/posts/2013/02/28/20130228-grails-migrations-and-waiting-for-changelog/</link>
       <pubDate>Thu, 28 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2013/02/28/20130228-grails-migrations-and-waiting-for-changelog/</guid>
+      <guid>https://mpas.github.io/posts/2013/02/28/20130228-grails-migrations-and-waiting-for-changelog/</guid>
       <description>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.
 ... Waiting for changelog lock.... Waiting for changelog lock.... Waiting for changelog lock.... ... To solve this take the following steps:
  Stop the application container (example: Tomcat) In the database look for a table called DATABASECHANGELOGLOCK In the table there is a record with id=1, change the following values:  locked -&amp;gt; 0 lockgranted -&amp;gt; null lockedby -&amp;gt; null  After updating this record start the application container  Notes:</description>

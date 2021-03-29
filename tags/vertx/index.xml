@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>vertx on CodeVerse</title>
-    <link>http://mpas.github.io/tags/vertx/</link>
+    <link>https://mpas.github.io/tags/vertx/</link>
     <description>Recent content in vertx on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 27 Nov 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/vertx/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 27 Nov 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/vertx/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bookreview : Instant Vert.x</title>
-      <link>http://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/</link>
+      <link>https://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/</link>
       <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/</guid>
+      <guid>https://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/</guid>
       <description>For those who have not yet got into contact with Vert.x, the book Instant Vert.x (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.
 As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.</description>
     </item>
     
     <item>
       <title>Simple Helloworld verticle</title>
-      <link>http://mpas.github.io/posts/2013/05/16/20130516-simple-helloworld-verticle/</link>
+      <link>https://mpas.github.io/posts/2013/05/16/20130516-simple-helloworld-verticle/</link>
       <pubDate>Thu, 16 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2013/05/16/20130516-simple-helloworld-verticle/</guid>
+      <guid>https://mpas.github.io/posts/2013/05/16/20130516-simple-helloworld-verticle/</guid>
       <description>Sourcecode:
 package helloworld; import org.vertx.java.core.Handler; import org.vertx.java.core.http.HttpServerRequest; import org.vertx.java.deploy.Verticle; public class Server extends Verticle { public void start() { vertx.createHttpServer().requestHandler(new Handler&amp;lt;HttpServerRequest&amp;gt;() { public void handle(HttpServerRequest req) { req.response.headers().put(&amp;#34;Content-Type&amp;#34;, &amp;#34;text/html; charset-UTF-8&amp;#34;); req.response.end(&amp;#34;&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;Hello from vert.x!&amp;lt;/h1&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&amp;#34;); } }).listen(8080); } } </description>
     </item>

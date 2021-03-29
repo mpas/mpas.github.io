@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>deployment on CodeVerse</title>
-    <link>http://mpas.github.io/tags/deployment/</link>
+    <link>https://mpas.github.io/tags/deployment/</link>
     <description>Recent content in deployment on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 09 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/deployment/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 09 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/deployment/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Distributed Deployment with Hudson &amp; SSH</title>
-      <link>http://mpas.github.io/posts/2012/09/09/20120909-distributed-deployment-with-hudson-and-ssh/</link>
+      <link>https://mpas.github.io/posts/2012/09/09/20120909-distributed-deployment-with-hudson-and-ssh/</link>
       <pubDate>Sun, 09 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2012/09/09/20120909-distributed-deployment-with-hudson-and-ssh/</guid>
+      <guid>https://mpas.github.io/posts/2012/09/09/20120909-distributed-deployment-with-hudson-and-ssh/</guid>
       <description>Have you already implemented an multi-server artifact deployment using a Continuous Integration Engine? If not, then read ahead and maybe this article is of help.
 The need for Continuous Integration A good practice in a software development methodology and lifecycle is the use of a Continuous Integration Engine. The adoption of Continuous Integration improves you software quality by quickly reporting failed builds so you can modify/correct your code. Popular Continuous Integration Engines can often be extended with software quality tooling so you can report on specific quality aspect of your software.</description>
     </item>

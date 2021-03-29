@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>chrome on CodeVerse</title>
-    <link>http://mpas.github.io/tags/chrome/</link>
+    <link>https://mpas.github.io/tags/chrome/</link>
     <description>Recent content in chrome on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 30 May 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/chrome/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 30 May 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/chrome/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Use backspace key to go back in Google Chrome</title>
-      <link>http://mpas.github.io/posts/2013/05/30/20130530-backspace-mint/</link>
+      <link>https://mpas.github.io/posts/2013/05/30/20130530-backspace-mint/</link>
       <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2013/05/30/20130530-backspace-mint/</guid>
+      <guid>https://mpas.github.io/posts/2013/05/30/20130530-backspace-mint/</guid>
       <description>When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:
  https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en  </description>
     </item>
     
     <item>
       <title>Google Chrome not synchronizing extensions</title>
-      <link>http://mpas.github.io/posts/2013/05/24/20130524-chrome-not-synchronizing-extensions/</link>
+      <link>https://mpas.github.io/posts/2013/05/24/20130524-chrome-not-synchronizing-extensions/</link>
       <pubDate>Fri, 24 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2013/05/24/20130524-chrome-not-synchronizing-extensions/</guid>
+      <guid>https://mpas.github.io/posts/2013/05/24/20130524-chrome-not-synchronizing-extensions/</guid>
       <description>When installing a fresh version of Chrome it may occur that all Bookmarks sync ok but the extensions not. The following solution worked for my system.
  Open Google Chrome Goto &amp;ldquo;Settings&amp;rdquo; Open &amp;ldquo;Advanced Settings&amp;rdquo; Check &amp;ldquo;Developer mode&amp;rdquo; Press &amp;ldquo;Update extensions now&amp;rdquo;  </description>
     </item>

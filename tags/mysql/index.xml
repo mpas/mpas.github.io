@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>mysql on CodeVerse</title>
-    <link>http://mpas.github.io/tags/mysql/</link>
+    <link>https://mpas.github.io/tags/mysql/</link>
     <description>Recent content in mysql on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 05 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 05 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Using MySQL instead of in-memory database for a Grails application</title>
-      <link>http://mpas.github.io/posts/2012/09/05/20120905-grails-replace-in-memory-db-with-mysql/</link>
+      <link>https://mpas.github.io/posts/2012/09/05/20120905-grails-replace-in-memory-db-with-mysql/</link>
       <pubDate>Wed, 05 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2012/09/05/20120905-grails-replace-in-memory-db-with-mysql/</guid>
+      <guid>https://mpas.github.io/posts/2012/09/05/20120905-grails-replace-in-memory-db-with-mysql/</guid>
       <description>A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.
  Download the MySQL JDBC driver [called a connector] from the MySQL website Extract the zip or tar archive Copy the driver (at this time of writing called mysql-connector-java-5.1.13-bin.jar into the grails-app/lib directory Configure your application datasource in file grails-app/conf/DataSource.groovy  development { dataSource { dbCreate = &amp;#34;create-drop&amp;#34; // one of &amp;#39;create&amp;#39;, &amp;#39;create-drop&amp;#39;,&amp;#39;update&amp;#39;  url = &amp;#34;jdbc:mysql://localhost:&amp;lt;port&amp;gt;/&amp;lt;database&amp;gt;&amp;#34; driverClassName = &amp;#34;com.</description>
     </item>

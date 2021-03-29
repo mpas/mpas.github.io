@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>imagemagick on CodeVerse</title>
-    <link>http://mpas.github.io/tags/imagemagick/</link>
+    <link>https://mpas.github.io/tags/imagemagick/</link>
     <description>Recent content in imagemagick on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 15 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/imagemagick/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 15 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/imagemagick/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Combining ImageMagick and Grails</title>
-      <link>http://mpas.github.io/posts/2012/09/15/20120915-grails-and-imagemagick/</link>
+      <link>https://mpas.github.io/posts/2012/09/15/20120915-grails-and-imagemagick/</link>
       <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2012/09/15/20120915-grails-and-imagemagick/</guid>
+      <guid>https://mpas.github.io/posts/2012/09/15/20120915-grails-and-imagemagick/</guid>
       <description>When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.
 Steps:
  Install ImageMagick according to the installation instructions. It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc.</description>

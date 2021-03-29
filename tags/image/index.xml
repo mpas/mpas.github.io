@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>image on CodeVerse</title>
-    <link>http://mpas.github.io/tags/image/</link>
+    <link>https://mpas.github.io/tags/image/</link>
     <description>Recent content in image on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 29 Mar 2021 18:55:00 +0200</lastBuildDate><atom:link href="http://mpas.github.io/tags/image/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 29 Mar 2021 18:55:00 +0200</lastBuildDate><atom:link href="https://mpas.github.io/tags/image/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Paste image from clipboard directly in an org file</title>
-      <link>http://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-in-an-org-file/</link>
+      <link>https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-in-an-org-file/</link>
       <pubDate>Mon, 29 Mar 2021 18:55:00 +0200</pubDate>
       
-      <guid>http://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-in-an-org-file/</guid>
+      <guid>https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-in-an-org-file/</guid>
       <description>Personally I really like using org-mode files for creating documentation and presentations. When working with screenshots my normal workflows always has been.
  Capture screenshot to clipboard Save the screenshot to a relative ./images folder and give it a descriptive name. Manually create link to the screenshot  This works ok but after a while you get the feel that the whole process can be automated.
 The following function can help in automating the whole process.</description>

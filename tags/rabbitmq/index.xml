@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>rabbitmq on CodeVerse</title>
-    <link>http://mpas.github.io/tags/rabbitmq/</link>
+    <link>https://mpas.github.io/tags/rabbitmq/</link>
     <description>Recent content in rabbitmq on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 11 Jun 2015 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/rabbitmq/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 11 Jun 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/rabbitmq/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
-      <link>http://mpas.github.io/posts/2015/06/11/20150611-docker-rabbitmq-default-users/</link>
+      <link>https://mpas.github.io/posts/2015/06/11/20150611-docker-rabbitmq-default-users/</link>
       <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2015/06/11/20150611-docker-rabbitmq-default-users/</guid>
+      <guid>https://mpas.github.io/posts/2015/06/11/20150611-docker-rabbitmq-default-users/</guid>
       <description>When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.
 The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.
 It involves a init.sh script that is used to create the users and vhosts.</description>

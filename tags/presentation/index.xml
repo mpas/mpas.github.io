@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>presentation on CodeVerse</title>
-    <link>http://mpas.github.io/tags/presentation/</link>
+    <link>https://mpas.github.io/tags/presentation/</link>
     <description>Recent content in presentation on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 12 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/presentation/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 12 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/presentation/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introduction to Groovy &amp; Grails</title>
-      <link>http://mpas.github.io/posts/2012/09/12/20120912-introduction-groovy-and-grails/</link>
+      <link>https://mpas.github.io/posts/2012/09/12/20120912-introduction-groovy-and-grails/</link>
       <pubDate>Wed, 12 Sep 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2012/09/12/20120912-introduction-groovy-and-grails/</guid>
+      <guid>https://mpas.github.io/posts/2012/09/12/20120912-introduction-groovy-and-grails/</guid>
       <description>Recently i had the opportunity to show an exciting crowd a presentation about Groovy &amp;amp; Grails.
 This happend during the Devnology Community Event at Baarn. If you want to view the presentation &amp;ndash;&amp;gt; check it out here!</description>
     </item>

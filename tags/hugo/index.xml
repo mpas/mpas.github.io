@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>hugo on CodeVerse</title>
-    <link>http://mpas.github.io/tags/hugo/</link>
+    <link>https://mpas.github.io/tags/hugo/</link>
     <description>Recent content in hugo on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Jun 2014 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Jun 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Skip a contenttype/section to be renderend</title>
-      <link>http://mpas.github.io/posts/2014/06/09/20140609-hugo-skip-certain-content-to-be-rendered/</link>
+      <link>https://mpas.github.io/posts/2014/06/09/20140609-hugo-skip-certain-content-to-be-rendered/</link>
       <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2014/06/09/20140609-hugo-skip-certain-content-to-be-rendered/</guid>
+      <guid>https://mpas.github.io/posts/2014/06/09/20140609-hugo-skip-certain-content-to-be-rendered/</guid>
       <description>When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.
 Example: You want to only render contenttype &amp;lsquo;post&amp;rsquo; use the following code in your template:
 {{ if eq .Type &amp;#34;post&amp;#34; }} {{ .Title }} {{ .Content }} {{ end }} </description>

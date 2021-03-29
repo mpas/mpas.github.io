@@ -2,47 +2,47 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>java on CodeVerse</title>
-    <link>http://mpas.github.io/tags/java/</link>
+    <link>https://mpas.github.io/tags/java/</link>
     <description>Recent content in java on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 10 Jun 2015 00:00:00 +0000</lastBuildDate><atom:link href="http://mpas.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Jun 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
-      <link>http://mpas.github.io/posts/2015/06/10/20150610-httpservletwrapper-3.1/</link>
+      <link>https://mpas.github.io/posts/2015/06/10/20150610-httpservletwrapper-3.1/</link>
       <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2015/06/10/20150610-httpservletwrapper-3.1/</guid>
+      <guid>https://mpas.github.io/posts/2015/06/10/20150610-httpservletwrapper-3.1/</guid>
       <description>A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.
  isFinished isReady setReadListener  import com.google.common.primitives.Bytes; import javax.servlet.ReadListener; import javax.servlet.ServletInputStream; import javax.servlet.http.HttpServletRequest; import javax.servlet.http.HttpServletRequestWrapper; import java.io.ByteArrayInputStream; import java.io.IOException; import java.io.InputStream; import java.util.Arrays; public class AuthenticationRequestWrapper extends HttpServletRequestWrapper { // tag::variables[]  private byte[] requestBody = new byte[0]; private boolean bufferFilled = false; // end::variables[]  /** - Constructs a request object wrapping the given request.</description>
     </item>
     
     <item>
       <title>Bookreview : Instant Vert.x</title>
-      <link>http://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/</link>
+      <link>https://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/</link>
       <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/</guid>
+      <guid>https://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/</guid>
       <description>For those who have not yet got into contact with Vert.x, the book Instant Vert.x (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.
 As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.</description>
     </item>
     
     <item>
       <title>Simple Helloworld verticle</title>
-      <link>http://mpas.github.io/posts/2013/05/16/20130516-simple-helloworld-verticle/</link>
+      <link>https://mpas.github.io/posts/2013/05/16/20130516-simple-helloworld-verticle/</link>
       <pubDate>Thu, 16 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2013/05/16/20130516-simple-helloworld-verticle/</guid>
+      <guid>https://mpas.github.io/posts/2013/05/16/20130516-simple-helloworld-verticle/</guid>
       <description>Sourcecode:
 package helloworld; import org.vertx.java.core.Handler; import org.vertx.java.core.http.HttpServerRequest; import org.vertx.java.deploy.Verticle; public class Server extends Verticle { public void start() { vertx.createHttpServer().requestHandler(new Handler&amp;lt;HttpServerRequest&amp;gt;() { public void handle(HttpServerRequest req) { req.response.headers().put(&amp;#34;Content-Type&amp;#34;, &amp;#34;text/html; charset-UTF-8&amp;#34;); req.response.end(&amp;#34;&amp;lt;html&amp;gt;&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;Hello from vert.x!&amp;lt;/h1&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;&amp;#34;); } }).listen(8080); } } </description>
     </item>
     
     <item>
       <title>Getting the Enum from a String value</title>
-      <link>http://mpas.github.io/posts/2013/01/03/20130103-getting-enum-from-string-value/</link>
+      <link>https://mpas.github.io/posts/2013/01/03/20130103-getting-enum-from-string-value/</link>
       <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://mpas.github.io/posts/2013/01/03/20130103-getting-enum-from-string-value/</guid>
+      <guid>https://mpas.github.io/posts/2013/01/03/20130103-getting-enum-from-string-value/</guid>
       <description>Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!
 Enum.valueOf(YourClassName.class, &amp;#34;String Value&amp;#34;) http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html</description>
     </item>

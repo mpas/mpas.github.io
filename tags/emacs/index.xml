@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>emacs on CodeVerse</title>
-    <link>http://mpas.github.io/tags/emacs/</link>
+    <link>https://mpas.github.io/tags/emacs/</link>
     <description>Recent content in emacs on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 29 Mar 2021 18:55:00 +0200</lastBuildDate><atom:link href="http://mpas.github.io/tags/emacs/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 29 Mar 2021 18:55:00 +0200</lastBuildDate><atom:link href="https://mpas.github.io/tags/emacs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Paste image from clipboard directly in an org file</title>
-      <link>http://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-in-an-org-file/</link>
+      <link>https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-in-an-org-file/</link>
       <pubDate>Mon, 29 Mar 2021 18:55:00 +0200</pubDate>
       
-      <guid>http://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-in-an-org-file/</guid>
+      <guid>https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-in-an-org-file/</guid>
       <description>Personally I really like using org-mode files for creating documentation and presentations. When working with screenshots my normal workflows always has been.
  Capture screenshot to clipboard Save the screenshot to a relative ./images folder and give it a descriptive name. Manually create link to the screenshot  This works ok but after a while you get the feel that the whole process can be automated.
 The following function can help in automating the whole process.</description>
@@ -20,10 +20,10 @@ The following function can help in automating the whole process.</description>
     
     <item>
       <title>Time tracking with Org Mode and sum time per tag</title>
-      <link>http://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</link>
+      <link>https://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</link>
       <pubDate>Tue, 16 Mar 2021 10:20:00 +0100</pubDate>
       
-      <guid>http://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</guid>
+      <guid>https://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</guid>
       <description>Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you aggregate time across tasks belonging to tags?
 This can be achieved by using a simple formula and the usage of an awesome Org package called Org Aggregate.
 Input data The data below is used for time tracking, note that individual items are tagged!
@@ -32,10 +32,10 @@ Input data The data below is used for time tracking, note that individual items 
     
     <item>
       <title>Get pretty org-bullets in Doom Emacs</title>
-      <link>http://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/</link>
+      <link>https://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/</link>
       <pubDate>Fri, 16 Oct 2020 20:21:00 +0200</pubDate>
       
-      <guid>http://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/</guid>
+      <guid>https://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/</guid>
       <description>When installing Doom Emacs and using org-mode the defaults bullets are `*`. In order to get some fancy bullets the following steps need to be taken.
  Add the org-mode +pretty flag to your org settings in init.el To read more on the available flags check the org-mode Doom Emacs module `lang/org`  :lang (org +pretty ) ; organize your plain life in plain text (setq org-superstar-headline-bullets-list &amp;#39;(&amp;#34;⁖&amp;#34; &amp;#34;◉&amp;#34; &amp;#34;○&amp;#34; &amp;#34;✸&amp;#34; &amp;#34;✿&amp;#34;) ) </description>
     </item>
