@@ -94,6 +94,227 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Building a Consul cluster using Terraform/AWS</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <!-- raw HTML omitted -->
+<ul>
+<li>Service Discovery</li>
+<li>Health Checking</li>
+<li>Key/Value Store</li>
+<li>Multi Datacenter</li>
+</ul>
+<p>For more information on <a href="http://Consul.io">Consul</a> itself please have a look in the excellent documentation.</p>
+<ul>
+<li><a href="https://www.consul.io/intro/index.html">Consul Intro</a></li>
+<li><a href="https://www.consul.io/docs/index.html">Consul documentation</a></li>
+</ul>
+<h2 id="is-it-really-easy">Is it really easy?</h2>
+<p>Setting up a <a href="http://Consul.io">Consul</a> cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&hellip;</p>
+<p>But hey.. <strong>what if you need to deploy this cluster on an AWS environment? How do
+you create the cluster and how can you make sure it is always available?</strong></p>
+<p>This simple write up is just an example to give you an idea how this Consul cluster can be created and provisioned by using Terraform only. The goal is to have a cluster using the official Docker images provided by Consul itself running on EC2 nodes.</p>
+<h2 id="creating-a-consul-cluster">Creating a Consul cluster</h2>
+<p>The principle is not that hard&hellip; Consul nodes can discover each other based on IP Address. If you feed the Consul cluster members with IP Addresses that are part of the cluster you are good to go. In the example case we are going to start a number of Consul cluster members. The first node will be unable to form a cluster but if the second node starts up it will get the ip from the first node and the the first node will then know the ip of the second one.. etc.. So if you start up more than 2 nodes you will be good to go.</p>
+<pre><code class="language-console" data-lang="console">+------+   +------+  +------+  +------+  +------+
+|Consul|   |Consul|  |Consul|  |Consul|  |Consul|
+|Node 1|   |Node 2|  |Node 3|  |Node 4|  |Node n|
++------+   +------+  +------+  +------+  +------+
+    &lt; Find each other based on ip address &gt;
+</code></pre><p>The power is in the user-data script that is used for bootstrapping the Consul cluster nodes. In the example case they will find each other based on a query using <code>aws ec2 describe-instances</code> that will find nodes with a specific name, and from those identified nodes we will extract the IP Addresses that will be used to joint the Consul cluster. You can always modify the query to your own needs off course. The user-data script is used in the launch configuration.</p>
+<p>So enough talk&hellip; lets start :)</p>
+<p><strong>The given examples are intentionally kept simple!! So you will need to tweak your Terraform code according to your needs</strong></p>
+<h2 id="step-1-define-a-launch-configuration">Step 1: Define a launch Configuration</h2>
+<p>The core component of our Consul cluster is the launch configuration. This launch configuration determines what user-data file needs to be executed when launching a new instance.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_launch_configuration&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+
+  <span style="color:#75715e">/*
+</span><span style="color:#75715e">    in this case we use a docker optimized ami, because we are going
+</span><span style="color:#75715e">    to use the official Consul docker image as a starter.
+</span><span style="color:#75715e">    You can always use an ami on which you install docker manually!
+</span><span style="color:#75715e">  */</span>
+  <span style="color:#a6e22e">image_id</span>  = <span style="color:#e6db74">&#34;docker-optimized-ami-0123456789&#34;</span>
+
+  <span style="color:#75715e">/*
+</span><span style="color:#75715e">    the user-data script that holds the magic
+</span><span style="color:#75715e">  */</span>
+  <span style="color:#a6e22e">user_data</span> = <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>data.<span style="color:#a6e22e">template_file</span>.<span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">rendered</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+  <span style="color:#a6e22e">instance_type</span> = <span style="color:#e6db74">&#34;t2.micro&#34;</span>
+
+  <span style="color:#75715e">/*
+</span><span style="color:#75715e">    make sure you open the correct ports so the Consul nodes can
+</span><span style="color:#75715e">    discover each other the actual security group is not shown
+</span><span style="color:#75715e">  */</span>
+  <span style="color:#a6e22e">security_groups</span> = [<span style="color:#e6db74">&#34;sg-0123456789&#34;</span>]
+  <span style="color:#a6e22e">key_name</span> = <span style="color:#a6e22e">your</span><span style="color:#f92672">-</span><span style="color:#a6e22e">deploy</span><span style="color:#f92672">-</span><span style="color:#a6e22e">key</span>
+
+  <span style="color:#75715e">/*
+</span><span style="color:#75715e">    us a policy which grants read access to the EC2 api
+</span><span style="color:#75715e">  */</span>
+  <span style="color:#a6e22e">iam_instance_profile</span> = <span style="color:#e6db74">&#34;arn:aws:iam::0123456789:read_ec2_policy/ec2&#34;</span>
+}
+
+<span style="color:#75715e">/*
+</span><span style="color:#75715e">    The template file used for the user-data
+</span><span style="color:#75715e">*/</span>
+<span style="color:#66d9ef">data</span> <span style="color:#e6db74">&#34;template_file&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+  <span style="color:#a6e22e">template</span> = <span style="color:#e6db74">&#34;user-data-consul-cluster.tpl&#34;</span>)}<span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">  vars {
+</span><span style="color:#e6db74">    // the name must match the Name tag of the autoscaling group
+</span><span style="color:#e6db74">    consul_cluster_name = &#34;</span><span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span><span style="color:#f92672">-</span><span style="color:#a6e22e">member</span><span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    // the number of instances that need to be in the cluster to be healthy
+</span><span style="color:#e6db74">    consul_cluster_min_size = 3
+</span><span style="color:#e6db74">  }
+</span><span style="color:#e6db74">}
+</span></code></pre></div><h2 id="step-2-create-the-template-file">Step 2: Create the template file</h2>
+<p>The user-data file is going to query AWS using the aws describe-instances api and will return ec2 nodes that have a matching name using the --filters option. <code>'Name=tag:Name,Values=${consul_cluster_name}'</code></p>
+<p>All the retrieved instances are then queried for their private ip and the values are stored in a list. After completing the list the instance ip for the current machine is removed.</p>
+<p>A Consul specific join string is composed and provided to the docker image. This enables the Consul docker image to check for available servers when starting.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">// File: user-data-consul-cluster.tpl
+
+<span style="color:#75715e">#!/bin/bash -ex</span>
+exec &gt; &gt;<span style="color:#f92672">(</span>tee /var/log/user-data.log|logger -t user-data -s 2&gt;/dev/console<span style="color:#f92672">)</span> 2&gt;&amp;<span style="color:#ae81ff">1</span>
+
+echo <span style="color:#e6db74">&#39;installing additional software&#39;</span>
+<span style="color:#66d9ef">for</span> i in <span style="color:#f92672">{</span>1..5<span style="color:#f92672">}</span>
+<span style="color:#66d9ef">do</span>
+    yum install -y aws-cli <span style="color:#f92672">&amp;&amp;</span> break <span style="color:#f92672">||</span> sleep <span style="color:#ae81ff">120</span>
+<span style="color:#66d9ef">done</span>
+
+<span style="color:#75715e">################################################################################</span>
+<span style="color:#75715e"># Running Consul</span>
+<span style="color:#75715e">################################################################################</span>
+<span style="color:#75715e"># get current instance ip</span>
+INSTANCE_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span style="color:#66d9ef">)</span>
+
+<span style="color:#75715e"># get list of available Consul servers; based on Name (value) tag!</span>
+IP_LIST<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>aws ec2 describe-instances --region us-east-1 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>--filters <span style="color:#e6db74">&#39;Name=tag:Name,Values=${consul_cluster_name}&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span><span style="color:#e6db74">&#39;Name=instance-state-name,Values=running&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>--query <span style="color:#e6db74">&#34;Reservations[*].Instances[*].PrivateIpAddress&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>--output<span style="color:#f92672">=</span>text<span style="color:#66d9ef">)</span>
+
+<span style="color:#75715e"># remove the current instance ip from the list of available servers</span>
+IP_LIST<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$$<span style="color:#e6db74">{IP_LIST/</span>$$<span style="color:#e6db74">INSTANCE_IP/}&#34;</span>
+
+<span style="color:#75715e"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;</span>
+IP_LIST<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo $$IP_LIST | tr -s <span style="color:#e6db74">&#34; &#34;</span> | tr -d <span style="color:#e6db74">&#39;\r\n&#39;</span> | tr -s <span style="color:#e6db74">&#39; &#39;</span> <span style="color:#e6db74">&#39;,&#39;</span><span style="color:#66d9ef">)</span>
+
+<span style="color:#75715e"># create join string</span>
+<span style="color:#66d9ef">for</span> i in <span style="color:#66d9ef">$(</span>echo $IP_LIST | sed <span style="color:#e6db74">&#34;s/,/ /g&#34;</span><span style="color:#66d9ef">)</span>
+<span style="color:#66d9ef">do</span>
+    JOIN_STRING<span style="color:#f92672">+=</span><span style="color:#e6db74">&#34;-retry-join </span>$i<span style="color:#e6db74"> &#34;</span>
+<span style="color:#66d9ef">done</span>
+
+<span style="color:#75715e"># - run Consul</span>
+docker run -d --net<span style="color:#f92672">=</span>host <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-e <span style="color:#e6db74">&#39;CONSUL_LOCAL_CONFIG={&#34;skip_leave_on_interrupt&#34;: true}&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>--name consul-server consul:latest <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>agent -server -bind<span style="color:#f92672">=</span>$INSTANCE_IP $JOIN_STRING <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-bootstrap-expect<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>consul_cluster_min_size<span style="color:#e6db74">}</span> -ui -client 0.0.0.0
+<span style="color:#75715e"># ------------------------------------------------------------------------------</span>
+</code></pre></div><h2 id="step-3-create-an-autoscaling-group">Step 3: Create an autoscaling group</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#75715e">/*
+</span><span style="color:#75715e">    creates an autoscaling group so servers are created when needed
+</span><span style="color:#75715e">*/</span>
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_autoscaling_group&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+  <span style="color:#a6e22e">min_size</span> = <span style="color:#ae81ff">3</span>
+  <span style="color:#a6e22e">max_size</span> = <span style="color:#ae81ff">5</span>
+  <span style="color:#a6e22e">desired_capacity</span> = <span style="color:#ae81ff">3</span>
+  <span style="color:#a6e22e">min_elb_capacity</span> = <span style="color:#ae81ff">3</span>
+
+  <span style="color:#a6e22e">launch_configuration</span> = <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">aws_launch_configuration</span>.<span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+  <span style="color:#a6e22e">load_balancers</span> = [<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">aws_elb</span>.<span style="color:#a6e22e">consul</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>]
+
+  <span style="color:#a6e22e">tag</span> {
+    <span style="color:#a6e22e">key</span> = <span style="color:#e6db74">&#34;Name&#34;</span>
+    <span style="color:#75715e">/*
+</span><span style="color:#75715e">      note: this is the value that is being searched for in the user-data
+</span><span style="color:#75715e">    */</span>
+    <span style="color:#a6e22e">value</span> = <span style="color:#e6db74">&#34;consul-cluster-member&#34;</span>
+    <span style="color:#a6e22e">propagate_at_launch</span> = <span style="color:#66d9ef">true</span>
+  }
+}
+</code></pre></div><h2 id="step-4-create-an-elb-as-frontend-for-the-consul-cluster">Step 4: Create an ELB as frontend for the Consul cluster</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-terraform" data-lang="terraform"><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_elb&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+  <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;consul-cluster&#34;</span>
+  <span style="color:#a6e22e">subnets</span> = [<span style="color:#e6db74">&#34;sn-0123456789&#34;</span>]
+  <span style="color:#a6e22e">security_groups</span> = [<span style="color:#e6db74">&#34;sg-0123456789&#34;</span>]
+
+  <span style="color:#a6e22e">listener</span> {
+    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8300</span>
+    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8300</span>
+    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+  }
+
+  <span style="color:#a6e22e">listener</span> {
+    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8301</span>
+    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8301</span>
+    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+  }
+
+  <span style="color:#a6e22e">listener</span> {
+    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8302</span>
+    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8302</span>
+    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+  }
+
+  <span style="color:#a6e22e">listener</span> {
+    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8400</span>
+    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8400</span>
+    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+  }
+
+  <span style="color:#a6e22e">listener</span> {
+    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8500</span>
+    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;http&#34;</span>
+    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8500</span>
+    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;http&#34;</span>
+  }
+
+  <span style="color:#a6e22e">listener</span> {
+    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8600</span>
+    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8600</span>
+    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+  }
+
+  <span style="color:#a6e22e">health_check</span> {
+    <span style="color:#a6e22e">target</span> = <span style="color:#e6db74">&#34;HTTP:8500/v1/status/leader&#34;</span>
+    <span style="color:#a6e22e">healthy_threshold</span> = <span style="color:#ae81ff">2</span>
+    <span style="color:#a6e22e">unhealthy_threshold</span> = <span style="color:#ae81ff">2</span>
+    <span style="color:#a6e22e">interval</span> = <span style="color:#ae81ff">30</span>
+    <span style="color:#a6e22e">timeout</span> = <span style="color:#ae81ff">5</span>
+  }
+}
+</code></pre></div><p>When putting all the pieces together you should now have a running Consul cluster!</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2016-11-16
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/consul">consul</a>, <a href="/tags/terraform">terraform</a>, <a href="/tags/aws">aws</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Change the port of actuator endpoint in a Grails application</h1>
         </div>
     </div>
@@ -316,49 +537,6 @@ Total time: 2.054 secs
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>, <a href="/tags/rest">rest</a>, <a href="/tags/testing">testing</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific <a href="http://www.postbox-inc.com">PostBox</a> mail client.</p>
-<p>As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.</p>
-<p>Enter the use of <a href="http://davmail.sourceforge.net/">DavMail</a>!</p>
-<h4 id="davmail-gateway">Davmail Gateway</h4>
-<p>Davmail is a local mail proxy that can work together with Microsoft Exchange [OWA] in a way that DavMail is actually connecting to a Exchange OWA and your mail client connects to DavMail as a proxy.</p>
-<!-- raw HTML omitted -->
-<h4 id="configure-davmail">Configure Davmail</h4>
-<p>In order to get DavMail working correctly you need to provide the correct settings so it can use the OWA endpoint.</p>
-<!-- raw HTML omitted -->
-<h4 id="configure-postbox">Configure PostBox</h4>
-<p>In order to get PostBox working with DavMail you need to create an outgoing mail server and an account that will use that outgoing mailserver.</p>
-<h4 id="configure-postbox---outgoing-mailserver">Configure PostBox - Outgoing mailserver</h4>
-<!-- raw HTML omitted -->
-<h4 id="configure-postbox---account-setup">Configure PostBox - Account setup</h4>
-<!-- raw HTML omitted -->
-<h4 id="configure-postbox---identity-setup">Configure PostBox - Identity setup</h4>
-<!-- raw HTML omitted -->
-<p>Now you are ready to send mail using your PostBox Client using DavMail and OWA.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2015-11-17
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/davmail">davmail</a>, <a href="/tags/exchange">exchange</a>, <a href="/tags/owa">owa</a>, <a href="/tags/postbox">postbox</a>
                 </span>
             </div>
         </div>

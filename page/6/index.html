@@ -94,6 +94,35 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Use backspace key to go back in Google Chrome</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:</p>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en">https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en</a></li>
+</ul>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2013-05-30
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/linux">linux</a>, <a href="/tags/mint">mint</a>, <a href="/tags/chrome">chrome</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Automount NTFS volume under Linux (Mint)</h1>
         </div>
     </div>
@@ -220,56 +249,6 @@ if (!doNotTrack) {
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/java">java</a>, <a href="/tags/vertx">vertx</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Grails migrations and &#39;Waiting for changelog lock&#39;</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.</p>
-<pre><code class="language-console" data-lang="console">...
-Waiting for changelog lock....
-Waiting for changelog lock....
-Waiting for changelog lock....
-...
-</code></pre><p>To solve this take the following steps:</p>
-<ul>
-<li>Stop the application container (example: Tomcat)</li>
-<li>In the database look for a table called <code>DATABASECHANGELOGLOCK</code></li>
-<li>In the table there is a record with id=1, change the following values:</li>
-</ul>
-<pre><code class="language-console" data-lang="console">locked -&gt; 0
-lockgranted -&gt; null
-lockedby -&gt; null
-</code></pre><ul>
-<li>After updating this record start the application container</li>
-</ul>
-<p><strong>Notes:</strong><br>
-To see who has locked the database (normally the local machine):</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> DATABASECHANGELOGLOCK;
-<span style="color:#66d9ef">To</span> <span style="color:#66d9ef">update</span> the record
-<span style="color:#66d9ef">update</span> DATABASECHANGELOGLOCK
-<span style="color:#66d9ef">set</span> locked<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, lockgranted<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span>, lockedby<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span>
-<span style="color:#66d9ef">where</span> id<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
-</code></pre></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2013-02-28
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/migrations">migrations</a>
                 </span>
             </div>
         </div>

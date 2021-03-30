@@ -94,6 +94,49 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific <a href="http://www.postbox-inc.com">PostBox</a> mail client.</p>
+<p>As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.</p>
+<p>Enter the use of <a href="http://davmail.sourceforge.net/">DavMail</a>!</p>
+<h4 id="davmail-gateway">Davmail Gateway</h4>
+<p>Davmail is a local mail proxy that can work together with Microsoft Exchange [OWA] in a way that DavMail is actually connecting to a Exchange OWA and your mail client connects to DavMail as a proxy.</p>
+<!-- raw HTML omitted -->
+<h4 id="configure-davmail">Configure Davmail</h4>
+<p>In order to get DavMail working correctly you need to provide the correct settings so it can use the OWA endpoint.</p>
+<!-- raw HTML omitted -->
+<h4 id="configure-postbox">Configure PostBox</h4>
+<p>In order to get PostBox working with DavMail you need to create an outgoing mail server and an account that will use that outgoing mailserver.</p>
+<h4 id="configure-postbox---outgoing-mailserver">Configure PostBox - Outgoing mailserver</h4>
+<!-- raw HTML omitted -->
+<h4 id="configure-postbox---account-setup">Configure PostBox - Account setup</h4>
+<!-- raw HTML omitted -->
+<h4 id="configure-postbox---identity-setup">Configure PostBox - Identity setup</h4>
+<!-- raw HTML omitted -->
+<p>Now you are ready to send mail using your PostBox Client using DavMail and OWA.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2015-11-17
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/davmail">davmail</a>, <a href="/tags/exchange">exchange</a>, <a href="/tags/owa">owa</a>, <a href="/tags/postbox">postbox</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Cleaning Grails Domain Objects in a Spock Test</h1>
         </div>
     </div>
@@ -332,122 +375,6 @@ rabbitmq-server $@
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/docker">docker</a>, <a href="/tags/rabbitmq">rabbitmq</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">HTTPServletRequestWrapper for ServletInputStream 3.1</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.</p>
-<ul>
-<li>isFinished</li>
-<li>isReady</li>
-<li>setReadListener</li>
-</ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> com.google.common.primitives.Bytes<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> javax.servlet.ReadListener<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> javax.servlet.ServletInputStream<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequest<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequestWrapper<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> java.io.ByteArrayInputStream<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> java.util.Arrays<span style="color:#f92672">;</span>
-
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span> <span style="color:#66d9ef">extends</span> HttpServletRequestWrapper <span style="color:#f92672">{</span>
-
-    <span style="color:#75715e">// tag::variables[]
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> requestBody <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>0<span style="color:#f92672">];</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
-    <span style="color:#75715e">// end::variables[]
-</span><span style="color:#75715e"></span>
-    <span style="color:#75715e">/**
-</span><span style="color:#75715e">     - Constructs a request object wrapping the given request.
-</span><span style="color:#75715e">     *
-</span><span style="color:#75715e">     - @param request The request to wrap
-</span><span style="color:#75715e">     - @throws IllegalArgumentException if the request is null
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">super</span><span style="color:#f92672">(</span>request<span style="color:#f92672">);</span>
-    <span style="color:#f92672">}</span>
-
-
-    <span style="color:#75715e">// tag::getRequestBody[]
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> <span style="color:#a6e22e">getRequestBody</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>bufferFilled<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">return</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOf</span><span style="color:#f92672">(</span>requestBody<span style="color:#f92672">,</span> requestBody<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
-
-        InputStream inputStream <span style="color:#f92672">=</span> <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
-
-        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> buffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>102400<span style="color:#f92672">];</span> <span style="color:#75715e">// 100kb buffer
-</span><span style="color:#75715e"></span>
-        <span style="color:#66d9ef">int</span> bytesRead<span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span>bytesRead <span style="color:#f92672">=</span> inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">))</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            requestBody <span style="color:#f92672">=</span> Bytes<span style="color:#f92672">.</span><span style="color:#a6e22e">concat</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">requestBody</span><span style="color:#f92672">,</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOfRange</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> bytesRead<span style="color:#f92672">));</span> <span style="color:#75715e">// &lt;1&gt;
-</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
-
-        bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
-
-        <span style="color:#66d9ef">return</span> requestBody<span style="color:#f92672">;</span>
-    <span style="color:#f92672">}</span>
-    <span style="color:#75715e">// end::getRequestBody[]
-</span><span style="color:#75715e"></span>
-    <span style="color:#75715e">// tag::getInputStream[]
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Override</span>
-    <span style="color:#66d9ef">public</span> ServletInputStream <span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> CustomServletInputStream<span style="color:#f92672">(</span>getRequestBody<span style="color:#f92672">());</span> <span style="color:#75715e">// &lt;1&gt;
-</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
-    <span style="color:#75715e">// end::getInputStream[]
-</span><span style="color:#75715e"></span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomServletInputStream</span> <span style="color:#66d9ef">extends</span> ServletInputStream <span style="color:#f92672">{</span>
-
-        <span style="color:#66d9ef">private</span> ByteArrayInputStream buffer<span style="color:#f92672">;</span>
-
-        <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">CustomServletInputStream</span><span style="color:#f92672">(</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> contents<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">buffer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ByteArrayInputStream<span style="color:#f92672">(</span>contents<span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
-
-        <span style="color:#a6e22e">@Override</span>
-        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">read</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">return</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">();</span>
-        <span style="color:#f92672">}</span>
-
-        <span style="color:#a6e22e">@Override</span>
-        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isFinished</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">return</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> 0<span style="color:#f92672">;</span>
-        <span style="color:#f92672">}</span>
-
-        <span style="color:#a6e22e">@Override</span>
-        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isReady</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
-        <span style="color:#f92672">}</span>
-
-        <span style="color:#a6e22e">@Override</span>
-        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setReadListener</span><span style="color:#f92672">(</span>ReadListener listener<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Not implemented&#34;</span><span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2015-06-10
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/java">java</a>
                 </span>
             </div>
         </div>
