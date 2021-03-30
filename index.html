@@ -127,39 +127,6 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Capture link from Mac app into org-mode document</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>To quickly grab a link from an open Mac app and use this link into an org-mode document use the following package:</p>
-<ul>
-<li><a href="https://orgmode.org/worg/org-contrib/org-mac-link.html">Grab links from open Mac applications</a></li>
-</ul>
-<p>An optional keybind as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(add-hook <span style="color:#e6db74">&#39;org-mode-hook</span> (lambda ()
-                           (<span style="color:#a6e22e">define-key</span> org-mode-map (kbd <span style="color:#e6db74">&#34;C-c g&#34;</span>) <span style="color:#e6db74">&#39;org-mac-grab-link</span>)))
-</code></pre></div><p>This enables you to quickly grab a link using <code>C-c g</code></p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2021-03-30
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/orgmode">orgmode</a>, <a href="/tags/emacs">emacs</a>, <a href="/tags/elisp">elisp</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
             <h1 class="post-title">Paste image from clipboard directly in an org file</h1>
         </div>
     </div>
@@ -393,6 +360,70 @@ CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:40] =&gt;  0:16
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/emacs">emacs</a>, <a href="/tags/doom">doom</a>, <a href="/tags/orgmode">orgmode</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Ranger - Show File in Path Finder</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>Ranger is a VIM-inspired filemanager for the console (<a href="https://ranger.github.io/">https://ranger.github.io/</a>) and can easily be installed by using
+<code>brew install ranger</code>. When working in the terminal sometimes it is nice to open the files in the default <code>Finder</code> app
+or use the excellent alternative called <code>Path Finder</code>. (<a href="https://cocoatech.com/#/">https://cocoatech.com/#/</a>)</p>
+<p>To reveal your files in the Finder or Path Finder create a <code>commands.py</code> in <code>~/.config/ranger</code> and paste the following
+code.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> ranger.api.commands <span style="color:#f92672">import</span> Command
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">show_files_in_path_finder</span>(Command):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    :show_files_in_path_finder
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Present selected files in finder
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
+        <span style="color:#f92672">import</span> subprocess
+        files <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">.</span>join([<span style="color:#e6db74">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span style="color:#f92672">.</span>format(file<span style="color:#f92672">.</span>path) <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>thistab<span style="color:#f92672">.</span>get_selection()])
+        reveal_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Path Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to reveal {{{0}}}&#34;</span><span style="color:#f92672">.</span>format(files)
+        activate_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Path Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to activate&#34;</span>
+        script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span style="color:#f92672">.</span>format(reveal_script, activate_script)
+        self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>notify(script)
+        subprocess<span style="color:#f92672">.</span>check_output([<span style="color:#e6db74">&#34;osascript&#34;</span>, <span style="color:#e6db74">&#34;-e&#34;</span>, reveal_script, <span style="color:#e6db74">&#34;-e&#34;</span>, activate_script])
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">show_files_in_finder</span>(Command):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    :show_files_in_finder
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Present selected files in finder
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
+        <span style="color:#f92672">import</span> subprocess
+        files <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">.</span>join([<span style="color:#e6db74">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span style="color:#f92672">.</span>format(file<span style="color:#f92672">.</span>path) <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>thistab<span style="color:#f92672">.</span>get_selection()])
+        reveal_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to reveal {{{0}}}&#34;</span><span style="color:#f92672">.</span>format(files)
+        activate_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to set frontmost to true&#34;</span>
+        script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span style="color:#f92672">.</span>format(reveal_script, activate_script)
+        self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>notify(script)
+        subprocess<span style="color:#f92672">.</span>check_output([<span style="color:#e6db74">&#34;osascript&#34;</span>, <span style="color:#e6db74">&#34;-e&#34;</span>, reveal_script, <span style="color:#e6db74">&#34;-e&#34;</span>, activate_script])
+</code></pre></div><p>Restart Ranger and now you can execute the commands :show_files_in_pathfinder or :show_files_in_finder.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2018-11-28
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/ranger">ranger</a>, <a href="/tags/pathfinder">pathfinder</a>
                 </span>
             </div>
         </div>

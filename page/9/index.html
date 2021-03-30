@@ -94,48 +94,6 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
-            <h1 class="post-title">Change default homepage for a Grails application</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>You can set the default homepage for a Grails application by modifying the <code>grails-app/conf/UrlMappings.groovy</code> file. In a new Grails application this file will look like</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UrlMappings</span> <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">static</span> mappings <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
-        <span style="color:#e6db74">&#34;/$controller/$action?/$id?&#34;</span><span style="color:#f92672">{</span>
-            constraints <span style="color:#f92672">{</span>
-                <span style="color:#75715e">// apply constraints here
-</span><span style="color:#75715e"></span>            <span style="color:#f92672">}</span>
-        <span style="color:#f92672">}</span>
-        <span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
-        <span style="color:#e6db74">&#34;500&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#39;/error&#39;</span><span style="color:#f92672">)</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>Replace the line:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
-</code></pre></div><p>with:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>controller:<span style="color:#e6db74">&#39;home&#39;</span><span style="color:#f92672">,</span> action:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
-</code></pre></div><p>This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the <strong>HomeController</strong> and corresponding <strong>index</strong> action related to that controller.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2012-09-11
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/grails">grails</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
             <h1 class="post-title">Funcional Code Coverage using Cobertura</h1>
         </div>
     </div>
