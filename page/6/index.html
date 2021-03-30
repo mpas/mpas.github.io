@@ -94,6 +94,38 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Automount NTFS volume under Linux (Mint)</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy</p>
+<pre><code class="language-console" data-lang="console">$ sudo pico /etc/fstab
+</code></pre><p>Add a line in the /etc/fstab file:</p>
+<pre><code class="language-console" data-lang="console"># custom mount point
+/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
+</code></pre><p>And take the mount into effect.</p>
+<pre><code class="language-console" data-lang="console">$ mount -a
+</code></pre>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2013-05-28
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/linux">linux</a>, <a href="/tags/mint">mint</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Using Grails to power your Electric Car</h1>
         </div>
     </div>
@@ -238,62 +270,6 @@ To see who has locked the database (normally the local machine):</p>
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/grails">grails</a>, <a href="/tags/migrations">migrations</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Testing constraints with Build Test Data</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>The <a href="http://grails.org/plugin/spock">Spock</a> &amp; <a href="http://grails.org/plugin/build-test-data">Build Test Data</a> plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!</p>
-<p>When testing constraints on an object it can be used as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span> <span style="color:#f92672">{</span>
-    String name   <span style="color:#75715e">// name of foo
-</span><span style="color:#75715e"></span>    Integer age   <span style="color:#75715e">// age of foo
-</span><span style="color:#75715e"></span>
-    <span style="color:#66d9ef">static</span> constraints <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
-        name nullable: <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> blank: <span style="color:#66d9ef">false</span> <span style="color:#75715e">// name may never be nullable or blank
-</span><span style="color:#75715e"></span>        age nullable: <span style="color:#66d9ef">true</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>And the Spock test</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#a6e22e">@Build</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
-<span style="color:#a6e22e">@TestFor</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FooSpec</span> <span style="color:#66d9ef">extends</span> Specification <span style="color:#f92672">{</span>
-
-    <span style="color:#66d9ef">def</span> <span style="color:#e6db74">&#34;Name of Foo must exist&#34;</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        given: <span style="color:#e6db74">&#34;setting up the constraints&#34;</span>
-        mockForConstraintsTests<span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
-
-        when: <span style="color:#e6db74">&#34;creating a Foo&#34;</span>
-        Foo foo <span style="color:#f92672">=</span> Foo<span style="color:#f92672">.</span><span style="color:#a6e22e">buildWithoutSave</span><span style="color:#f92672">()</span>
-
-        then: <span style="color:#e6db74">&#34;validation should trigger&#34;</span>
-        assertFalse foo<span style="color:#f92672">.</span><span style="color:#a6e22e">validate</span><span style="color:#f92672">()</span>
-
-        and: <span style="color:#e6db74">&#34;validation error should be on the value field&#34;</span>
-        <span style="color:#66d9ef">assert</span> foo<span style="color:#f92672">.</span><span style="color:#a6e22e">errors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">allErrors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">first</span><span style="color:#f92672">().</span><span style="color:#a6e22e">field</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;name&#34;</span>
-    <span style="color:#f92672">}</span>
-
-<span style="color:#f92672">}</span>
-</code></pre></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2013-01-13
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/build">build</a>, <a href="/tags/testdata">testdata</a>, <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>, <a href="/tags/test">test</a>
                 </span>
             </div>
         </div>

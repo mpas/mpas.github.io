@@ -4,7 +4,7 @@
   
   
   <meta charset="utf-8">
-  <title>CodeVerse - elisp</title>
+  <title>CodeVerse - Capture link from Mac app into org-mode document</title>
   <meta name="description" content="">
   <meta name="author" content="Marco Pas">
 
@@ -85,44 +85,45 @@ if (!doNotTrack) {
 </div>
 
 
-<div class="container">
-    <article class="post-list">
-        <div class="row">
-            <div class="twelve columns">
-                <div class="list-heading">
-                    <h1>Posts for tag "elisp"</h1>
-                </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="post-content">
+        <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
+            <h1 class="post-title">Capture link from Mac app into org-mode document</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>To quickly grab a link from an open Mac app and use this link into an org-mode document use the following package:</p>
+<ul>
+<li><a href="https://orgmode.org/worg/org-contrib/org-mac-link.html">Grab links from open Mac applications</a></li>
+</ul>
+<p>An optional keybind as follows:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(add-hook <span style="color:#e6db74">&#39;org-mode-hook</span> (lambda ()
+                           (<span style="color:#a6e22e">define-key</span> org-mode-map (kbd <span style="color:#e6db74">&#34;C-c g&#34;</span>) <span style="color:#e6db74">&#39;org-mac-grab-link</span>)))
+</code></pre></div><p>This enables you to quickly grab a link using <code>C-c g</code></p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2021-03-30
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/orgmode">orgmode</a>, <a href="/tags/emacs">emacs</a>, <a href="/tags/elisp">elisp</a>
+                </span>
             </div>
         </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/posts/2021/03/30/capture-link-from-mac-app-into-org-mode-document/"><h6>Capture link from Mac app into org-mode document</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2021-03-30
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-in-an-org-file/"><h6>Paste image from clipboard directly in an org file</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2021-03-29
-                        
-                        </div>
-                </div>
-            </div>
-        
-    </article>
-</div>
+    </div>
+</article>
+
+      </div>
+    </div>
+  </div>
 
 <footer>
     <div class="container">

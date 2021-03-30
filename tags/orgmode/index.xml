@@ -6,7 +6,18 @@
     <description>Recent content in orgmode on CodeVerse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 29 Mar 2021 18:55:00 +0200</lastBuildDate><atom:link href="https://mpas.github.io/tags/orgmode/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 30 Mar 2021 12:54:00 +0200</lastBuildDate><atom:link href="https://mpas.github.io/tags/orgmode/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Capture link from Mac app into org-mode document</title>
+      <link>https://mpas.github.io/posts/2021/03/30/capture-link-from-mac-app-into-org-mode-document/</link>
+      <pubDate>Tue, 30 Mar 2021 12:54:00 +0200</pubDate>
+      
+      <guid>https://mpas.github.io/posts/2021/03/30/capture-link-from-mac-app-into-org-mode-document/</guid>
+      <description>To quickly grab a link from an open Mac app and use this link into an org-mode document use the following package:
+ Grab links from open Mac applications  An optional keybind as follows:
+(add-hook &amp;#39;org-mode-hook (lambda () (define-key org-mode-map (kbd &amp;#34;C-c g&amp;#34;) &amp;#39;org-mac-grab-link))) This enables you to quickly grab a link using C-c g</description>
+    </item>
+    
     <item>
       <title>Paste image from clipboard directly in an org file</title>
       <link>https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-in-an-org-file/</link>

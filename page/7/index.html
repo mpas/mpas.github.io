@@ -94,6 +94,62 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Testing constraints with Build Test Data</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>The <a href="http://grails.org/plugin/spock">Spock</a> &amp; <a href="http://grails.org/plugin/build-test-data">Build Test Data</a> plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!</p>
+<p>When testing constraints on an object it can be used as follows:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span> <span style="color:#f92672">{</span>
+    String name   <span style="color:#75715e">// name of foo
+</span><span style="color:#75715e"></span>    Integer age   <span style="color:#75715e">// age of foo
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">static</span> constraints <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+        name nullable: <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> blank: <span style="color:#66d9ef">false</span> <span style="color:#75715e">// name may never be nullable or blank
+</span><span style="color:#75715e"></span>        age nullable: <span style="color:#66d9ef">true</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>And the Spock test</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#a6e22e">@Build</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@TestFor</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FooSpec</span> <span style="color:#66d9ef">extends</span> Specification <span style="color:#f92672">{</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#e6db74">&#34;Name of Foo must exist&#34;</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        given: <span style="color:#e6db74">&#34;setting up the constraints&#34;</span>
+        mockForConstraintsTests<span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
+
+        when: <span style="color:#e6db74">&#34;creating a Foo&#34;</span>
+        Foo foo <span style="color:#f92672">=</span> Foo<span style="color:#f92672">.</span><span style="color:#a6e22e">buildWithoutSave</span><span style="color:#f92672">()</span>
+
+        then: <span style="color:#e6db74">&#34;validation should trigger&#34;</span>
+        assertFalse foo<span style="color:#f92672">.</span><span style="color:#a6e22e">validate</span><span style="color:#f92672">()</span>
+
+        and: <span style="color:#e6db74">&#34;validation error should be on the value field&#34;</span>
+        <span style="color:#66d9ef">assert</span> foo<span style="color:#f92672">.</span><span style="color:#a6e22e">errors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">allErrors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">first</span><span style="color:#f92672">().</span><span style="color:#a6e22e">field</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;name&#34;</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2013-01-13
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/build">build</a>, <a href="/tags/testdata">testdata</a>, <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>, <a href="/tags/test">test</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Getting the Enum from a String value</h1>
         </div>
     </div>
@@ -265,63 +321,6 @@ println <span style="color:#e6db74">&#34;---------------------------------------
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/grails">grails</a>, <a href="/tags/configuration">configuration</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Combining ImageMagick and Grails</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.</p>
-<p><strong>Steps:</strong></p>
-<ul>
-<li>Install ImageMagick according to the installation instructions.</li>
-<li>It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc. So remember where this utility is installed on your system!</li>
-<li>Make sure that ImageMagick is installed correctly be converting an image to a thumbnail by using the following command in a terminal.</li>
-</ul>
-<pre><code class="language-console" data-lang="console">/opt/local/bin/convert &lt;filename&gt; -thumbnail 70x70 &lt;thumbnail-filename&gt;
-</code></pre><p><strong>example:</strong></p>
-<pre><code class="language-console" data-lang="console">/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg
-</code></pre><p>Create some code that calls the ImageMagick convert utility with the correct parameters to enable you to achieve what you want. Something like below:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">createThumbnail</span><span style="color:#f92672">(</span>File file<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-   <span style="color:#66d9ef">def</span> command <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/opt/local/bin/convert ${file.canonicalPath} &#34;</span> <span style="color:#f92672">+</span>
-                 <span style="color:#e6db74">&#34;-thumbnail 70x70 &#34;</span> <span style="color:#f92672">+</span>
-                 <span style="color:#e6db74">&#34;/images/thumbs&#34;</span> <span style="color:#f92672">+</span> File<span style="color:#f92672">.</span><span style="color:#a6e22e">separator</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;${file.name}&#34;</span>
-   <span style="color:#66d9ef">def</span> proc <span style="color:#f92672">=</span> Runtime<span style="color:#f92672">.</span><span style="color:#a6e22e">getRuntime</span><span style="color:#f92672">().</span><span style="color:#a6e22e">exec</span><span style="color:#f92672">(</span>command<span style="color:#f92672">)</span>
-   <span style="color:#66d9ef">int</span> exitStatus<span style="color:#f92672">;</span>
-   <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-       <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-           exitStatus <span style="color:#f92672">=</span> proc<span style="color:#f92672">.</span><span style="color:#a6e22e">waitFor</span><span style="color:#f92672">();</span>
-           <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
-       <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>java<span style="color:#f92672">.</span><span style="color:#a6e22e">lang</span><span style="color:#f92672">.</span><span style="color:#a6e22e">InterruptedException</span> e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-           log<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Creating thumbnail - Interrupted: Ignoring and waiting&#34;</span><span style="color:#f92672">)</span>
-       <span style="color:#f92672">}</span>
-   <span style="color:#f92672">}</span>
-    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>exitStatus <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        log<span style="color:#f92672">.</span><span style="color:#a6e22e">error</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Error executing command: exitStatus=[${exitStatus}]&#34;</span><span style="color:#f92672">)</span>
-    <span style="color:#f92672">}</span>
-    log<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Succesfully created thumbnail&#34;</span><span style="color:#f92672">)</span>
-    <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>exitStatus <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">);</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2012-09-15
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/imagemagick">imagemagick</a>
                 </span>
             </div>
         </div>

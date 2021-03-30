@@ -94,6 +94,63 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Combining ImageMagick and Grails</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.</p>
+<p><strong>Steps:</strong></p>
+<ul>
+<li>Install ImageMagick according to the installation instructions.</li>
+<li>It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc. So remember where this utility is installed on your system!</li>
+<li>Make sure that ImageMagick is installed correctly be converting an image to a thumbnail by using the following command in a terminal.</li>
+</ul>
+<pre><code class="language-console" data-lang="console">/opt/local/bin/convert &lt;filename&gt; -thumbnail 70x70 &lt;thumbnail-filename&gt;
+</code></pre><p><strong>example:</strong></p>
+<pre><code class="language-console" data-lang="console">/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg
+</code></pre><p>Create some code that calls the ImageMagick convert utility with the correct parameters to enable you to achieve what you want. Something like below:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">createThumbnail</span><span style="color:#f92672">(</span>File file<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+   <span style="color:#66d9ef">def</span> command <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/opt/local/bin/convert ${file.canonicalPath} &#34;</span> <span style="color:#f92672">+</span>
+                 <span style="color:#e6db74">&#34;-thumbnail 70x70 &#34;</span> <span style="color:#f92672">+</span>
+                 <span style="color:#e6db74">&#34;/images/thumbs&#34;</span> <span style="color:#f92672">+</span> File<span style="color:#f92672">.</span><span style="color:#a6e22e">separator</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;${file.name}&#34;</span>
+   <span style="color:#66d9ef">def</span> proc <span style="color:#f92672">=</span> Runtime<span style="color:#f92672">.</span><span style="color:#a6e22e">getRuntime</span><span style="color:#f92672">().</span><span style="color:#a6e22e">exec</span><span style="color:#f92672">(</span>command<span style="color:#f92672">)</span>
+   <span style="color:#66d9ef">int</span> exitStatus<span style="color:#f92672">;</span>
+   <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+           exitStatus <span style="color:#f92672">=</span> proc<span style="color:#f92672">.</span><span style="color:#a6e22e">waitFor</span><span style="color:#f92672">();</span>
+           <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+       <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>java<span style="color:#f92672">.</span><span style="color:#a6e22e">lang</span><span style="color:#f92672">.</span><span style="color:#a6e22e">InterruptedException</span> e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+           log<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Creating thumbnail - Interrupted: Ignoring and waiting&#34;</span><span style="color:#f92672">)</span>
+       <span style="color:#f92672">}</span>
+   <span style="color:#f92672">}</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>exitStatus <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        log<span style="color:#f92672">.</span><span style="color:#a6e22e">error</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Error executing command: exitStatus=[${exitStatus}]&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">}</span>
+    log<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Succesfully created thumbnail&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>exitStatus <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2012-09-15
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/imagemagick">imagemagick</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Installing Vimball plugins when using Pathogen</h1>
         </div>
     </div>
@@ -235,68 +292,6 @@ if (!doNotTrack) {
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/grails">grails</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Funcional Code Coverage using Cobertura</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.</p>
-<p>One can start to complain :), stop working on the project or even better master the concept of <a href="http://se-radio.net/podcast/2009-11/episode-148-software-archaeology-dave-thomas">Software Archeology</a>. An additional thing is to adopt the use of <a href="http://cobertura.sourceforge.net/">Cobertura</a> a code coverage tool which can easily be used to track down Functional Code Coverage. Normally the concept of Code Coverage is used to identify what code is executed during development and test phase. This to give an indication on how much code you cover with your testing strategy (often unit testing). This is <strong>IMHO</strong> something you will always want to know! But in the case you do not have unit tests or creating them is impossible due to the technical/organisational nature of the project, you can rely on creating functional tests and still track down the &lsquo;functional&rsquo; coverage with tools like <a href="http://cobertura.sourceforge.net/">Cobertura</a> (or alternatives like <a href="http://emma.sourceforge.net/">Emma</a>).</p>
-<p><strong>This tackles several problems:</strong><br>
-You are creating functional tests which can be used for regression testing
-You are creating awareness on how little is tested or is known about the system
-Note: By functional testing we mean that we are going to test via the Web layer of the JEE project To see an example on how the reporting looks like, check out this <a href="http://cobertura.sourceforge.net/sample/">sample</a> report!</p>
-<h4 id="how-to-get-code-coverage-information">How to get Code Coverage information</h4>
-<p><strong>General process:</strong></p>
-<ul>
-<li>Compile your software</li>
-<li>Instrument the compiled code</li>
-<li>Deploy your instrumented code and start the application</li>
-<li>Use the application or run automated functional tests</li>
-<li>Shutdown the application</li>
-<li>Generate your Code Coverage reports</li>
-<li>no step 7! All done :)</li>
-</ul>
-<p>The remaining part of this article is going to describe how you can get Functional Code Coverage information in the process of continously building, deploying and testing your software. Some elements are not explained due to the fact that other extensive information is given somewhere else on the web!</p>
-<h4 id="compile-instrument-and-build">Compile, Instrument and Build</h4>
-<p>The <a href="http://maven.apache.org/">Maven</a> project enables you to build your software with great ease. Giving a few simple commands makes it able to build a project, deploy it and even integrate it with tools and technologies such as  Cobertura. There is a even a <a href="http://mojo.codehaus.org/cobertura-maven-plugin/">Cobertura Maven</a> Plugin to easily use <a href="http://cobertura.sourceforge.net/">Cobertura</a> in a <a href="http://maven.apache.org/">Maven</a> build. We need to use Cobertura in the build phase because it will instrument the compiled code and generate a small file called &lsquo;cobertura.ser&rsquo; which is used as a kind of database that stores each call to a piece of code. The instrumented code and the database file are crucial because they contains all information needed to generate code coverage reports later on.</p>
-<h4 id="run-and-test">Run and Test</h4>
-<p>After the code is succesfully instrumented you may deploy the build artifacts together with the &lsquo;cobertura.ser&rsquo; file inside a JBoss JEE container and run your application.</p>
-<p>Note: In our project we used <a href="http://www.jboss.org/">JBoss</a> but offcourse you can use other application servers!</p>
-<p>The <a href="http://jakarta.apache.org/jmeter/">JMeter</a> project delivers an excellent tooling and technology which enables you to record your functional flow and lets you replay a scenario which was recorded earlier on. For more information on <a href="http://jakarta.apache.org/jmeter/">JMeter</a> recording and usage, please check the <a href="http://jakarta.apache.org/jmeter/">JMeter</a> project. But for now lets assume you have created a couple of functional tests, so you can execute them.</p>
-<h4 id="generate-coverage-reports">Generate coverage reports</h4>
-<p>After the functional tests have been executed, the modified database file &lsquo;cobertura.ser&rsquo; can be collected and reports can be generated. Cobertura has some nice predefined reporting templates. After these stepes you should have inisight on what code is actually executed during a functional flow and this may contribute to your understanding of the application.</p>
-<h4 id="not-once-but-do-it-always">Not once but do it always!</h4>
-<p>The process of compiling, instrumenting, deploying, testing and reporting can be fully automatized. The famous Hudson comes to the rescue! When corectly implemented Hudson will serve you all information that you need on the moments you need it!</p>
-<h4 id="tools--technologies">Tools &amp; Technologies</h4>
-<p>The folowing list provides information on the tools that are used:</p>
-<ul>
-<li><a href="http://maven.apache.org/">Maven</a> -&gt; used info for compiling and instrumenting your code (alternative to <a href="http://ant.apache.org/">Ant</a>)</li>
-<li><a href="http://cobertura.sourceforge.net/">Cobertura</a> -&gt; used to get Code Coverage information</li>
-<li><a href="http://www.jboss.org/">JBoss</a> -&gt; used for running a JEE project</li>
-<li><a href="http://jakarta.apache.org/jmeter/">JMeter</a> -&gt; used to record and playback functional tests</li>
-<li><a href="http://hudson-ci.org/">Hudson</a> -&gt; used to automatically build &amp; test your software</li>
-</ul>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2012-09-10
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/coverage">coverage</a>, <a href="/tags/testing">testing</a>, <a href="/tags/cobertura">cobertura</a>, <a href="/tags/continous-integration">continous integration</a>, <a href="/tags/hudson">hudson</a>, <a href="/tags/jenkins">jenkins</a>, <a href="/tags/ssh">ssh</a>
                 </span>
             </div>
         </div>

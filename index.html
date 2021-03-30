@@ -94,6 +94,39 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Capture link from Mac app into org-mode document</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>To quickly grab a link from an open Mac app and use this link into an org-mode document use the following package:</p>
+<ul>
+<li><a href="https://orgmode.org/worg/org-contrib/org-mac-link.html">Grab links from open Mac applications</a></li>
+</ul>
+<p>An optional keybind as follows:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(add-hook <span style="color:#e6db74">&#39;org-mode-hook</span> (lambda ()
+                           (<span style="color:#a6e22e">define-key</span> org-mode-map (kbd <span style="color:#e6db74">&#34;C-c g&#34;</span>) <span style="color:#e6db74">&#39;org-mac-grab-link</span>)))
+</code></pre></div><p>This enables you to quickly grab a link using <code>C-c g</code></p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2021-03-30
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/orgmode">orgmode</a>, <a href="/tags/emacs">emacs</a>, <a href="/tags/elisp">elisp</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Paste image from clipboard directly in an org file</h1>
         </div>
     </div>
@@ -391,38 +424,6 @@ code.</p>
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/ranger">ranger</a>, <a href="/tags/pathfinder">pathfinder</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Infrastructure and System Monitoring using Prometheus</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &ldquo;Infrastructure and System Monitoring using Prometheus&rdquo;. You can find the used material here:</p>
-<ul>
-<li>Slides: <a href="https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus">https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus</a></li>
-<li>Slides in PDF: <a href="https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE">https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE</a></li>
-<li>Code: <a href="https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus">https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus</a></li>
-</ul>
-<p>Feel free to share and distribute</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2017-05-12
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/infrastructure">infrastructure</a>, <a href="/tags/monitoring">monitoring</a>, <a href="/tags/docker">docker</a>, <a href="/tags/prometheus">prometheus</a>, <a href="/tags/talks">talks</a>, <a href="/tags/devoxx">devoxx</a>
                 </span>
             </div>
         </div>

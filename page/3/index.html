@@ -94,6 +94,50 @@ if (!doNotTrack) {
                 <article class="post u-cf">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="post-title">Change the port of actuator endpoint in a Grails application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <p>When using actuator endpoints to expose metrics in a Grails (Spring Boot) application,
+it may be useful to run the metrics on a different port.</p>
+<p>This enables you to hide the metrics for the public and use the different port in
+an AWS infrastucture so that the metrics are only available internal.</p>
+<p>Let us first enable the actuator endpoints</p>
+<pre><code class="language-console" data-lang="console">// File: grails-app/conf/application.yml
+
+# Spring Actuator Endpoints are Disabled by Default
+endpoints:
+    enabled: true
+    jmx:
+        enabled: true
+</code></pre><p>Change the port on which the metrics runs, add the lines below to the appl</p>
+<pre><code class="language-console" data-lang="console">// File: grails-app/conf/application.yml
+
+management:
+    port: 9000
+</code></pre><p>Now when you start your Grails application it run on port <code>8080</code> and the metrics
+are available on port <code>9090</code>/metrics</p>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <div class="post-meta-info">
+                Published on 2016-11-02
+                <span class="post-meta-info-taxonomy">
+                    using tags:
+                        <a href="/tags/grails">grails</a>, <a href="/tags/springboot">springboot</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</article>
+
+            
+                <article class="post u-cf">
+    <div class="row">
+        <div class="twelve columns">
             <h1 class="post-title">Accessing localhost from a Docker Container using native Docker for Mac</h1>
         </div>
     </div>
@@ -315,43 +359,6 @@ Total time: 2.054 secs
                 <span class="post-meta-info-taxonomy">
                     using tags:
                         <a href="/tags/davmail">davmail</a>, <a href="/tags/exchange">exchange</a>, <a href="/tags/owa">owa</a>, <a href="/tags/postbox">postbox</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Cleaning Grails Domain Objects in a Spock Test</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.</p>
-<p>Spock provides a <code>setup()</code> and <code>cleanup()</code> method.</p>
-<p>When you want to remove your domain objects after each feature test has run you can execute the following:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">setup</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> <span style="color:#f92672">...</span> <span style="color:#f92672">}</span>
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cleanup</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        <span style="color:#75715e">// make sure to clear out the database on after test
-</span><span style="color:#75715e"></span>        <span style="color:#f92672">&lt;</span>YourDomainObject<span style="color:#f92672">&gt;.</span><span style="color:#a6e22e">withNewSession</span> <span style="color:#f92672">{</span>
-            <span style="color:#f92672">&lt;</span>YourDomainObject<span style="color:#f92672">&gt;.</span><span style="color:#a6e22e">findAll</span><span style="color:#f92672">().</span><span style="color:#a6e22e">each</span> <span style="color:#f92672">{</span> it<span style="color:#f92672">.</span><span style="color:#a6e22e">delete</span><span style="color:#f92672">(</span>flush: <span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">}</span>
-        <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>We need the <code>.withNewSession</code> because there is no Hibernate session provided in the <code>setup()</code> and <code>cleanup()</code> methods.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2015-10-30
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>
                 </span>
             </div>
         </div>
