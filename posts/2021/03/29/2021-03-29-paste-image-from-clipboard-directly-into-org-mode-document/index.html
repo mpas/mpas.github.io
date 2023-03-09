@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
-  
-  
-  <meta charset="utf-8">
-  <title>CodeVerse - Paste image from clipboard directly into org-mode document</title>
-  <meta name="description" content="">
-  <meta name="author" content="Marco Pas">
 
-  <meta name="generator" content="" />
-  <meta name="robots" content="index,follow">
+    
+    <meta charset="utf-8">
+    <title>Marco Pas - Paste image from clipboard directly into org-mode document</title>
+    <meta name="description"
+        content="">
+    <meta name="author" content="Marco Pas">
 
-  
-  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <script>mermaid.initialize({startOnLoad:true});</script>
+    <meta name="generator" content="" />
+    <meta name="robots" content="index,follow">
 
-  
-  
+
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+
+    <script src="https://unpkg.com/lunr/lunr.js"></script>
+
+    
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -30,73 +36,149 @@ if (!doNotTrack) {
 }
 </script>
 
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
-  
-  
-  <link rel="stylesheet" href="/skeleton/normalize.css">
-  <link rel="stylesheet" href="/skeleton/skeleton.css">
-  
-  
-  <link rel="stylesheet" href="/fontawesome/all.min.css">
- 
-  
-  <link rel="stylesheet" href="/css/custom.css">
-  
-  
-  <link rel="icon" type="image/png" href="/images/favicon.png">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+
+    
+    <link rel="icon" type="image/png" href="/images/favicon.png">
 
 </head>
 
-<div class="container">
-    <div id="header">
-        <div class="row">
-            <div class="six columns">
-                <div id="brand">
-                    <a href="https://mpas.github.io">CodeVerse</a>
+<body class="has-background-light">
+    <div>
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
+    </div>
+
+    <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://mpas.github.io">
+                MARCO PAS
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-menu">
+            <div class="navbar-start">
+                <div class="navbar-start">
+                    
+                    
+                    <a class="navbar-item is-hoverable" href="/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-book has-text-primary"></i>
+                        </span>
+                        
+                        <span>
+                            Home
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/posts">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-archive has-text-warning"></i>
+                        </span>
+                        
+                        <span>
+                            Archive
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/tags">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-tag has-text-danger"></i>
+                        </span>
+                        
+                        <span>
+                            Tags
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/pages/about/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-address-card has-text-success"></i>
+                        </span>
+                        
+                        <span>
+                            About
+                        </span>
+                        
+                    </a>
+                    
                 </div>
             </div>
-            <div class="six columns">
-                <nav class="u-pull-right">
-                    <ul id="navbar">
-                        
-                        
-                            <li >
-                                <a href="/">Blog</a></li>
-                        
-                            <li >
-                                <a href="/posts">Post List</a></li>
-                        
-                            <li >
-                                <a href="/pages/about/">About Me</a></li>
-                        
-                            <li >
-                                <a href="/pages/resume">Resume</a></li>
-                        
-                    </ul>
-                </nav>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field control">
+                        <div class="control has-icons-left">
+                            <form id="search" method="get" role="search">
+                                <input class="input" type="search" id="search-input" placeholder="Search">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+    </nav>
+
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
     </div>
 </div>
 
+    <div class="container">
+        <div class="is-search-result">
+            
+<div class="box mt-5 has-background-white">
+    <article>
+        
 
 
-  <div class="container">
-    <div class="row">
-      <div class="post-content">
-        <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Paste image from clipboard directly into org-mode document</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>March 29, 2021</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>1 minutes and
+            34 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+        <div class="content">
+            <h2>Paste image from clipboard directly into org-mode document</h2>
             <p>Personally I really like using org-mode files for creating documentation and presentations.
 When working with screenshots my normal workflows always has been.</p>
 <ol>
@@ -111,122 +193,173 @@ When working with screenshots my normal workflows always has been.</p>
 <li>In your org-document paste using C-M-y (or call <code>my/insert-clipboard-image</code>) and automatically add the screenshot to an =./images- directory and insert the link to the image.</li>
 </ol>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="color:#75715e">;; Overview</span>
-<span style="color:#75715e">;; --------</span>
-<span style="color:#75715e">;; Inserts an image from the clipboard by prompting the user for a filename.</span>
-<span style="color:#75715e">;; Default extension for the pasted filename is .png</span>
-
-<span style="color:#75715e">;; A ./images directory will be created relative to the current Org-mode document to store the images.</span>
-
-<span style="color:#75715e">;; The default name format of the pasted image is:</span>
-<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;image-filename&gt;.png</span>
-
-<span style="color:#75715e">;; Important</span>
-<span style="color:#75715e">;; --------</span>
-<span style="color:#75715e">;; This function depends on &#39;pngpaste&#39; to paste the clipboard image</span>
-<span style="color:#75715e">;; -&gt; $ brew install pngpaste</span>
-
-<span style="color:#75715e">;; Basic Customization</span>
-<span style="color:#75715e">;; -------------------</span>
-<span style="color:#75715e">;; Include the current Org-mode header as part of the image name.</span>
-<span style="color:#75715e">;; (setq my/insert-clipboard-image-use-headername t)</span>
-<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;headername&gt;_-_&lt;image-filename&gt;.png</span>
-
-<span style="color:#75715e">;; Include the buffername as part of the image name.</span>
-<span style="color:#75715e">;; (setq my/insert-clipboard-image-use-buffername t)</span>
-<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;buffername&gt;_-_&lt;image-filename&gt;.png</span>
-
-<span style="color:#75715e">;; Full name format</span>
-<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;buffername&gt;_-_&lt;headername&gt;_-_&lt;image-filename&gt;.png</span>
-(defun my/insert-clipboard-image (filename)
-  <span style="color:#e6db74">&#34;Inserts an image from the clipboard&#34;</span>
-  (interactive <span style="color:#e6db74">&#34;sFilename to paste: &#34;</span>)
-  (let ((file
-         (<span style="color:#a6e22e">concat</span>
-          (<span style="color:#a6e22e">file-name-directory</span> <span style="color:#a6e22e">buffer-file-name</span>)
-          <span style="color:#e6db74">&#34;images/&#34;</span>
-          (<span style="color:#a6e22e">format-time-string</span> <span style="color:#e6db74">&#34;%Y%m%d_%H%M%S_-_&#34;</span>)
-          (if (bound-and-true-p my/insert-clipboard-image-use-buffername)
-              (<span style="color:#a6e22e">concat</span> (s-replace <span style="color:#e6db74">&#34;-&#34;</span> <span style="color:#e6db74">&#34;_&#34;</span>
-                                 (<span style="color:#a6e22e">downcase</span> (file-name-sans-extension (<span style="color:#a6e22e">buffer-name</span>)))) <span style="color:#e6db74">&#34;_-_&#34;</span>)
-            <span style="color:#e6db74">&#34;&#34;</span>)
-          (if (bound-and-true-p my/insert-clipboard-image-use-headername)
-              (<span style="color:#a6e22e">concat</span> (s-replace <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#e6db74">&#34;_&#34;</span> (<span style="color:#a6e22e">downcase</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">4</span> (org-heading-components)))) <span style="color:#e6db74">&#34;_-_&#34;</span>)
-            <span style="color:#e6db74">&#34;&#34;</span>)
-          filename <span style="color:#e6db74">&#34;.png&#34;</span>)))
-
-    <span style="color:#75715e">;; create images directory</span>
-    (unless (<span style="color:#a6e22e">file-exists-p</span> (<span style="color:#a6e22e">file-name-directory</span> file))
-      (make-directory (<span style="color:#a6e22e">file-name-directory</span> file)))
-
-    <span style="color:#75715e">;; paste file from clipboard</span>
-    (shell-command (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;pngpaste &#34;</span> file))
-    (<span style="color:#a6e22e">insert</span> (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;[[./images/&#34;</span> (<span style="color:#a6e22e">file-name-nondirectory</span> file) <span style="color:#e6db74">&#34;]]&#34;</span>))))
-
-(map! :desc <span style="color:#e6db74">&#34;Insert clipboard image&#34;</span>
-      :n <span style="color:#e6db74">&#34;C-M-y&#34;</span> <span style="color:#e6db74">&#39;my/insert-clipboard-image</span>)
-</code></pre></div><p>A nice setting in org-mode that also helps when viewing large screenshots is the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span><span style="color:#75715e">;; Overview</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; --------</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Inserts an image from the clipboard by prompting the user for a filename.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Default extension for the pasted filename is .png</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; A ./images directory will be created relative to the current Org-mode document to store the images.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; The default name format of the pasted image is:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;image-filename&gt;.png</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Important</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; --------</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; This function depends on &#39;pngpaste&#39; to paste the clipboard image</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; -&gt; $ brew install pngpaste</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Basic Customization</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; -------------------</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Include the current Org-mode header as part of the image name.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; (setq my/insert-clipboard-image-use-headername t)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;headername&gt;_-_&lt;image-filename&gt;.png</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Include the buffername as part of the image name.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; (setq my/insert-clipboard-image-use-buffername t)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;buffername&gt;_-_&lt;image-filename&gt;.png</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Full name format</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;buffername&gt;_-_&lt;headername&gt;_-_&lt;image-filename&gt;.png</span>
+</span></span><span style="display:flex;"><span>(defun my/insert-clipboard-image (filename)
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Inserts an image from the clipboard&#34;</span>
+</span></span><span style="display:flex;"><span>  (interactive <span style="color:#e6db74">&#34;sFilename to paste: &#34;</span>)
+</span></span><span style="display:flex;"><span>  (let ((file
+</span></span><span style="display:flex;"><span>         (<span style="color:#a6e22e">concat</span>
+</span></span><span style="display:flex;"><span>          (<span style="color:#a6e22e">file-name-directory</span> <span style="color:#a6e22e">buffer-file-name</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;images/&#34;</span>
+</span></span><span style="display:flex;"><span>          (<span style="color:#a6e22e">format-time-string</span> <span style="color:#e6db74">&#34;%Y%m%d_%H%M%S_-_&#34;</span>)
+</span></span><span style="display:flex;"><span>          (if (bound-and-true-p my/insert-clipboard-image-use-buffername)
+</span></span><span style="display:flex;"><span>              (<span style="color:#a6e22e">concat</span> (s-replace <span style="color:#e6db74">&#34;-&#34;</span> <span style="color:#e6db74">&#34;_&#34;</span>
+</span></span><span style="display:flex;"><span>                                 (<span style="color:#a6e22e">downcase</span> (file-name-sans-extension (<span style="color:#a6e22e">buffer-name</span>)))) <span style="color:#e6db74">&#34;_-_&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>          (if (bound-and-true-p my/insert-clipboard-image-use-headername)
+</span></span><span style="display:flex;"><span>              (<span style="color:#a6e22e">concat</span> (s-replace <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#e6db74">&#34;_&#34;</span> (<span style="color:#a6e22e">downcase</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">4</span> (org-heading-components)))) <span style="color:#e6db74">&#34;_-_&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>          filename <span style="color:#e6db74">&#34;.png&#34;</span>)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">;; create images directory</span>
+</span></span><span style="display:flex;"><span>    (unless (<span style="color:#a6e22e">file-exists-p</span> (<span style="color:#a6e22e">file-name-directory</span> file))
+</span></span><span style="display:flex;"><span>      (make-directory (<span style="color:#a6e22e">file-name-directory</span> file)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">;; paste file from clipboard</span>
+</span></span><span style="display:flex;"><span>    (shell-command (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;pngpaste &#34;</span> file))
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">insert</span> (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;[[./images/&#34;</span> (<span style="color:#a6e22e">file-name-nondirectory</span> file) <span style="color:#e6db74">&#34;]]&#34;</span>))))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(map! :desc <span style="color:#e6db74">&#34;Insert clipboard image&#34;</span>
+</span></span><span style="display:flex;"><span>      :n <span style="color:#e6db74">&#34;C-M-y&#34;</span> <span style="color:#e6db74">&#39;my/insert-clipboard-image</span>)
+</span></span></code></pre></div><p>A nice setting in org-mode that also helps when viewing large screenshots is the following:</p>
 <p>This display the taken screenshot in a acceptable format in your org-mode file.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(after! org
-  (setq org-image-actual-width (<span style="color:#a6e22e">/</span> (display-pixel-width) <span style="color:#ae81ff">2</span>)))
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(after! org
+</span></span><span style="display:flex;"><span>  (setq org-image-actual-width (<span style="color:#a6e22e">/</span> (display-pixel-width) <span style="color:#ae81ff">2</span>)))
+</span></span></code></pre></div>
+        </div>
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/emacs/">emacs</a>, 
+            <a class="is-link" href="/tags/orgmode/">orgmode</a>, 
+            <a class="is-link" href="/tags/elisp/">elisp</a>, 
+            <a class="is-link" href="/tags/screenshot/">screenshot</a>, 
+            <a class="is-link" href="/tags/image/">image</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+    </article>
+</div>
+
         </div>
     </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2021-03-29
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/emacs">emacs</a>, <a href="/tags/orgmode">orgmode</a>, <a href="/tags/elisp">elisp</a>, <a href="/tags/screenshot">screenshot</a>, <a href="/tags/image">image</a>
+
+    
+    <template id="is-search-template" hidden>
+        <article class="content">
+            <div>
+                <hr class="mt-0 mb-0">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                    <span>
+                        <div class="date"></div>
+                    </span>
                 </span>
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-tag"></i>
+                    </span>
+                    <span>
+                        <div class="tags"></div>
+                    </span>
+                </span>
+                <hr class="mt-0 mb-0">
             </div>
-        </div>
-    </div>
-</article>
-
-      </div>
-    </div>
-  </div>
-
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="twelve columns">
-                <div id="social">
-                    
-                        <a title="Twitter" href="https://twitter.com/marcopas">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    
-                    
-                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    
-                    
-                        <a title="GitHub" href="https://github.com/mpas">
-                            <i class="fab fa-github"></i>
-                        </a>
-                    
-                    
-                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
-                            <i class="fab fa-stack-overflow"></i>
-                        </a>
-                    
-                    
-                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
-                            <i class="far fa-envelope"></i>
-                        </a>
-                    
+            <div>
+                <h5 class="mt-2">
+                    <a class="is-read-more" href=""></a>
+                </h5>
+                <div class="summary"></div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
-        </div>
+        </article>
+    </template>
+    <footer class="footer">
+    <div class="content has-text-centered">
+        <p>Lets connect on:</p>
+        <p>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-twitter"></i>
+                </span>
+                <span><a href="https://twitter.com/marcopas">Twitter</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-stack-overflow"></i>
+                </span>
+                <span><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-linkedin"></i>
+                </span>
+                <span><a href="">LinkedIn</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-github"></i>
+                </span>
+                <span><a href="https://github.com/mpas">GitHub</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
+            </span>
+        </p>
     </div>
 </footer>
-</body>
-</html>
+<script src="/js/search.js"></script>
 
+    <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+    <script>addBackToTop({
+            diameter: 56,
+            backgroundColor: 'rgb(255, 82, 82)',
+            textColor: '#fff'
+        })</script>
+    <script src="/js/navbar.js"></script>
+</body>
+
+</html>

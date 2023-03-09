@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>vsftpd on CodeVerse</title>
+    <title>vsftpd on Marco Pas</title>
     <link>https://mpas.github.io/tags/vsftpd/</link>
-    <description>Recent content in vsftpd on CodeVerse</description>
+    <description>Recent content in vsftpd on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Tue, 18 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/vsftpd/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Troubles getting vsftpd user logged in?</title>

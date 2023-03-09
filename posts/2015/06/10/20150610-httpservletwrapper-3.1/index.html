@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
-  
-  
-  <meta charset="utf-8">
-  <title>CodeVerse - HTTPServletRequestWrapper for ServletInputStream 3.1</title>
-  <meta name="description" content="">
-  <meta name="author" content="Marco Pas">
 
-  <meta name="generator" content="" />
-  <meta name="robots" content="index,follow">
+    
+    <meta charset="utf-8">
+    <title>Marco Pas - HTTPServletRequestWrapper for ServletInputStream 3.1</title>
+    <meta name="description"
+        content="">
+    <meta name="author" content="Marco Pas">
 
-  
-  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <script>mermaid.initialize({startOnLoad:true});</script>
+    <meta name="generator" content="" />
+    <meta name="robots" content="index,follow">
 
-  
-  
+
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+
+    <script src="https://unpkg.com/lunr/lunr.js"></script>
+
+    
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -30,222 +36,345 @@ if (!doNotTrack) {
 }
 </script>
 
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
-  
-  
-  <link rel="stylesheet" href="/skeleton/normalize.css">
-  <link rel="stylesheet" href="/skeleton/skeleton.css">
-  
-  
-  <link rel="stylesheet" href="/fontawesome/all.min.css">
- 
-  
-  <link rel="stylesheet" href="/css/custom.css">
-  
-  
-  <link rel="icon" type="image/png" href="/images/favicon.png">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+
+    
+    <link rel="icon" type="image/png" href="/images/favicon.png">
 
 </head>
 
-<div class="container">
-    <div id="header">
-        <div class="row">
-            <div class="six columns">
-                <div id="brand">
-                    <a href="https://mpas.github.io">CodeVerse</a>
+<body class="has-background-light">
+    <div>
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
+    </div>
+
+    <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://mpas.github.io">
+                MARCO PAS
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-menu">
+            <div class="navbar-start">
+                <div class="navbar-start">
+                    
+                    
+                    <a class="navbar-item is-hoverable" href="/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-book has-text-primary"></i>
+                        </span>
+                        
+                        <span>
+                            Home
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/posts">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-archive has-text-warning"></i>
+                        </span>
+                        
+                        <span>
+                            Archive
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/tags">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-tag has-text-danger"></i>
+                        </span>
+                        
+                        <span>
+                            Tags
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/pages/about/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-address-card has-text-success"></i>
+                        </span>
+                        
+                        <span>
+                            About
+                        </span>
+                        
+                    </a>
+                    
                 </div>
             </div>
-            <div class="six columns">
-                <nav class="u-pull-right">
-                    <ul id="navbar">
-                        
-                        
-                            <li >
-                                <a href="/">Blog</a></li>
-                        
-                            <li >
-                                <a href="/posts">Post List</a></li>
-                        
-                            <li >
-                                <a href="/pages/about/">About Me</a></li>
-                        
-                            <li >
-                                <a href="/pages/resume">Resume</a></li>
-                        
-                    </ul>
-                </nav>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field control">
+                        <div class="control has-icons-left">
+                            <form id="search" method="get" role="search">
+                                <input class="input" type="search" id="search-input" placeholder="Search">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+    </nav>
+
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
     </div>
 </div>
 
+    <div class="container">
+        <div class="is-search-result">
+            
+<div class="box mt-5 has-background-white">
+    <article>
+        
 
 
-  <div class="container">
-    <div class="row">
-      <div class="post-content">
-        <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">HTTPServletRequestWrapper for ServletInputStream 3.1</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>June 10, 2015</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>1 minutes and
+            6 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+        <div class="content">
+            <h2>HTTPServletRequestWrapper for ServletInputStream 3.1</h2>
             <p>A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.</p>
 <ul>
 <li>isFinished</li>
 <li>isReady</li>
 <li>setReadListener</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> com.google.common.primitives.Bytes<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> javax.servlet.ReadListener<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> javax.servlet.ServletInputStream<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequest<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequestWrapper<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> java.io.ByteArrayInputStream<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
-<span style="color:#f92672">import</span> java.util.Arrays<span style="color:#f92672">;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> com.google.common.primitives.Bytes<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.servlet.ReadListener<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.servlet.ServletInputStream<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequest<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequestWrapper<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.ByteArrayInputStream<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Arrays<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span> <span style="color:#66d9ef">extends</span> HttpServletRequestWrapper <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tag::variables[]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> requestBody <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">];</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// end::variables[]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     - Constructs a request object wrapping the given request.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     - @param request The request to wrap
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     - @throws IllegalArgumentException if the request is null
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span><span style="color:#f92672">(</span>request<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tag::getRequestBody[]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> <span style="color:#a6e22e">getRequestBody</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>bufferFilled<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOf</span><span style="color:#f92672">(</span>requestBody<span style="color:#f92672">,</span> requestBody<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        InputStream inputStream <span style="color:#f92672">=</span> <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> buffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span><span style="color:#ae81ff">102400</span><span style="color:#f92672">];</span> <span style="color:#75715e">// 100kb buffer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> bytesRead<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span>bytesRead <span style="color:#f92672">=</span> inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">))</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            requestBody <span style="color:#f92672">=</span> Bytes<span style="color:#f92672">.</span><span style="color:#a6e22e">concat</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">requestBody</span><span style="color:#f92672">,</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOfRange</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">,</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">,</span> bytesRead<span style="color:#f92672">));</span> <span style="color:#75715e">// &lt;1&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> requestBody<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// end::getRequestBody[]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tag::getInputStream[]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ServletInputStream <span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> CustomServletInputStream<span style="color:#f92672">(</span>getRequestBody<span style="color:#f92672">());</span> <span style="color:#75715e">// &lt;1&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// end::getInputStream[]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomServletInputStream</span> <span style="color:#66d9ef">extends</span> ServletInputStream <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">private</span> ByteArrayInputStream buffer<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">CustomServletInputStream</span><span style="color:#f92672">(</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> contents<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">buffer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ByteArrayInputStream<span style="color:#f92672">(</span>contents<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">read</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isFinished</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isReady</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setReadListener</span><span style="color:#f92672">(</span>ReadListener listener<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Not implemented&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div>
+        </div>
+        <div class="content">
+    <hr class=" mt-0 mb-0">
 
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span> <span style="color:#66d9ef">extends</span> HttpServletRequestWrapper <span style="color:#f92672">{</span>
+    
 
-    <span style="color:#75715e">// tag::variables[]
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> requestBody <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>0<span style="color:#f92672">];</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
-    <span style="color:#75715e">// end::variables[]
-</span><span style="color:#75715e"></span>
-    <span style="color:#75715e">/**
-</span><span style="color:#75715e">     - Constructs a request object wrapping the given request.
-</span><span style="color:#75715e">     *
-</span><span style="color:#75715e">     - @param request The request to wrap
-</span><span style="color:#75715e">     - @throws IllegalArgumentException if the request is null
-</span><span style="color:#75715e">     */</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">super</span><span style="color:#f92672">(</span>request<span style="color:#f92672">);</span>
-    <span style="color:#f92672">}</span>
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/java/">java</a>
+        </span>
+    </span>
+    
 
+    <hr class="mt-0 mb-0">
+</div>
 
-    <span style="color:#75715e">// tag::getRequestBody[]
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> <span style="color:#a6e22e">getRequestBody</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>bufferFilled<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">return</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOf</span><span style="color:#f92672">(</span>requestBody<span style="color:#f92672">,</span> requestBody<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
+    </article>
+</div>
 
-        InputStream inputStream <span style="color:#f92672">=</span> <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
-
-        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> buffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>102400<span style="color:#f92672">];</span> <span style="color:#75715e">// 100kb buffer
-</span><span style="color:#75715e"></span>
-        <span style="color:#66d9ef">int</span> bytesRead<span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span>bytesRead <span style="color:#f92672">=</span> inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">))</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            requestBody <span style="color:#f92672">=</span> Bytes<span style="color:#f92672">.</span><span style="color:#a6e22e">concat</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">requestBody</span><span style="color:#f92672">,</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOfRange</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> bytesRead<span style="color:#f92672">));</span> <span style="color:#75715e">// &lt;1&gt;
-</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
-
-        bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
-
-        <span style="color:#66d9ef">return</span> requestBody<span style="color:#f92672">;</span>
-    <span style="color:#f92672">}</span>
-    <span style="color:#75715e">// end::getRequestBody[]
-</span><span style="color:#75715e"></span>
-    <span style="color:#75715e">// tag::getInputStream[]
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Override</span>
-    <span style="color:#66d9ef">public</span> ServletInputStream <span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> CustomServletInputStream<span style="color:#f92672">(</span>getRequestBody<span style="color:#f92672">());</span> <span style="color:#75715e">// &lt;1&gt;
-</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
-    <span style="color:#75715e">// end::getInputStream[]
-</span><span style="color:#75715e"></span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomServletInputStream</span> <span style="color:#66d9ef">extends</span> ServletInputStream <span style="color:#f92672">{</span>
-
-        <span style="color:#66d9ef">private</span> ByteArrayInputStream buffer<span style="color:#f92672">;</span>
-
-        <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">CustomServletInputStream</span><span style="color:#f92672">(</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> contents<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">buffer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ByteArrayInputStream<span style="color:#f92672">(</span>contents<span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
-
-        <span style="color:#a6e22e">@Override</span>
-        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">read</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">return</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">();</span>
-        <span style="color:#f92672">}</span>
-
-        <span style="color:#a6e22e">@Override</span>
-        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isFinished</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">return</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> 0<span style="color:#f92672">;</span>
-        <span style="color:#f92672">}</span>
-
-        <span style="color:#a6e22e">@Override</span>
-        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isReady</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
-        <span style="color:#f92672">}</span>
-
-        <span style="color:#a6e22e">@Override</span>
-        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setReadListener</span><span style="color:#f92672">(</span>ReadListener listener<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Not implemented&#34;</span><span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div>
         </div>
     </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2015-06-10
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/java">java</a>
+
+    
+    <template id="is-search-template" hidden>
+        <article class="content">
+            <div>
+                <hr class="mt-0 mb-0">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                    <span>
+                        <div class="date"></div>
+                    </span>
                 </span>
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-tag"></i>
+                    </span>
+                    <span>
+                        <div class="tags"></div>
+                    </span>
+                </span>
+                <hr class="mt-0 mb-0">
             </div>
-        </div>
-    </div>
-</article>
-
-      </div>
-    </div>
-  </div>
-
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="twelve columns">
-                <div id="social">
-                    
-                        <a title="Twitter" href="https://twitter.com/marcopas">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    
-                    
-                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    
-                    
-                        <a title="GitHub" href="https://github.com/mpas">
-                            <i class="fab fa-github"></i>
-                        </a>
-                    
-                    
-                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
-                            <i class="fab fa-stack-overflow"></i>
-                        </a>
-                    
-                    
-                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
-                            <i class="far fa-envelope"></i>
-                        </a>
-                    
+            <div>
+                <h5 class="mt-2">
+                    <a class="is-read-more" href=""></a>
+                </h5>
+                <div class="summary"></div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
-        </div>
+        </article>
+    </template>
+    <footer class="footer">
+    <div class="content has-text-centered">
+        <p>Lets connect on:</p>
+        <p>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-twitter"></i>
+                </span>
+                <span><a href="https://twitter.com/marcopas">Twitter</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-stack-overflow"></i>
+                </span>
+                <span><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-linkedin"></i>
+                </span>
+                <span><a href="">LinkedIn</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-github"></i>
+                </span>
+                <span><a href="https://github.com/mpas">GitHub</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
+            </span>
+        </p>
     </div>
 </footer>
-</body>
-</html>
+<script src="/js/search.js"></script>
 
+    <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+    <script>addBackToTop({
+            diameter: 56,
+            backgroundColor: 'rgb(255, 82, 82)',
+            textColor: '#fff'
+        })</script>
+    <script src="/js/navbar.js"></script>
+</body>
+
+</html>

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>markdown on CodeVerse</title>
+    <title>markdown on Marco Pas</title>
     <link>https://mpas.github.io/tags/markdown/</link>
-    <description>Recent content in markdown on CodeVerse</description>
+    <description>Recent content in markdown on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Thu, 13 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Installing Markdown on OSX and use it inside VIM</title>

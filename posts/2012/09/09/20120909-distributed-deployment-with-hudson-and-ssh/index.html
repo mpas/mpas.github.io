@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
-  
-  
-  <meta charset="utf-8">
-  <title>CodeVerse - Distributed Deployment with Hudson &amp; SSH</title>
-  <meta name="description" content="">
-  <meta name="author" content="Marco Pas">
 
-  <meta name="generator" content="" />
-  <meta name="robots" content="index,follow">
+    
+    <meta charset="utf-8">
+    <title>Marco Pas - Distributed Deployment with Hudson &amp; SSH</title>
+    <meta name="description"
+        content="">
+    <meta name="author" content="Marco Pas">
 
-  
-  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <script>mermaid.initialize({startOnLoad:true});</script>
+    <meta name="generator" content="" />
+    <meta name="robots" content="index,follow">
 
-  
-  
+
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+
+    <script src="https://unpkg.com/lunr/lunr.js"></script>
+
+    
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -30,73 +36,149 @@ if (!doNotTrack) {
 }
 </script>
 
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
-  
-  
-  <link rel="stylesheet" href="/skeleton/normalize.css">
-  <link rel="stylesheet" href="/skeleton/skeleton.css">
-  
-  
-  <link rel="stylesheet" href="/fontawesome/all.min.css">
- 
-  
-  <link rel="stylesheet" href="/css/custom.css">
-  
-  
-  <link rel="icon" type="image/png" href="/images/favicon.png">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+
+    
+    <link rel="icon" type="image/png" href="/images/favicon.png">
 
 </head>
 
-<div class="container">
-    <div id="header">
-        <div class="row">
-            <div class="six columns">
-                <div id="brand">
-                    <a href="https://mpas.github.io">CodeVerse</a>
+<body class="has-background-light">
+    <div>
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
+    </div>
+
+    <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://mpas.github.io">
+                MARCO PAS
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-menu">
+            <div class="navbar-start">
+                <div class="navbar-start">
+                    
+                    
+                    <a class="navbar-item is-hoverable" href="/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-book has-text-primary"></i>
+                        </span>
+                        
+                        <span>
+                            Home
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/posts">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-archive has-text-warning"></i>
+                        </span>
+                        
+                        <span>
+                            Archive
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/tags">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-tag has-text-danger"></i>
+                        </span>
+                        
+                        <span>
+                            Tags
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/pages/about/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-address-card has-text-success"></i>
+                        </span>
+                        
+                        <span>
+                            About
+                        </span>
+                        
+                    </a>
+                    
                 </div>
             </div>
-            <div class="six columns">
-                <nav class="u-pull-right">
-                    <ul id="navbar">
-                        
-                        
-                            <li >
-                                <a href="/">Blog</a></li>
-                        
-                            <li >
-                                <a href="/posts">Post List</a></li>
-                        
-                            <li >
-                                <a href="/pages/about/">About Me</a></li>
-                        
-                            <li >
-                                <a href="/pages/resume">Resume</a></li>
-                        
-                    </ul>
-                </nav>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field control">
+                        <div class="control has-icons-left">
+                            <form id="search" method="get" role="search">
+                                <input class="input" type="search" id="search-input" placeholder="Search">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+    </nav>
+
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
     </div>
 </div>
 
+    <div class="container">
+        <div class="is-search-result">
+            
+<div class="box mt-5 has-background-white">
+    <article>
+        
 
 
-  <div class="container">
-    <div class="row">
-      <div class="post-content">
-        <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Distributed Deployment with Hudson &amp; SSH</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>September 9, 2012</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>6 minutes and
+            7 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+        <div class="content">
+            <h2>Distributed Deployment with Hudson &amp; SSH</h2>
             <p>Have you already implemented an multi-server artifact deployment using a <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engine? If not, then read ahead and maybe this article is of help.</p>
 <h4 id="the-need-for-continuous-integration">The need for Continuous Integration</h4>
 <p>A good practice in a software development methodology and lifecycle is the use of a <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engine. The adoption of <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> improves you software quality by quickly reporting failed builds so you can modify/correct your code. Popular Continuous Integration Engines can often be extended with software quality tooling so you can report on specific quality aspect of your software.</p>
@@ -153,71 +235,71 @@ If you want to enable the Hudson server to access the remote system, start Putty
 <p>If you can succesfully access the remote server using Putty, it is time to exchange files or execute remote commands. This can be done by using 2 small commandline utilities called PSCP for file transfer and Plink for executing remote commands such as remotely deleting files etc.</p>
 <p>Make sure these are in you PATH settings so you can execute them everywhere!</p>
 <p>Examples for executing a remote command (substitute the %parameters% with your own ones)</p>
-<pre><code class="language-console" data-lang="console">#create a directory
-plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  mkdir C:/tmp
-
-#delete a directory
-plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  rm -rf C:/tmp
-
-#stop a windows service
-plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  net stop %SERVICENAME%
-
-#upload a file
-pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
-
-#upload multiple files
-pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
-</code></pre><h4 id="the-return-of-the-bat-file">The return of the .bat file</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>#create a directory
+</span></span><span style="display:flex;"><span>plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  mkdir C:/tmp
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>#delete a directory
+</span></span><span style="display:flex;"><span>plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  rm -rf C:/tmp
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>#stop a windows service
+</span></span><span style="display:flex;"><span>plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  net stop %SERVICENAME%
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>#upload a file
+</span></span><span style="display:flex;"><span>pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>#upload multiple files
+</span></span><span style="display:flex;"><span>pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
+</span></span></code></pre></div><h4 id="the-return-of-the-bat-file">The return of the .bat file</h4>
 <p>So far we have enabled remote access using SSH / CopSSH, executed remote commands and transferred files. All the needed ingredients are in place to enable our Hudson server to remotely deploy build artifacts. In the job configuration of Hudson you can trigger a batch file after a succesfull build, so whenever a succesfull build occurs trigger a batch that executes a few commands to quickly deploy build artifacts to any number of remote servers.</p>
 <p>In our case all deployment artifacts are copied to a central directory per project. So if we need to deploy a build, we can copy parts or the whole directory contents to a remote server.</p>
 <p>To give an example see the following batch files: Main example for a batchfile that triggers stopping of the remote Windows Services gives the instruction on which files need to be remotely deployed and start the services again.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-batch" data-lang="batch">-&gt; filename = upload-project-to-development.bat
-@<span style="color:#66d9ef">CLS</span>
-@<span style="color:#66d9ef">ECHO</span> OFF
-<span style="color:#66d9ef">SET</span> USERNAME=%1
-<span style="color:#66d9ef">SET</span> PASSWORD=%2
-<span style="color:#66d9ef">SET</span> HOSTNAME=%3
-<span style="color:#66d9ef">SET</span> JBOSSDIR=%4
-<span style="color:#66d9ef">SET</span> SOURCEDIR=%5
-@<span style="color:#66d9ef">ECHO</span> : - start upload procedure
-@<span style="color:#66d9ef">ECHO</span> : -- stopping servers
-@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% net stop JBoss
-@<span style="color:#66d9ef">ECHO</span> : -- uploading files CALL upload-files.bat %USERNAME% %PASSWORD% %HOSTNAME% %JBOSSDIR% %SOURCEDIR%\*.*
-@<span style="color:#66d9ef">ECHO</span> : -- starting servers
-@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% net start JBoss
-@<span style="color:#66d9ef">ECHO</span> : - finished upload procedure
-</code></pre></div><p>The above script can be called easily by the Hudson server after a succesfull deployment.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-batch" data-lang="batch"><span style="display:flex;"><span>-&gt; filename = upload-project-to-development.bat
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">CLS</span>
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> OFF
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> USERNAME=%1
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> PASSWORD=%2
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> HOSTNAME=%3
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> JBOSSDIR=%4
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> SOURCEDIR=%5
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> : - start upload procedure
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> : -- stopping servers
+</span></span><span style="display:flex;"><span>@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% net stop JBoss
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> : -- uploading files CALL upload-files.bat %USERNAME% %PASSWORD% %HOSTNAME% %JBOSSDIR% %SOURCEDIR%\*.*
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> : -- starting servers
+</span></span><span style="display:flex;"><span>@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% net start JBoss
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> : - finished upload procedure
+</span></span></code></pre></div><p>The above script can be called easily by the Hudson server after a succesfull deployment.</p>
 <p><strong>example:</strong></p>
-<pre><code class="language-console" data-lang="console">upload-project-to-development scott tiger 10.0.0.100 d:/java/server/jboss-v5.0 d:/build_artifacts/projectx
-</code></pre><p><strong>The example above:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>upload-project-to-development scott tiger 10.0.0.100 d:/java/server/jboss-v5.0 d:/build_artifacts/projectx
+</span></span></code></pre></div><p><strong>The example above:</strong></p>
 <ul>
 <li>Stops the JBoss server on the 10.0.0.100 host</li>
 <li>Passes some parameters to a file called “upload-files.bat” script</li>
 <li>Starts the JBoss servers again</li>
 </ul>
 <p>The script that executes the actual maintenance and uploads is the “upload-files.bat file”. All parameters are passed in by the calling script.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-batch" data-lang="batch">-&gt; filename = upload-files.bat
-@<span style="color:#66d9ef">ECHO</span> OFF
-<span style="color:#66d9ef">SET</span> USERNAME=%1
-<span style="color:#66d9ef">SET</span> PASSWORD=%2
-<span style="color:#66d9ef">SET</span> HOSTNAME=%3
-<span style="color:#66d9ef">SET</span> JBOSSDIR=%4
-<span style="color:#66d9ef">SET</span> SOURCE=%5
-<span style="color:#66d9ef">SET</span> DESTINATION=%JBOSSDIR%/deploy
-@<span style="color:#66d9ef">ECHO</span>  : - %HOSTNAME% - starting file copy
-@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - deleting JBOSS tmp
-@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm -rf %JBOSSDIR%/tmp
-@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% mkdir %JBOSSDIR%/tmp
-@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - deleting JBOSS work
-@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm -rf %JBOSSDIR%/work
-@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% mkdir %JBOSSDIR%/work
-@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - deleting previous ears + jars
-@plink -batch  -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm %JBOSSDIR%/deploy/*.ear
-@plink -batch  -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm %JBOSSDIR%/deploy/*.jar
-@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - copy remote files
-@pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
-@<span style="color:#66d9ef">ECHO</span>  : - %HOSTNAME% - finishing file copy
-</code></pre></div><p><strong>The example above:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-batch" data-lang="batch"><span style="display:flex;"><span>-&gt; filename = upload-files.bat
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> OFF
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> USERNAME=%1
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> PASSWORD=%2
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> HOSTNAME=%3
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> JBOSSDIR=%4
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> SOURCE=%5
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> DESTINATION=%JBOSSDIR%/deploy
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span>  : - %HOSTNAME% - starting file copy
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - deleting JBOSS tmp
+</span></span><span style="display:flex;"><span>@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm -rf %JBOSSDIR%/tmp
+</span></span><span style="display:flex;"><span>@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% mkdir %JBOSSDIR%/tmp
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - deleting JBOSS work
+</span></span><span style="display:flex;"><span>@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm -rf %JBOSSDIR%/work
+</span></span><span style="display:flex;"><span>@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% mkdir %JBOSSDIR%/work
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - deleting previous ears + jars
+</span></span><span style="display:flex;"><span>@plink -batch  -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm %JBOSSDIR%/deploy/*.ear
+</span></span><span style="display:flex;"><span>@plink -batch  -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm %JBOSSDIR%/deploy/*.jar
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - copy remote files
+</span></span><span style="display:flex;"><span>@pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
+</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span>  : - %HOSTNAME% - finishing file copy
+</span></span></code></pre></div><p><strong>The example above:</strong></p>
 <ul>
 <li>Removes the JBoss tmp &amp; work directory</li>
 <li>Removes artifacts from previous builds</li>
@@ -238,62 +320,112 @@ pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
 Notes</p>
 
         </div>
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/deployment/">deployment</a>, 
+            <a class="is-link" href="/tags/continous-integration/">continous integration</a>, 
+            <a class="is-link" href="/tags/hudson/">hudson</a>, 
+            <a class="is-link" href="/tags/ssh/">ssh</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+    </article>
+</div>
+
+        </div>
     </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2012-09-09
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/deployment">deployment</a>, <a href="/tags/continous-integration">continous integration</a>, <a href="/tags/hudson">hudson</a>, <a href="/tags/ssh">ssh</a>
+
+    
+    <template id="is-search-template" hidden>
+        <article class="content">
+            <div>
+                <hr class="mt-0 mb-0">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                    <span>
+                        <div class="date"></div>
+                    </span>
                 </span>
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-tag"></i>
+                    </span>
+                    <span>
+                        <div class="tags"></div>
+                    </span>
+                </span>
+                <hr class="mt-0 mb-0">
             </div>
-        </div>
-    </div>
-</article>
-
-      </div>
-    </div>
-  </div>
-
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="twelve columns">
-                <div id="social">
-                    
-                        <a title="Twitter" href="https://twitter.com/marcopas">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    
-                    
-                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    
-                    
-                        <a title="GitHub" href="https://github.com/mpas">
-                            <i class="fab fa-github"></i>
-                        </a>
-                    
-                    
-                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
-                            <i class="fab fa-stack-overflow"></i>
-                        </a>
-                    
-                    
-                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
-                            <i class="far fa-envelope"></i>
-                        </a>
-                    
+            <div>
+                <h5 class="mt-2">
+                    <a class="is-read-more" href=""></a>
+                </h5>
+                <div class="summary"></div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
-        </div>
+        </article>
+    </template>
+    <footer class="footer">
+    <div class="content has-text-centered">
+        <p>Lets connect on:</p>
+        <p>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-twitter"></i>
+                </span>
+                <span><a href="https://twitter.com/marcopas">Twitter</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-stack-overflow"></i>
+                </span>
+                <span><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-linkedin"></i>
+                </span>
+                <span><a href="">LinkedIn</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-github"></i>
+                </span>
+                <span><a href="https://github.com/mpas">GitHub</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
+            </span>
+        </p>
     </div>
 </footer>
-</body>
-</html>
+<script src="/js/search.js"></script>
 
+    <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+    <script>addBackToTop({
+            diameter: 56,
+            backgroundColor: 'rgb(255, 82, 82)',
+            textColor: '#fff'
+        })</script>
+    <script src="/js/navbar.js"></script>
+</body>
+
+</html>

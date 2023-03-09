@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>enum on CodeVerse</title>
+    <title>enum on Marco Pas</title>
     <link>https://mpas.github.io/tags/enum/</link>
-    <description>Recent content in enum on CodeVerse</description>
+    <description>Recent content in enum on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Thu, 03 Jan 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/enum/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Getting the Enum from a String value</title>

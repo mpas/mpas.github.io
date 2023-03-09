@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
-  
-  
-  <meta charset="utf-8">
-  <title>CodeVerse - CodeVerse</title>
-  <meta name="description" content="">
-  <meta name="author" content="Marco Pas">
 
-  <meta name="generator" content="" />
-  <meta name="robots" content="index,follow">
+    
+    <meta charset="utf-8">
+    <title>Marco Pas - Marco Pas</title>
+    <meta name="description"
+        content="">
+    <meta name="author" content="Marco Pas">
 
-  
-  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <script>mermaid.initialize({startOnLoad:true});</script>
+    <meta name="generator" content="" />
+    <meta name="robots" content="index,follow">
 
-  
-  
+
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+
+    <script src="https://unpkg.com/lunr/lunr.js"></script>
+
+    
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -30,108 +36,233 @@ if (!doNotTrack) {
 }
 </script>
 
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
-  
-  
-  <link rel="stylesheet" href="/skeleton/normalize.css">
-  <link rel="stylesheet" href="/skeleton/skeleton.css">
-  
-  
-  <link rel="stylesheet" href="/fontawesome/all.min.css">
- 
-  
-  <link rel="stylesheet" href="/css/custom.css">
-  
-  
-  <link rel="icon" type="image/png" href="/images/favicon.png">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+
+    
+    <link rel="icon" type="image/png" href="/images/favicon.png">
 
 </head>
 
-<div class="container">
-    <div id="header">
-        <div class="row">
-            <div class="six columns">
-                <div id="brand">
-                    <a href="https://mpas.github.io">CodeVerse</a>
+<body class="has-background-light">
+    <div>
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
+    </div>
+
+    <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://mpas.github.io">
+                MARCO PAS
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-menu">
+            <div class="navbar-start">
+                <div class="navbar-start">
+                    
+                    
+                    <a class="navbar-item is-hoverable" href="/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-book has-text-primary"></i>
+                        </span>
+                        
+                        <span>
+                            Home
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/posts">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-archive has-text-warning"></i>
+                        </span>
+                        
+                        <span>
+                            Archive
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/tags">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-tag has-text-danger"></i>
+                        </span>
+                        
+                        <span>
+                            Tags
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/pages/about/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-address-card has-text-success"></i>
+                        </span>
+                        
+                        <span>
+                            About
+                        </span>
+                        
+                    </a>
+                    
                 </div>
             </div>
-            <div class="six columns">
-                <nav class="u-pull-right">
-                    <ul id="navbar">
-                        
-                        
-                            <li class="current">
-                                <a href="/">Blog</a></li>
-                        
-                            <li >
-                                <a href="/posts">Post List</a></li>
-                        
-                            <li >
-                                <a href="/pages/about/">About Me</a></li>
-                        
-                            <li >
-                                <a href="/pages/resume">Resume</a></li>
-                        
-                    </ul>
-                </nav>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field control">
+                        <div class="control has-icons-left">
+                            <form id="search" method="get" role="search">
+                                <input class="input" type="search" id="search-input" placeholder="Search">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+    </nav>
+
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
     </div>
 </div>
 
+    <div class="container">
+        <div class="is-search-result">
+            
 
-<div class="container">
-    <div class="row">
-        <div class="post-list">
-            
-            
-                
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Capture link from Mac app into org-mode document</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>March 30, 2021</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            14 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2021/03/30/2021-03-30-capture-link-from-mac-app-into-org-mode-document/">Capture link from Mac app into org-mode document</a></h2>
             <p>To quickly grab a link from an open Mac app and use this link into an org-mode document use the following package:</p>
 <ul>
 <li><a href="https://orgmode.org/worg/org-contrib/org-mac-link.html">Grab links from open Mac applications</a></li>
 </ul>
 <p>An optional keybind as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(add-hook <span style="color:#e6db74">&#39;org-mode-hook</span> (lambda ()
-                           (<span style="color:#a6e22e">define-key</span> org-mode-map (kbd <span style="color:#e6db74">&#34;C-c g&#34;</span>) <span style="color:#e6db74">&#39;org-mac-grab-link</span>)))
-</code></pre></div><p>This enables you to quickly grab a link using <code>C-c g</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(add-hook <span style="color:#e6db74">&#39;org-mode-hook</span> (lambda ()
+</span></span><span style="display:flex;"><span>                           (<span style="color:#a6e22e">define-key</span> org-mode-map (kbd <span style="color:#e6db74">&#34;C-c g&#34;</span>) <span style="color:#e6db74">&#39;org-mac-grab-link</span>)))
+</span></span></code></pre></div><p>This enables you to quickly grab a link using <code>C-c g</code></p>
 
         </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2021-03-30
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/orgmode">orgmode</a>, <a href="/tags/emacs">emacs</a>, <a href="/tags/elisp">elisp</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
 
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-folder"></i>
+        </span>
+        <span>
             
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Paste image from clipboard directly into org-mode document</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
+            <a class="is-link" href="/categories/development/">development</a>
+        </span>
+    </span>
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/orgmode/">orgmode</a>, 
+            <a class="is-link" href="/tags/emacs/">emacs</a>, 
+            <a class="is-link" href="/tags/elisp/">elisp</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>March 29, 2021</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>1 minutes and
+            34 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-into-org-mode-document/">Paste image from clipboard directly into org-mode document</a></h2>
             <p>Personally I really like using org-mode files for creating documentation and presentations.
 When working with screenshots my normal workflows always has been.</p>
 <ol>
@@ -146,351 +277,1353 @@ When working with screenshots my normal workflows always has been.</p>
 <li>In your org-document paste using C-M-y (or call <code>my/insert-clipboard-image</code>) and automatically add the screenshot to an =./images- directory and insert the link to the image.</li>
 </ol>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="color:#75715e">;; Overview</span>
-<span style="color:#75715e">;; --------</span>
-<span style="color:#75715e">;; Inserts an image from the clipboard by prompting the user for a filename.</span>
-<span style="color:#75715e">;; Default extension for the pasted filename is .png</span>
-
-<span style="color:#75715e">;; A ./images directory will be created relative to the current Org-mode document to store the images.</span>
-
-<span style="color:#75715e">;; The default name format of the pasted image is:</span>
-<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;image-filename&gt;.png</span>
-
-<span style="color:#75715e">;; Important</span>
-<span style="color:#75715e">;; --------</span>
-<span style="color:#75715e">;; This function depends on &#39;pngpaste&#39; to paste the clipboard image</span>
-<span style="color:#75715e">;; -&gt; $ brew install pngpaste</span>
-
-<span style="color:#75715e">;; Basic Customization</span>
-<span style="color:#75715e">;; -------------------</span>
-<span style="color:#75715e">;; Include the current Org-mode header as part of the image name.</span>
-<span style="color:#75715e">;; (setq my/insert-clipboard-image-use-headername t)</span>
-<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;headername&gt;_-_&lt;image-filename&gt;.png</span>
-
-<span style="color:#75715e">;; Include the buffername as part of the image name.</span>
-<span style="color:#75715e">;; (setq my/insert-clipboard-image-use-buffername t)</span>
-<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;buffername&gt;_-_&lt;image-filename&gt;.png</span>
-
-<span style="color:#75715e">;; Full name format</span>
-<span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;buffername&gt;_-_&lt;headername&gt;_-_&lt;image-filename&gt;.png</span>
-(defun my/insert-clipboard-image (filename)
-  <span style="color:#e6db74">&#34;Inserts an image from the clipboard&#34;</span>
-  (interactive <span style="color:#e6db74">&#34;sFilename to paste: &#34;</span>)
-  (let ((file
-         (<span style="color:#a6e22e">concat</span>
-          (<span style="color:#a6e22e">file-name-directory</span> <span style="color:#a6e22e">buffer-file-name</span>)
-          <span style="color:#e6db74">&#34;images/&#34;</span>
-          (<span style="color:#a6e22e">format-time-string</span> <span style="color:#e6db74">&#34;%Y%m%d_%H%M%S_-_&#34;</span>)
-          (if (bound-and-true-p my/insert-clipboard-image-use-buffername)
-              (<span style="color:#a6e22e">concat</span> (s-replace <span style="color:#e6db74">&#34;-&#34;</span> <span style="color:#e6db74">&#34;_&#34;</span>
-                                 (<span style="color:#a6e22e">downcase</span> (file-name-sans-extension (<span style="color:#a6e22e">buffer-name</span>)))) <span style="color:#e6db74">&#34;_-_&#34;</span>)
-            <span style="color:#e6db74">&#34;&#34;</span>)
-          (if (bound-and-true-p my/insert-clipboard-image-use-headername)
-              (<span style="color:#a6e22e">concat</span> (s-replace <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#e6db74">&#34;_&#34;</span> (<span style="color:#a6e22e">downcase</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">4</span> (org-heading-components)))) <span style="color:#e6db74">&#34;_-_&#34;</span>)
-            <span style="color:#e6db74">&#34;&#34;</span>)
-          filename <span style="color:#e6db74">&#34;.png&#34;</span>)))
-
-    <span style="color:#75715e">;; create images directory</span>
-    (unless (<span style="color:#a6e22e">file-exists-p</span> (<span style="color:#a6e22e">file-name-directory</span> file))
-      (make-directory (<span style="color:#a6e22e">file-name-directory</span> file)))
-
-    <span style="color:#75715e">;; paste file from clipboard</span>
-    (shell-command (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;pngpaste &#34;</span> file))
-    (<span style="color:#a6e22e">insert</span> (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;[[./images/&#34;</span> (<span style="color:#a6e22e">file-name-nondirectory</span> file) <span style="color:#e6db74">&#34;]]&#34;</span>))))
-
-(map! :desc <span style="color:#e6db74">&#34;Insert clipboard image&#34;</span>
-      :n <span style="color:#e6db74">&#34;C-M-y&#34;</span> <span style="color:#e6db74">&#39;my/insert-clipboard-image</span>)
-</code></pre></div><p>A nice setting in org-mode that also helps when viewing large screenshots is the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span><span style="color:#75715e">;; Overview</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; --------</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Inserts an image from the clipboard by prompting the user for a filename.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Default extension for the pasted filename is .png</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; A ./images directory will be created relative to the current Org-mode document to store the images.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; The default name format of the pasted image is:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;image-filename&gt;.png</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Important</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; --------</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; This function depends on &#39;pngpaste&#39; to paste the clipboard image</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; -&gt; $ brew install pngpaste</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Basic Customization</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; -------------------</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Include the current Org-mode header as part of the image name.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; (setq my/insert-clipboard-image-use-headername t)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;headername&gt;_-_&lt;image-filename&gt;.png</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Include the buffername as part of the image name.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; (setq my/insert-clipboard-image-use-buffername t)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;buffername&gt;_-_&lt;image-filename&gt;.png</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Full name format</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; filename: &lt;yyyymmdd&gt;_&lt;hhmmss&gt;_-_&lt;buffername&gt;_-_&lt;headername&gt;_-_&lt;image-filename&gt;.png</span>
+</span></span><span style="display:flex;"><span>(defun my/insert-clipboard-image (filename)
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Inserts an image from the clipboard&#34;</span>
+</span></span><span style="display:flex;"><span>  (interactive <span style="color:#e6db74">&#34;sFilename to paste: &#34;</span>)
+</span></span><span style="display:flex;"><span>  (let ((file
+</span></span><span style="display:flex;"><span>         (<span style="color:#a6e22e">concat</span>
+</span></span><span style="display:flex;"><span>          (<span style="color:#a6e22e">file-name-directory</span> <span style="color:#a6e22e">buffer-file-name</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;images/&#34;</span>
+</span></span><span style="display:flex;"><span>          (<span style="color:#a6e22e">format-time-string</span> <span style="color:#e6db74">&#34;%Y%m%d_%H%M%S_-_&#34;</span>)
+</span></span><span style="display:flex;"><span>          (if (bound-and-true-p my/insert-clipboard-image-use-buffername)
+</span></span><span style="display:flex;"><span>              (<span style="color:#a6e22e">concat</span> (s-replace <span style="color:#e6db74">&#34;-&#34;</span> <span style="color:#e6db74">&#34;_&#34;</span>
+</span></span><span style="display:flex;"><span>                                 (<span style="color:#a6e22e">downcase</span> (file-name-sans-extension (<span style="color:#a6e22e">buffer-name</span>)))) <span style="color:#e6db74">&#34;_-_&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>          (if (bound-and-true-p my/insert-clipboard-image-use-headername)
+</span></span><span style="display:flex;"><span>              (<span style="color:#a6e22e">concat</span> (s-replace <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#e6db74">&#34;_&#34;</span> (<span style="color:#a6e22e">downcase</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">4</span> (org-heading-components)))) <span style="color:#e6db74">&#34;_-_&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>          filename <span style="color:#e6db74">&#34;.png&#34;</span>)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">;; create images directory</span>
+</span></span><span style="display:flex;"><span>    (unless (<span style="color:#a6e22e">file-exists-p</span> (<span style="color:#a6e22e">file-name-directory</span> file))
+</span></span><span style="display:flex;"><span>      (make-directory (<span style="color:#a6e22e">file-name-directory</span> file)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">;; paste file from clipboard</span>
+</span></span><span style="display:flex;"><span>    (shell-command (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;pngpaste &#34;</span> file))
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">insert</span> (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;[[./images/&#34;</span> (<span style="color:#a6e22e">file-name-nondirectory</span> file) <span style="color:#e6db74">&#34;]]&#34;</span>))))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(map! :desc <span style="color:#e6db74">&#34;Insert clipboard image&#34;</span>
+</span></span><span style="display:flex;"><span>      :n <span style="color:#e6db74">&#34;C-M-y&#34;</span> <span style="color:#e6db74">&#39;my/insert-clipboard-image</span>)
+</span></span></code></pre></div><p>A nice setting in org-mode that also helps when viewing large screenshots is the following:</p>
 <p>This display the taken screenshot in a acceptable format in your org-mode file.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(after! org
-  (setq org-image-actual-width (<span style="color:#a6e22e">/</span> (display-pixel-width) <span style="color:#ae81ff">2</span>)))
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(after! org
+</span></span><span style="display:flex;"><span>  (setq org-image-actual-width (<span style="color:#a6e22e">/</span> (display-pixel-width) <span style="color:#ae81ff">2</span>)))
+</span></span></code></pre></div>
         </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2021-03-29
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/emacs">emacs</a>, <a href="/tags/orgmode">orgmode</a>, <a href="/tags/elisp">elisp</a>, <a href="/tags/screenshot">screenshot</a>, <a href="/tags/image">image</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
 
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
             
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Time tracking with Org Mode and sum time per tag</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
+            <a class="is-link" href="/tags/emacs/">emacs</a>, 
+            <a class="is-link" href="/tags/orgmode/">orgmode</a>, 
+            <a class="is-link" href="/tags/elisp/">elisp</a>, 
+            <a class="is-link" href="/tags/screenshot/">screenshot</a>, 
+            <a class="is-link" href="/tags/image/">image</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>March 16, 2021</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>1 minutes and
+            59 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/">Time tracking with Org Mode and sum time per tag</a></h2>
             <p>Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you <strong>aggregate time across tasks belonging to tags</strong>?</p>
 <p>This can be achieved by using a simple formula and the usage of an awesome Org package called <a href="https://github.com/tbanel/orgaggregate">Org Aggregate</a>.</p>
 <h2 id="input-data">Input data</h2>
 <p>The data below is used for time tracking, note that individual items are <strong>tagged</strong>!</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">- Take out the trash :private:
-:LOGBOOK:
-CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:30] =&gt;  0:06
-:END:
-- Update document for client :client1:
-:LOGBOOK:
-CLOCK: [2021-03-12 Fri 12:45]--[2021-03-12 Fri 13:30] =&gt;  0:45
-:END:
-- Create my awesome note for work :work:
-:LOGBOOK:
-CLOCK: [2021-03-13 Sat 11:24]--[2021-03-13 Sat 12:53] =&gt;  1:29
-:END:
-- Fill in timesheet :work:
-:LOGBOOK:
-CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:40] =&gt;  0:16
-:END:
-</code></pre></div><h2 id="reporting">Reporting</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">#+BEGIN: clocktable :scope file :maxlevel 3 :tags t :match &#34;work|client1&#34; :header &#34;#+TBLNAME: timetable\n&#34;
-#+TBLNAME: timetable
-| Tags    | Headline                              | Time |      |      |     T |
-|---------+---------------------------------------+------+------+------+-------|
-|         | *Total time*                            | *2:30* |      |      |       |
-|---------+---------------------------------------+------+------+------+-------|
-|         | Report with filtered tags and sum...  | 2:30 |      |      |       |
-|         | \_  Input data                        |      | 2:30 |      |       |
-| client1 | \_    Update document for client      |      |      | 0:45 | 00:45 |
-| work    | \_    Create my awesome note for work |      |      | 1:29 | 01:29 |
-| work    | \_    Fill in timesheet               |      |      | 0:16 | 00:16 |
-#+TBLFM: $6=&#39;(convert-org-clocktable-time-to-hhmm $5)::@1$6=&#39;(format &#34;%s&#34; &#34;T&#34;)
-#+END:
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>- Take out the trash :private:
+</span></span><span style="display:flex;"><span>:LOGBOOK:
+</span></span><span style="display:flex;"><span>CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:30] =&gt;  0:06
+</span></span><span style="display:flex;"><span>:END:
+</span></span><span style="display:flex;"><span>- Update document for client :client1:
+</span></span><span style="display:flex;"><span>:LOGBOOK:
+</span></span><span style="display:flex;"><span>CLOCK: [2021-03-12 Fri 12:45]--[2021-03-12 Fri 13:30] =&gt;  0:45
+</span></span><span style="display:flex;"><span>:END:
+</span></span><span style="display:flex;"><span>- Create my awesome note for work :work:
+</span></span><span style="display:flex;"><span>:LOGBOOK:
+</span></span><span style="display:flex;"><span>CLOCK: [2021-03-13 Sat 11:24]--[2021-03-13 Sat 12:53] =&gt;  1:29
+</span></span><span style="display:flex;"><span>:END:
+</span></span><span style="display:flex;"><span>- Fill in timesheet :work:
+</span></span><span style="display:flex;"><span>:LOGBOOK:
+</span></span><span style="display:flex;"><span>CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:40] =&gt;  0:16
+</span></span><span style="display:flex;"><span>:END:
+</span></span></code></pre></div><h2 id="reporting">Reporting</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>#+BEGIN: clocktable :scope file :maxlevel 3 :tags t :match &#34;work|client1&#34; :header &#34;#+TBLNAME: timetable\n&#34;
+</span></span><span style="display:flex;"><span>#+TBLNAME: timetable
+</span></span><span style="display:flex;"><span>| Tags    | Headline                              | Time |      |      |     T |
+</span></span><span style="display:flex;"><span>|---------+---------------------------------------+------+------+------+-------|
+</span></span><span style="display:flex;"><span>|         | *Total time*                            | *2:30* |      |      |       |
+</span></span><span style="display:flex;"><span>|---------+---------------------------------------+------+------+------+-------|
+</span></span><span style="display:flex;"><span>|         | Report with filtered tags and sum...  | 2:30 |      |      |       |
+</span></span><span style="display:flex;"><span>|         | \_  Input data                        |      | 2:30 |      |       |
+</span></span><span style="display:flex;"><span>| client1 | \_    Update document for client      |      |      | 0:45 | 00:45 |
+</span></span><span style="display:flex;"><span>| work    | \_    Create my awesome note for work |      |      | 1:29 | 01:29 |
+</span></span><span style="display:flex;"><span>| work    | \_    Fill in timesheet               |      |      | 0:16 | 00:16 |
+</span></span><span style="display:flex;"><span>#+TBLFM: $6=&#39;(convert-org-clocktable-time-to-hhmm $5)::@1$6=&#39;(format &#34;%s&#34; &#34;T&#34;)
+</span></span><span style="display:flex;"><span>#+END:
+</span></span></code></pre></div><ul>
 <li><strong>:tags t</strong> used to display the tags</li>
-<li><strong>:match</strong> &ldquo;work|client'= used to filter the tags of interest</li>
+<li><strong>:match</strong> &ldquo;work|client&rsquo;= used to filter the tags of interest</li>
 <li><strong>:header</strong> &ldquo;#+TBLNAME: timetable\n&rdquo;= used to name our table so we can process it later on using <a href="https://github.com/tbanel/orgaggregate">Org Aggregate</a></li>
 <li><strong>#+TBLFM:</strong> is using a function to correctly display time in <strong>hh:mm</strong> so we can use it later on to sum. <strong>Note:</strong> this is required as the package <a href="https://github.com/tbanel/orgaggregate">Org Aggregate</a> that we are using to aggregate data is expecting the time in a <strong>hh:mm</strong> format</li>
 </ul>
 <!-- raw HTML omitted -->
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun convert-org-clocktable-time-to-hhmm (time-string)
-  <span style="color:#e6db74">&#34;Converts a time string to HH:MM&#34;</span>
-  (if (<span style="color:#a6e22e">&gt;</span> (<span style="color:#a6e22e">length</span> time-string) <span style="color:#ae81ff">0</span>)
-      (progn
-        (let* ((s (s-replace <span style="color:#e6db74">&#34;*&#34;</span> <span style="color:#e6db74">&#34;&#34;</span> time-string))
-               (splits (split-string s <span style="color:#e6db74">&#34;:&#34;</span>))
-               (hours (<span style="color:#a6e22e">car</span> splits))
-               (minutes (<span style="color:#a6e22e">car</span> (last splits)))
-               )
-          (if (<span style="color:#a6e22e">=</span> (<span style="color:#a6e22e">length</span> hours) <span style="color:#ae81ff">1</span>)
-              (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;0%s:%s&#34;</span> hours minutes)
-            (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;%s:%s&#34;</span> hours minutes))))
-    time-string))</code></pre></td></tr></table>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun convert-org-clocktable-time-to-hhmm (time-string)
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;Converts a time string to HH:MM&#34;</span>
+</span></span><span style="display:flex;"><span>(if (<span style="color:#a6e22e">&gt;</span> (<span style="color:#a6e22e">length</span> time-string) <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>(progn
+</span></span><span style="display:flex;"><span>(let* ((s (s-replace <span style="color:#e6db74">&#34;*&#34;</span> <span style="color:#e6db74">&#34;&#34;</span> time-string))
+</span></span><span style="display:flex;"><span>(splits (split-string s <span style="color:#e6db74">&#34;:&#34;</span>))
+</span></span><span style="display:flex;"><span>(hours (<span style="color:#a6e22e">car</span> splits))
+</span></span><span style="display:flex;"><span>(minutes (<span style="color:#a6e22e">car</span> (last splits)))
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>(if (<span style="color:#a6e22e">=</span> (<span style="color:#a6e22e">length</span> hours) <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>(<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;0%s:%s&#34;</span> hours minutes)
+</span></span><span style="display:flex;"><span>(<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;%s:%s&#34;</span> hours minutes))))
+</span></span><span style="display:flex;"><span>time-string))</span></span></code></pre></td></tr></table>
 </div>
 </div>
 <p>Use <a href="https://github.com/tbanel/orgaggregate">Org Aggregate</a> to sum the times of the tags</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">#+BEGIN: aggregate :table &#34;timetable&#34; :cols &#34;Tags sum(T);U&#34; :cond (not (equal Tags &#34;&#34;))
-#+TBLNAME: timetable
-| Tags    | sum(T);U |
-|---------+----------|
-| client1 |    00:45 |
-| work    |    01:45 |
-#+END:
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>#+BEGIN: aggregate :table &#34;timetable&#34; :cols &#34;Tags sum(T);U&#34; :cond (not (equal Tags &#34;&#34;))
+</span></span><span style="display:flex;"><span>#+TBLNAME: timetable
+</span></span><span style="display:flex;"><span>| Tags    | sum(T);U |
+</span></span><span style="display:flex;"><span>|---------+----------|
+</span></span><span style="display:flex;"><span>| client1 |    00:45 |
+</span></span><span style="display:flex;"><span>| work    |    01:45 |
+</span></span><span style="display:flex;"><span>#+END:
+</span></span></code></pre></div><ul>
 <li><strong>:cond</strong> used to filter empty rows from the data input!</li>
 </ul>
-
         </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2021-03-16
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/emacs">emacs</a>, <a href="/tags/orgmode">orgmode</a>, <a href="/tags/timetracking">timetracking</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
 
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
             
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Get pretty org-bullets in Doom Emacs</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When installing <a href="https://github.com/hlissner/doom-emacs">Doom Emacs</a> and using org-mode the defaults bullets are `*`. In order to get some fancy bullets the following steps need to be taken.</p>
+            <a class="is-link" href="/tags/emacs/">emacs</a>, 
+            <a class="is-link" href="/tags/orgmode/">orgmode</a>, 
+            <a class="is-link" href="/tags/timetracking/">timetracking</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>October 16, 2020</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            19 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/">Get pretty org-bullets in Doom Emacs</a></h2>
+            <p>When installing <a href="https://github.com/hlissner/doom-emacs">Doom Emacs</a> and using org-mode the defaults bullets are `*`.
+In order to get some fancy bullets the following steps need to be taken.</p>
 <ol>
 <li>Add the org-mode <code>+pretty</code> flag to your org settings in <code>init.el</code> To read more on the available flags check the <a href="https://github.com/hlissner/doom-emacs/tree/develop/modules/lang/org#module-flags">org-mode Doom Emacs module `lang/org`</a></li>
 </ol>
 <!-- raw HTML omitted -->
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">:lang
-(org +pretty ) <span style="color:#75715e">; organize your plain life in plain text</span>
-</code></pre></div><!-- raw HTML omitted -->
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(setq
-    org-superstar-headline-bullets-list <span style="color:#f92672">&#39;</span>(<span style="color:#e6db74">&#34;⁖&#34;</span> <span style="color:#e6db74">&#34;◉&#34;</span> <span style="color:#e6db74">&#34;○&#34;</span> <span style="color:#e6db74">&#34;✸&#34;</span> <span style="color:#e6db74">&#34;✿&#34;</span>)
-)
-</code></pre></div><!-- raw HTML omitted -->
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>:lang
+</span></span><span style="display:flex;"><span>(org +pretty ) <span style="color:#75715e">; organize your plain life in plain text</span>
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(setq
+</span></span><span style="display:flex;"><span>    org-superstar-headline-bullets-list <span style="color:#f92672">&#39;</span>(<span style="color:#e6db74">&#34;⁖&#34;</span> <span style="color:#e6db74">&#34;◉&#34;</span> <span style="color:#e6db74">&#34;○&#34;</span> <span style="color:#e6db74">&#34;✸&#34;</span> <span style="color:#e6db74">&#34;✿&#34;</span>)
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><!-- raw HTML omitted -->
         </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2020-10-16
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/emacs">emacs</a>, <a href="/tags/doom">doom</a>, <a href="/tags/orgmode">orgmode</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
 
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
             
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Ranger - Show File in Path Finder</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
+            <a class="is-link" href="/tags/emacs/">emacs</a>, 
+            <a class="is-link" href="/tags/doom/">doom</a>, 
+            <a class="is-link" href="/tags/orgmode/">orgmode</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>November 28, 2018</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            52 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2018/11/28/20181128-ranger-show-file-in-path-finder/">Ranger - Show File in Path Finder</a></h2>
             <p>Ranger is a VIM-inspired filemanager for the console (<a href="https://ranger.github.io/">https://ranger.github.io/</a>) and can easily be installed by using
 <code>brew install ranger</code>. When working in the terminal sometimes it is nice to open the files in the default <code>Finder</code> app
 or use the excellent alternative called <code>Path Finder</code>. (<a href="https://cocoatech.com/#/">https://cocoatech.com/#/</a>)</p>
 <p>To reveal your files in the Finder or Path Finder create a <code>commands.py</code> in <code>~/.config/ranger</code> and paste the following
 code.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> ranger.api.commands <span style="color:#f92672">import</span> Command
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">show_files_in_path_finder</span>(Command):
-    <span style="color:#e6db74">&#34;&#34;&#34;
-</span><span style="color:#e6db74">    :show_files_in_path_finder
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">    Present selected files in finder
-</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
-        <span style="color:#f92672">import</span> subprocess
-        files <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">.</span>join([<span style="color:#e6db74">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span style="color:#f92672">.</span>format(file<span style="color:#f92672">.</span>path) <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>thistab<span style="color:#f92672">.</span>get_selection()])
-        reveal_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Path Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to reveal {{{0}}}&#34;</span><span style="color:#f92672">.</span>format(files)
-        activate_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Path Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to activate&#34;</span>
-        script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span style="color:#f92672">.</span>format(reveal_script, activate_script)
-        self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>notify(script)
-        subprocess<span style="color:#f92672">.</span>check_output([<span style="color:#e6db74">&#34;osascript&#34;</span>, <span style="color:#e6db74">&#34;-e&#34;</span>, reveal_script, <span style="color:#e6db74">&#34;-e&#34;</span>, activate_script])
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">show_files_in_finder</span>(Command):
-    <span style="color:#e6db74">&#34;&#34;&#34;
-</span><span style="color:#e6db74">    :show_files_in_finder
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">    Present selected files in finder
-</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
-        <span style="color:#f92672">import</span> subprocess
-        files <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">.</span>join([<span style="color:#e6db74">&#39;&#34;{0}&#34; as POSIX file&#39;</span><span style="color:#f92672">.</span>format(file<span style="color:#f92672">.</span>path) <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>thistab<span style="color:#f92672">.</span>get_selection()])
-        reveal_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to reveal {{{0}}}&#34;</span><span style="color:#f92672">.</span>format(files)
-        activate_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to set frontmost to true&#34;</span>
-        script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;osascript -e &#39;{0}&#39; -e &#39;{1}&#39;&#34;</span><span style="color:#f92672">.</span>format(reveal_script, activate_script)
-        self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>notify(script)
-        subprocess<span style="color:#f92672">.</span>check_output([<span style="color:#e6db74">&#34;osascript&#34;</span>, <span style="color:#e6db74">&#34;-e&#34;</span>, reveal_script, <span style="color:#e6db74">&#34;-e&#34;</span>, activate_script])
-</code></pre></div><p>Restart Ranger and now you can execute the commands :show_files_in_pathfinder or :show_files_in_finder.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> ranger.api.commands <span style="color:#f92672">import</span> Command
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">show_files_in_path_finder</span>(Command):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    :show_files_in_path_finder
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Present selected files in finder
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">import</span> subprocess
+</span></span><span style="display:flex;"><span>        files <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">.</span>join([<span style="color:#e6db74">&#39;&#34;</span><span style="color:#e6db74">{0}</span><span style="color:#e6db74">&#34; as POSIX file&#39;</span><span style="color:#f92672">.</span>format(file<span style="color:#f92672">.</span>path) <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>thistab<span style="color:#f92672">.</span>get_selection()])
+</span></span><span style="display:flex;"><span>        reveal_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Path Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to reveal {{</span><span style="color:#e6db74">{0}</span><span style="color:#e6db74">}}&#34;</span><span style="color:#f92672">.</span>format(files)
+</span></span><span style="display:flex;"><span>        activate_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Path Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to activate&#34;</span>
+</span></span><span style="display:flex;"><span>        script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;osascript -e &#39;</span><span style="color:#e6db74">{0}</span><span style="color:#e6db74">&#39; -e &#39;</span><span style="color:#e6db74">{1}</span><span style="color:#e6db74">&#39;&#34;</span><span style="color:#f92672">.</span>format(reveal_script, activate_script)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>notify(script)
+</span></span><span style="display:flex;"><span>        subprocess<span style="color:#f92672">.</span>check_output([<span style="color:#e6db74">&#34;osascript&#34;</span>, <span style="color:#e6db74">&#34;-e&#34;</span>, reveal_script, <span style="color:#e6db74">&#34;-e&#34;</span>, activate_script])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">show_files_in_finder</span>(Command):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    :show_files_in_finder
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Present selected files in finder
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">import</span> subprocess
+</span></span><span style="display:flex;"><span>        files <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">.</span>join([<span style="color:#e6db74">&#39;&#34;</span><span style="color:#e6db74">{0}</span><span style="color:#e6db74">&#34; as POSIX file&#39;</span><span style="color:#f92672">.</span>format(file<span style="color:#f92672">.</span>path) <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>thistab<span style="color:#f92672">.</span>get_selection()])
+</span></span><span style="display:flex;"><span>        reveal_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to reveal {{</span><span style="color:#e6db74">{0}</span><span style="color:#e6db74">}}&#34;</span><span style="color:#f92672">.</span>format(files)
+</span></span><span style="display:flex;"><span>        activate_script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tell application </span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">Finder</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> to set frontmost to true&#34;</span>
+</span></span><span style="display:flex;"><span>        script <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;osascript -e &#39;</span><span style="color:#e6db74">{0}</span><span style="color:#e6db74">&#39; -e &#39;</span><span style="color:#e6db74">{1}</span><span style="color:#e6db74">&#39;&#34;</span><span style="color:#f92672">.</span>format(reveal_script, activate_script)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>fm<span style="color:#f92672">.</span>notify(script)
+</span></span><span style="display:flex;"><span>        subprocess<span style="color:#f92672">.</span>check_output([<span style="color:#e6db74">&#34;osascript&#34;</span>, <span style="color:#e6db74">&#34;-e&#34;</span>, reveal_script, <span style="color:#e6db74">&#34;-e&#34;</span>, activate_script])
+</span></span></code></pre></div><p>Restart Ranger and now you can execute the commands :show_files_in_pathfinder or :show_files_in_finder.</p>
 
         </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2018-11-28
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/ranger">ranger</a>, <a href="/tags/pathfinder">pathfinder</a>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/ranger/">ranger</a>, 
+            <a class="is-link" href="/tags/pathfinder/">pathfinder</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>May 12, 2017</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            12 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/">Infrastructure and System Monitoring using Prometheus</a></h2>
+            <p>Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &ldquo;Infrastructure and System Monitoring using Prometheus&rdquo;. You can find the used material here:</p>
+<ul>
+<li>Slides: <a href="https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus">https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus</a></li>
+<li>Slides in PDF: <a href="https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE">https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE</a></li>
+<li>Code: <a href="https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus">https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus</a></li>
+</ul>
+<p>Feel free to share and distribute</p>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/infrastructure/">infrastructure</a>, 
+            <a class="is-link" href="/tags/monitoring/">monitoring</a>, 
+            <a class="is-link" href="/tags/docker/">docker</a>, 
+            <a class="is-link" href="/tags/prometheus/">prometheus</a>, 
+            <a class="is-link" href="/tags/talks/">talks</a>, 
+            <a class="is-link" href="/tags/devoxx/">devoxx</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>November 25, 2016</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>1 minutes and
+            42 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2016/11/25/20161125-dockerize-your-grails-application/">Dockerize your Grails application</a></h2>
+            <p>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..</p>
+<p>Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.</p>
+<p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ grails create-app docker-test --profile rest-api
+</span></span></code></pre></div><p>After the Grails application has been created, we will need to add the following files to our project.</p>
+<ul>
+<li>Dockerfile (determines what our Docker image will contain)</li>
+<li>docker-entrypoint.sh (script that is responsible for starting our Grails application)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span>// file: /src/main/docker/Dockerfile<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:latest</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># set environment options</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> JAVA_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /app<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /app</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /app/application.jar application.jar<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /app/docker-entrypoint.sh docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set file permissions</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chmod +x /app/docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set start script as enrypoint</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;./docker-entrypoint.sh&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>// file: /src/main/docker/app/docker-entrypoint.sh
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash</span>
+</span></span><span style="display:flex;"><span>set -e
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>exec java <span style="color:#e6db74">${</span>JAVA_OPTS<span style="color:#e6db74">}</span> -jar application.jar $@
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span>
+</span></span></code></pre></div><p>Next step is to add the tasks to our <code>build.gradle</code> so it can generate the Docker image.</p>
+<p>So add the following snippet to your <code>build.gradle</code> file!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#75715e">// file: /build.gradle
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>String <span style="color:#a6e22e">getDockerImageName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;docker-test&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>task <span style="color:#a6e22e">buildDockerImage</span><span style="color:#f92672">(</span>type:Exec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;docker&#39;</span>
+</span></span><span style="display:flex;"><span>    description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Build a docker image&#39;</span>
+</span></span><span style="display:flex;"><span>    commandLine <span style="color:#e6db74">&#39;docker&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-f&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker/Dockerfile&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-t&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${dockerImageName}&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    doFirst <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* copy the generate war file to /build/docker/app */</span>
+</span></span><span style="display:flex;"><span>        copy <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            from war<span style="color:#f92672">.</span><span style="color:#a6e22e">archivePath</span>
+</span></span><span style="display:flex;"><span>            into <span style="color:#e6db74">&#39;build/docker/app/&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
+</span></span><span style="display:flex;"><span>        copy <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            from <span style="color:#e6db74">&#39;src/main/docker/app/&#39;</span>
+</span></span><span style="display:flex;"><span>            into <span style="color:#e6db74">&#39;build/docker/app&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* copy Dockerfile from src/main/docker into the build/docker */</span>
+</span></span><span style="display:flex;"><span>        copy <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            from<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;src/main/docker/&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                include <span style="color:#e6db74">&#39;Dockerfile&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            into <span style="color:#e6db74">&#39;build/docker&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* rename war file to application.jar */</span>
+</span></span><span style="display:flex;"><span>        file<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;build/docker/app/${war.archiveName}&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">renameTo</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;build/docker/app/application.jar&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Now that we have everyting in place we can build the image and start the container,</p>
+<p>Create the docker image using assemble target and buildDockerImage</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ ./gradlew assemble buildDockerImage
+</span></span></code></pre></div><p>Run a container based on the previous created image</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ docker run -it --rm -p 8080:8080 docker-test
+</span></span></code></pre></div><p>This will run the container in interactive mode (<code>-it</code>) and the container will be removed when we stop the container (<code>--rm</code>). Port 8080 in the container will be available on port 8080 on your host system (<code>-p 8080:8080</code>).</p>
+<p>This will run the specified container and the endpoint will be available using your browser. Just visit http://localhost:8080</p>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/grails/">grails</a>, 
+            <a class="is-link" href="/tags/docker/">docker</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>November 24, 2016</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>1 minutes and
+            20 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/">Creating/Pushing Docker images using Gradle without plugins</a></h2>
+            <p>In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.</p>
+<p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
+<h2 id="creating-an-image">Creating an image</h2>
+<p>The following snippet will create a Docker image using the task <code>gradle buildDockerImage</code></p>
+<pre><code>- application layout
+| build.gradle
+| &gt; src
+| &gt;- main
+| &gt;-- docker (contains a Dockerfile)
+| &gt;--- app (contains data that can be used in your Dockerfile)
+</code></pre>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    You can put some logic in the getDockerImageName to determine how your
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    Docker image should be created.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>String <span style="color:#a6e22e">getDockerImageName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;my-first-docker-image&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    Execute a docker build using commandline pointing to our Dockerfile that
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    has been copied to /build/docker/.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>task <span style="color:#a6e22e">buildDockerImage</span><span style="color:#f92672">(</span>type:Exec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;docker&#39;</span>
+</span></span><span style="display:flex;"><span>    description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Build a docker image&#39;</span>
+</span></span><span style="display:flex;"><span>    commandLine <span style="color:#e6db74">&#39;docker&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-f&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker/Dockerfile&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;-t&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${dockerImageName}&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;build/docker&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    doFirst <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#34;&gt;&gt; Creating image: ${dockerImageName}&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* copy artifacts from src/main/docker/app into the build/docker/app */</span>
+</span></span><span style="display:flex;"><span>        copy <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            from <span style="color:#e6db74">&#39;src/main/docker/app/&#39;</span>
+</span></span><span style="display:flex;"><span>            into <span style="color:#e6db74">&#39;build/docker/app&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* copy Dockerfile from src/main/docker into the build/docker */</span>
+</span></span><span style="display:flex;"><span>        copy <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            from<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;src/main/docker/&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                include <span style="color:#e6db74">&#39;Dockerfile&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            into <span style="color:#e6db74">&#39;build/docker&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="pushing-an-image">pushing an image</h2>
+<p>Pushing an image without using plugins is just as easy.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>pushDockerImage<span style="color:#f92672">(</span>type: Exec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;docker&#39;</span>
+</span></span><span style="display:flex;"><span>    description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Push a docker image&#39;</span>
+</span></span><span style="display:flex;"><span>    commandLine <span style="color:#e6db74">&#39;docker&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;push&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${dockerImageName}&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    doFirst <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        println <span style="color:#e6db74">&#34;&gt;&gt; Pushing image: ${dockerImageName}&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Using this approach without using unneeded Gradle plugins resulted in a an easy way to create containers on different platforms.</p>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/docker/">docker</a>, 
+            <a class="is-link" href="/tags/gradle/">gradle</a>, 
+            <a class="is-link" href="/tags/groovy/">groovy</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>November 17, 2016</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>1 minutes and
+            41 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/">Identifying Docker container outage using Prometheus</a></h2>
+            <p><a href="https://prometheus.io/">Prometheus</a> is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.</p>
+<p>Metric data is <strong>pulled</strong> (on a regular time-interval) from so called exporters which expose the metrics coming from applications/operating systems etc..</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>+------------------+                               +----------+     Visualize data
+</span></span><span style="display:flex;"><span>|  +------------+  |                               | Grafana  +---&gt; coming from
+</span></span><span style="display:flex;"><span>|  | Dockerized |  |                               +----+-----+     Prometheus
+</span></span><span style="display:flex;"><span>|  | Application|  |                                    |
+</span></span><span style="display:flex;"><span>|  +------------+  |                                    ^
+</span></span><span style="display:flex;"><span>|  +------------+  |  Pull data   +----------+          |
+</span></span><span style="display:flex;"><span>|  |  CAdvisor  +---------&gt;-------+Prometheus+----------+
+</span></span><span style="display:flex;"><span>|  +------------+  |              +---------++
+</span></span><span style="display:flex;"><span>|                  |                        |
+</span></span><span style="display:flex;"><span>| Operating System |                        |
+</span></span><span style="display:flex;"><span>|       with       |                        |
+</span></span><span style="display:flex;"><span>| Docker installed |                        |
+</span></span><span style="display:flex;"><span>|                  |                        v
+</span></span><span style="display:flex;"><span>+------------------+           Prometheus collects data
+</span></span><span style="display:flex;"><span>                               coming from remote systems
+</span></span></code></pre></div><p>In the diagram above cAdvisor is a so called exporter. There are other exporters like e.g. <a href="https://github.com/prometheus/node_exporter">Node Exporter</a> that exposes machine metrics. <strong>cAdvisor</strong> is used to get Docker container metrics.</p>
+<h2 id="cadvisor">cAdvisor</h2>
+<p><a href="https://github.com/google/cadvisor">cAdvisor</a> is a project coming from Google and analyzes resource usage and performance characteristics of running Docker  containers! When running a Dockerized application and starting a cAdvisor container you will have instant metrics available for all running containers.</p>
+<p>A lot of metrics are exposed by cAdvisor of which one is the metric <code>container_last_seen</code>. You can use this metric in Prometheus to identify if a container has left the building :) The challenge with Prometheus is that it keeps the data for a specific amount of time the so called <code>Stale Timeout</code>. This means that Prometheus will keep reporting back that the data has been received until this timeout has occurred (default 5 minutes). This is of course too much if we need to identify if a container has gone.</p>
+<p>So if you would normally query like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">count</span>(container_last_seen<span style="color:#960050;background-color:#1e0010">{</span>job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;jobname&gt;&#34;</span>,name<span style="color:#f92672">=~</span><span style="color:#e6db74">&#34;.*&lt;containername&gt;.*&#34;</span><span style="color:#960050;background-color:#1e0010">}</span>)
+</span></span></code></pre></div><p>This would get results until 5 minutes.. way to far&hellip;</p>
+<p>A simple alternate query to identify if the container has gone is like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">count</span>(time() <span style="color:#f92672">-</span> container_last_seen<span style="color:#960050;background-color:#1e0010">{</span>job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;jobname&gt;&#34;</span>,name<span style="color:#f92672">=~</span><span style="color:#e6db74">&#34;.*&lt;containername&gt;.*&#34;</span><span style="color:#960050;background-color:#1e0010">}</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">30</span>) <span style="color:#66d9ef">OR</span> vector(<span style="color:#ae81ff">0</span>)
+</span></span></code></pre></div><p>The &lsquo;30&rsquo; is the time in seconds before we want to be notified if a container has gone. This time has to be larger then the pull interval for your job.</p>
+<p>When using the mentioned query you can create a nice <a href="http://docs.grafana.org/reference/singlestat/">Singlestat</a> panel in Grafan so you can display an alert when the container is gone.</p>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/prometheus/">prometheus</a>, 
+            <a class="is-link" href="/tags/docker/">docker</a>, 
+            <a class="is-link" href="/tags/cadvisor/">cadvisor</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>November 16, 2016</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>4 minutes and
+            45 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2016/11/16/20161116-building-a-consul-cluster-using-terraform-aws/">Building a Consul cluster using Terraform/AWS</a></h2>
+            <!-- raw HTML omitted -->
+<ul>
+<li>Service Discovery</li>
+<li>Health Checking</li>
+<li>Key/Value Store</li>
+<li>Multi Datacenter</li>
+</ul>
+<p>For more information on <a href="http://Consul.io">Consul</a> itself please have a look in the excellent documentation.</p>
+<ul>
+<li><a href="https://www.consul.io/intro/index.html">Consul Intro</a></li>
+<li><a href="https://www.consul.io/docs/index.html">Consul documentation</a></li>
+</ul>
+<h2 id="is-it-really-easy">Is it really easy?</h2>
+<p>Setting up a <a href="http://Consul.io">Consul</a> cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&hellip;</p>
+<p>But hey.. <strong>what if you need to deploy this cluster on an AWS environment? How do
+you create the cluster and how can you make sure it is always available?</strong></p>
+<p>This simple write up is just an example to give you an idea how this Consul cluster can be created and provisioned by using Terraform only. The goal is to have a cluster using the official Docker images provided by Consul itself running on EC2 nodes.</p>
+<h2 id="creating-a-consul-cluster">Creating a Consul cluster</h2>
+<p>The principle is not that hard&hellip; Consul nodes can discover each other based on IP Address. If you feed the Consul cluster members with IP Addresses that are part of the cluster you are good to go. In the example case we are going to start a number of Consul cluster members. The first node will be unable to form a cluster but if the second node starts up it will get the ip from the first node and the the first node will then know the ip of the second one.. etc.. So if you start up more than 2 nodes you will be good to go.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>+------+   +------+  +------+  +------+  +------+
+</span></span><span style="display:flex;"><span>|Consul|   |Consul|  |Consul|  |Consul|  |Consul|
+</span></span><span style="display:flex;"><span>|Node 1|   |Node 2|  |Node 3|  |Node 4|  |Node n|
+</span></span><span style="display:flex;"><span>+------+   +------+  +------+  +------+  +------+
+</span></span><span style="display:flex;"><span>    &lt; Find each other based on ip address &gt;
+</span></span></code></pre></div><p>The power is in the user-data script that is used for bootstrapping the Consul cluster nodes. In the example case they will find each other based on a query using <code>aws ec2 describe-instances</code> that will find nodes with a specific name, and from those identified nodes we will extract the IP Addresses that will be used to joint the Consul cluster. You can always modify the query to your own needs off course. The user-data script is used in the launch configuration.</p>
+<p>So enough talk&hellip; lets start :)</p>
+<p><strong>The given examples are intentionally kept simple!! So you will need to tweak your Terraform code according to your needs</strong></p>
+<h2 id="step-1-define-a-launch-configuration">Step 1: Define a launch Configuration</h2>
+<p>The core component of our Consul cluster is the launch configuration. This launch configuration determines what user-data file needs to be executed when launching a new instance.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_launch_configuration&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    in this case we use a docker optimized ami, because we are going
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    to use the official Consul docker image as a starter.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    You can always use an ami on which you install docker manually!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">image_id</span>  = <span style="color:#e6db74">&#34;docker-optimized-ami-0123456789&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    the user-data script that holds the magic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">user_data</span> = <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>data.<span style="color:#a6e22e">template_file</span>.<span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">rendered</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">instance_type</span> = <span style="color:#e6db74">&#34;t2.micro&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    make sure you open the correct ports so the Consul nodes can
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    discover each other the actual security group is not shown
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">security_groups</span> = [<span style="color:#e6db74">&#34;sg-0123456789&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">key_name</span> = <span style="color:#a6e22e">your</span><span style="color:#f92672">-</span><span style="color:#a6e22e">deploy</span><span style="color:#f92672">-</span><span style="color:#a6e22e">key</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    us a policy which grants read access to the EC2 api
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">iam_instance_profile</span> = <span style="color:#e6db74">&#34;arn:aws:iam::0123456789:read_ec2_policy/ec2&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    The template file used for the user-data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">data</span> <span style="color:#e6db74">&#34;template_file&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">template</span> = <span style="color:#e6db74">&#34;user-data-consul-cluster.tpl&#34;</span>)}<span style="color:#e6db74">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  vars {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    // the name must match the Name tag of the autoscaling group
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    consul_cluster_name = &#34;</span><span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span><span style="color:#f92672">-</span><span style="color:#a6e22e">member</span><span style="color:#e6db74">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    // the number of instances that need to be in the cluster to be healthy
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    consul_cluster_min_size = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span></code></pre></div><h2 id="step-2-create-the-template-file">Step 2: Create the template file</h2>
+<p>The user-data file is going to query AWS using the aws describe-instances api and will return ec2 nodes that have a matching name using the --filters option. <code>'Name=tag:Name,Values=${consul_cluster_name}'</code></p>
+<p>All the retrieved instances are then queried for their private ip and the values are stored in a list. After completing the list the instance ip for the current machine is removed.</p>
+<p>A Consul specific join string is composed and provided to the docker image. This enables the Consul docker image to check for available servers when starting.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>// File: user-data-consul-cluster.tpl
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash -ex</span>
+</span></span><span style="display:flex;"><span>exec &gt; &gt;<span style="color:#f92672">(</span>tee /var/log/user-data.log|logger -t user-data -s 2&gt;/dev/console<span style="color:#f92672">)</span> 2&gt;&amp;<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;installing additional software&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#f92672">{</span>1..5<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    yum install -y aws-cli <span style="color:#f92672">&amp;&amp;</span> break <span style="color:#f92672">||</span> sleep <span style="color:#ae81ff">120</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">################################################################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Running Consul</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">################################################################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># get current instance ip</span>
+</span></span><span style="display:flex;"><span>INSTANCE_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># get list of available Consul servers; based on Name (value) tag!</span>
+</span></span><span style="display:flex;"><span>IP_LIST<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>aws ec2 describe-instances --region us-east-1 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--filters <span style="color:#e6db74">&#39;Name=tag:Name,Values=${consul_cluster_name}&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span><span style="color:#e6db74">&#39;Name=instance-state-name,Values=running&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--query <span style="color:#e6db74">&#34;Reservations[*].Instances[*].PrivateIpAddress&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--output<span style="color:#f92672">=</span>text<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># remove the current instance ip from the list of available servers</span>
+</span></span><span style="display:flex;"><span>IP_LIST<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$$<span style="color:#e6db74">{IP_LIST/</span>$$<span style="color:#e6db74">INSTANCE_IP/}&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;</span>
+</span></span><span style="display:flex;"><span>IP_LIST<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo $$IP_LIST | tr -s <span style="color:#e6db74">&#34; &#34;</span> | tr -d <span style="color:#e6db74">&#39;\r\n&#39;</span> | tr -s <span style="color:#e6db74">&#39; &#39;</span> <span style="color:#e6db74">&#39;,&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># create join string</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#66d9ef">$(</span>echo $IP_LIST | sed <span style="color:#e6db74">&#34;s/,/ /g&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    JOIN_STRING<span style="color:#f92672">+=</span><span style="color:#e6db74">&#34;-retry-join </span>$i<span style="color:#e6db74"> &#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - run Consul</span>
+</span></span><span style="display:flex;"><span>docker run -d --net<span style="color:#f92672">=</span>host <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-e <span style="color:#e6db74">&#39;CONSUL_LOCAL_CONFIG={&#34;skip_leave_on_interrupt&#34;: true}&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--name consul-server consul:latest <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>agent -server -bind<span style="color:#f92672">=</span>$INSTANCE_IP $JOIN_STRING <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-bootstrap-expect<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>consul_cluster_min_size<span style="color:#e6db74">}</span> -ui -client 0.0.0.0
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ------------------------------------------------------------------------------</span>
+</span></span></code></pre></div><h2 id="step-3-create-an-autoscaling-group">Step 3: Create an autoscaling group</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    creates an autoscaling group so servers are created when needed
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_autoscaling_group&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">min_size</span> = <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">max_size</span> = <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">desired_capacity</span> = <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">min_elb_capacity</span> = <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">launch_configuration</span> = <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">aws_launch_configuration</span>.<span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">load_balancers</span> = [<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">aws_elb</span>.<span style="color:#a6e22e">consul</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tag</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">key</span> = <span style="color:#e6db74">&#34;Name&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      note: this is the value that is being searched for in the user-data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">value</span> = <span style="color:#e6db74">&#34;consul-cluster-member&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propagate_at_launch</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="step-4-create-an-elb-as-frontend-for-the-consul-cluster">Step 4: Create an ELB as frontend for the Consul cluster</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_elb&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;consul-cluster&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">subnets</span> = [<span style="color:#e6db74">&#34;sn-0123456789&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">security_groups</span> = [<span style="color:#e6db74">&#34;sg-0123456789&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8300</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8300</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8301</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8301</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8302</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8302</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8400</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8400</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8500</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;http&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8500</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;http&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8600</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8600</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">health_check</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">target</span> = <span style="color:#e6db74">&#34;HTTP:8500/v1/status/leader&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">healthy_threshold</span> = <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">unhealthy_threshold</span> = <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">interval</span> = <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">timeout</span> = <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>When putting all the pieces together you should now have a running Consul cluster!</p>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/consul/">consul</a>, 
+            <a class="is-link" href="/tags/terraform/">terraform</a>, 
+            <a class="is-link" href="/tags/aws/">aws</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>November 2, 2016</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            31 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2016/11/02/20161101-change-the-port-of-actuator-endpoint/">Change the port of actuator endpoint in a Grails application</a></h2>
+            <p>When using actuator endpoints to expose metrics in a Grails (Spring Boot) application,
+it may be useful to run the metrics on a different port.</p>
+<p>This enables you to hide the metrics for the public and use the different port in
+an AWS infrastucture so that the metrics are only available internal.</p>
+<p>Let us first enable the actuator endpoints</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>// File: grails-app/conf/application.yml
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span># Spring Actuator Endpoints are Disabled by Default
+</span></span><span style="display:flex;"><span>endpoints:
+</span></span><span style="display:flex;"><span>    enabled: true
+</span></span><span style="display:flex;"><span>    jmx:
+</span></span><span style="display:flex;"><span>        enabled: true
+</span></span></code></pre></div><p>Change the port on which the metrics runs, add the lines below to the appl</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>// File: grails-app/conf/application.yml
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>management:
+</span></span><span style="display:flex;"><span>    port: 9000
+</span></span></code></pre></div><p>Now when you start your Grails application it run on port <code>8080</code> and the metrics
+are available on port <code>9090</code>/metrics</p>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/grails/">grails</a>, 
+            <a class="is-link" href="/tags/springboot/">springboot</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>November 1, 2016</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            26 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/">Accessing localhost from a Docker Container using native Docker for Mac</a></h2>
+            <p>Ever had a need to access something from within a <a href="https://www.docker.com/">Docker</a> container that runs on the host system?</p>
+<p>When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.</p>
+<p>A solution for this isto define a new local loopback to your localhost</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo ifconfig lo0 alias 172.16.123.1
+</span></span></code></pre></div><p>This will define a loopback network interface that points to your localhost. When you need to access the localhost you can use this ip.</p>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/docker/">docker</a>, 
+            <a class="is-link" href="/tags/osx/">osx</a>, 
+            <a class="is-link" href="/tags/mac/">mac</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+
+
+<div class="box">
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        
+
+        
+        <a class="pagination-previous is-disabled">
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fas fa-arrow-left"></i>
                 </span>
-            </div>
-        </div>
-    </div>
-</article>
+                <span>Newer Posts</span>
+            </span>
+        </a>
+        
+        
 
-            
-        </div>
-    </div>
+        
+        
+        <a class="pagination-next has" href="https://mpas.github.io/page/2">
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fas fa-arrow-right"></i>
+                </span>
+                <span>Older Posts</span>
+            </span>
+        </a>
+        
+        
+
+
+        <ul class="pagination-list">
+            <li><a class="pagination-link" href="https://mpas.github.io" aria-label="Home">
+                    <span class="icon-text">
+                        <span class="icon">
+                            <i class="fas fa-home"></i>
+                        </span>
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 
-<div class="container">
-    <div class="row">
-        <div class="twelve columns">
-        
-            <ul class="pager">
-            
-            
-                <li>
-                <a class="button" href="https://mpas.github.io/page/2">Older Posts &rarr;</a>
-                </li>
-            
-            </ul>
-        
         </div>
     </div>
-</div>
 
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="twelve columns">
-                <div id="social">
-                    
-                        <a title="Twitter" href="https://twitter.com/marcopas">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    
-                    
-                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    
-                    
-                        <a title="GitHub" href="https://github.com/mpas">
-                            <i class="fab fa-github"></i>
-                        </a>
-                    
-                    
-                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
-                            <i class="fab fa-stack-overflow"></i>
-                        </a>
-                    
-                    
-                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
-                            <i class="far fa-envelope"></i>
-                        </a>
-                    
+    
+    <template id="is-search-template" hidden>
+        <article class="content">
+            <div>
+                <hr class="mt-0 mb-0">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                    <span>
+                        <div class="date"></div>
+                    </span>
+                </span>
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-tag"></i>
+                    </span>
+                    <span>
+                        <div class="tags"></div>
+                    </span>
+                </span>
+                <hr class="mt-0 mb-0">
             </div>
-        </div>
-
-        <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
-        </div>
+            <div>
+                <h5 class="mt-2">
+                    <a class="is-read-more" href=""></a>
+                </h5>
+                <div class="summary"></div>
+            </div>
+        </article>
+    </template>
+    <footer class="footer">
+    <div class="content has-text-centered">
+        <p>Lets connect on:</p>
+        <p>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-twitter"></i>
+                </span>
+                <span><a href="https://twitter.com/marcopas">Twitter</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-stack-overflow"></i>
+                </span>
+                <span><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-linkedin"></i>
+                </span>
+                <span><a href="">LinkedIn</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-github"></i>
+                </span>
+                <span><a href="https://github.com/mpas">GitHub</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
+            </span>
+        </p>
     </div>
 </footer>
-</body>
-</html>
+<script src="/js/search.js"></script>
 
+    <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+    <script>addBackToTop({
+            diameter: 56,
+            backgroundColor: 'rgb(255, 82, 82)',
+            textColor: '#fff'
+        })</script>
+    <script src="/js/navbar.js"></script>
+</body>
+
+</html>

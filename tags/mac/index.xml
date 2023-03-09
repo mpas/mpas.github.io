@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>mac on CodeVerse</title>
+    <title>mac on Marco Pas</title>
     <link>https://mpas.github.io/tags/mac/</link>
-    <description>Recent content in mac on CodeVerse</description>
+    <description>Recent content in mac on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Tue, 01 Nov 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/mac/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Accessing localhost from a Docker Container using native Docker for Mac</title>

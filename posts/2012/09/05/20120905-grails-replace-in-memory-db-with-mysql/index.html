@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
-  
-  
-  <meta charset="utf-8">
-  <title>CodeVerse - Using MySQL instead of in-memory database for a Grails application</title>
-  <meta name="description" content="">
-  <meta name="author" content="Marco Pas">
 
-  <meta name="generator" content="" />
-  <meta name="robots" content="index,follow">
+    
+    <meta charset="utf-8">
+    <title>Marco Pas - Using MySQL instead of in-memory database for a Grails application</title>
+    <meta name="description"
+        content="">
+    <meta name="author" content="Marco Pas">
 
-  
-  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <script>mermaid.initialize({startOnLoad:true});</script>
+    <meta name="generator" content="" />
+    <meta name="robots" content="index,follow">
 
-  
-  
+
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+
+    <script src="https://unpkg.com/lunr/lunr.js"></script>
+
+    
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -30,73 +36,149 @@ if (!doNotTrack) {
 }
 </script>
 
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
-  
-  
-  <link rel="stylesheet" href="/skeleton/normalize.css">
-  <link rel="stylesheet" href="/skeleton/skeleton.css">
-  
-  
-  <link rel="stylesheet" href="/fontawesome/all.min.css">
- 
-  
-  <link rel="stylesheet" href="/css/custom.css">
-  
-  
-  <link rel="icon" type="image/png" href="/images/favicon.png">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+
+    
+    <link rel="icon" type="image/png" href="/images/favicon.png">
 
 </head>
 
-<div class="container">
-    <div id="header">
-        <div class="row">
-            <div class="six columns">
-                <div id="brand">
-                    <a href="https://mpas.github.io">CodeVerse</a>
+<body class="has-background-light">
+    <div>
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
+    </div>
+
+    <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://mpas.github.io">
+                MARCO PAS
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-menu">
+            <div class="navbar-start">
+                <div class="navbar-start">
+                    
+                    
+                    <a class="navbar-item is-hoverable" href="/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-book has-text-primary"></i>
+                        </span>
+                        
+                        <span>
+                            Home
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/posts">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-archive has-text-warning"></i>
+                        </span>
+                        
+                        <span>
+                            Archive
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/tags">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-tag has-text-danger"></i>
+                        </span>
+                        
+                        <span>
+                            Tags
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/pages/about/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-address-card has-text-success"></i>
+                        </span>
+                        
+                        <span>
+                            About
+                        </span>
+                        
+                    </a>
+                    
                 </div>
             </div>
-            <div class="six columns">
-                <nav class="u-pull-right">
-                    <ul id="navbar">
-                        
-                        
-                            <li >
-                                <a href="/">Blog</a></li>
-                        
-                            <li >
-                                <a href="/posts">Post List</a></li>
-                        
-                            <li >
-                                <a href="/pages/about/">About Me</a></li>
-                        
-                            <li >
-                                <a href="/pages/resume">Resume</a></li>
-                        
-                    </ul>
-                </nav>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field control">
+                        <div class="control has-icons-left">
+                            <form id="search" method="get" role="search">
+                                <input class="input" type="search" id="search-input" placeholder="Search">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+    </nav>
+
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
     </div>
 </div>
 
+    <div class="container">
+        <div class="is-search-result">
+            
+<div class="box mt-5 has-background-white">
+    <article>
+        
 
 
-  <div class="container">
-    <div class="row">
-      <div class="post-content">
-        <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Using MySQL instead of in-memory database for a Grails application</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>September 5, 2012</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            25 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+        <div class="content">
+            <h2>Using MySQL instead of in-memory database for a Grails application</h2>
             <p>A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.</p>
 <ul>
 <li>Download the MySQL JDBC driver [called a connector] from the MySQL website</li>
@@ -104,74 +186,122 @@ if (!doNotTrack) {
 <li>Copy the driver (at this time of writing called <code>mysql-connector-java-5.1.13-bin.jar</code> into the <code>grails-app/lib</code> directory</li>
 <li>Configure your application datasource in file <code>grails-app/conf/DataSource.groovy</code></li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">development <span style="color:#f92672">{</span>
-    dataSource <span style="color:#f92672">{</span>
-       dbCreate <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;create-drop&#34;</span> <span style="color:#75715e">// one of &#39;create&#39;, &#39;create-drop&#39;,&#39;update&#39;
-</span><span style="color:#75715e"></span>       url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;jdbc:mysql://localhost:&lt;port&gt;/&lt;database&gt;&#34;</span>
-       driverClassName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;com.mysql.jdbc.Driver&#34;</span>
-       port <span style="color:#f92672">=</span>  <span style="color:#75715e">// default 3306
-</span><span style="color:#75715e"></span>       username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;username&gt;&#34;</span>
-       password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;password&gt;&#34;</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>development <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    dataSource <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>       dbCreate <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;create-drop&#34;</span> <span style="color:#75715e">// one of &#39;create&#39;, &#39;create-drop&#39;,&#39;update&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>       url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;jdbc:mysql://localhost:&lt;port&gt;/&lt;database&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>       driverClassName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;com.mysql.jdbc.Driver&#34;</span>
+</span></span><span style="display:flex;"><span>       port <span style="color:#f92672">=</span>  <span style="color:#75715e">// default 3306
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>       username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;username&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>       password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;password&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div>
+        </div>
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/grails/">grails</a>, 
+            <a class="is-link" href="/tags/mysql/">mysql</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+    </article>
+</div>
+
         </div>
     </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2012-09-05
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/mysql">mysql</a>
+
+    
+    <template id="is-search-template" hidden>
+        <article class="content">
+            <div>
+                <hr class="mt-0 mb-0">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                    <span>
+                        <div class="date"></div>
+                    </span>
                 </span>
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-tag"></i>
+                    </span>
+                    <span>
+                        <div class="tags"></div>
+                    </span>
+                </span>
+                <hr class="mt-0 mb-0">
             </div>
-        </div>
-    </div>
-</article>
-
-      </div>
-    </div>
-  </div>
-
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="twelve columns">
-                <div id="social">
-                    
-                        <a title="Twitter" href="https://twitter.com/marcopas">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    
-                    
-                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    
-                    
-                        <a title="GitHub" href="https://github.com/mpas">
-                            <i class="fab fa-github"></i>
-                        </a>
-                    
-                    
-                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
-                            <i class="fab fa-stack-overflow"></i>
-                        </a>
-                    
-                    
-                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
-                            <i class="far fa-envelope"></i>
-                        </a>
-                    
+            <div>
+                <h5 class="mt-2">
+                    <a class="is-read-more" href=""></a>
+                </h5>
+                <div class="summary"></div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
-        </div>
+        </article>
+    </template>
+    <footer class="footer">
+    <div class="content has-text-centered">
+        <p>Lets connect on:</p>
+        <p>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-twitter"></i>
+                </span>
+                <span><a href="https://twitter.com/marcopas">Twitter</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-stack-overflow"></i>
+                </span>
+                <span><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-linkedin"></i>
+                </span>
+                <span><a href="">LinkedIn</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-github"></i>
+                </span>
+                <span><a href="https://github.com/mpas">GitHub</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
+            </span>
+        </p>
     </div>
 </footer>
-</body>
-</html>
+<script src="/js/search.js"></script>
 
+    <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+    <script>addBackToTop({
+            diameter: 56,
+            backgroundColor: 'rgb(255, 82, 82)',
+            textColor: '#fff'
+        })</script>
+    <script src="/js/navbar.js"></script>
+</body>
+
+</html>

@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
-  
-  
-  <meta charset="utf-8">
-  <title>CodeVerse - Tags</title>
-  <meta name="description" content="">
-  <meta name="author" content="Marco Pas">
 
-  <meta name="generator" content="" />
-  <meta name="robots" content="index,follow">
+    
+    <meta charset="utf-8">
+    <title>Marco Pas - Tags</title>
+    <meta name="description"
+        content="">
+    <meta name="author" content="Marco Pas">
 
-  
-  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <script>mermaid.initialize({startOnLoad:true});</script>
+    <meta name="generator" content="" />
+    <meta name="robots" content="index,follow">
 
-  
-  
+
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+
+    <script src="https://unpkg.com/lunr/lunr.js"></script>
+
+    
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -30,970 +36,345 @@ if (!doNotTrack) {
 }
 </script>
 
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
-  
-  
-  <link rel="stylesheet" href="/skeleton/normalize.css">
-  <link rel="stylesheet" href="/skeleton/skeleton.css">
-  
-  
-  <link rel="stylesheet" href="/fontawesome/all.min.css">
- 
-  
-  <link rel="stylesheet" href="/css/custom.css">
-  
-  
-  <link rel="icon" type="image/png" href="/images/favicon.png">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+
+    
+    <link rel="icon" type="image/png" href="/images/favicon.png">
 
 </head>
 
-<div class="container">
-    <div id="header">
-        <div class="row">
-            <div class="six columns">
-                <div id="brand">
-                    <a href="https://mpas.github.io">CodeVerse</a>
+<body class="has-background-light">
+    <div>
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
+    </div>
+
+    <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://mpas.github.io">
+                MARCO PAS
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-menu">
+            <div class="navbar-start">
+                <div class="navbar-start">
+                    
+                    
+                    <a class="navbar-item is-hoverable" href="/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-book has-text-primary"></i>
+                        </span>
+                        
+                        <span>
+                            Home
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/posts">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-archive has-text-warning"></i>
+                        </span>
+                        
+                        <span>
+                            Archive
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/tags">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-tag has-text-danger"></i>
+                        </span>
+                        
+                        <span>
+                            Tags
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/pages/about/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-address-card has-text-success"></i>
+                        </span>
+                        
+                        <span>
+                            About
+                        </span>
+                        
+                    </a>
+                    
                 </div>
             </div>
-            <div class="six columns">
-                <nav class="u-pull-right">
-                    <ul id="navbar">
-                        
-                        
-                            <li >
-                                <a href="/">Blog</a></li>
-                        
-                            <li >
-                                <a href="/posts">Post List</a></li>
-                        
-                            <li >
-                                <a href="/pages/about/">About Me</a></li>
-                        
-                            <li >
-                                <a href="/pages/resume">Resume</a></li>
-                        
-                    </ul>
-                </nav>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field control">
+                        <div class="control has-icons-left">
+                            <form id="search" method="get" role="search">
+                                <input class="input" type="search" id="search-input" placeholder="Search">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+    </nav>
+
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
     </div>
 </div>
 
+    <div class="container">
+        <div class="is-search-result">
+            
+<div class="box mt-5 has-background-white">
+    <div class="content">
+        <h2 class="is-size-5">Post by Categories</h2>
 
-<div class="container">
-    <article class="post-list">
-        <div class="row">
-            <div class="twelve columns">
-                <div class="list-heading">
-                    <h1>Posts for tag "Tags"</h1>
-                </div>
-            </div>
-        </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/elisp/"><h6>elisp</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2021-03-30
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/emacs/"><h6>emacs</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2021-03-30
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/orgmode/"><h6>orgmode</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2021-03-30
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/image/"><h6>image</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2021-03-29
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/screenshot/"><h6>screenshot</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2021-03-29
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/timetracking/"><h6>timetracking</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2021-03-16
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/doom/"><h6>doom</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2020-10-16
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/pathfinder/"><h6>pathfinder</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2018-11-28
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/ranger/"><h6>ranger</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2018-11-28
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/devoxx/"><h6>devoxx</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2017-05-12
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/docker/"><h6>docker</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2017-05-12
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/infrastructure/"><h6>infrastructure</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2017-05-12
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/monitoring/"><h6>monitoring</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2017-05-12
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/prometheus/"><h6>prometheus</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2017-05-12
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/talks/"><h6>talks</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2017-05-12
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/grails/"><h6>grails</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2016-11-25
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/gradle/"><h6>gradle</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2016-11-24
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/groovy/"><h6>groovy</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2016-11-24
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/cadvisor/"><h6>cadvisor</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2016-11-17
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/aws/"><h6>aws</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2016-11-16
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/consul/"><h6>consul</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2016-11-16
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/terraform/"><h6>terraform</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2016-11-16
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/springboot/"><h6>springboot</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2016-11-02
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/mac/"><h6>mac</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2016-11-01
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/osx/"><h6>osx</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2016-11-01
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/devops/"><h6>devops</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2016-10-09
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/rest/"><h6>rest</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2015-11-19
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/spock/"><h6>spock</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2015-11-19
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/testing/"><h6>testing</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2015-11-19
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/davmail/"><h6>davmail</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2015-11-17
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/exchange/"><h6>exchange</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2015-11-17
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/owa/"><h6>owa</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2015-11-17
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/postbox/"><h6>postbox</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2015-11-17
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/spring-boot/"><h6>spring-boot</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2015-06-16
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/websocket/"><h6>websocket</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2015-06-16
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/rabbitmq/"><h6>rabbitmq</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2015-06-11
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/java/"><h6>java</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2015-06-10
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/hugo/"><h6>hugo</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2014-06-09
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/review/"><h6>review</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2013-11-27
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/vertx/"><h6>vertx</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2013-11-27
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/chrome/"><h6>chrome</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2013-05-30
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/linux/"><h6>linux</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2013-05-30
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/mint/"><h6>mint</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2013-05-30
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/gr8conf/"><h6>gr8conf</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2013-05-25
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/migrations/"><h6>migrations</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2013-02-28
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/build/"><h6>build</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2013-01-13
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/test/"><h6>test</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2013-01-13
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/testdata/"><h6>testdata</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2013-01-13
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/enum/"><h6>enum</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2013-01-03
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/ftps/"><h6>ftps</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-18
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/ubuntu/"><h6>ubuntu</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-18
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/vsftpd/"><h6>vsftpd</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-18
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/configuration/"><h6>configuration</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-17
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/imagemagick/"><h6>imagemagick</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-15
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/pathogen/"><h6>pathogen</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-14
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/vim/"><h6>vim</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-14
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/markdown/"><h6>markdown</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-13
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/presentation/"><h6>presentation</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-12
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/cobertura/"><h6>cobertura</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-10
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/continous-integration/"><h6>continous integration</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-10
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/coverage/"><h6>coverage</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-10
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/hudson/"><h6>hudson</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-10
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/jenkins/"><h6>jenkins</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-10
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/ssh/"><h6>ssh</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-10
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/deployment/"><h6>deployment</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-09
-                        
-                        </div>
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="eight columns">
-                    <a href="https://mpas.github.io/tags/mysql/"><h6>mysql</h6></a>
-                </div>
-                <div class="four columns">
-                    <div class="u-pull-right">
-                        
-                            2012-09-05
-                        
-                        </div>
-                </div>
-            </div>
-        
-    </article>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/categories/development">Development (1)</a>
+        
+
+        <h1 class="is-size-5">Post by Tags</h1>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/aws/">aws (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/build/">build (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/cadvisor/">cadvisor (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/chrome/">chrome (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/cobertura/">cobertura (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/configuration/">configuration (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/consul/">consul (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/continous-integration/">continous-integration (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/coverage/">coverage (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/davmail/">davmail (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/deployment/">deployment (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/devops/">devops (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/devoxx/">devoxx (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/docker/">docker (7)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/doom/">doom (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/elisp/">elisp (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/emacs/">emacs (4)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/enum/">enum (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/exchange/">exchange (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/ftps/">ftps (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/gr8conf/">gr8conf (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/gradle/">gradle (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/grails/">grails (15)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/groovy/">groovy (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/hudson/">hudson (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/hugo/">hugo (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/image/">image (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/imagemagick/">imagemagick (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/infrastructure/">infrastructure (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/java/">java (4)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/jenkins/">jenkins (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/linux/">linux (3)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/mac/">mac (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/markdown/">markdown (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/migrations/">migrations (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/mint/">mint (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/monitoring/">monitoring (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/mysql/">mysql (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/orgmode/">orgmode (4)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/osx/">osx (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/owa/">owa (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/pathfinder/">pathfinder (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/pathogen/">pathogen (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/postbox/">postbox (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/presentation/">presentation (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/prometheus/">prometheus (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/rabbitmq/">rabbitmq (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/ranger/">ranger (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/rest/">rest (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/review/">review (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/screenshot/">screenshot (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/spock/">spock (3)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/spring-boot/">spring-boot (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/springboot/">springboot (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/ssh/">ssh (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/talks/">talks (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/terraform/">terraform (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/test/">test (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/testdata/">testdata (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/testing/">testing (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/timetracking/">timetracking (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/ubuntu/">ubuntu (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/vertx/">vertx (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/vim/">vim (2)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/vsftpd/">vsftpd (1)</a>
+        
+        <a class="tag is-size-6 mt-3 ml-3 has-background-link has-text-white" href="/tags/websocket/">websocket (1)</a>
+        
+    </div>
 </div>
 
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="twelve columns">
-                <div id="social">
-                    
-                        <a title="Twitter" href="https://twitter.com/marcopas">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    
-                    
-                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    
-                    
-                        <a title="GitHub" href="https://github.com/mpas">
-                            <i class="fab fa-github"></i>
-                        </a>
-                    
-                    
-                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
-                            <i class="fab fa-stack-overflow"></i>
-                        </a>
-                    
-                    
-                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
-                            <i class="far fa-envelope"></i>
-                        </a>
-                    
-            </div>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
-        </div>
+    
+    <template id="is-search-template" hidden>
+        <article class="content">
+            <div>
+                <hr class="mt-0 mb-0">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                    <span>
+                        <div class="date"></div>
+                    </span>
+                </span>
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-tag"></i>
+                    </span>
+                    <span>
+                        <div class="tags"></div>
+                    </span>
+                </span>
+                <hr class="mt-0 mb-0">
+            </div>
+            <div>
+                <h5 class="mt-2">
+                    <a class="is-read-more" href=""></a>
+                </h5>
+                <div class="summary"></div>
+            </div>
+        </article>
+    </template>
+    <footer class="footer">
+    <div class="content has-text-centered">
+        <p>Lets connect on:</p>
+        <p>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-twitter"></i>
+                </span>
+                <span><a href="https://twitter.com/marcopas">Twitter</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-stack-overflow"></i>
+                </span>
+                <span><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-linkedin"></i>
+                </span>
+                <span><a href="">LinkedIn</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-github"></i>
+                </span>
+                <span><a href="https://github.com/mpas">GitHub</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
+            </span>
+        </p>
     </div>
 </footer>
-</body>
-</html>
+<script src="/js/search.js"></script>
 
+    <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+    <script>addBackToTop({
+            diameter: 56,
+            backgroundColor: 'rgb(255, 82, 82)',
+            textColor: '#fff'
+        })</script>
+    <script src="/js/navbar.js"></script>
+</body>
+
+</html>

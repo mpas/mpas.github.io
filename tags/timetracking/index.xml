@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>timetracking on CodeVerse</title>
+    <title>timetracking on Marco Pas</title>
     <link>https://mpas.github.io/tags/timetracking/</link>
-    <description>Recent content in timetracking on CodeVerse</description>
+    <description>Recent content in timetracking on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Tue, 16 Mar 2021 10:20:00 +0100</lastBuildDate><atom:link href="https://mpas.github.io/tags/timetracking/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Time tracking with Org Mode and sum time per tag</title>
@@ -13,10 +12,8 @@
       <pubDate>Tue, 16 Mar 2021 10:20:00 +0100</pubDate>
       
       <guid>https://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</guid>
-      <description>Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you aggregate time across tasks belonging to tags?
-This can be achieved by using a simple formula and the usage of an awesome Org package called Org Aggregate.
-Input data The data below is used for time tracking, note that individual items are tagged!
-- Take out the trash :private: :LOGBOOK: CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:30] =&amp;gt; 0:06 :END: - Update document for client :client1: :LOGBOOK: CLOCK: [2021-03-12 Fri 12:45]--[2021-03-12 Fri 13:30] =&amp;gt; 0:45 :END: - Create my awesome note for work :work: :LOGBOOK: CLOCK: [2021-03-13 Sat 11:24]--[2021-03-13 Sat 12:53] =&amp;gt; 1:29 :END: - Fill in timesheet :work: :LOGBOOK: CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:40] =&amp;gt; 0:16 :END: Reporting #+BEGIN: clocktable :scope file :maxlevel 3 :tags t :match &amp;#34;work|client1&amp;#34; :header &amp;#34;#+TBLNAME: timetable\n&amp;#34; #+TBLNAME: timetable | Tags | Headline | Time | | | T | |---------+---------------------------------------+------+------+------+-------| | | *Total time* | *2:30* | | | | |---------+---------------------------------------+------+------+------+-------| | | Report with filtered tags and sum.</description>
+      <description>&lt;p&gt;Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you &lt;strong&gt;aggregate time across tasks belonging to tags&lt;/strong&gt;?&lt;/p&gt;
+&lt;p&gt;This can be achieved by using a simple formula and the usage of an awesome Org package called &lt;a href=&#34;https://github.com/tbanel/orgaggregate&#34;&gt;Org Aggregate&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     
   </channel>

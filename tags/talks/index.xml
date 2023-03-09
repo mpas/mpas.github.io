@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>talks on CodeVerse</title>
+    <title>talks on Marco Pas</title>
     <link>https://mpas.github.io/tags/talks/</link>
-    <description>Recent content in talks on CodeVerse</description>
+    <description>Recent content in talks on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Fri, 12 May 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/talks/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Infrastructure and System Monitoring using Prometheus</title>
@@ -14,7 +13,7 @@
       
       <guid>https://mpas.github.io/posts/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</guid>
       <description>Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &amp;ldquo;Infrastructure and System Monitoring using Prometheus&amp;rdquo;. You can find the used material here:
- Slides: https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus Slides in PDF: https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE Code: https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus  Feel free to share and distribute</description>
+Slides: https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus Slides in PDF: https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE Code: https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus Feel free to share and distribute</description>
     </item>
     
   </channel>

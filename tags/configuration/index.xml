@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>configuration on CodeVerse</title>
+    <title>configuration on Marco Pas</title>
     <link>https://mpas.github.io/tags/configuration/</link>
-    <description>Recent content in configuration on CodeVerse</description>
+    <description>Recent content in configuration on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Mon, 17 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/configuration/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Loading Grails configuration files update!</title>
@@ -14,7 +13,7 @@
       
       <guid>https://mpas.github.io/posts/2012/09/17/20120917-grails-load-external-configuration-files-update/</guid>
       <description>We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.
- You cannot deal with all Grails Mail settings in the configuration file You cannot use the log4j DSL to extract the logging configuration outside your application etc..  In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this blogpost which was the start for our implementation of loading the external configuration files.</description>
+You cannot deal with all Grails Mail settings in the configuration file You cannot use the log4j DSL to extract the logging configuration outside your application etc.. In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this blogpost which was the start for our implementation of loading the external configuration files.</description>
     </item>
     
     <item>

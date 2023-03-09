@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>linux on CodeVerse</title>
+    <title>linux on Marco Pas</title>
     <link>https://mpas.github.io/tags/linux/</link>
-    <description>Recent content in linux on CodeVerse</description>
+    <description>Recent content in linux on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Thu, 30 May 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Use backspace key to go back in Google Chrome</title>
@@ -14,7 +13,7 @@
       
       <guid>https://mpas.github.io/posts/2013/05/30/20130530-backspace-mint/</guid>
       <description>When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:
- https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en  </description>
+https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en </description>
     </item>
     
     <item>

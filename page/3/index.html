@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
-  
-  
-  <meta charset="utf-8">
-  <title>CodeVerse - CodeVerse</title>
-  <meta name="description" content="">
-  <meta name="author" content="Marco Pas">
 
-  <meta name="generator" content="" />
-  <meta name="robots" content="index,follow">
+    
+    <meta charset="utf-8">
+    <title>Marco Pas - Marco Pas</title>
+    <meta name="description"
+        content="">
+    <meta name="author" content="Marco Pas">
 
-  
-  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-  <script>mermaid.initialize({startOnLoad:true});</script>
+    <meta name="generator" content="" />
+    <meta name="robots" content="index,follow">
 
-  
-  
+
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+
+    <script src="https://unpkg.com/lunr/lunr.js"></script>
+
+    
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -30,406 +36,1184 @@ if (!doNotTrack) {
 }
 </script>
 
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  
-  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
-  
-  
-  <link rel="stylesheet" href="/skeleton/normalize.css">
-  <link rel="stylesheet" href="/skeleton/skeleton.css">
-  
-  
-  <link rel="stylesheet" href="/fontawesome/all.min.css">
- 
-  
-  <link rel="stylesheet" href="/css/custom.css">
-  
-  
-  <link rel="icon" type="image/png" href="/images/favicon.png">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+
+    
+    <link rel="icon" type="image/png" href="/images/favicon.png">
 
 </head>
 
-<div class="container">
-    <div id="header">
-        <div class="row">
-            <div class="six columns">
-                <div id="brand">
-                    <a href="https://mpas.github.io">CodeVerse</a>
+<body class="has-background-light">
+    <div>
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
+    </div>
+
+    <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://mpas.github.io">
+                MARCO PAS
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-menu">
+            <div class="navbar-start">
+                <div class="navbar-start">
+                    
+                    
+                    <a class="navbar-item is-hoverable" href="/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-book has-text-primary"></i>
+                        </span>
+                        
+                        <span>
+                            Home
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/posts">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-archive has-text-warning"></i>
+                        </span>
+                        
+                        <span>
+                            Archive
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/tags">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-tag has-text-danger"></i>
+                        </span>
+                        
+                        <span>
+                            Tags
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/pages/about/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-address-card has-text-success"></i>
+                        </span>
+                        
+                        <span>
+                            About
+                        </span>
+                        
+                    </a>
+                    
                 </div>
             </div>
-            <div class="six columns">
-                <nav class="u-pull-right">
-                    <ul id="navbar">
-                        
-                        
-                            <li class="current">
-                                <a href="/">Blog</a></li>
-                        
-                            <li >
-                                <a href="/posts">Post List</a></li>
-                        
-                            <li >
-                                <a href="/pages/about/">About Me</a></li>
-                        
-                            <li >
-                                <a href="/pages/resume">Resume</a></li>
-                        
-                    </ul>
-                </nav>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field control">
+                        <div class="control has-icons-left">
+                            <form id="search" method="get" role="search">
+                                <input class="input" type="search" id="search-input" placeholder="Search">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+    </nav>
+
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
     </div>
 </div>
 
-
-<div class="container">
-    <div class="row">
-        <div class="post-list">
-            
-            
-                
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Change the port of actuator endpoint in a Grails application</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>When using actuator endpoints to expose metrics in a Grails (Spring Boot) application,
-it may be useful to run the metrics on a different port.</p>
-<p>This enables you to hide the metrics for the public and use the different port in
-an AWS infrastucture so that the metrics are only available internal.</p>
-<p>Let us first enable the actuator endpoints</p>
-<pre><code class="language-console" data-lang="console">// File: grails-app/conf/application.yml
-
-# Spring Actuator Endpoints are Disabled by Default
-endpoints:
-    enabled: true
-    jmx:
-        enabled: true
-</code></pre><p>Change the port on which the metrics runs, add the lines below to the appl</p>
-<pre><code class="language-console" data-lang="console">// File: grails-app/conf/application.yml
-
-management:
-    port: 9000
-</code></pre><p>Now when you start your Grails application it run on port <code>8080</code> and the metrics
-are available on port <code>9090</code>/metrics</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2016-11-02
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/springboot">springboot</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Accessing localhost from a Docker Container using native Docker for Mac</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Ever had a need to access something from within a <a href="https://www.docker.com/">Docker</a> container that runs on the host system?</p>
-<p>When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.</p>
-<p>A solution for this isto define a new local loopback to your localhost</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo ifconfig lo0 alias 172.16.123.1
-</code></pre></div><p>This will define a loopback network interface that points to your localhost. When you need to access the localhost you can use this ip.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2016-11-01
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/docker">docker</a>, <a href="/tags/osx">osx</a>, <a href="/tags/mac">mac</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Terraform to the rescue</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Getting exposed to <a href="https://aws.amazon.com/">Amazon Web Services</a> is fun! Certainly when you see that the infrastructure is growing and supporting the daily need of developers and the business. You slowly start adding services and try to keep everything in a state so that it is repeatable and maintainable. At a certain moment it becomes clear that you need the concept of <a href="https://en.wikipedia.org/wiki/Infrastructure_as_Code">Infrastructure As Code</a>.</p>
-<p>The Amazon way of doing this is by using <a href="https://aws.amazon.com/cloudformation/">AWS CloudFormation</a>. This enables you to define the infrastructure in a JSON/YAML format and apply the changes to the infrastructure.</p>
-<p>Our team manages a bunch of environments using services like AWS ECS, EC2, ElasticSearch, RDS and more.. Maintaining this infrastructure in CloudFormation seemed the standard way of doing things until we started a proof-of-concept with <a href="https://www.terraform.io/">Terraform</a>.</p>
-<p><strong>Why did we start this proof-of-concept??</strong> Mainly because the overwhelming pieces of code that we needed to maintain in CloudFormation became unmaintainable. The use of Terraform was so successful that we decide to rewrite our entire infrastructure codebase using Terraform.</p>
-<p>The advantages when using Terraform are:</p>
-<ul>
-<li>less code to maintain because Terraform is less verbose</li>
-<li>when using Terraform an infrastructure change can be planned, this shows what is going to be changed before actually executing the change</li>
-</ul>
-<pre><code class="language-console" data-lang="console">$ terraform plan
-</code></pre><p>See what the changes are and then when everything seems ok&hellip;</p>
-<pre><code class="language-console" data-lang="console">$ terraform apply
-</code></pre><p>Currently we have our entire Infrastructure in Terraform and we could never be more happier. Terraform came to our rescue!</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2016-10-09
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/devops">devops</a>, <a href="/tags/aws">aws</a>, <a href="/tags/terraform">terraform</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Functional Rest API Testing with Grails/Rest Client Builder</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.</p>
-<p>When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.</p>
-<p><strong>Scenario:</strong><!-- raw HTML omitted -->
-Performing a GET request on a url (http://localhost:8080/helloworld) should return a <code>HTTP Status 200</code> and data with a json payload</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{<span style="color:#f92672">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;helloworld&#34;</span>}
-</code></pre></div><p>So lets get started!</p>
-<p><strong>Create a Grails application</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ grails create-app RestHelloWorld
-</code></pre></div><p><strong>Update your <code>build.gradle</code> to include the Rest Client Builder dependencies which we will need later on</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy">dependencies <span style="color:#f92672">{</span>
-    <span style="color:#75715e">// add the following line to the &#39;dependencies&#39; section
-</span><span style="color:#75715e"></span>    testCompile <span style="color:#e6db74">&#34;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&#34;</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p><strong>Create an Integration Test</strong></p>
-<pre><code class="language-console" data-lang="console">$ grails create-integration-test HelloWorld
-</code></pre><p><strong>Create a test method inside the integration test</strong></p>
-<p>Open up the created HelloWorldControllerSpec inside the <code>/src/integration-test/groovy/resthelloworld/</code> package</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#f92672">package</span> resthelloworld
-
-<span style="color:#f92672">import</span> grails.test.mixin.integration.Integration
-<span style="color:#f92672">import</span> grails.transaction.*
-<span style="color:#f92672">import</span> spock.lang.*
-<span style="color:#f92672">import</span> grails.plugins.rest.client.RestBuilder
-<span style="color:#f92672">import</span> grails.plugins.rest.client.RestResponse
-
-<span style="color:#a6e22e">@Integration</span>
-<span style="color:#a6e22e">@Rollback</span>
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloWorldSpec</span> <span style="color:#66d9ef">extends</span> Specification <span style="color:#f92672">{</span>
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">setup</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-    <span style="color:#f92672">}</span>
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cleanup</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-    <span style="color:#f92672">}</span>
-
-    <span style="color:#66d9ef">def</span> <span style="color:#e6db74">&#34;Ask for a nice HelloWorld&#34;</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        given:
-        RestBuilder rest <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RestBuilder<span style="color:#f92672">()</span>
-
-        when:
-        RestResponse response <span style="color:#f92672">=</span> rest<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;http://localhost:8080/helloworld/&#34;</span><span style="color:#f92672">)</span>
-
-        then:
-        response<span style="color:#f92672">.</span><span style="color:#a6e22e">status</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>
-
-        and:
-        response<span style="color:#f92672">.</span><span style="color:#a6e22e">json</span><span style="color:#f92672">.</span><span style="color:#a6e22e">message</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;helloworld&#34;</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p><strong>Run your test</strong></p>
-<pre><code class="language-console" data-lang="console">$ grails test-app
-</code></pre><p>Offcourse this will fail as we do not have implement the controller yet.</p>
-<p><strong>Create a Rest controller</strong></p>
-<pre><code class="language-console" data-lang="console">$ cd RestHelloWorld
-$ grails create-controller HelloWorld
-</code></pre><p><strong>Note:</strong> The generation of the controller also create a Unit Test for the controller, default this test will fail. We are going to delete the generated Unit Test as we do not need it now. This test is located under the <code>/src/test/</code> groovy package.</p>
-<pre><code class="language-console" data-lang="console">$ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy
-</code></pre><p><strong>Implement the controller function that will return data</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#f92672">package</span> resthelloworld
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloWorldController</span> <span style="color:#f92672">{</span>
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        render<span style="color:#f92672">(</span>status: <span style="color:#ae81ff">200</span><span style="color:#f92672">,</span> contentType: <span style="color:#e6db74">&#34;application/json&#34;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;message&#34;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;helloworld&#34;</span><span style="color:#f92672">]</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p><strong>Modify UrlMapping</strong></p>
-<p>In order to get our newly generated controller accessible via Rest we need to modify our UrlMappings.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-groovy" data-lang="groovy"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UrlMappings</span> <span style="color:#f92672">{</span>
-
-    <span style="color:#66d9ef">static</span> mappings <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
-        <span style="color:#e6db74">&#34;/$controller/$action?/$id?(.$format)?&#34;</span><span style="color:#f92672">{</span>
-            constraints <span style="color:#f92672">{</span>
-                <span style="color:#75715e">// apply constraints here
-</span><span style="color:#75715e"></span>            <span style="color:#f92672">}</span>
-        <span style="color:#f92672">}</span>
-
-        <span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
-        <span style="color:#e6db74">&#34;500&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#39;/error&#39;</span><span style="color:#f92672">)</span>
-        <span style="color:#e6db74">&#34;404&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#39;/notFound&#39;</span><span style="color:#f92672">)</span>
-
-        <span style="color:#75715e">// add the line below
-</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;/helloworld/&#34;</span>  <span style="color:#f92672">(</span>controller: <span style="color:#e6db74">&#34;helloWorld&#34;</span><span style="color:#f92672">,</span> action: <span style="color:#e6db74">&#34;index&#34;</span><span style="color:#f92672">,</span> method: <span style="color:#e6db74">&#34;GET&#34;</span><span style="color:#f92672">)</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p><strong>Test your app</strong></p>
-<pre><code class="language-console" data-lang="console">$ grails test-app
-</code></pre><p>You should find that your tests are fine now :)</p>
-<pre><code class="language-console" data-lang="console">$ grails test-app
-BUILD SUCCESSFUL
-
-Total time: 2.054 secs
-| Tests PASSED
-</code></pre>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2015-11-19
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/grails">grails</a>, <a href="/tags/spock">spock</a>, <a href="/tags/rest">rest</a>, <a href="/tags/testing">testing</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-                <article class="post u-cf">
-    <div class="row">
-        <div class="twelve columns">
-            <h1 class="post-title">Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <p>If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific <a href="http://www.postbox-inc.com">PostBox</a> mail client.</p>
-<p>As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.</p>
-<p>Enter the use of <a href="http://davmail.sourceforge.net/">DavMail</a>!</p>
-<h4 id="davmail-gateway">Davmail Gateway</h4>
-<p>Davmail is a local mail proxy that can work together with Microsoft Exchange [OWA] in a way that DavMail is actually connecting to a Exchange OWA and your mail client connects to DavMail as a proxy.</p>
-<!-- raw HTML omitted -->
-<h4 id="configure-davmail">Configure Davmail</h4>
-<p>In order to get DavMail working correctly you need to provide the correct settings so it can use the OWA endpoint.</p>
-<!-- raw HTML omitted -->
-<h4 id="configure-postbox">Configure PostBox</h4>
-<p>In order to get PostBox working with DavMail you need to create an outgoing mail server and an account that will use that outgoing mailserver.</p>
-<h4 id="configure-postbox---outgoing-mailserver">Configure PostBox - Outgoing mailserver</h4>
-<!-- raw HTML omitted -->
-<h4 id="configure-postbox---account-setup">Configure PostBox - Account setup</h4>
-<!-- raw HTML omitted -->
-<h4 id="configure-postbox---identity-setup">Configure PostBox - Identity setup</h4>
-<!-- raw HTML omitted -->
-<p>Now you are ready to send mail using your PostBox Client using DavMail and OWA.</p>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="twelve columns">
-            <div class="post-meta-info">
-                Published on 2015-11-17
-                <span class="post-meta-info-taxonomy">
-                    using tags:
-                        <a href="/tags/davmail">davmail</a>, <a href="/tags/exchange">exchange</a>, <a href="/tags/owa">owa</a>, <a href="/tags/postbox">postbox</a>
-                </span>
-            </div>
-        </div>
-    </div>
-</article>
-
-            
-        </div>
-    </div>
-</div>
-
-
-<div class="container">
-    <div class="row">
-        <div class="twelve columns">
-        
-            <ul class="pager">
-            
-                <li>
-                <a class="button" href="https://mpas.github.io/page/2">&larr; Newer Posts</a>
-                </li>
-            
-            
-                <li>
-                <a class="button" href="https://mpas.github.io/page/4">Older Posts &rarr;</a>
-                </li>
-            
-            </ul>
-        
-        </div>
-    </div>
-</div>
-
-<footer>
     <div class="container">
-        <div class="row">
-            <div class="twelve columns">
-                <div id="social">
-                    
-                        <a title="Twitter" href="https://twitter.com/marcopas">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    
-                    
-                        <a title="LinkedIn" href="https://www.linkedin.com/in/marcopas">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    
-                    
-                        <a title="GitHub" href="https://github.com/mpas">
-                            <i class="fab fa-github"></i>
-                        </a>
-                    
-                    
-                        <a title="StackOverflow" href="http://stackoverflow.com/users/185432/marco">
-                            <i class="fab fa-stack-overflow"></i>
-                        </a>
-                    
-                    
-                        <a title="Email" href="mailto:marco.pasopas@gmail.com">
-                            <i class="far fa-envelope"></i>
-                        </a>
-                    
-            </div>
+        <div class="is-search-result">
+            
+
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>May 30, 2013</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            10 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2013/05/30/20130530-backspace-mint/">Use backspace key to go back in Google Chrome</a></h2>
+            <p>When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:</p>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en">https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en</a></li>
+</ul>
+
         </div>
 
-        <div class="row">
-            <div class="twelve columns" id="copyright">&copy; 2021 ~ CodeVerse / Powered by <a href="http://gohugo.io/">Hugo</div>
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/linux/">linux</a>, 
+            <a class="is-link" href="/tags/mint/">mint</a>, 
+            <a class="is-link" href="/tags/chrome/">chrome</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>May 28, 2013</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            13 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2013/05/28/20130528-automount-ntfs-mint/">Automount NTFS volume under Linux (Mint)</a></h2>
+            <p>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo pico /etc/fstab
+</span></span></code></pre></div><p>Add a line in the /etc/fstab file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span># custom mount point
+</span></span><span style="display:flex;"><span>/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
+</span></span></code></pre></div><p>And take the mount into effect.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ mount -a
+</span></span></code></pre></div>
         </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/linux/">linux</a>, 
+            <a class="is-link" href="/tags/mint/">mint</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>May 25, 2013</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            11 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2013/05/25/20130525-grails-to-power-your-electric-car/">Using Grails to power your Electric Car</a></h2>
+            <p>Past week I really enjoyed visiting &amp; speaking at the <a href="http://gr8conf.org/">Grails Conference (GR8Conf 2013)</a>. The organisation made it possible that for me to host a talk about &ldquo;Using Grails to power your Electric Car&rdquo;.</p>
+<p><a href="http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car">Using Grails to power your Electric Car</a></p>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/gr8conf/">gr8conf</a>, 
+            <a class="is-link" href="/tags/grails/">grails</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>May 24, 2013</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            11 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2013/05/24/20130524-chrome-not-synchronizing-extensions/">Google Chrome not synchronizing extensions</a></h2>
+            <p>When installing a fresh version of Chrome it may occur that all Bookmarks sync ok but the extensions not. The following solution worked for my system.</p>
+<ul>
+<li>Open Google Chrome</li>
+<li>Goto &ldquo;Settings&rdquo;</li>
+<li>Open &ldquo;Advanced Settings&rdquo;</li>
+<li>Check &ldquo;Developer mode&rdquo;</li>
+<li>Press &ldquo;Update extensions now&rdquo;</li>
+</ul>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/chrome/">chrome</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>May 16, 2013</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            10 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2013/05/16/20130516-simple-helloworld-verticle/">Simple Helloworld verticle</a></h2>
+            <p>Sourcecode:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> helloworld<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.vertx.java.core.Handler<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.vertx.java.core.http.HttpServerRequest<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.vertx.java.deploy.Verticle<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span> <span style="color:#66d9ef">extends</span> Verticle <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">start</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        vertx<span style="color:#f92672">.</span><span style="color:#a6e22e">createHttpServer</span><span style="color:#f92672">().</span><span style="color:#a6e22e">requestHandler</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Handler<span style="color:#f92672">&lt;</span>HttpServerRequest<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handle</span><span style="color:#f92672">(</span>HttpServerRequest req<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            req<span style="color:#f92672">.</span><span style="color:#a6e22e">response</span><span style="color:#f92672">.</span><span style="color:#a6e22e">headers</span><span style="color:#f92672">().</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Content-Type&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;text/html; charset-UTF-8&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            req<span style="color:#f92672">.</span><span style="color:#a6e22e">response</span><span style="color:#f92672">.</span><span style="color:#a6e22e">end</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}).</span><span style="color:#a6e22e">listen</span><span style="color:#f92672">(</span><span style="color:#ae81ff">8080</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div>
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/java/">java</a>, 
+            <a class="is-link" href="/tags/vertx/">vertx</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>February 28, 2013</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            37 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2013/02/28/20130228-grails-migrations-and-waiting-for-changelog/">Grails migrations and &#39;Waiting for changelog lock&#39;</a></h2>
+            <p>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>Waiting for changelog lock....
+</span></span><span style="display:flex;"><span>Waiting for changelog lock....
+</span></span><span style="display:flex;"><span>Waiting for changelog lock....
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>To solve this take the following steps:</p>
+<ul>
+<li>Stop the application container (example: Tomcat)</li>
+<li>In the database look for a table called <code>DATABASECHANGELOGLOCK</code></li>
+<li>In the table there is a record with id=1, change the following values:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>locked -&gt; 0
+</span></span><span style="display:flex;"><span>lockgranted -&gt; null
+</span></span><span style="display:flex;"><span>lockedby -&gt; null
+</span></span></code></pre></div><ul>
+<li>After updating this record start the application container</li>
+</ul>
+<p><strong>Notes:</strong><br>
+To see who has locked the database (normally the local machine):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> DATABASECHANGELOGLOCK;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">To</span> <span style="color:#66d9ef">update</span> the record
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">update</span> DATABASECHANGELOGLOCK
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> locked<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, lockgranted<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span>, lockedby<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span> id<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span></code></pre></div>
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/grails/">grails</a>, 
+            <a class="is-link" href="/tags/migrations/">migrations</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>January 13, 2013</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            38 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2013/01/13/20130113-testing-constraints-with-build-test-data/">Testing constraints with Build Test Data</a></h2>
+            <p>The <a href="http://grails.org/plugin/spock">Spock</a> &amp; <a href="http://grails.org/plugin/build-test-data">Build Test Data</a> plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!</p>
+<p>When testing constraints on an object it can be used as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    String name   <span style="color:#75715e">// name of foo
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Integer age   <span style="color:#75715e">// age of foo
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> constraints <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        name nullable: <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> blank: <span style="color:#66d9ef">false</span> <span style="color:#75715e">// name may never be nullable or blank
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        age nullable: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>And the Spock test</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#a6e22e">@Build</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@TestFor</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FooSpec</span> <span style="color:#66d9ef">extends</span> Specification <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#e6db74">&#34;Name of Foo must exist&#34;</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        given: <span style="color:#e6db74">&#34;setting up the constraints&#34;</span>
+</span></span><span style="display:flex;"><span>        mockForConstraintsTests<span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        when: <span style="color:#e6db74">&#34;creating a Foo&#34;</span>
+</span></span><span style="display:flex;"><span>        Foo foo <span style="color:#f92672">=</span> Foo<span style="color:#f92672">.</span><span style="color:#a6e22e">buildWithoutSave</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        then: <span style="color:#e6db74">&#34;validation should trigger&#34;</span>
+</span></span><span style="display:flex;"><span>        assertFalse foo<span style="color:#f92672">.</span><span style="color:#a6e22e">validate</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        and: <span style="color:#e6db74">&#34;validation error should be on the value field&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">assert</span> foo<span style="color:#f92672">.</span><span style="color:#a6e22e">errors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">allErrors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">first</span><span style="color:#f92672">().</span><span style="color:#a6e22e">field</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;name&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div>
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/build/">build</a>, 
+            <a class="is-link" href="/tags/testdata/">testdata</a>, 
+            <a class="is-link" href="/tags/grails/">grails</a>, 
+            <a class="is-link" href="/tags/spock/">spock</a>, 
+            <a class="is-link" href="/tags/test/">test</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>January 3, 2013</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            10 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2013/01/03/20130103-getting-enum-from-string-value/">Getting the Enum from a String value</a></h2>
+            <p>Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>Enum<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>YourClassName<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;String Value&#34;</span><span style="color:#f92672">)</span>
+</span></span></code></pre></div><p><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html">http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html</a></p>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/enum/">enum</a>, 
+            <a class="is-link" href="/tags/java/">java</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>September 18, 2012</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            39 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2012/09/18/20120918-troubles-getting-vsftpd-user-logged-in/">Troubles getting vsftpd user logged in?</a></h2>
+            <p>Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message:
+500 OOPS: vsftpd: refusing to run with writable root inside chroot()</p>
+<p>After some googling around i found the following fix..
+chmod the folder that the ftp user comes in to as he first login (root folder) by using in terminal:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>sudo chmod a-w /home/user
+</span></span></code></pre></div><p>Create a subfolder within the folder, either by the use of GUI or if you only have terminal it&rsquo;s:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>sudo mkdir /home/user/newfolder
+</span></span></code></pre></div><p>Now you should be able to log in and read write within the &ldquo;newfolder&rdquo;.</p>
+<p>You will <strong>NOT</strong> be able to write in the root folder itself from the ftp with the chmod a-w, so that is the reason for the subfolder, there you can.</p>
+<p><a href="http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update">http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update</a></p>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/ftps/">ftps</a>, 
+            <a class="is-link" href="/tags/linux/">linux</a>, 
+            <a class="is-link" href="/tags/ubuntu/">ubuntu</a>, 
+            <a class="is-link" href="/tags/vsftpd/">vsftpd</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>September 17, 2012</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>2 minutes and
+            4 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2012/09/17/20120917-grails-load-external-configuration-files-update/">Loading Grails configuration files update!</a></h2>
+            <p>We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.</p>
+<ul>
+<li>You cannot deal with all Grails Mail settings in the configuration file</li>
+<li>You cannot use the log4j DSL to extract the logging configuration outside your application</li>
+<li>etc..</li>
+</ul>
+<p>In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this <a href="http://www.baselogic.com/blog/development/java-javaee-j2ee/getting-grails-external-configuration-working-in-the-real-world/">blogpost</a> which was the start for our implementation of loading the external configuration files.</p>
+<p>We modified some small things and added a way of loading a configuration file that is resident in the root of a Grails project. So when developing with IntelliJ for example the config file is at your fingertips in the root of the application project structure. We must also note that we are very happy with the fact that the Grails community was more then helpfull in helping us out here!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------------- //
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// - START: CONFIGURATION FILE LOADING -------------------------------------------- //
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------------- //
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// locations to search for config files that get merged into the main config
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// config files can either be Java properties files or ConfigSlurper scripts
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> ENV_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;${appName}.config.location&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span><span style="color:#f92672">(!</span>grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!(</span>grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#66d9ef">instanceof</span> List<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;--------------------------------------------------------------------------------&#34;</span>
+</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;- Loading configuration file                                                   -&#34;</span>
+</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;--------------------------------------------------------------------------------&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 1: check for environment variable that has been set! This variable must point to the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// configuration file that must be used. Can be a .groovy or .properties file!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Including System Environment configuration file: &#34;</span> <span style="color:#f92672">+</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;file:&#34;</span> <span style="color:#f92672">+</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 2: check for commandline properties!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Use it like (examples):
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//      grails -D[name of app].config.location=/tmp/[name of config file].groovy run-app
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// or
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//      grails -D[name of app].config.location=/tmp/[name of config file].properties run-app
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;Including configuration file specified on command line: &#34;</span> <span style="color:#f92672">+</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;file:&#34;</span> <span style="color:#f92672">+</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 3: check on local project config file in the project root directory
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;./${appName}-config.groovy&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;*** User defined config: file:./${appName}-config.groovy ***&#34;</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;file:./${appName}-config.groovy&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;./${appName}-config.properties&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;*** User defined config: file:./${appName}-config.properties ***&#34;</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;file:./${appName}-config.groovy&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 4: check on local project config file in ${userHome}/.grails/...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${userHome}/.grails/${appName}-config.groovy&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;*** User defined config: file:${userHome}/.grails/${appName}-config.groovy ***&#34;</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;file:${userHome}/.grails/${appName}-config.groovy&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${userHome}/.grails/${appName}-config.properties&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;*** User defined config: file:${userHome}/.grails/${appName}-config.properties ***&#34;</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;file:${userHome}/.grails/${appName}-config.properties&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 5: we have problem!!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;********************************************************************************&#34;</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;* No external configuration file defined                                       *&#34;</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;********************************************************************************&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;(*) grails.config.locations = ${grails.config.locations}&#34;</span>
+</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;--------------------------------------------------------------------------------&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------------- //
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// - END: CONFIGURATION FILE LOADING ---------------------------------------------- //
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------------- //
+</span></span></span></code></pre></div>
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/grails/">grails</a>, 
+            <a class="is-link" href="/tags/configuration/">configuration</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>September 16, 2012</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            51 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2012/09/16/20120916-grails-load-external-configuration-files/">Loading external Configuration files in a Grails application</a></h2>
+            <p>The use of &lsquo;Config.groovy&rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &lsquo;Config.groovy&rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.</p>
+<p>A simple mechanism to load these property files is to place a short snippet of code in the &lsquo;Config.groovy&rsquo; that will load a specific configuration file from the filesystem, depending on the availability.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;classpath:application-config.properties&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;file:./application-config.properties&#34;</span><span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>This snippet will first try to load the property file from the classpath and if that fails you have a backup on the filesystem. This opens opportunities to load a different property file during development! When you deploy the application you can place the &lsquo;application-config.properties&rsquo; file inside a folder which is available in the classpath. For Apache Tomcat this would be the &rsquo;lib&rsquo; folder!</p>
+<p>This gives the opportunity to configure the application outside the &lsquo;Config.groovy&rsquo; file so any changes made the the property file will be reflected in your environment.</p>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/grails/">grails</a>, 
+            <a class="is-link" href="/tags/configuration/">configuration</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>September 15, 2012</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>1 minutes and
+            1 second read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2012/09/15/20120915-grails-and-imagemagick/">Combining ImageMagick and Grails</a></h2>
+            <p>When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.</p>
+<p><strong>Steps:</strong></p>
+<ul>
+<li>Install ImageMagick according to the installation instructions.</li>
+<li>It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc. So remember where this utility is installed on your system!</li>
+<li>Make sure that ImageMagick is installed correctly be converting an image to a thumbnail by using the following command in a terminal.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>/opt/local/bin/convert &lt;filename&gt; -thumbnail 70x70 &lt;thumbnail-filename&gt;
+</span></span></code></pre></div><p><strong>example:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg
+</span></span></code></pre></div><p>Create some code that calls the ImageMagick convert utility with the correct parameters to enable you to achieve what you want. Something like below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">createThumbnail</span><span style="color:#f92672">(</span>File file<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> command <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/opt/local/bin/convert ${file.canonicalPath} &#34;</span> <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>                 <span style="color:#e6db74">&#34;-thumbnail 70x70 &#34;</span> <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>                 <span style="color:#e6db74">&#34;/images/thumbs&#34;</span> <span style="color:#f92672">+</span> File<span style="color:#f92672">.</span><span style="color:#a6e22e">separator</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;${file.name}&#34;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> proc <span style="color:#f92672">=</span> Runtime<span style="color:#f92672">.</span><span style="color:#a6e22e">getRuntime</span><span style="color:#f92672">().</span><span style="color:#a6e22e">exec</span><span style="color:#f92672">(</span>command<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> exitStatus<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>           exitStatus <span style="color:#f92672">=</span> proc<span style="color:#f92672">.</span><span style="color:#a6e22e">waitFor</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>java<span style="color:#f92672">.</span><span style="color:#a6e22e">lang</span><span style="color:#f92672">.</span><span style="color:#a6e22e">InterruptedException</span> e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>           log<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Creating thumbnail - Interrupted: Ignoring and waiting&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>exitStatus <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        log<span style="color:#f92672">.</span><span style="color:#a6e22e">error</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Error executing command: exitStatus=[${exitStatus}]&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    log<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Succesfully created thumbnail&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>exitStatus <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.</p>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/grails/">grails</a>, 
+            <a class="is-link" href="/tags/imagemagick/">imagemagick</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+
+
+<div class="box">
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        
+
+        
+        
+        <a class="pagination-previous" href="https://mpas.github.io/page/2">
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+                <span>Newer Posts</span>
+            </span>
+        </a>
+        
+
+        
+        
+        <a class="pagination-next has" href="https://mpas.github.io/page/4">
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fas fa-arrow-right"></i>
+                </span>
+                <span>Older Posts</span>
+            </span>
+        </a>
+        
+        
+
+
+        <ul class="pagination-list">
+            <li><a class="pagination-link" href="https://mpas.github.io" aria-label="Home">
+                    <span class="icon-text">
+                        <span class="icon">
+                            <i class="fas fa-home"></i>
+                        </span>
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+        </div>
+    </div>
+
+    
+    <template id="is-search-template" hidden>
+        <article class="content">
+            <div>
+                <hr class="mt-0 mb-0">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                    <span>
+                        <div class="date"></div>
+                    </span>
+                </span>
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-tag"></i>
+                    </span>
+                    <span>
+                        <div class="tags"></div>
+                    </span>
+                </span>
+                <hr class="mt-0 mb-0">
+            </div>
+            <div>
+                <h5 class="mt-2">
+                    <a class="is-read-more" href=""></a>
+                </h5>
+                <div class="summary"></div>
+            </div>
+        </article>
+    </template>
+    <footer class="footer">
+    <div class="content has-text-centered">
+        <p>Lets connect on:</p>
+        <p>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-twitter"></i>
+                </span>
+                <span><a href="https://twitter.com/marcopas">Twitter</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-stack-overflow"></i>
+                </span>
+                <span><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-linkedin"></i>
+                </span>
+                <span><a href="">LinkedIn</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fab fa-github"></i>
+                </span>
+                <span><a href="https://github.com/mpas">GitHub</a></span>
+            </span>
+            <span class="icon-text">
+                <span class="icon">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
+            </span>
+        </p>
     </div>
 </footer>
-</body>
-</html>
+<script src="/js/search.js"></script>
 
+    <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+    <script>addBackToTop({
+            diameter: 56,
+            backgroundColor: 'rgb(255, 82, 82)',
+            textColor: '#fff'
+        })</script>
+    <script src="/js/navbar.js"></script>
+</body>
+
+</html>

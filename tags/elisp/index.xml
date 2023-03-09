@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>elisp on CodeVerse</title>
+    <title>elisp on Marco Pas</title>
     <link>https://mpas.github.io/tags/elisp/</link>
-    <description>Recent content in elisp on CodeVerse</description>
+    <description>Recent content in elisp on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Tue, 30 Mar 2021 12:54:00 +0200</lastBuildDate><atom:link href="https://mpas.github.io/tags/elisp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Capture link from Mac app into org-mode document</title>
@@ -14,7 +13,7 @@
       
       <guid>https://mpas.github.io/posts/2021/03/30/2021-03-30-capture-link-from-mac-app-into-org-mode-document/</guid>
       <description>To quickly grab a link from an open Mac app and use this link into an org-mode document use the following package:
- Grab links from open Mac applications  An optional keybind as follows:
+Grab links from open Mac applications An optional keybind as follows:
 (add-hook &amp;#39;org-mode-hook (lambda () (define-key org-mode-map (kbd &amp;#34;C-c g&amp;#34;) &amp;#39;org-mac-grab-link))) This enables you to quickly grab a link using C-c g</description>
     </item>
     
@@ -25,7 +24,7 @@
       
       <guid>https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-into-org-mode-document/</guid>
       <description>Personally I really like using org-mode files for creating documentation and presentations. When working with screenshots my normal workflows always has been.
- Capture screenshot to clipboard Save the screenshot to a relative ./images folder and give it a descriptive name. Manually create link to the screenshot  This works ok but after a while you get the feel that the whole process can be automated.
+Capture screenshot to clipboard Save the screenshot to a relative ./images folder and give it a descriptive name. Manually create link to the screenshot This works ok but after a while you get the feel that the whole process can be automated.
 The following function can help in automating the whole process.</description>
     </item>
     

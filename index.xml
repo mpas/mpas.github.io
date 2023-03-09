@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>CodeVerse</title>
+    <title>Marco Pas</title>
     <link>https://mpas.github.io/</link>
-    <description>Recent content on CodeVerse</description>
+    <description>Recent content on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Tue, 30 Mar 2021 12:54:00 +0200</lastBuildDate><atom:link href="https://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Capture link from Mac app into org-mode document</title>
       <link>https://mpas.github.io/posts/2021/03/30/2021-03-30-capture-link-from-mac-app-into-org-mode-document/</link>
@@ -14,7 +13,7 @@
       
       <guid>https://mpas.github.io/posts/2021/03/30/2021-03-30-capture-link-from-mac-app-into-org-mode-document/</guid>
       <description>To quickly grab a link from an open Mac app and use this link into an org-mode document use the following package:
- Grab links from open Mac applications  An optional keybind as follows:
+Grab links from open Mac applications An optional keybind as follows:
 (add-hook &amp;#39;org-mode-hook (lambda () (define-key org-mode-map (kbd &amp;#34;C-c g&amp;#34;) &amp;#39;org-mac-grab-link))) This enables you to quickly grab a link using C-c g</description>
     </item>
     
@@ -25,7 +24,7 @@
       
       <guid>https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-into-org-mode-document/</guid>
       <description>Personally I really like using org-mode files for creating documentation and presentations. When working with screenshots my normal workflows always has been.
- Capture screenshot to clipboard Save the screenshot to a relative ./images folder and give it a descriptive name. Manually create link to the screenshot  This works ok but after a while you get the feel that the whole process can be automated.
+Capture screenshot to clipboard Save the screenshot to a relative ./images folder and give it a descriptive name. Manually create link to the screenshot This works ok but after a while you get the feel that the whole process can be automated.
 The following function can help in automating the whole process.</description>
     </item>
     
@@ -35,10 +34,8 @@ The following function can help in automating the whole process.</description>
       <pubDate>Tue, 16 Mar 2021 10:20:00 +0100</pubDate>
       
       <guid>https://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</guid>
-      <description>Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you aggregate time across tasks belonging to tags?
-This can be achieved by using a simple formula and the usage of an awesome Org package called Org Aggregate.
-Input data The data below is used for time tracking, note that individual items are tagged!
-- Take out the trash :private: :LOGBOOK: CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:30] =&amp;gt; 0:06 :END: - Update document for client :client1: :LOGBOOK: CLOCK: [2021-03-12 Fri 12:45]--[2021-03-12 Fri 13:30] =&amp;gt; 0:45 :END: - Create my awesome note for work :work: :LOGBOOK: CLOCK: [2021-03-13 Sat 11:24]--[2021-03-13 Sat 12:53] =&amp;gt; 1:29 :END: - Fill in timesheet :work: :LOGBOOK: CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:40] =&amp;gt; 0:16 :END: Reporting #+BEGIN: clocktable :scope file :maxlevel 3 :tags t :match &amp;#34;work|client1&amp;#34; :header &amp;#34;#+TBLNAME: timetable\n&amp;#34; #+TBLNAME: timetable | Tags | Headline | Time | | | T | |---------+---------------------------------------+------+------+------+-------| | | *Total time* | *2:30* | | | | |---------+---------------------------------------+------+------+------+-------| | | Report with filtered tags and sum.</description>
+      <description>&lt;p&gt;Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you &lt;strong&gt;aggregate time across tasks belonging to tags&lt;/strong&gt;?&lt;/p&gt;
+&lt;p&gt;This can be achieved by using a simple formula and the usage of an awesome Org package called &lt;a href=&#34;https://github.com/tbanel/orgaggregate&#34;&gt;Org Aggregate&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -47,14 +44,14 @@ Input data The data below is used for time tracking, note that individual items 
       <pubDate>Fri, 16 Oct 2020 20:21:00 +0200</pubDate>
       
       <guid>https://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/</guid>
-      <description>When installing Doom Emacs and using org-mode the defaults bullets are `*`. In order to get some fancy bullets the following steps need to be taken.
- Add the org-mode +pretty flag to your org settings in init.el To read more on the available flags check the org-mode Doom Emacs module `lang/org`  :lang (org +pretty ) ; organize your plain life in plain text (setq org-superstar-headline-bullets-list &amp;#39;(&amp;#34;⁖&amp;#34; &amp;#34;◉&amp;#34; &amp;#34;○&amp;#34; &amp;#34;✸&amp;#34; &amp;#34;✿&amp;#34;) ) </description>
+      <description>&lt;p&gt;When installing &lt;a href=&#34;https://github.com/hlissner/doom-emacs&#34;&gt;Doom Emacs&lt;/a&gt; and using org-mode the defaults bullets are `*`.
+In order to get some fancy bullets the following steps need to be taken.&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>About</title>
       <link>https://mpas.github.io/pages/about/</link>
-      <pubDate>Tue, 06 Oct 2020 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>https://mpas.github.io/pages/about/</guid>
       <description>I am software geek and a hands on developer/system architect. Interested in all kinds of software related technologies (languages, architectures and methodologies). Strong believer in the fact that one should keep knowledge up-to-date, but also understand why you should choose a particular technology for a given problem.
@@ -64,7 +61,7 @@ Keeping knowledge up-to-date if fundamental and that is why regular visits to co
     <item>
       <title>Resume</title>
       <link>https://mpas.github.io/pages/resume/</link>
-      <pubDate>Tue, 06 Oct 2020 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>https://mpas.github.io/pages/resume/</guid>
       <description>You can find my resume online at http://mpas.github.io/resume</description>
@@ -88,7 +85,7 @@ from ranger.api.commands import Command class show_files_in_path_finder(Command)
       
       <guid>https://mpas.github.io/posts/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</guid>
       <description>Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &amp;ldquo;Infrastructure and System Monitoring using Prometheus&amp;rdquo;. You can find the used material here:
- Slides: https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus Slides in PDF: https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE Code: https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus  Feel free to share and distribute</description>
+Slides: https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus Slides in PDF: https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE Code: https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus Feel free to share and distribute</description>
     </item>
     
     <item>
@@ -129,8 +126,8 @@ Metric data is pulled (on a regular time-interval) from so called exporters whic
       <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>https://mpas.github.io/posts/2016/11/16/20161116-building-a-consul-cluster-using-terraform-aws/</guid>
-      <description>Service Discovery Health Checking Key/Value Store Multi Datacenter  For more information on Consul itself please have a look in the excellent documentation.
- Consul Intro Consul documentation  Is it really easy? Setting up a Consul cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;
+      <description>Service Discovery Health Checking Key/Value Store Multi Datacenter For more information on Consul itself please have a look in the excellent documentation.
+Consul Intro Consul documentation Is it really easy? Setting up a Consul cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;
 But hey.. what if you need to deploy this cluster on an AWS environment?</description>
     </item>
     
@@ -176,7 +173,7 @@ The Amazon way of doing this is by using AWS CloudFormation.</description>
       <guid>https://mpas.github.io/posts/2015/11/19/20151119-functional-rest-api-testing/</guid>
       <description>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.
 When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.
-Scenario:Performing a GET request on a url (http://localhost:8080/helloworld) should return a HTTP Status 200 and data with a json payload</description>
+Scenario: Performing a GET request on a url (http://localhost:8080/helloworld) should return a HTTP Status 200 and data with a json payload</description>
     </item>
     
     <item>
@@ -240,7 +237,7 @@ It involves a init.sh script that is used to create the users and vhosts.</descr
       
       <guid>https://mpas.github.io/posts/2015/06/10/20150610-httpservletwrapper-3.1/</guid>
       <description>A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.
- isFinished isReady setReadListener  import com.google.common.primitives.Bytes; import javax.servlet.ReadListener; import javax.servlet.ServletInputStream; import javax.servlet.http.HttpServletRequest; import javax.servlet.http.HttpServletRequestWrapper; import java.io.ByteArrayInputStream; import java.io.IOException; import java.io.InputStream; import java.util.Arrays; public class AuthenticationRequestWrapper extends HttpServletRequestWrapper { // tag::variables[]  private byte[] requestBody = new byte[0]; private boolean bufferFilled = false; // end::variables[]  /** - Constructs a request object wrapping the given request.</description>
+isFinished isReady setReadListener import com.google.common.primitives.Bytes; import javax.servlet.ReadListener; import javax.servlet.ServletInputStream; import javax.servlet.http.HttpServletRequest; import javax.servlet.http.HttpServletRequestWrapper; import java.io.ByteArrayInputStream; import java.io.IOException; import java.io.InputStream; import java.util.Arrays; public class AuthenticationRequestWrapper extends HttpServletRequestWrapper { // tag::variables[] private byte[] requestBody = new byte[0]; private boolean bufferFilled = false; // end::variables[] /** - Constructs a request object wrapping the given request.</description>
     </item>
     
     <item>
@@ -259,7 +256,7 @@ It involves a init.sh script that is used to create the users and vhosts.</descr
       
       <guid>https://mpas.github.io/posts/2014/07/04/20140724-upgrade-grails-2.4.2/</guid>
       <description>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.
-Error creating bean with name &#39;grailsApplication&#39; defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResourceLoader&#39;; To solve this issue you need to delete some lines in the &amp;lt;grails-app&amp;gt;/web-app/WEB-INF/applicationContext.xml file.
+Error creating bean with name &amp;#39;grailsApplication&amp;#39; defined in ServletContext resource [/WEB-INF/applicationContext.xml]: Cannot resolve reference to bean &amp;#39;grailsResourceLoader&amp;#39; while setting bean property &amp;#39;grailsResourceLoader&amp;#39;; To solve this issue you need to delete some lines in the &amp;lt;grails-app&amp;gt;/web-app/WEB-INF/applicationContext.xml file.
 Delete the following lines:
 &amp;lt;property name=&amp;#34;grailsResourceLoader&amp;#34; ref=&amp;#34;grailsResourceLoader&amp;#34; /&amp;gt; &amp;lt;bean id=&amp;#34;grailsResourceLoader&amp;#34; class=&amp;#34;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&amp;#34; /&amp;gt; And you should be up and running quickly.</description>
     </item>
@@ -292,7 +289,7 @@ As the name suggests, you can read the book in &amp;ldquo;an instant&amp;rdquo; 
       
       <guid>https://mpas.github.io/posts/2013/05/30/20130530-backspace-mint/</guid>
       <description>When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:
- https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en  </description>
+https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en </description>
     </item>
     
     <item>
@@ -324,7 +321,7 @@ Using Grails to power your Electric Car</description>
       
       <guid>https://mpas.github.io/posts/2013/05/24/20130524-chrome-not-synchronizing-extensions/</guid>
       <description>When installing a fresh version of Chrome it may occur that all Bookmarks sync ok but the extensions not. The following solution worked for my system.
- Open Google Chrome Goto &amp;ldquo;Settings&amp;rdquo; Open &amp;ldquo;Advanced Settings&amp;rdquo; Check &amp;ldquo;Developer mode&amp;rdquo; Press &amp;ldquo;Update extensions now&amp;rdquo;  </description>
+Open Google Chrome Goto &amp;ldquo;Settings&amp;rdquo; Open &amp;ldquo;Advanced Settings&amp;rdquo; Check &amp;ldquo;Developer mode&amp;rdquo; Press &amp;ldquo;Update extensions now&amp;rdquo; </description>
     </item>
     
     <item>
@@ -345,7 +342,7 @@ package helloworld; import org.vertx.java.core.Handler; import org.vertx.java.co
       <guid>https://mpas.github.io/posts/2013/02/28/20130228-grails-migrations-and-waiting-for-changelog/</guid>
       <description>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.
 ... Waiting for changelog lock.... Waiting for changelog lock.... Waiting for changelog lock.... ... To solve this take the following steps:
- Stop the application container (example: Tomcat) In the database look for a table called DATABASECHANGELOGLOCK In the table there is a record with id=1, change the following values:  locked -&amp;gt; 0 lockgranted -&amp;gt; null lockedby -&amp;gt; null  After updating this record start the application container  Notes:</description>
+Stop the application container (example: Tomcat) In the database look for a table called DATABASECHANGELOGLOCK In the table there is a record with id=1, change the following values: locked -&amp;gt; 0 lockgranted -&amp;gt; null lockedby -&amp;gt; null After updating this record start the application container Notes:</description>
     </item>
     
     <item>
@@ -356,7 +353,7 @@ package helloworld; import org.vertx.java.core.Handler; import org.vertx.java.co
       <guid>https://mpas.github.io/posts/2013/01/13/20130113-testing-constraints-with-build-test-data/</guid>
       <description>The Spock &amp;amp; Build Test Data plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!
 When testing constraints on an object it can be used as follows:
-class Foo { String name // name of foo  Integer age // age of foo  static constraints = { name nullable: false, blank: false // name may never be nullable or blank  age nullable: true } } And the Spock test</description>
+class Foo { String name // name of foo Integer age // age of foo static constraints = { name nullable: false, blank: false // name may never be nullable or blank age nullable: true } } And the Spock test</description>
     </item>
     
     <item>
@@ -386,7 +383,7 @@ After some googling around i found the following fix.. chmod the folder that the
       
       <guid>https://mpas.github.io/posts/2012/09/17/20120917-grails-load-external-configuration-files-update/</guid>
       <description>We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.
- You cannot deal with all Grails Mail settings in the configuration file You cannot use the log4j DSL to extract the logging configuration outside your application etc..  In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this blogpost which was the start for our implementation of loading the external configuration files.</description>
+You cannot deal with all Grails Mail settings in the configuration file You cannot use the log4j DSL to extract the logging configuration outside your application etc.. In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this blogpost which was the start for our implementation of loading the external configuration files.</description>
     </item>
     
     <item>
@@ -407,7 +404,7 @@ A simple mechanism to load these property files is to place a short snippet of c
       <guid>https://mpas.github.io/posts/2012/09/15/20120915-grails-and-imagemagick/</guid>
       <description>When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.
 Steps:
- Install ImageMagick according to the installation instructions. It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc.</description>
+Install ImageMagick according to the installation instructions. It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc.</description>
     </item>
     
     <item>
@@ -447,7 +444,7 @@ This happend during the Devnology Community Event at Baarn. If you want to view 
       
       <guid>https://mpas.github.io/posts/2012/09/11/20120911-grails-change-default-homepage/</guid>
       <description>You can set the default homepage for a Grails application by modifying the grails-app/conf/UrlMappings.groovy file. In a new Grails application this file will look like
-class UrlMappings { static mappings = { &amp;#34;/$controller/$action?/$id?&amp;#34;{ constraints { // apply constraints here  } } &amp;#34;/&amp;#34;(view:&amp;#34;/index&amp;#34;) &amp;#34;500&amp;#34;(view:&amp;#39;/error&amp;#39;) } } Replace the line:
+class UrlMappings { static mappings = { &amp;#34;/$controller/$action?/$id?&amp;#34;{ constraints { // apply constraints here } } &amp;#34;/&amp;#34;(view:&amp;#34;/index&amp;#34;) &amp;#34;500&amp;#34;(view:&amp;#39;/error&amp;#39;) } } Replace the line:
 &amp;#34;/&amp;#34;(view:&amp;#34;/index&amp;#34;) with:
 &amp;#34;/&amp;#34;(controller:&amp;#39;home&amp;#39;, action:&amp;#34;/index&amp;#34;) This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the HomeController and corresponding index action related to that controller.</description>
     </item>
@@ -479,7 +476,7 @@ The need for Continuous Integration A good practice in a software development me
       
       <guid>https://mpas.github.io/posts/2012/09/05/20120905-grails-replace-in-memory-db-with-mysql/</guid>
       <description>A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.
- Download the MySQL JDBC driver [called a connector] from the MySQL website Extract the zip or tar archive Copy the driver (at this time of writing called mysql-connector-java-5.1.13-bin.jar into the grails-app/lib directory Configure your application datasource in file grails-app/conf/DataSource.groovy  development { dataSource { dbCreate = &amp;#34;create-drop&amp;#34; // one of &amp;#39;create&amp;#39;, &amp;#39;create-drop&amp;#39;,&amp;#39;update&amp;#39;  url = &amp;#34;jdbc:mysql://localhost:&amp;lt;port&amp;gt;/&amp;lt;database&amp;gt;&amp;#34; driverClassName = &amp;#34;com.</description>
+Download the MySQL JDBC driver [called a connector] from the MySQL website Extract the zip or tar archive Copy the driver (at this time of writing called mysql-connector-java-5.1.13-bin.jar into the grails-app/lib directory Configure your application datasource in file grails-app/conf/DataSource.groovy development { dataSource { dbCreate = &amp;#34;create-drop&amp;#34; // one of &amp;#39;create&amp;#39;, &amp;#39;create-drop&amp;#39;,&amp;#39;update&amp;#39; url = &amp;#34;jdbc:mysql://localhost:&amp;lt;port&amp;gt;/&amp;lt;database&amp;gt;&amp;#34; driverClassName = &amp;#34;com.</description>
     </item>
     
   </channel>

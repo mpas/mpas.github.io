@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>terraform on CodeVerse</title>
+    <title>terraform on Marco Pas</title>
     <link>https://mpas.github.io/tags/terraform/</link>
-    <description>Recent content in terraform on CodeVerse</description>
+    <description>Recent content in terraform on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Wed, 16 Nov 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/terraform/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Building a Consul cluster using Terraform/AWS</title>
@@ -13,8 +12,8 @@
       <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>https://mpas.github.io/posts/2016/11/16/20161116-building-a-consul-cluster-using-terraform-aws/</guid>
-      <description>Service Discovery Health Checking Key/Value Store Multi Datacenter  For more information on Consul itself please have a look in the excellent documentation.
- Consul Intro Consul documentation  Is it really easy? Setting up a Consul cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;
+      <description>Service Discovery Health Checking Key/Value Store Multi Datacenter For more information on Consul itself please have a look in the excellent documentation.
+Consul Intro Consul documentation Is it really easy? Setting up a Consul cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;
 But hey.. what if you need to deploy this cluster on an AWS environment?</description>
     </item>
     

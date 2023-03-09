@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>java on CodeVerse</title>
+    <title>java on Marco Pas</title>
     <link>https://mpas.github.io/tags/java/</link>
-    <description>Recent content in java on CodeVerse</description>
+    <description>Recent content in java on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
     <lastBuildDate>Wed, 10 Jun 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTTPServletRequestWrapper for ServletInputStream 3.1</title>
@@ -14,7 +13,7 @@
       
       <guid>https://mpas.github.io/posts/2015/06/10/20150610-httpservletwrapper-3.1/</guid>
       <description>A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.
- isFinished isReady setReadListener  import com.google.common.primitives.Bytes; import javax.servlet.ReadListener; import javax.servlet.ServletInputStream; import javax.servlet.http.HttpServletRequest; import javax.servlet.http.HttpServletRequestWrapper; import java.io.ByteArrayInputStream; import java.io.IOException; import java.io.InputStream; import java.util.Arrays; public class AuthenticationRequestWrapper extends HttpServletRequestWrapper { // tag::variables[]  private byte[] requestBody = new byte[0]; private boolean bufferFilled = false; // end::variables[]  /** - Constructs a request object wrapping the given request.</description>
+isFinished isReady setReadListener import com.google.common.primitives.Bytes; import javax.servlet.ReadListener; import javax.servlet.ServletInputStream; import javax.servlet.http.HttpServletRequest; import javax.servlet.http.HttpServletRequestWrapper; import java.io.ByteArrayInputStream; import java.io.IOException; import java.io.InputStream; import java.util.Arrays; public class AuthenticationRequestWrapper extends HttpServletRequestWrapper { // tag::variables[] private byte[] requestBody = new byte[0]; private boolean bufferFilled = false; // end::variables[] /** - Constructs a request object wrapping the given request.</description>
     </item>
     
     <item>
