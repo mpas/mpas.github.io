@@ -124,22 +124,21 @@ window.addEventListener("DOMContentLoaded", () => {
 
                 element.querySelector(".is-read-more").href = doc.href;
                 element.querySelector(".is-read-more").textContent = doc.title;
-                element.querySelector(".summary").textContent = doc.summary;
+                element.querySelector(".summary-placeholder").textContent = doc.summary;
 
                 doc.tags.forEach(function(item, index, array) {
                     var a = document.createElement("a")
                     a.classList = "is-link"
                     a.href = `/tags/${item}/`
                     a.textContent = item
-                    element.querySelector(".tags").appendChild(a)
+                    element.querySelector(".tags-placeholder").appendChild(a)
 
                     if (index != array.length - 1) {
                         a.insertAdjacentText('afterend', ", ")
                     }
                 });
 
-                element.querySelector(".date")
-                    .textContent = doc.date;
+                element.querySelector(".date-placeholder").textContent = doc.date;
                 searchResults.appendChild(element);
             }, this);
         }
