@@ -8,10 +8,10 @@
     <lastBuildDate>Mon, 29 Mar 2021 18:55:00 +0200</lastBuildDate><atom:link href="https://mpas.github.io/tags/screenshot/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Paste image from clipboard directly into org-mode document</title>
-      <link>https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-into-org-mode-document/</link>
+      <link>https://mpas.github.io/posts/2021/03/29/20210329-paste-image-from-clipboard-directly-into-org-mode-document/</link>
       <pubDate>Mon, 29 Mar 2021 18:55:00 +0200</pubDate>
       
-      <guid>https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-into-org-mode-document/</guid>
+      <guid>https://mpas.github.io/posts/2021/03/29/20210329-paste-image-from-clipboard-directly-into-org-mode-document/</guid>
       <description>Personally I really like using org-mode files for creating documentation and presentations. When working with screenshots my normal workflows always has been.
 Capture screenshot to clipboard Save the screenshot to a relative ./images folder and give it a descriptive name. Manually create link to the screenshot This works ok but after a while you get the feel that the whole process can be automated.
 The following function can help in automating the whole process.</description>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>rancher on Marco Pas</title>
+    <link>https://mpas.github.io/tags/rancher/</link>
+    <description>Recent content in rancher on Marco Pas</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 09 May 2023 10:07:26 +0200</lastBuildDate><atom:link href="https://mpas.github.io/tags/rancher/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Running Rancher on K3S using K3D</title>
+      <link>https://mpas.github.io/posts/2023/05/09/20230509-running-rancher-on-k3s-using-k3d/</link>
+      <pubDate>Tue, 09 May 2023 10:07:26 +0200</pubDate>
+      
+      <guid>https://mpas.github.io/posts/2023/05/09/20230509-running-rancher-on-k3s-using-k3d/</guid>
+      <description>Requirements Colima installed When using Colima make sure to point to the correct docker socket using an export
+export DOCKER_HOST=&amp;quot;unix://${HOME}/.colima/default/docker.sock K3D installed Helm installed Steps # start colima with 4 CPU and 8GB memory colima start --cpu 4 --memory 8 # add the correct Helm repositories echo &amp;#34;Adding Helm repos&amp;#34; \ &amp;amp;&amp;amp; helm repo add rancher-latest https://releases.rancher.com/server-charts/latest \ &amp;amp;&amp;amp; helm repo add rancher-stable https://releases.rancher.com/server-charts/stable \ &amp;amp;&amp;amp; helm repo add jetstack https://charts.</description>
+    </item>
+    
+  </channel>
+</rss>

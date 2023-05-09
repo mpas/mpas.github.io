@@ -168,6 +168,72 @@ if (!doNotTrack) {
         <span class="icon">
             <i class="fas fa-calendar"></i>
         </span>
+        <span>November 1, 2016</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            26 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/">Accessing localhost from a Docker Container using native Docker for Mac</a></h2>
+            <p>Ever had a need to access something from within a <a href="https://www.docker.com/">Docker</a> container that runs on the host system?</p>
+<p>When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.</p>
+<p>A solution for this isto define a new local loopback to your localhost</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo ifconfig lo0 alias 172.16.123.1
+</span></span></code></pre></div><p>This will define a loopback network interface that points to your localhost. When you need to access the localhost you can use this ip.</p>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/docker/">docker</a>, 
+            <a class="is-link" href="/tags/osx/">osx</a>, 
+            <a class="is-link" href="/tags/mac/">mac</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
         <span>October 9, 2016</span>
     </span>
     
@@ -1301,76 +1367,6 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
         <span>
             
             <a class="is-link" href="/tags/hugo/">hugo</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>November 27, 2013</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>1 minutes and
-            3 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/">Bookreview : Instant Vert.x</a></h2>
-            <p>For those who have not yet got into contact with <a href="http://vertx.io/">Vert.x</a>, the book <a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Instant Vert.x</a> (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.</p>
-<p>As the name suggests, you can read the book in &ldquo;an instant&rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.</p>
-<p>For those who have not yet had the opportunity to learn about Vert.x, I would not immediately recommend this book. The online documentation section on Vertx.io contains the same information. But if you like a book with information nicely put into digestible chapters then this book is a good fit.</p>
-<p>Personally i hoped to get some more technical information and how-to information from this book but it is really targeted towards people that are just starting or have a beginning interest in Vert.x.</p>
-<p>Overall, I really liked the compactness and pace of the book. It is an easy read and you quickly gain knowledge on the high level concepts of Vert.x. While noted earlier you can get the information also on Vertx.io website or other places, it&rsquo;s is nice to have all information aggregated in one place. This book is a good start in your journey to learn about Vert.x.</p>
-<ul>
-<li><a href="http://vertx.io/">Go to the Vert.x website</a></li>
-<li><a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Get the book at Pack Publishing</a></li>
-</ul>
-
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/vertx/">vertx</a>, 
-            <a class="is-link" href="/tags/java/">java</a>, 
-            <a class="is-link" href="/tags/review/">review</a>
         </span>
     </span>
     

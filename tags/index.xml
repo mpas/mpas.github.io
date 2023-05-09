@@ -5,7 +5,43 @@
     <link>https://mpas.github.io/tags/</link>
     <description>Recent content in Tags on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 30 Mar 2021 12:54:00 +0200</lastBuildDate><atom:link href="https://mpas.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 May 2023 10:07:26 +0200</lastBuildDate><atom:link href="https://mpas.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>docker</title>
+      <link>https://mpas.github.io/tags/docker/</link>
+      <pubDate>Tue, 09 May 2023 10:07:26 +0200</pubDate>
+      
+      <guid>https://mpas.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>k3d</title>
+      <link>https://mpas.github.io/tags/k3d/</link>
+      <pubDate>Tue, 09 May 2023 10:07:26 +0200</pubDate>
+      
+      <guid>https://mpas.github.io/tags/k3d/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <link>https://mpas.github.io/tags/kubernetes/</link>
+      <pubDate>Tue, 09 May 2023 10:07:26 +0200</pubDate>
+      
+      <guid>https://mpas.github.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rancher</title>
+      <link>https://mpas.github.io/tags/rancher/</link>
+      <pubDate>Tue, 09 May 2023 10:07:26 +0200</pubDate>
+      
+      <guid>https://mpas.github.io/tags/rancher/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>elisp</title>
       <link>https://mpas.github.io/tags/elisp/</link>
@@ -93,15 +129,6 @@
       <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
       
       <guid>https://mpas.github.io/tags/devoxx/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker</title>
-      <link>https://mpas.github.io/tags/docker/</link>
-      <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/tags/docker/</guid>
       <description></description>
     </item>
     

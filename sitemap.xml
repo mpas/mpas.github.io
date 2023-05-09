@@ -2,16 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://mpas.github.io/categories/</loc>
+    <lastmod>2023-05-09T10:07:26+02:00</lastmod>
+  </url><url>
+    <loc>https://mpas.github.io/tags/docker/</loc>
+    <lastmod>2023-05-09T10:07:26+02:00</lastmod>
+  </url><url>
+    <loc>https://mpas.github.io/categories/infrastructure/</loc>
+    <lastmod>2023-05-09T10:07:26+02:00</lastmod>
+  </url><url>
+    <loc>https://mpas.github.io/tags/k3d/</loc>
+    <lastmod>2023-05-09T10:07:26+02:00</lastmod>
+  </url><url>
+    <loc>https://mpas.github.io/tags/kubernetes/</loc>
+    <lastmod>2023-05-09T10:07:26+02:00</lastmod>
+  </url><url>
     <loc>https://mpas.github.io/</loc>
-    <lastmod>2022-01-28T00:00:00+00:00</lastmod>
+    <lastmod>2023-05-09T10:07:26+02:00</lastmod>
+  </url><url>
+    <loc>https://mpas.github.io/posts/</loc>
+    <lastmod>2023-05-09T10:07:26+02:00</lastmod>
+  </url><url>
+    <loc>https://mpas.github.io/tags/rancher/</loc>
+    <lastmod>2023-05-09T10:07:26+02:00</lastmod>
+  </url><url>
+    <loc>https://mpas.github.io/posts/2023/05/09/20230509-running-rancher-on-k3s-using-k3d/</loc>
+    <lastmod>2023-05-09T10:07:26+02:00</lastmod>
+  </url><url>
+    <loc>https://mpas.github.io/tags/</loc>
+    <lastmod>2023-05-09T10:07:26+02:00</lastmod>
   </url><url>
     <loc>https://mpas.github.io/search/</loc>
     <lastmod>2022-01-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://mpas.github.io/posts/2021/03/30/2021-03-30-capture-link-from-mac-app-into-org-mode-document/</loc>
-    <lastmod>2021-03-30T12:54:00+02:00</lastmod>
-  </url><url>
-    <loc>https://mpas.github.io/categories/</loc>
+    <loc>https://mpas.github.io/posts/2021/03/30/20210330-capture-link-from-mac-app-into-org-mode-document/</loc>
     <lastmod>2021-03-30T12:54:00+02:00</lastmod>
   </url><url>
     <loc>https://mpas.github.io/categories/development/</loc>
@@ -26,22 +50,16 @@
     <loc>https://mpas.github.io/tags/orgmode/</loc>
     <lastmod>2021-03-30T12:54:00+02:00</lastmod>
   </url><url>
-    <loc>https://mpas.github.io/posts/</loc>
-    <lastmod>2021-03-30T12:54:00+02:00</lastmod>
-  </url><url>
-    <loc>https://mpas.github.io/tags/</loc>
-    <lastmod>2021-03-30T12:54:00+02:00</lastmod>
-  </url><url>
     <loc>https://mpas.github.io/tags/image/</loc>
     <lastmod>2021-03-29T18:55:00+02:00</lastmod>
   </url><url>
-    <loc>https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-into-org-mode-document/</loc>
+    <loc>https://mpas.github.io/posts/2021/03/29/20210329-paste-image-from-clipboard-directly-into-org-mode-document/</loc>
     <lastmod>2021-03-29T18:55:00+02:00</lastmod>
   </url><url>
     <loc>https://mpas.github.io/tags/screenshot/</loc>
     <lastmod>2021-03-29T18:55:00+02:00</lastmod>
   </url><url>
-    <loc>https://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</loc>
+    <loc>https://mpas.github.io/posts/2021/03/16/20210316-time-tracking-with-org-mode-and-sum-time-per-tag/</loc>
     <lastmod>2021-03-16T10:20:00+01:00</lastmod>
   </url><url>
     <loc>https://mpas.github.io/tags/timetracking/</loc>
@@ -72,9 +90,6 @@
     <lastmod>2018-11-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://mpas.github.io/tags/devoxx/</loc>
-    <lastmod>2017-05-12T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://mpas.github.io/tags/docker/</loc>
     <lastmod>2017-05-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://mpas.github.io/tags/infrastructure/</loc>

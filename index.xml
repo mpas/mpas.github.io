@@ -5,13 +5,23 @@
     <link>https://mpas.github.io/</link>
     <description>Recent content on Marco Pas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 28 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 May 2023 10:07:26 +0200</lastBuildDate><atom:link href="https://mpas.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Running Rancher on K3S using K3D</title>
+      <link>https://mpas.github.io/posts/2023/05/09/20230509-running-rancher-on-k3s-using-k3d/</link>
+      <pubDate>Tue, 09 May 2023 10:07:26 +0200</pubDate>
+      
+      <guid>https://mpas.github.io/posts/2023/05/09/20230509-running-rancher-on-k3s-using-k3d/</guid>
+      <description>Requirements Colima installed When using Colima make sure to point to the correct docker socket using an export
+export DOCKER_HOST=&amp;quot;unix://${HOME}/.colima/default/docker.sock K3D installed Helm installed Steps # start colima with 4 CPU and 8GB memory colima start --cpu 4 --memory 8 # add the correct Helm repositories echo &amp;#34;Adding Helm repos&amp;#34; \ &amp;amp;&amp;amp; helm repo add rancher-latest https://releases.rancher.com/server-charts/latest \ &amp;amp;&amp;amp; helm repo add rancher-stable https://releases.rancher.com/server-charts/stable \ &amp;amp;&amp;amp; helm repo add jetstack https://charts.</description>
+    </item>
+    
     <item>
       <title>Capture link from Mac app into org-mode document</title>
-      <link>https://mpas.github.io/posts/2021/03/30/2021-03-30-capture-link-from-mac-app-into-org-mode-document/</link>
+      <link>https://mpas.github.io/posts/2021/03/30/20210330-capture-link-from-mac-app-into-org-mode-document/</link>
       <pubDate>Tue, 30 Mar 2021 12:54:00 +0200</pubDate>
       
-      <guid>https://mpas.github.io/posts/2021/03/30/2021-03-30-capture-link-from-mac-app-into-org-mode-document/</guid>
+      <guid>https://mpas.github.io/posts/2021/03/30/20210330-capture-link-from-mac-app-into-org-mode-document/</guid>
       <description>To quickly grab a link from an open Mac app and use this link into an org-mode document use the following package:
 Grab links from open Mac applications An optional keybind as follows:
 (add-hook &amp;#39;org-mode-hook (lambda () (define-key org-mode-map (kbd &amp;#34;C-c g&amp;#34;) &amp;#39;org-mac-grab-link))) This enables you to quickly grab a link using C-c g</description>
@@ -19,10 +29,10 @@ Grab links from open Mac applications An optional keybind as follows:
     
     <item>
       <title>Paste image from clipboard directly into org-mode document</title>
-      <link>https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-into-org-mode-document/</link>
+      <link>https://mpas.github.io/posts/2021/03/29/20210329-paste-image-from-clipboard-directly-into-org-mode-document/</link>
       <pubDate>Mon, 29 Mar 2021 18:55:00 +0200</pubDate>
       
-      <guid>https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-into-org-mode-document/</guid>
+      <guid>https://mpas.github.io/posts/2021/03/29/20210329-paste-image-from-clipboard-directly-into-org-mode-document/</guid>
       <description>Personally I really like using org-mode files for creating documentation and presentations. When working with screenshots my normal workflows always has been.
 Capture screenshot to clipboard Save the screenshot to a relative ./images folder and give it a descriptive name. Manually create link to the screenshot This works ok but after a while you get the feel that the whole process can be automated.
 The following function can help in automating the whole process.</description>
@@ -30,10 +40,10 @@ The following function can help in automating the whole process.</description>
     
     <item>
       <title>Time tracking with Org Mode and sum time per tag</title>
-      <link>https://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</link>
+      <link>https://mpas.github.io/posts/2021/03/16/20210316-time-tracking-with-org-mode-and-sum-time-per-tag/</link>
       <pubDate>Tue, 16 Mar 2021 10:20:00 +0100</pubDate>
       
-      <guid>https://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</guid>
+      <guid>https://mpas.github.io/posts/2021/03/16/20210316-time-tracking-with-org-mode-and-sum-time-per-tag/</guid>
       <description>&lt;p&gt;Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you &lt;strong&gt;aggregate time across tasks belonging to tags&lt;/strong&gt;?&lt;/p&gt;
 &lt;p&gt;This can be achieved by using a simple formula and the usage of an awesome Org package called &lt;a href=&#34;https://github.com/tbanel/orgaggregate&#34;&gt;Org Aggregate&lt;/a&gt;.&lt;/p&gt;</description>
     </item>

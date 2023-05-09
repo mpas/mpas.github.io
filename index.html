@@ -168,6 +168,152 @@ if (!doNotTrack) {
         <span class="icon">
             <i class="fas fa-calendar"></i>
         </span>
+        <span>May 9, 2023</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>1 minutes and
+            52 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+        <div class="content">
+            <h2><a href="https://mpas.github.io/posts/2023/05/09/20230509-running-rancher-on-k3s-using-k3d/">Running Rancher on K3S using K3D</a></h2>
+            <h2 id="requirements">Requirements</h2>
+<ul>
+<li><a href="https://github.com/abiosoft/colima">Colima</a> installed
+<ul>
+<li>When using Colima make sure to point to the correct docker socket using an export<br>
+<code>export DOCKER_HOST=&quot;unix://${HOME}/.colima/default/docker.sock</code></li>
+</ul>
+</li>
+<li><a href="https://k3d.io/">K3D</a> installed</li>
+<li><a href="https://helm.sh/">Helm</a> installed</li>
+</ul>
+<h2 id="steps">Steps</h2>
+<pre tabindex="0"><code># start colima with 4 CPU and 8GB memory
+colima start --cpu 4 --memory 8
+
+# add the correct Helm repositories
+echo &#34;Adding Helm repos&#34; \
+&amp;&amp; helm repo add rancher-latest https://releases.rancher.com/server-charts/latest \
+&amp;&amp; helm repo add rancher-stable https://releases.rancher.com/server-charts/stable \
+&amp;&amp; helm repo add jetstack https://charts.jetstack.io \
+&amp;&amp; helm repo update
+
+# create a cluster where rancher will be installed (name: rmaster -&gt; this will become k3d-rmaster)
+## - port 80/443 on localhost will be forwarded to 80/443 in the cluster/load balancer
+## - the number of servers and agents are specified explicitly but they are the defaults!
+##   servers: the number of servers that will be run
+##   agents: the number of worker nodes
+k3d cluster create rmaster --port 80:80@loadbalancer --port 443:443@loadbalancer --servers 1 --agents 0
+
+# change to the correct Kubernetes context
+## actually not required as k3d will switch to the just created context
+kubectl config set-context k3d-rmaster
+
+# install Cert Manager
+kubectl create namespace cert-manager \
+&amp;&amp; helm install cert-manager jetstack/cert-manager \
+    --namespace cert-manager \
+    --version v1.11.1 \
+    --set installCRDs=true --debug
+
+# verify if cert-manager is running
+kubectl get pods --namespace cert-manager
+
+# install Rancher (this can take a while! So dont get scared when you see pods in error state!)
+## - replicas: the number of rancher replicas
+## - hostname: set the hostname to your correct ip; for this we are using https://nip.io
+##             an alternative could be using ngrok or manually update your hosts file!
+## - bootstrapPassword: The password for login into the rancher web ui
+## - global.cattle.psp.enabled: We disable pod security policies; we need to harden later on!
+kubectl create namespace cattle-system \
+&amp;&amp; helm install rancher rancher-latest/rancher \
+    --namespace cattle-system \
+    --set replicas=1 \
+    --set hostname=192-168-68-107.nip.io \
+    --set global.cattle.psp.enabled=false \
+    --set bootstrapPassword=welcome123 \
+    --debug
+
+# verify if rancher is running
+kubectl get pods --namespace cattle-system
+
+# create client clusters
+k3d cluster create rclient1 # (name: rclient1 -&gt; this will become k3d-rclient1)
+k3d cluster create rclient2 # (name: rclient2 -&gt; this will become k3d-rclient2)
+
+# import the client clusters via the web interface!
+## make sure to pick the correct host; see the rancher install
+## this will give an unsecure connection; no need to worry just proceed in your browser
+http://192-168-68-107.nip.io
+</code></pre><h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://gist.github.com/rafi/d4440661e7de208009701ca3627caa1d">GitHub Gist - Rancher Workshop</a></li>
+<li><a href="https://gist.github.com/jwsy/5634d17e133d7fdc3045c3a2a18b652a">GitHub Gist - Script to install rancher on your macOS machine</a></li>
+</ul>
+
+        </div>
+
+        <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-folder"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/categories/infrastructure/">infrastructure</a>
+        </span>
+    </span>
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/kubernetes/">kubernetes</a>, 
+            <a class="is-link" href="/tags/rancher/">rancher</a>, 
+            <a class="is-link" href="/tags/k3d/">k3d</a>, 
+            <a class="is-link" href="/tags/docker/">docker</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+
+    </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+    <article>
+
+        
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
         <span>March 30, 2021</span>
     </span>
     
@@ -183,7 +329,7 @@ if (!doNotTrack) {
 </div>
 
         <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2021/03/30/2021-03-30-capture-link-from-mac-app-into-org-mode-document/">Capture link from Mac app into org-mode document</a></h2>
+            <h2><a href="https://mpas.github.io/posts/2021/03/30/20210330-capture-link-from-mac-app-into-org-mode-document/">Capture link from Mac app into org-mode document</a></h2>
             <p>To quickly grab a link from an open Mac app and use this link into an org-mode document use the following package:</p>
 <ul>
 <li><a href="https://orgmode.org/worg/org-contrib/org-mac-link.html">Grab links from open Mac applications</a></li>
@@ -262,7 +408,7 @@ if (!doNotTrack) {
 </div>
 
         <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2021/03/29/2021-03-29-paste-image-from-clipboard-directly-into-org-mode-document/">Paste image from clipboard directly into org-mode document</a></h2>
+            <h2><a href="https://mpas.github.io/posts/2021/03/29/20210329-paste-image-from-clipboard-directly-into-org-mode-document/">Paste image from clipboard directly into org-mode document</a></h2>
             <p>Personally I really like using org-mode files for creating documentation and presentations.
 When working with screenshots my normal workflows always has been.</p>
 <ol>
@@ -397,7 +543,7 @@ When working with screenshots my normal workflows always has been.</p>
 </div>
 
         <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/">Time tracking with Org Mode and sum time per tag</a></h2>
+            <h2><a href="https://mpas.github.io/posts/2021/03/16/20210316-time-tracking-with-org-mode-and-sum-time-per-tag/">Time tracking with Org Mode and sum time per tag</a></h2>
             <p>Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you <strong>aggregate time across tasks belonging to tags</strong>?</p>
 <p>This can be achieved by using a simple formula and the usage of an awesome Org package called <a href="https://github.com/tbanel/orgaggregate">Org Aggregate</a>.</p>
 <h2 id="input-data">Input data</h2>
@@ -1419,72 +1565,6 @@ are available on port <code>9090</code>/metrics</p>
             
             <a class="is-link" href="/tags/grails/">grails</a>, 
             <a class="is-link" href="/tags/springboot/">springboot</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>November 1, 2016</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>0 minutes and
-            26 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/">Accessing localhost from a Docker Container using native Docker for Mac</a></h2>
-            <p>Ever had a need to access something from within a <a href="https://www.docker.com/">Docker</a> container that runs on the host system?</p>
-<p>When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.</p>
-<p>A solution for this isto define a new local loopback to your localhost</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo ifconfig lo0 alias 172.16.123.1
-</span></span></code></pre></div><p>This will define a loopback network interface that points to your localhost. When you need to access the localhost you can use this ip.</p>
-
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/docker/">docker</a>, 
-            <a class="is-link" href="/tags/osx/">osx</a>, 
-            <a class="is-link" href="/tags/mac/">mac</a>
         </span>
     </span>
     

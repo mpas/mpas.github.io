@@ -8,10 +8,10 @@
     <lastBuildDate>Tue, 16 Mar 2021 10:20:00 +0100</lastBuildDate><atom:link href="https://mpas.github.io/tags/timetracking/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Time tracking with Org Mode and sum time per tag</title>
-      <link>https://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</link>
+      <link>https://mpas.github.io/posts/2021/03/16/20210316-time-tracking-with-org-mode-and-sum-time-per-tag/</link>
       <pubDate>Tue, 16 Mar 2021 10:20:00 +0100</pubDate>
       
-      <guid>https://mpas.github.io/posts/2021/03/16/2021-03-16-time-tracking-with-org-mode-and-sum-time-per-tag/</guid>
+      <guid>https://mpas.github.io/posts/2021/03/16/20210316-time-tracking-with-org-mode-and-sum-time-per-tag/</guid>
       <description>&lt;p&gt;Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you &lt;strong&gt;aggregate time across tasks belonging to tags&lt;/strong&gt;?&lt;/p&gt;
 &lt;p&gt;This can be achieved by using a simple formula and the usage of an awesome Org package called &lt;a href=&#34;https://github.com/tbanel/orgaggregate&#34;&gt;Org Aggregate&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
