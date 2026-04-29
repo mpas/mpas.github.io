@@ -162,7 +162,7 @@
             <i class="fas fa-stopwatch"></i>
         </span>
         <span>0 minutes and
-            19 seconds read</span>
+            24 seconds read</span>
     </span>
     <hr class="mt-0 mb-0">
 </div>
@@ -173,13 +173,18 @@ In order to get some fancy bullets the following steps need to be taken.</p>
 <ol>
 <li>Add the org-mode <code>+pretty</code> flag to your org settings in <code>init.el</code> To read more on the available flags check the <a href="https://github.com/hlissner/doom-emacs/tree/develop/modules/lang/org#module-flags">org-mode Doom Emacs module `lang/org`</a></li>
 </ol>
+<!--listend-->
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>:lang
 </span></span><span style="display:flex;"><span>(org +pretty ) <span style="color:#75715e">; organize your plain life in plain text</span>
-</span></span></code></pre></div><!-- raw HTML omitted -->
+</span></span></code></pre></div><ol class="org-ol">
+<li value="2">Set the bullets you want to use in your `config.el`</li>
+</ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(setq
 </span></span><span style="display:flex;"><span>    org-superstar-headline-bullets-list <span style="color:#f92672">&#39;</span>(<span style="color:#e6db74">&#34;⁖&#34;</span> <span style="color:#e6db74">&#34;◉&#34;</span> <span style="color:#e6db74">&#34;○&#34;</span> <span style="color:#e6db74">&#34;✸&#34;</span> <span style="color:#e6db74">&#34;✿&#34;</span>)
 </span></span><span style="display:flex;"><span>)
-</span></span></code></pre></div><!-- raw HTML omitted -->
+</span></span></code></pre></div><ol class="org-ol">
+<li value="3">Reload your Doom configuration and you should be fine :)</li>
+</ol>
     </div>
     <div class="content">
     <hr class=" mt-0 mb-0">

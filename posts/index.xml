@@ -6,7 +6,7 @@
     <description>Recent content in Posts on Marco Pas</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 09 May 2023 10:07:26 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 29 Apr 2026 08:03:00 +0000</lastBuildDate>
     <atom:link href="https://mpas.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Running Rancher on K3S using K3D</title>
@@ -83,7 +83,7 @@
       <link>https://mpas.github.io/posts/2016/11/building-a-consul-cluster-using-terraform/aws/</link>
       <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
       <guid>https://mpas.github.io/posts/2016/11/building-a-consul-cluster-using-terraform/aws/</guid>
-      <description>&lt;!-- raw HTML omitted --&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Service Discovery&lt;/li&gt;&#xA;&lt;li&gt;Health Checking&lt;/li&gt;&#xA;&lt;li&gt;Key/Value Store&lt;/li&gt;&#xA;&lt;li&gt;Multi Datacenter&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;For more information on &lt;a href=&#34;http://Consul.io&#34;&gt;Consul&lt;/a&gt; itself please have a look in the excellent documentation.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.consul.io/intro/index.html&#34;&gt;Consul Intro&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.consul.io/docs/index.html&#34;&gt;Consul documentation&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;is-it-really-easy&#34;&gt;Is it really easy?&lt;/h2&gt;&#xA;&lt;p&gt;Setting up a &lt;a href=&#34;http://Consul.io&#34;&gt;Consul&lt;/a&gt; cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;&lt;/p&gt;&#xA;&lt;p&gt;But hey.. &lt;strong&gt;what if you need to deploy this cluster on an AWS environment? How do&#xA;you create the cluster and how can you make sure it is always available?&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>&lt;img style=&#34;float: right;&#34; width=&#34;150&#34; src=&#34;https://www.consul.io/assets/images/logo_large-475cebb0.png&#34;&gt;&#xA;[Consul](http://Consul.io) has multiple components, but as a whole, it is a tool for discovering and configuring services in your infrastructure. It provides several key features:&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Service Discovery&lt;/li&gt;&#xA;&lt;li&gt;Health Checking&lt;/li&gt;&#xA;&lt;li&gt;Key/Value Store&lt;/li&gt;&#xA;&lt;li&gt;Multi Datacenter&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;For more information on &lt;a href=&#34;http://Consul.io&#34;&gt;Consul&lt;/a&gt; itself please have a look in the excellent documentation.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.consul.io/intro/index.html&#34;&gt;Consul Intro&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.consul.io/docs/index.html&#34;&gt;Consul documentation&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;is-it-really-easy&#34;&gt;Is it really easy?&lt;/h2&gt;&#xA;&lt;p&gt;Setting up a &lt;a href=&#34;http://Consul.io&#34;&gt;Consul&lt;/a&gt; cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Change the port of actuator endpoint in a Grails application</title>
@@ -111,7 +111,7 @@
       <link>https://mpas.github.io/posts/2015/11/functional-rest-api-testing-with-grails/rest-client-builder/</link>
       <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
       <guid>https://mpas.github.io/posts/2015/11/functional-rest-api-testing-with-grails/rest-client-builder/</guid>
-      <description>&lt;p&gt;Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.&lt;/p&gt;&#xA;&lt;p&gt;When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Scenario:&lt;/strong&gt;&lt;!-- raw HTML omitted --&gt;&#xA;Performing a GET request on a url (http://localhost:8080/helloworld) should return a &lt;code&gt;HTTP Status 200&lt;/code&gt; and data with a json payload&lt;/p&gt;</description>
+      <description>&lt;p&gt;Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.&lt;/p&gt;&#xA;&lt;p&gt;When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Scenario:&lt;/strong&gt;&lt;br&gt;&#xA;Performing a GET request on a url (http://localhost:8080/helloworld) should return a &lt;code&gt;HTTP Status 200&lt;/code&gt; and data with a json payload&lt;/p&gt;</description>
     </item>
     <item>
       <title>Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</title>

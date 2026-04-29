@@ -13,7 +13,7 @@
       <link>https://mpas.github.io/posts/2015/11/functional-rest-api-testing-with-grails/rest-client-builder/</link>
       <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
       <guid>https://mpas.github.io/posts/2015/11/functional-rest-api-testing-with-grails/rest-client-builder/</guid>
-      <description>&lt;p&gt;Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.&lt;/p&gt;&#xA;&lt;p&gt;When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Scenario:&lt;/strong&gt;&lt;!-- raw HTML omitted --&gt;&#xA;Performing a GET request on a url (http://localhost:8080/helloworld) should return a &lt;code&gt;HTTP Status 200&lt;/code&gt; and data with a json payload&lt;/p&gt;</description>
+      <description>&lt;p&gt;Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.&lt;/p&gt;&#xA;&lt;p&gt;When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Scenario:&lt;/strong&gt;&lt;br&gt;&#xA;Performing a GET request on a url (http://localhost:8080/helloworld) should return a &lt;code&gt;HTTP Status 200&lt;/code&gt; and data with a json payload&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
