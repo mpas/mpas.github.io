@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>testdata on Marco Pas</title>
+    <title>Testdata on Marco Pas</title>
     <link>https://mpas.github.io/tags/testdata/</link>
-    <description>Recent content in testdata on Marco Pas</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 13 Jan 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/testdata/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Testdata on Marco Pas</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 13 Jan 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mpas.github.io/tags/testdata/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Testing constraints with Build Test Data</title>
-      <link>https://mpas.github.io/posts/2013/01/13/20130113-testing-constraints-with-build-test-data/</link>
+      <link>https://mpas.github.io/posts/2013/01/testing-constraints-with-build-test-data/</link>
       <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2013/01/13/20130113-testing-constraints-with-build-test-data/</guid>
-      <description>The Spock &amp;amp; Build Test Data plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!
-When testing constraints on an object it can be used as follows:
-class Foo { String name // name of foo Integer age // age of foo static constraints = { name nullable: false, blank: false // name may never be nullable or blank age nullable: true } } And the Spock test</description>
+      <guid>https://mpas.github.io/posts/2013/01/testing-constraints-with-build-test-data/</guid>
+      <description>&lt;p&gt;The &lt;a href=&#34;http://grails.org/plugin/spock&#34;&gt;Spock&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://grails.org/plugin/build-test-data&#34;&gt;Build Test Data&lt;/a&gt; plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!&lt;/p&gt;&#xA;&lt;p&gt;When testing constraints on an object it can be used as follows:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-groovy&#34; data-lang=&#34;groovy&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Foo&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    String name   &lt;span style=&#34;color:#75715e&#34;&gt;// name of foo&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Integer age   &lt;span style=&#34;color:#75715e&#34;&gt;// age of foo&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; constraints &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        name nullable: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; blank: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// name may never be nullable or blank&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        age nullable: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And the Spock test&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

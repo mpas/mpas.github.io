@@ -23,18 +23,6 @@
 
     
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-180712180-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
 
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,7 +51,7 @@ if (!doNotTrack) {
 
     <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" href="https://mpas.github.io">
+            <a class="navbar-item" href="https://mpas.github.io/">
                 MARCO PAS
             </a>
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
@@ -147,6 +135,7 @@ if (!doNotTrack) {
     </div>
 </div>
 
+
     <div class="container">
         <div class="is-search-result">
             
@@ -154,9 +143,462 @@ if (!doNotTrack) {
 
 
 <div class="box mt-5 has-background-white">
-    <article>
+  <article>
+    
 
-        
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>June 10, 2015</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>1 minutes and
+            6 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2015/06/httpservletrequestwrapper-for-servletinputstream-3.1/">HTTPServletRequestWrapper for ServletInputStream 3.1</a></h2>
+      <p>A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.</p>
+<ul>
+<li>isFinished</li>
+<li>isReady</li>
+<li>setReadListener</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> com.google.common.primitives.Bytes;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.servlet.ReadListener;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.servlet.ServletInputStream;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequest;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequestWrapper;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.ByteArrayInputStream;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.IOException;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.InputStream;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Arrays;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span> <span style="color:#66d9ef">extends</span> HttpServletRequestWrapper {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tag::variables[]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> requestBody <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// end::variables[]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     - Constructs a request object wrapping the given request.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     - @param request The request to wrap
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     - @throws IllegalArgumentException if the request is null
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span>(HttpServletRequest request) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span>(request);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tag::getRequestBody[]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> <span style="color:#a6e22e">getRequestBody</span>() <span style="color:#66d9ef">throws</span> IOException {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (bufferFilled) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Arrays.<span style="color:#a6e22e">copyOf</span>(requestBody, requestBody.<span style="color:#a6e22e">length</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        InputStream inputStream <span style="color:#f92672">=</span> <span style="color:#66d9ef">super</span>.<span style="color:#a6e22e">getInputStream</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> buffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>102400<span style="color:#f92672">]</span>; <span style="color:#75715e">// 100kb buffer</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> bytesRead;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> ((bytesRead <span style="color:#f92672">=</span> inputStream.<span style="color:#a6e22e">read</span>(buffer)) <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1) {
+</span></span><span style="display:flex;"><span>            requestBody <span style="color:#f92672">=</span> Bytes.<span style="color:#a6e22e">concat</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">requestBody</span>, Arrays.<span style="color:#a6e22e">copyOfRange</span>(buffer, 0, bytesRead)); <span style="color:#75715e">// &lt;1&gt;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> requestBody;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// end::getRequestBody[]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tag::getInputStream[]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ServletInputStream <span style="color:#a6e22e">getInputStream</span>() <span style="color:#66d9ef">throws</span> IOException {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> CustomServletInputStream(getRequestBody()); <span style="color:#75715e">// &lt;1&gt;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// end::getInputStream[]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomServletInputStream</span> <span style="color:#66d9ef">extends</span> ServletInputStream {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">private</span> ByteArrayInputStream buffer;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">CustomServletInputStream</span>(<span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> contents) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ByteArrayInputStream(contents);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">read</span>() <span style="color:#66d9ef">throws</span> IOException {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> buffer.<span style="color:#a6e22e">read</span>();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isFinished</span>() {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> buffer.<span style="color:#a6e22e">available</span>() <span style="color:#f92672">==</span> 0;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isReady</span>() {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setReadListener</span>(ReadListener listener) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException(<span style="color:#e6db74">&#34;Not implemented&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+    </div>
+
+    <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/java/">Java</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+  </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+  <article>
+    
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>June 5, 2015</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>3 minutes and
+            54 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2015/06/installing-docker-registry-2.0.1-using-self-signed-certificates/">Installing Docker Registry 2.0.1 using self signed certificates</a></h2>
+      <p>The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.</p>
+<p>So the setup will be that we install the Docker Registry and proxy the SSL user access via self signed certificates using an NGINX proxy image provided by Container Solutions. <a href="http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/">Check here for more information</a></p>
+<p>Installation of the remote docker registry will be done by using on an Amazon EC2 (Linux AMI). Currently the free tier Amazon Linux AMI 2015.03 (HVM), SSD Volume Type - ami-a10897d6. So spin up the Amazon AMI and let&rsquo;s install Docker.</p>
+<p><strong>Note:</strong> when you spin up your Amazon AMI make sure to remember the FQDN/DNS name! We need this name to generate the SSL certificates!</p>
+<pre><code>Example:
+&lt;domain-name&gt; = ec2-52-16-247-220.eu-west-1.compute.amazonaws.com
+</code></pre>
+<p>So spin up your AMI and install Docker!</p>
+<h2 id="installing-docker">Installing docker</h2>
+<ul>
+<li>login into your Amazon AMI</li>
+<li>update the system and install Docker</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo yum update -y
+</span></span><span style="display:flex;"><span>$ sudo wget -qO- https://get.docker.com/ | sh
+</span></span></code></pre></div><ul>
+<li>add the ec2-user to the <code>docker</code> group (optional)</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo usermod -aG docker ec2-user
+</span></span></code></pre></div><ul>
+<li>start Docker</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo service docker start
+</span></span></code></pre></div><ul>
+<li>make sure Docker can run the basic &ldquo;hello-world&rdquo;</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo docker run hello-world
+</span></span></code></pre></div><h2 id="create-docker-registry-data-and-configuration-directories">Create Docker Registry data and configuration directories</h2>
+<p>We are going to store the registry image data inside <code>/opt/docker/registry/data</code> and configuration files such as the ssl certificates and user login inside <code>/opt/docker/registry/conf</code>.</p>
+<ul>
+<li>create data folders for Docker Registry data and configuration</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo mkdir -p /opt/docker/registry/data
+</span></span><span style="display:flex;"><span>$ sudo mkdir -p /opt/docker/registry/conf
+</span></span></code></pre></div><h2 id="run-the-docker-registry">Run the Docker Registry</h2>
+<p>Now we are able to run the Docker Registry, the data for images that will be pushed are going to be stored in <code>/opt/docker/registry/data</code> and the container will be named <code>docker-registry</code></p>
+<ul>
+<li>run the registry and name it <code>docker-registry</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo docker run -d -v /opt/docker/registry/data:/tmp/registry-dev <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>--name docker-registry registry:2.0.1
+</span></span></code></pre></div><ul>
+<li>test if the registry is actually running</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo docker ps
+</span></span></code></pre></div><p><strong>So now we have a running Docker Registry, but still no SSL proxy and no user accounts to get access to the registry.</strong></p>
+<h2 id="generate-self-signed-certificates-for-our-ssl-proxy">Generate self signed certificates for our SSL proxy</h2>
+<p>The result of the certificate generation will be placed in <code>/opt/docker/registry/conf</code> and named <code>docker-registry.crt</code> and <code>docker-registry.key</code>.</p>
+<p><strong>Note:</strong> The <code>docker-registry.crt</code> file is important, we will need this later on to configure our local Docker client on the machine that is going to access the remote registry. So after generating the <code>docker-registry.crt</code> file, grab this and store it on your local machine in a place where you can find it.</p>
+<ul>
+<li>generate the certificates</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo openssl req -x509 -nodes -days <span style="color:#ae81ff">365</span> -newkey rsa:2048 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>-keyout /opt/docker/registry/conf/docker-registry.key \
+</span></span><span style="display:flex;"><span>-out /opt/docker/registry/conf/docker-registry.crt
+</span></span></code></pre></div><p>Accept all defaults and make sure you give the correct FQDN /DNS name = <code>&lt;domain-name&gt;</code>.</p>
+<h2 id="create-passwords-for-access-to-the-docker-registry">Create passwords for access to the Docker Registry</h2>
+<p>In order to let users login into the registry we need to create users  (user1/user2). This will be done by using <code>htpasswd</code>. The user data will be stored in <code>docker-registry.htpasswd</code> file and placed in the <code>/opt/docker/registry/conf</code> directory.</p>
+<ul>
+<li>install htpasswd</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo yum install httpd-tools -y
+</span></span></code></pre></div><ul>
+<li>create the users</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo htpasswd -c /opt/docker/registry/conf/docker-registry.htpasswd user1
+</span></span><span style="display:flex;"><span>$ sudo htpasswd /opt/docker/registry/conf/docker-registry.htpasswd user2
+</span></span></code></pre></div><p><strong>Note:</strong> when creating the second user omit the <code>-c</code> otherwise the docker-registry.htpasswd file will be get overwritten!</p>
+<h2 id="run-the-nginx-proxy">Run the NGINX Proxy</h2>
+<p>As mentioned we are going to use the image from <a href="http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/">Container Solutions</a> to run our NGINX proxy.</p>
+<ul>
+<li>start the NGINX proxy and name it <code>docker-registry-proxy</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo docker run -d -p 443:443  <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>-e REGISTRY_HOST=&#34;docker-registry&#34; -e REGISTRY_PORT=&#34;5000&#34; -e SERVER_NAME=&#34;localhost&#34; \
+</span></span><span style="display:flex;"><span>--link docker-registry:docker-registry \
+</span></span><span style="display:flex;"><span>-v /opt/docker/registry/conf/docker-registry.htpasswd:/etc/nginx/.htpasswd:ro \
+</span></span><span style="display:flex;"><span>-v /opt/docker/registry/conf:/etc/nginx/ssl:ro \
+</span></span><span style="display:flex;"><span>--name docker-registry-proxy containersol/docker-registry-proxy
+</span></span></code></pre></div><p>After this step we have a running Docker Registry which is secured using Self Signed certificates and users are able to login using their username/password.</p>
+<p>To test this navigate to your registry by using a browser (Chrome) and access: <code>https://&lt;domain-name&gt;:443/v2/</code>. After accepting the security warning provide a username/password and the output should be <code>{}</code>.</p>
+<h2 id="configure-the-local-docker-client">Configure the local Docker client</h2>
+<p>Now that we have a running secured Docker Registry we can configure the Docker client on our machine that is going to access the remote Registry. For this we need a copy of the earlier <code>docker-registry.crt</code> file.</p>
+<ul>
+<li>copy the <code>docker-registry.crt</code> file from our server to your local machine. This file is located in <code>/opt/docker/registry/conf</code>. Put the copy in a place where you can find it.</li>
+</ul>
+<h3 id="ubuntu-docker-client">Ubuntu Docker Client</h3>
+<p>In order to get the local client working, we need to install Docker and register the <code>docker-registry.crt</code> certificate file!</p>
+<ul>
+<li>install docker</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo wget -qO- https://get.docker.com/ | sh
+</span></span><span style="display:flex;"><span>$ sudo service docker start
+</span></span></code></pre></div><ul>
+<li>create a directory holding our extra certificates</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo mkdir /usr/share/ca-certificates/extra
+</span></span></code></pre></div><ul>
+<li>
+<p>copy the <code>docker-registry.crt</code> file to the directory <code>/usr/share/ca-certificates/extra</code></p>
+</li>
+<li>
+<p>register the certificate</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo dpkg-reconfigure ca-certificates
+</span></span></code></pre></div><p>Now you are almost ready!</p>
+<ul>
+<li>restart the local Docker client</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo service docker restart
+</span></span></code></pre></div><ul>
+<li>login onto your remote registry using</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ docker login &lt;domain-name&gt;:port
+</span></span></code></pre></div><p>Now we have a remote Docker Registry and the Docker Client is able to connect!</p>
+
+    </div>
+
+    <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/docker/">Docker</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+  </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+  <article>
+    
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>July 4, 2014</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            20 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2014/07/upgrading-from-grails-2.3.8-to-2.4.2/">Upgrading from Grails 2.3.8 to 2.4.2</a></h2>
+      <p>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>Error creating bean with name &#39;grailsApplication&#39; defined in ServletContext resource
+</span></span><span style="display:flex;"><span>[/WEB-INF/applicationContext.xml]: Cannot resolve reference to
+</span></span><span style="display:flex;"><span>bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResourceLoader&#39;;
+</span></span></code></pre></div><p>To solve this issue you need to delete some lines in the <code>&lt;grails-app&gt;/web-app/WEB-INF/applicationContext.xml</code> file.</p>
+<p>Delete the following lines:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;grailsResourceLoader&#34;</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;grailsResourceLoader&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;grailsResourceLoader&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span></code></pre></div><p>And you should be up and running quickly.</p>
+
+    </div>
+
+    <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/grails/">Grails</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+  </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+  <article>
+    
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>June 9, 2014</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            15 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2014/06/skip-a-contenttype/section-to-be-renderend/">Skip a contenttype/section to be renderend</a></h2>
+      <p>When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.</p>
+<p>Example:
+You want to only render contenttype &lsquo;post&rsquo;  use the following code in your template:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>{{ <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">eq</span> .<span style="color:#a6e22e">Type</span> <span style="color:#e6db74">&#34;post&#34;</span> }}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {{ .<span style="color:#a6e22e">Title</span> }}
+</span></span><span style="display:flex;"><span>    {{ .<span style="color:#a6e22e">Content</span> }}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{{ <span style="color:#a6e22e">end</span> }}
+</span></span></code></pre></div>
+    </div>
+
+    <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/hugo/">Hugo</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+  </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+  <article>
+    
 
 
 
@@ -182,9 +624,9 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2013/11/27/20131127-bookreview-instant-vertx/">Bookreview : Instant Vert.x</a></h2>
-            <p>For those who have not yet got into contact with <a href="http://vertx.io/">Vert.x</a>, the book <a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Instant Vert.x</a> (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2013/11/bookreview-instant-vert.x/">Bookreview : Instant Vert.x</a></h2>
+      <p>For those who have not yet got into contact with <a href="http://vertx.io/">Vert.x</a>, the book <a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Instant Vert.x</a> (54 pages in total of which 40 pages are “real” content) is a nice introduction to the underlying concepts.</p>
 <p>As the name suggests, you can read the book in &ldquo;an instant&rdquo; and takes the reader through all high level concepts. The information in the book mostly stays at the concept level and provides some basic usage examples.</p>
 <p>For those who have not yet had the opportunity to learn about Vert.x, I would not immediately recommend this book. The online documentation section on Vertx.io contains the same information. But if you like a book with information nicely put into digestible chapters then this book is a good fit.</p>
 <p>Personally i hoped to get some more technical information and how-to information from this book but it is really targeted towards people that are just starting or have a beginning interest in Vert.x.</p>
@@ -194,9 +636,9 @@ if (!doNotTrack) {
 <li><a href="http://www.packtpub.com/development-of-asynchronous-network-applications-using-vertx/book">Get the book at Pack Publishing</a></li>
 </ul>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -208,9 +650,9 @@ if (!doNotTrack) {
         </span>
         <span>
             
-            <a class="is-link" href="/tags/vertx/">vertx</a>, 
-            <a class="is-link" href="/tags/java/">java</a>, 
-            <a class="is-link" href="/tags/review/">review</a>
+            <a class="is-link" href="/tags/vertx/">Vertx</a>, 
+            <a class="is-link" href="/tags/java/">Java</a>, 
+            <a class="is-link" href="/tags/review/">Review</a>
         </span>
     </span>
     
@@ -218,15 +660,13 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -252,16 +692,16 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2013/05/30/20130530-backspace-mint/">Use backspace key to go back in Google Chrome</a></h2>
-            <p>When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2013/05/use-backspace-key-to-go-back-in-google-chrome/">Use backspace key to go back in Google Chrome</a></h2>
+      <p>When using Chrome (in Linux Mint) and pressing the backspace key nothing happens. You would expect to go back to the previous url you have visited. To enable the default behaviour you could install the following extension:</p>
 <ul>
 <li><a href="https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en">https://chrome.google.com/webstore/detail/backspace-as-backforward/aeffggjddcchloadflonilaahpclmbnm?hl=en</a></li>
 </ul>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -273,9 +713,9 @@ if (!doNotTrack) {
         </span>
         <span>
             
-            <a class="is-link" href="/tags/linux/">linux</a>, 
-            <a class="is-link" href="/tags/mint/">mint</a>, 
-            <a class="is-link" href="/tags/chrome/">chrome</a>
+            <a class="is-link" href="/tags/linux/">Linux</a>, 
+            <a class="is-link" href="/tags/mint/">Mint</a>, 
+            <a class="is-link" href="/tags/chrome/">Chrome</a>
         </span>
     </span>
     
@@ -283,15 +723,13 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -317,19 +755,19 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2013/05/28/20130528-automount-ntfs-mint/">Automount NTFS volume under Linux (Mint)</a></h2>
-            <p>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo pico /etc/fstab
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2013/05/automount-ntfs-volume-under-linux-mint/">Automount NTFS volume under Linux (Mint)</a></h2>
+      <p>When automounting an NTFS volume under Linux (Mint) you can do this using the /etc/fstab file. dummy dummy dummy</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo pico /etc/fstab
 </span></span></code></pre></div><p>Add a line in the /etc/fstab file:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span># custom mount point
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span># custom mount point
 </span></span><span style="display:flex;"><span>/dev/sdb1 /media/windows-c ntfs-3g defaults 0 0
 </span></span></code></pre></div><p>And take the mount into effect.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ mount -a
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ mount -a
 </span></span></code></pre></div>
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -341,8 +779,8 @@ if (!doNotTrack) {
         </span>
         <span>
             
-            <a class="is-link" href="/tags/linux/">linux</a>, 
-            <a class="is-link" href="/tags/mint/">mint</a>
+            <a class="is-link" href="/tags/linux/">Linux</a>, 
+            <a class="is-link" href="/tags/mint/">Mint</a>
         </span>
     </span>
     
@@ -350,15 +788,13 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -384,14 +820,14 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2013/05/25/20130525-grails-to-power-your-electric-car/">Using Grails to power your Electric Car</a></h2>
-            <p>Past week I really enjoyed visiting &amp; speaking at the <a href="http://gr8conf.org/">Grails Conference (GR8Conf 2013)</a>. The organisation made it possible that for me to host a talk about &ldquo;Using Grails to power your Electric Car&rdquo;.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2013/05/using-grails-to-power-your-electric-car/">Using Grails to power your Electric Car</a></h2>
+      <p>Past week I really enjoyed visiting &amp; speaking at the <a href="http://gr8conf.org/">Grails Conference (GR8Conf 2013)</a>. The organisation made it possible that for me to host a talk about &ldquo;Using Grails to power your Electric Car&rdquo;.</p>
 <p><a href="http://www.slideshare.net/mpas/20130523-gr8conf-using-grails-to-power-your-electric-car">Using Grails to power your Electric Car</a></p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -403,8 +839,8 @@ if (!doNotTrack) {
         </span>
         <span>
             
-            <a class="is-link" href="/tags/gr8conf/">gr8conf</a>, 
-            <a class="is-link" href="/tags/grails/">grails</a>
+            <a class="is-link" href="/tags/gr8conf/">Gr8conf</a>, 
+            <a class="is-link" href="/tags/grails/">Grails</a>
         </span>
     </span>
     
@@ -412,15 +848,13 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -446,9 +880,9 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2013/05/24/20130524-chrome-not-synchronizing-extensions/">Google Chrome not synchronizing extensions</a></h2>
-            <p>When installing a fresh version of Chrome it may occur that all Bookmarks sync ok but the extensions not. The following solution worked for my system.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2013/05/google-chrome-not-synchronizing-extensions/">Google Chrome not synchronizing extensions</a></h2>
+      <p>When installing a fresh version of Chrome it may occur that all Bookmarks sync ok but the extensions not. The following solution worked for my system.</p>
 <ul>
 <li>Open Google Chrome</li>
 <li>Goto &ldquo;Settings&rdquo;</li>
@@ -457,9 +891,9 @@ if (!doNotTrack) {
 <li>Press &ldquo;Update extensions now&rdquo;</li>
 </ul>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -471,7 +905,7 @@ if (!doNotTrack) {
         </span>
         <span>
             
-            <a class="is-link" href="/tags/chrome/">chrome</a>
+            <a class="is-link" href="/tags/chrome/">Chrome</a>
         </span>
     </span>
     
@@ -479,15 +913,13 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -513,31 +945,31 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2013/05/16/20130516-simple-helloworld-verticle/">Simple Helloworld verticle</a></h2>
-            <p>Sourcecode:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> helloworld<span style="color:#f92672">;</span>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2013/05/simple-helloworld-verticle/">Simple Helloworld verticle</a></h2>
+      <p>Sourcecode:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> helloworld;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.vertx.java.core.Handler<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.vertx.java.core.http.HttpServerRequest<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.vertx.java.deploy.Verticle<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.vertx.java.core.Handler;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.vertx.java.core.http.HttpServerRequest;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.vertx.java.deploy.Verticle;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span> <span style="color:#66d9ef">extends</span> Verticle <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span> <span style="color:#66d9ef">extends</span> Verticle {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">start</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        vertx<span style="color:#f92672">.</span><span style="color:#a6e22e">createHttpServer</span><span style="color:#f92672">().</span><span style="color:#a6e22e">requestHandler</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Handler<span style="color:#f92672">&lt;</span>HttpServerRequest<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handle</span><span style="color:#f92672">(</span>HttpServerRequest req<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            req<span style="color:#f92672">.</span><span style="color:#a6e22e">response</span><span style="color:#f92672">.</span><span style="color:#a6e22e">headers</span><span style="color:#f92672">().</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Content-Type&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;text/html; charset-UTF-8&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>            req<span style="color:#f92672">.</span><span style="color:#a6e22e">response</span><span style="color:#f92672">.</span><span style="color:#a6e22e">end</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}).</span><span style="color:#a6e22e">listen</span><span style="color:#f92672">(</span><span style="color:#ae81ff">8080</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">start</span>() {
+</span></span><span style="display:flex;"><span>        vertx.<span style="color:#a6e22e">createHttpServer</span>().<span style="color:#a6e22e">requestHandler</span>(<span style="color:#66d9ef">new</span> Handler<span style="color:#f92672">&lt;</span>HttpServerRequest<span style="color:#f92672">&gt;</span>() {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handle</span>(HttpServerRequest req) {
+</span></span><span style="display:flex;"><span>            req.<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">headers</span>().<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;text/html; charset-UTF-8&#34;</span>);
+</span></span><span style="display:flex;"><span>            req.<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">end</span>(<span style="color:#e6db74">&#34;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello from vert.x!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#34;</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }).<span style="color:#a6e22e">listen</span>(8080);
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -549,8 +981,8 @@ if (!doNotTrack) {
         </span>
         <span>
             
-            <a class="is-link" href="/tags/java/">java</a>, 
-            <a class="is-link" href="/tags/vertx/">vertx</a>
+            <a class="is-link" href="/tags/java/">Java</a>, 
+            <a class="is-link" href="/tags/vertx/">Vertx</a>
         </span>
     </span>
     
@@ -558,510 +990,7 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>February 28, 2013</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>0 minutes and
-            37 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2013/02/28/20130228-grails-migrations-and-waiting-for-changelog/">Grails migrations and &#39;Waiting for changelog lock&#39;</a></h2>
-            <p>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>...
-</span></span><span style="display:flex;"><span>Waiting for changelog lock....
-</span></span><span style="display:flex;"><span>Waiting for changelog lock....
-</span></span><span style="display:flex;"><span>Waiting for changelog lock....
-</span></span><span style="display:flex;"><span>...
-</span></span></code></pre></div><p>To solve this take the following steps:</p>
-<ul>
-<li>Stop the application container (example: Tomcat)</li>
-<li>In the database look for a table called <code>DATABASECHANGELOGLOCK</code></li>
-<li>In the table there is a record with id=1, change the following values:</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>locked -&gt; 0
-</span></span><span style="display:flex;"><span>lockgranted -&gt; null
-</span></span><span style="display:flex;"><span>lockedby -&gt; null
-</span></span></code></pre></div><ul>
-<li>After updating this record start the application container</li>
-</ul>
-<p><strong>Notes:</strong><br>
-To see who has locked the database (normally the local machine):</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> DATABASECHANGELOGLOCK;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">To</span> <span style="color:#66d9ef">update</span> the record
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">update</span> DATABASECHANGELOGLOCK
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> locked<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, lockgranted<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span>, lockedby<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span> id<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
-</span></span></code></pre></div>
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/grails/">grails</a>, 
-            <a class="is-link" href="/tags/migrations/">migrations</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>January 13, 2013</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>0 minutes and
-            38 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2013/01/13/20130113-testing-constraints-with-build-test-data/">Testing constraints with Build Test Data</a></h2>
-            <p>The <a href="http://grails.org/plugin/spock">Spock</a> &amp; <a href="http://grails.org/plugin/build-test-data">Build Test Data</a> plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!</p>
-<p>When testing constraints on an object it can be used as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    String name   <span style="color:#75715e">// name of foo
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Integer age   <span style="color:#75715e">// age of foo
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> constraints <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        name nullable: <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> blank: <span style="color:#66d9ef">false</span> <span style="color:#75715e">// name may never be nullable or blank
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        age nullable: <span style="color:#66d9ef">true</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span></code></pre></div><p>And the Spock test</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#a6e22e">@Build</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@TestFor</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FooSpec</span> <span style="color:#66d9ef">extends</span> Specification <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#e6db74">&#34;Name of Foo must exist&#34;</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        given: <span style="color:#e6db74">&#34;setting up the constraints&#34;</span>
-</span></span><span style="display:flex;"><span>        mockForConstraintsTests<span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        when: <span style="color:#e6db74">&#34;creating a Foo&#34;</span>
-</span></span><span style="display:flex;"><span>        Foo foo <span style="color:#f92672">=</span> Foo<span style="color:#f92672">.</span><span style="color:#a6e22e">buildWithoutSave</span><span style="color:#f92672">()</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        then: <span style="color:#e6db74">&#34;validation should trigger&#34;</span>
-</span></span><span style="display:flex;"><span>        assertFalse foo<span style="color:#f92672">.</span><span style="color:#a6e22e">validate</span><span style="color:#f92672">()</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        and: <span style="color:#e6db74">&#34;validation error should be on the value field&#34;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">assert</span> foo<span style="color:#f92672">.</span><span style="color:#a6e22e">errors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">allErrors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">first</span><span style="color:#f92672">().</span><span style="color:#a6e22e">field</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;name&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span></code></pre></div>
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/build/">build</a>, 
-            <a class="is-link" href="/tags/testdata/">testdata</a>, 
-            <a class="is-link" href="/tags/grails/">grails</a>, 
-            <a class="is-link" href="/tags/spock/">spock</a>, 
-            <a class="is-link" href="/tags/test/">test</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>January 3, 2013</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>0 minutes and
-            10 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2013/01/03/20130103-getting-enum-from-string-value/">Getting the Enum from a String value</a></h2>
-            <p>Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>Enum<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>YourClassName<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;String Value&#34;</span><span style="color:#f92672">)</span>
-</span></span></code></pre></div><p><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html">http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html</a></p>
-
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/enum/">enum</a>, 
-            <a class="is-link" href="/tags/java/">java</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>September 18, 2012</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>0 minutes and
-            39 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2012/09/18/20120918-troubles-getting-vsftpd-user-logged-in/">Troubles getting vsftpd user logged in?</a></h2>
-            <p>Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message:
-500 OOPS: vsftpd: refusing to run with writable root inside chroot()</p>
-<p>After some googling around i found the following fix..
-chmod the folder that the ftp user comes in to as he first login (root folder) by using in terminal:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>sudo chmod a-w /home/user
-</span></span></code></pre></div><p>Create a subfolder within the folder, either by the use of GUI or if you only have terminal it&rsquo;s:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>sudo mkdir /home/user/newfolder
-</span></span></code></pre></div><p>Now you should be able to log in and read write within the &ldquo;newfolder&rdquo;.</p>
-<p>You will <strong>NOT</strong> be able to write in the root folder itself from the ftp with the chmod a-w, so that is the reason for the subfolder, there you can.</p>
-<p><a href="http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update">http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update</a></p>
-
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/ftps/">ftps</a>, 
-            <a class="is-link" href="/tags/linux/">linux</a>, 
-            <a class="is-link" href="/tags/ubuntu/">ubuntu</a>, 
-            <a class="is-link" href="/tags/vsftpd/">vsftpd</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>September 17, 2012</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>2 minutes and
-            4 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2012/09/17/20120917-grails-load-external-configuration-files-update/">Loading Grails configuration files update!</a></h2>
-            <p>We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.</p>
-<ul>
-<li>You cannot deal with all Grails Mail settings in the configuration file</li>
-<li>You cannot use the log4j DSL to extract the logging configuration outside your application</li>
-<li>etc..</li>
-</ul>
-<p>In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this <a href="http://www.baselogic.com/blog/development/java-javaee-j2ee/getting-grails-external-configuration-working-in-the-real-world/">blogpost</a> which was the start for our implementation of loading the external configuration files.</p>
-<p>We modified some small things and added a way of loading a configuration file that is resident in the root of a Grails project. So when developing with IntelliJ for example the config file is at your fingertips in the root of the application project structure. We must also note that we are very happy with the fact that the Grails community was more then helpfull in helping us out here!</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------------- //
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// - START: CONFIGURATION FILE LOADING -------------------------------------------- //
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------------- //
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// locations to search for config files that get merged into the main config
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// config files can either be Java properties files or ConfigSlurper scripts
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">def</span> ENV_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;${appName}.config.location&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span><span style="color:#f92672">(!</span>grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!(</span>grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#66d9ef">instanceof</span> List<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[]</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;--------------------------------------------------------------------------------&#34;</span>
-</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;- Loading configuration file                                                   -&#34;</span>
-</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;--------------------------------------------------------------------------------&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 1: check for environment variable that has been set! This variable must point to the
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// configuration file that must be used. Can be a .groovy or .properties file!
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Including System Environment configuration file: &#34;</span> <span style="color:#f92672">+</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">))</span>
-</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;file:&#34;</span> <span style="color:#f92672">+</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 2: check for commandline properties!
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Use it like (examples):
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//      grails -D[name of app].config.location=/tmp/[name of config file].groovy run-app
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// or
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//      grails -D[name of app].config.location=/tmp/[name of config file].properties run-app
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;Including configuration file specified on command line: &#34;</span> <span style="color:#f92672">+</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;file:&#34;</span> <span style="color:#f92672">+</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 3: check on local project config file in the project root directory
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;./${appName}-config.groovy&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;*** User defined config: file:./${appName}-config.groovy ***&#34;</span>
-</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;file:./${appName}-config.groovy&#34;</span><span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;./${appName}-config.properties&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;*** User defined config: file:./${appName}-config.properties ***&#34;</span>
-</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;file:./${appName}-config.groovy&#34;</span><span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 4: check on local project config file in ${userHome}/.grails/...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${userHome}/.grails/${appName}-config.groovy&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;*** User defined config: file:${userHome}/.grails/${appName}-config.groovy ***&#34;</span>
-</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;file:${userHome}/.grails/${appName}-config.groovy&#34;</span><span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${userHome}/.grails/${appName}-config.properties&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;*** User defined config: file:${userHome}/.grails/${appName}-config.properties ***&#34;</span>
-</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;file:${userHome}/.grails/${appName}-config.properties&#34;</span><span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 5: we have problem!!
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;********************************************************************************&#34;</span>
-</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;* No external configuration file defined                                       *&#34;</span>
-</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;********************************************************************************&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;(*) grails.config.locations = ${grails.config.locations}&#34;</span>
-</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;--------------------------------------------------------------------------------&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------------- //
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// - END: CONFIGURATION FILE LOADING ---------------------------------------------- //
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------------- //
-</span></span></span></code></pre></div>
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/grails/">grails</a>, 
-            <a class="is-link" href="/tags/configuration/">configuration</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>September 16, 2012</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>0 minutes and
-            51 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2012/09/16/20120916-grails-load-external-configuration-files/">Loading external Configuration files in a Grails application</a></h2>
-            <p>The use of &lsquo;Config.groovy&rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &lsquo;Config.groovy&rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.</p>
-<p>A simple mechanism to load these property files is to place a short snippet of code in the &lsquo;Config.groovy&rsquo; that will load a specific configuration file from the filesystem, depending on the availability.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;classpath:application-config.properties&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;file:./application-config.properties&#34;</span><span style="color:#f92672">]</span>
-</span></span></code></pre></div><p>This snippet will first try to load the property file from the classpath and if that fails you have a backup on the filesystem. This opens opportunities to load a different property file during development! When you deploy the application you can place the &lsquo;application-config.properties&rsquo; file inside a folder which is available in the classpath. For Apache Tomcat this would be the &rsquo;lib&rsquo; folder!</p>
-<p>This gives the opportunity to configure the application outside the &lsquo;Config.groovy&rsquo; file so any changes made the the property file will be reflected in your environment.</p>
-
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/grails/">grails</a>, 
-            <a class="is-link" href="/tags/configuration/">configuration</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
+  </article>
 </div>
 
 
@@ -1098,7 +1027,7 @@ chmod the folder that the ftp user comes in to as he first login (root folder) b
 
 
         <ul class="pagination-list">
-            <li><a class="pagination-link" href="https://mpas.github.io" aria-label="Home">
+            <li><a class="pagination-link" href="https://mpas.github.io/" aria-label="Home">
                     <span class="icon-text">
                         <span class="icon">
                             <i class="fas fa-home"></i>
@@ -1147,43 +1076,46 @@ chmod the folder that the ftp user comes in to as he first login (root folder) b
         </article>
     </template>
     <footer class="footer">
-    <div class="content has-text-centered">
-        <p>Lets connect on:</p>
-        <p>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-twitter"></i>
-                </span>
-                <span><a href="https://twitter.com/marcopas">Twitter</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-stack-overflow"></i>
-                </span>
-                <span><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-linkedin"></i>
-                </span>
-                <span><a href="">LinkedIn</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-github"></i>
-                </span>
-                <span><a href="https://github.com/mpas">GitHub</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fas fa-envelope"></i>
-                </span>
-                <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
-            </span>
-        </p>
-    </div>
+  <div class="content has-text-centered">
+    <p>Lets connect on:</p>
+    <p>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-twitter"></i>
+        </span>
+        <span><a href="https://twitter.com/marcopas">Twitter</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-stack-overflow"></i>
+        </span>
+        <span
+          ><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span
+        >
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-linkedin"></i>
+        </span>
+        <span><a href="https://www.linkedin.com/in/marcopas">LinkedIn</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-github"></i>
+        </span>
+        <span><a href="https://github.com/mpas">GitHub</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
+      </span>
+    </p>
+  </div>
 </footer>
 <script src="/js/search.js"></script>
+
 
     <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
     <script>addBackToTop({

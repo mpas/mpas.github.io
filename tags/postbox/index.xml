@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>postbox on Marco Pas</title>
+    <title>Postbox on Marco Pas</title>
     <link>https://mpas.github.io/tags/postbox/</link>
-    <description>Recent content in postbox on Marco Pas</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 17 Nov 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/postbox/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Postbox on Marco Pas</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 17 Nov 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mpas.github.io/tags/postbox/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</title>
-      <link>https://mpas.github.io/posts/2015/11/17/20151117-davmail/</link>
+      <link>https://mpas.github.io/posts/2015/11/using-davmail-gateway-as-a-mail-proxy-for-microsoft-exchange-owa/</link>
       <pubDate>Tue, 17 Nov 2015 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2015/11/17/20151117-davmail/</guid>
-      <description>If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific PostBox mail client.
-As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.</description>
+      <guid>https://mpas.github.io/posts/2015/11/using-davmail-gateway-as-a-mail-proxy-for-microsoft-exchange-owa/</guid>
+      <description>&lt;p&gt;If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific &lt;a href=&#34;http://www.postbox-inc.com&#34;&gt;PostBox&lt;/a&gt; mail client.&lt;/p&gt;&#xA;&lt;p&gt;As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

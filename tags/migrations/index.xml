@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>migrations on Marco Pas</title>
+    <title>Migrations on Marco Pas</title>
     <link>https://mpas.github.io/tags/migrations/</link>
-    <description>Recent content in migrations on Marco Pas</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 28 Feb 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/migrations/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Migrations on Marco Pas</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 28 Feb 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mpas.github.io/tags/migrations/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Grails migrations and &#39;Waiting for changelog lock&#39;</title>
-      <link>https://mpas.github.io/posts/2013/02/28/20130228-grails-migrations-and-waiting-for-changelog/</link>
+      <link>https://mpas.github.io/posts/2013/02/grails-migrations-and-waiting-for-changelog-lock/</link>
       <pubDate>Thu, 28 Feb 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2013/02/28/20130228-grails-migrations-and-waiting-for-changelog/</guid>
-      <description>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.
-... Waiting for changelog lock.... Waiting for changelog lock.... Waiting for changelog lock.... ... To solve this take the following steps:
-Stop the application container (example: Tomcat) In the database look for a table called DATABASECHANGELOGLOCK In the table there is a record with id=1, change the following values: locked -&amp;gt; 0 lockgranted -&amp;gt; null lockedby -&amp;gt; null After updating this record start the application container Notes:</description>
+      <guid>https://mpas.github.io/posts/2013/02/grails-migrations-and-waiting-for-changelog-lock/</guid>
+      <description>&lt;p&gt;Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Waiting for changelog lock....&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Waiting for changelog lock....&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Waiting for changelog lock....&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To solve this take the following steps:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Stop the application container (example: Tomcat)&lt;/li&gt;&#xA;&lt;li&gt;In the database look for a table called &lt;code&gt;DATABASECHANGELOGLOCK&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;In the table there is a record with id=1, change the following values:&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;locked -&amp;gt; 0&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lockgranted -&amp;gt; null&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lockedby -&amp;gt; null&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;&#xA;&lt;li&gt;After updating this record start the application container&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Notes:&lt;/strong&gt;&lt;br&gt;&#xA;To see who has locked the database (normally the local machine):&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

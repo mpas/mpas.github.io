@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>consul on Marco Pas</title>
+    <title>Consul on Marco Pas</title>
     <link>https://mpas.github.io/tags/consul/</link>
-    <description>Recent content in consul on Marco Pas</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 16 Nov 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/consul/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Consul on Marco Pas</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 16 Nov 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mpas.github.io/tags/consul/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Building a Consul cluster using Terraform/AWS</title>
-      <link>https://mpas.github.io/posts/2016/11/16/20161116-building-a-consul-cluster-using-terraform-aws/</link>
+      <link>https://mpas.github.io/posts/2016/11/building-a-consul-cluster-using-terraform/aws/</link>
       <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2016/11/16/20161116-building-a-consul-cluster-using-terraform-aws/</guid>
-      <description>Service Discovery Health Checking Key/Value Store Multi Datacenter For more information on Consul itself please have a look in the excellent documentation.
-Consul Intro Consul documentation Is it really easy? Setting up a Consul cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;
-But hey.. what if you need to deploy this cluster on an AWS environment?</description>
+      <guid>https://mpas.github.io/posts/2016/11/building-a-consul-cluster-using-terraform/aws/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Service Discovery&lt;/li&gt;&#xA;&lt;li&gt;Health Checking&lt;/li&gt;&#xA;&lt;li&gt;Key/Value Store&lt;/li&gt;&#xA;&lt;li&gt;Multi Datacenter&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;For more information on &lt;a href=&#34;http://Consul.io&#34;&gt;Consul&lt;/a&gt; itself please have a look in the excellent documentation.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.consul.io/intro/index.html&#34;&gt;Consul Intro&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.consul.io/docs/index.html&#34;&gt;Consul documentation&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;is-it-really-easy&#34;&gt;Is it really easy?&lt;/h2&gt;&#xA;&lt;p&gt;Setting up a &lt;a href=&#34;http://Consul.io&#34;&gt;Consul&lt;/a&gt; cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&amp;hellip;&lt;/p&gt;&#xA;&lt;p&gt;But hey.. &lt;strong&gt;what if you need to deploy this cluster on an AWS environment? How do&#xA;you create the cluster and how can you make sure it is always available?&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

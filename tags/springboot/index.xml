@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>springboot on Marco Pas</title>
+    <title>Springboot on Marco Pas</title>
     <link>https://mpas.github.io/tags/springboot/</link>
-    <description>Recent content in springboot on Marco Pas</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 02 Nov 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Springboot on Marco Pas</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 02 Nov 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mpas.github.io/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Change the port of actuator endpoint in a Grails application</title>
-      <link>https://mpas.github.io/posts/2016/11/02/20161101-change-the-port-of-actuator-endpoint/</link>
+      <link>https://mpas.github.io/posts/2016/11/change-the-port-of-actuator-endpoint-in-a-grails-application/</link>
       <pubDate>Wed, 02 Nov 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2016/11/02/20161101-change-the-port-of-actuator-endpoint/</guid>
-      <description>When using actuator endpoints to expose metrics in a Grails (Spring Boot) application, it may be useful to run the metrics on a different port.
-This enables you to hide the metrics for the public and use the different port in an AWS infrastucture so that the metrics are only available internal.
-Let us first enable the actuator endpoints
-// File: grails-app/conf/application.yml # Spring Actuator Endpoints are Disabled by Default endpoints: enabled: true jmx: enabled: true Change the port on which the metrics runs, add the lines below to the appl</description>
+      <guid>https://mpas.github.io/posts/2016/11/change-the-port-of-actuator-endpoint-in-a-grails-application/</guid>
+      <description>&lt;p&gt;When using actuator endpoints to expose metrics in a Grails (Spring Boot) application,&#xA;it may be useful to run the metrics on a different port.&lt;/p&gt;&#xA;&lt;p&gt;This enables you to hide the metrics for the public and use the different port in&#xA;an AWS infrastucture so that the metrics are only available internal.&lt;/p&gt;&#xA;&lt;p&gt;Let us first enable the actuator endpoints&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;// File: grails-app/conf/application.yml&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;# Spring Actuator Endpoints are Disabled by Default&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;endpoints:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    enabled: true&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    jmx:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        enabled: true&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Change the port on which the metrics runs, add the lines below to the appl&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

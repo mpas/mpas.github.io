@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>markdown on Marco Pas</title>
+    <title>Markdown on Marco Pas</title>
     <link>https://mpas.github.io/tags/markdown/</link>
-    <description>Recent content in markdown on Marco Pas</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 13 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Markdown on Marco Pas</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 13 Sep 2012 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mpas.github.io/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Installing Markdown on OSX and use it inside VIM</title>
-      <link>https://mpas.github.io/posts/2012/09/13/20120913-installing-markdown-on-osx-use-it-inside-vim/</link>
+      <link>https://mpas.github.io/posts/2012/09/installing-markdown-on-osx-and-use-it-inside-vim/</link>
       <pubDate>Thu, 13 Sep 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2012/09/13/20120913-installing-markdown-on-osx-use-it-inside-vim/</guid>
-      <description>Back again to one of my favorites which is called Markdown. Once every now and then i forget how easy it is. Normally i use Textmate to do all my writing, but recently i have picked up VIM to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)
-Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different.</description>
+      <guid>https://mpas.github.io/posts/2012/09/installing-markdown-on-osx-and-use-it-inside-vim/</guid>
+      <description>&lt;p&gt;Back again to one of my favorites which is called &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;Markdown&lt;/a&gt;. Once every now and then i forget how easy it is. Normally i use &lt;a href=&#34;http://macromates.com/&#34;&gt;Textmate&lt;/a&gt; to do all my writing, but recently i have picked up &lt;a href=&#34;http://www.vim.org/&#34;&gt;VIM&lt;/a&gt; to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)&lt;/p&gt;&#xA;&lt;p&gt;Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different. But anything is different when using VIM :)&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

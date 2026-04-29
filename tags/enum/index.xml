@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>enum on Marco Pas</title>
+    <title>Enum on Marco Pas</title>
     <link>https://mpas.github.io/tags/enum/</link>
-    <description>Recent content in enum on Marco Pas</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 03 Jan 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/enum/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Enum on Marco Pas</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 03 Jan 2013 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mpas.github.io/tags/enum/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Getting the Enum from a String value</title>
-      <link>https://mpas.github.io/posts/2013/01/03/20130103-getting-enum-from-string-value/</link>
+      <link>https://mpas.github.io/posts/2013/01/getting-the-enum-from-a-string-value/</link>
       <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2013/01/03/20130103-getting-enum-from-string-value/</guid>
-      <description>Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!
-Enum.valueOf(YourClassName.class, &amp;#34;String Value&amp;#34;) http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html</description>
+      <guid>https://mpas.github.io/posts/2013/01/getting-the-enum-from-a-string-value/</guid>
+      <description>&lt;p&gt;Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-groovy&#34; data-lang=&#34;groovy&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Enum&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;valueOf&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;YourClassName&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;String Value&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href=&#34;http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html&#34;&gt;http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html&lt;/a&gt;&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

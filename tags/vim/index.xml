@@ -1,30 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>vim on Marco Pas</title>
+    <title>Vim on Marco Pas</title>
     <link>https://mpas.github.io/tags/vim/</link>
-    <description>Recent content in vim on Marco Pas</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 14 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/vim/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Vim on Marco Pas</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 14 Sep 2012 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mpas.github.io/tags/vim/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Installing Vimball plugins when using Pathogen</title>
-      <link>https://mpas.github.io/posts/2012/09/14/20120914-installing-vimball-plugins-using-pathogen/</link>
+      <link>https://mpas.github.io/posts/2012/09/installing-vimball-plugins-when-using-pathogen/</link>
       <pubDate>Fri, 14 Sep 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2012/09/14/20120914-installing-vimball-plugins-using-pathogen/</guid>
-      <description>No need to discuss that Vim is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the wiki.
-Pathogen When you instal a plugin one may copy the files to the plugin directory. In a later stage you also want to delete a plugin and then the hunt for files starts.</description>
+      <guid>https://mpas.github.io/posts/2012/09/installing-vimball-plugins-when-using-pathogen/</guid>
+      <description>&lt;p&gt;No need to discuss that &lt;a href=&#34;http://www.vim.org/&#34;&gt;Vim&lt;/a&gt; is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the &lt;a href=&#34;http://www.installationwiki.org/Installing_Vim_Scripts&#34;&gt;wiki&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h4 id=&#34;pathogen&#34;&gt;Pathogen&lt;/h4&gt;&#xA;&lt;p&gt;When you instal a plugin one may copy the files to the plugin directory. In a later stage you also want to delete a plugin and then the hunt for files starts. You need to track down which files belong to the specific plugin you want to delete. &lt;a href=&#34;http://tammersaleh.com/posts/the-modern-vim-config-with-pathogen&#34;&gt;Pathogen&lt;/a&gt; to the rescue :)&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Installing Markdown on OSX and use it inside VIM</title>
-      <link>https://mpas.github.io/posts/2012/09/13/20120913-installing-markdown-on-osx-use-it-inside-vim/</link>
+      <link>https://mpas.github.io/posts/2012/09/installing-markdown-on-osx-and-use-it-inside-vim/</link>
       <pubDate>Thu, 13 Sep 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2012/09/13/20120913-installing-markdown-on-osx-use-it-inside-vim/</guid>
-      <description>Back again to one of my favorites which is called Markdown. Once every now and then i forget how easy it is. Normally i use Textmate to do all my writing, but recently i have picked up VIM to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)
-Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different.</description>
+      <guid>https://mpas.github.io/posts/2012/09/installing-markdown-on-osx-and-use-it-inside-vim/</guid>
+      <description>&lt;p&gt;Back again to one of my favorites which is called &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;Markdown&lt;/a&gt;. Once every now and then i forget how easy it is. Normally i use &lt;a href=&#34;http://macromates.com/&#34;&gt;Textmate&lt;/a&gt; to do all my writing, but recently i have picked up &lt;a href=&#34;http://www.vim.org/&#34;&gt;VIM&lt;/a&gt; to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)&lt;/p&gt;&#xA;&lt;p&gt;Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different. But anything is different when using VIM :)&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

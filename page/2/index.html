@@ -23,18 +23,6 @@
 
     
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-180712180-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
 
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,7 +51,7 @@ if (!doNotTrack) {
 
     <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" href="https://mpas.github.io">
+            <a class="navbar-item" href="https://mpas.github.io/">
                 MARCO PAS
             </a>
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
@@ -147,6 +135,7 @@ if (!doNotTrack) {
     </div>
 </div>
 
+
     <div class="container">
         <div class="is-search-result">
             
@@ -154,9 +143,340 @@ if (!doNotTrack) {
 
 
 <div class="box mt-5 has-background-white">
-    <article>
+  <article>
+    
 
-        
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>November 16, 2016</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>4 minutes and
+            45 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2016/11/building-a-consul-cluster-using-terraform/aws/">Building a Consul cluster using Terraform/AWS</a></h2>
+      <!-- raw HTML omitted -->
+<ul>
+<li>Service Discovery</li>
+<li>Health Checking</li>
+<li>Key/Value Store</li>
+<li>Multi Datacenter</li>
+</ul>
+<p>For more information on <a href="http://Consul.io">Consul</a> itself please have a look in the excellent documentation.</p>
+<ul>
+<li><a href="https://www.consul.io/intro/index.html">Consul Intro</a></li>
+<li><a href="https://www.consul.io/docs/index.html">Consul documentation</a></li>
+</ul>
+<h2 id="is-it-really-easy">Is it really easy?</h2>
+<p>Setting up a <a href="http://Consul.io">Consul</a> cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&hellip;</p>
+<p>But hey.. <strong>what if you need to deploy this cluster on an AWS environment? How do
+you create the cluster and how can you make sure it is always available?</strong></p>
+<p>This simple write up is just an example to give you an idea how this Consul cluster can be created and provisioned by using Terraform only. The goal is to have a cluster using the official Docker images provided by Consul itself running on EC2 nodes.</p>
+<h2 id="creating-a-consul-cluster">Creating a Consul cluster</h2>
+<p>The principle is not that hard&hellip; Consul nodes can discover each other based on IP Address. If you feed the Consul cluster members with IP Addresses that are part of the cluster you are good to go. In the example case we are going to start a number of Consul cluster members. The first node will be unable to form a cluster but if the second node starts up it will get the ip from the first node and the the first node will then know the ip of the second one.. etc.. So if you start up more than 2 nodes you will be good to go.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>+------+   +------+  +------+  +------+  +------+
+</span></span><span style="display:flex;"><span>|Consul|   |Consul|  |Consul|  |Consul|  |Consul|
+</span></span><span style="display:flex;"><span>|Node 1|   |Node 2|  |Node 3|  |Node 4|  |Node n|
+</span></span><span style="display:flex;"><span>+------+   +------+  +------+  +------+  +------+
+</span></span><span style="display:flex;"><span>    &lt; Find each other based on ip address &gt;
+</span></span></code></pre></div><p>The power is in the user-data script that is used for bootstrapping the Consul cluster nodes. In the example case they will find each other based on a query using <code>aws ec2 describe-instances</code> that will find nodes with a specific name, and from those identified nodes we will extract the IP Addresses that will be used to joint the Consul cluster. You can always modify the query to your own needs off course. The user-data script is used in the launch configuration.</p>
+<p>So enough talk&hellip; lets start :)</p>
+<p><strong>The given examples are intentionally kept simple!! So you will need to tweak your Terraform code according to your needs</strong></p>
+<h2 id="step-1-define-a-launch-configuration">Step 1: Define a launch Configuration</h2>
+<p>The core component of our Consul cluster is the launch configuration. This launch configuration determines what user-data file needs to be executed when launching a new instance.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_launch_configuration&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    in this case we use a docker optimized ami, because we are going
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    to use the official Consul docker image as a starter.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    You can always use an ami on which you install docker manually!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">image_id</span>  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;docker-optimized-ami-0123456789&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    the user-data script that holds the magic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">user_data</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>data.<span style="color:#a6e22e">template_file</span>.<span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">rendered</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">instance_type</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;t2.micro&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    make sure you open the correct ports so the Consul nodes can
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    discover each other the actual security group is not shown
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">security_groups</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;sg-0123456789&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">key_name</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">your</span><span style="color:#f92672">-</span><span style="color:#a6e22e">deploy</span><span style="color:#f92672">-</span><span style="color:#a6e22e">key</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    us a policy which grants read access to the EC2 api
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">iam_instance_profile</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;arn:aws:iam::0123456789:read_ec2_policy/ec2&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    The template file used for the user-data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">data</span> <span style="color:#e6db74">&#34;template_file&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">template</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;user-data-consul-cluster.tpl&#34;</span>)}<span style="color:#e6db74">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  vars {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    // the name must match the Name tag of the autoscaling group
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    consul_cluster_name = &#34;</span><span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span><span style="color:#f92672">-</span><span style="color:#a6e22e">member</span><span style="color:#e6db74">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    // the number of instances that need to be in the cluster to be healthy
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    consul_cluster_min_size = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span></code></pre></div><h2 id="step-2-create-the-template-file">Step 2: Create the template file</h2>
+<p>The user-data file is going to query AWS using the aws describe-instances api and will return ec2 nodes that have a matching name using the --filters option. <code>'Name=tag:Name,Values=${consul_cluster_name}'</code></p>
+<p>All the retrieved instances are then queried for their private ip and the values are stored in a list. After completing the list the instance ip for the current machine is removed.</p>
+<p>A Consul specific join string is composed and provided to the docker image. This enables the Consul docker image to check for available servers when starting.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>// File: user-data-consul-cluster.tpl
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash -ex</span>
+</span></span><span style="display:flex;"><span>exec &gt; &gt;<span style="color:#f92672">(</span>tee /var/log/user-data.log|logger -t user-data -s 2&gt;/dev/console<span style="color:#f92672">)</span> 2&gt;&amp;<span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;installing additional software&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#f92672">{</span>1..5<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    yum install -y aws-cli <span style="color:#f92672">&amp;&amp;</span> break <span style="color:#f92672">||</span> sleep <span style="color:#ae81ff">120</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">################################################################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Running Consul</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">################################################################################</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># get current instance ip</span>
+</span></span><span style="display:flex;"><span>INSTANCE_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># get list of available Consul servers; based on Name (value) tag!</span>
+</span></span><span style="display:flex;"><span>IP_LIST<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>aws ec2 describe-instances --region us-east-1 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>--filters <span style="color:#e6db74">&#39;Name=tag:Name,Values=${consul_cluster_name}&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;Name=instance-state-name,Values=running&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>--query <span style="color:#e6db74">&#34;Reservations[*].Instances[*].PrivateIpAddress&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>--output<span style="color:#f92672">=</span>text<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># remove the current instance ip from the list of available servers</span>
+</span></span><span style="display:flex;"><span>IP_LIST<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$$<span style="color:#e6db74">{IP_LIST/</span>$$<span style="color:#e6db74">INSTANCE_IP/}&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;</span>
+</span></span><span style="display:flex;"><span>IP_LIST<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo $$IP_LIST | tr -s <span style="color:#e6db74">&#34; &#34;</span> | tr -d <span style="color:#e6db74">&#39;\r\n&#39;</span> | tr -s <span style="color:#e6db74">&#39; &#39;</span> <span style="color:#e6db74">&#39;,&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># create join string</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#66d9ef">$(</span>echo $IP_LIST | sed <span style="color:#e6db74">&#34;s/,/ /g&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    JOIN_STRING<span style="color:#f92672">+=</span><span style="color:#e6db74">&#34;-retry-join </span>$i<span style="color:#e6db74"> &#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - run Consul</span>
+</span></span><span style="display:flex;"><span>docker run -d --net<span style="color:#f92672">=</span>host <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>-e <span style="color:#e6db74">&#39;CONSUL_LOCAL_CONFIG={&#34;skip_leave_on_interrupt&#34;: true}&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>--name consul-server consul:latest <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>agent -server -bind<span style="color:#f92672">=</span>$INSTANCE_IP $JOIN_STRING <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>-bootstrap-expect<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>consul_cluster_min_size<span style="color:#e6db74">}</span> -ui -client 0.0.0.0
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ------------------------------------------------------------------------------</span>
+</span></span></code></pre></div><h2 id="step-3-create-an-autoscaling-group">Step 3: Create an autoscaling group</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    creates an autoscaling group so servers are created when needed
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_autoscaling_group&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">min_size</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">max_size</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">desired_capacity</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">min_elb_capacity</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">launch_configuration</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">aws_launch_configuration</span>.<span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">load_balancers</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">aws_elb</span>.<span style="color:#a6e22e">consul</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tag</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">key</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Name&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      note: this is the value that is being searched for in the user-data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;consul-cluster-member&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propagate_at_launch</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="step-4-create-an-elb-as-frontend-for-the-consul-cluster">Step 4: Create an ELB as frontend for the Consul cluster</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_elb&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">subnets</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;sn-0123456789&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">security_groups</span> <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;sg-0123456789&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">8300</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">8300</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">8301</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">8301</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">8302</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">8302</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">8400</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">8400</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">8500</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">8500</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">8600</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">8600</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tcp&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">health_check</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">target</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;HTTP:8500/v1/status/leader&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">healthy_threshold</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">unhealthy_threshold</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">interval</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">timeout</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>When putting all the pieces together you should now have a running Consul cluster!</p>
+
+    </div>
+
+    <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/consul/">Consul</a>, 
+            <a class="is-link" href="/tags/terraform/">Terraform</a>, 
+            <a class="is-link" href="/tags/aws/">Aws</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+  </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+  <article>
+    
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>November 2, 2016</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            31 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2016/11/change-the-port-of-actuator-endpoint-in-a-grails-application/">Change the port of actuator endpoint in a Grails application</a></h2>
+      <p>When using actuator endpoints to expose metrics in a Grails (Spring Boot) application,
+it may be useful to run the metrics on a different port.</p>
+<p>This enables you to hide the metrics for the public and use the different port in
+an AWS infrastucture so that the metrics are only available internal.</p>
+<p>Let us first enable the actuator endpoints</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>// File: grails-app/conf/application.yml
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span># Spring Actuator Endpoints are Disabled by Default
+</span></span><span style="display:flex;"><span>endpoints:
+</span></span><span style="display:flex;"><span>    enabled: true
+</span></span><span style="display:flex;"><span>    jmx:
+</span></span><span style="display:flex;"><span>        enabled: true
+</span></span></code></pre></div><p>Change the port on which the metrics runs, add the lines below to the appl</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>// File: grails-app/conf/application.yml
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span>management:
+</span></span><span style="display:flex;"><span>    port: 9000
+</span></span></code></pre></div><p>Now when you start your Grails application it run on port <code>8080</code> and the metrics
+are available on port <code>9090</code>/metrics</p>
+
+    </div>
+
+    <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/grails/">Grails</a>, 
+            <a class="is-link" href="/tags/springboot/">Springboot</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+  </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+  <article>
+    
 
 
 
@@ -182,17 +502,17 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/">Accessing localhost from a Docker Container using native Docker for Mac</a></h2>
-            <p>Ever had a need to access something from within a <a href="https://www.docker.com/">Docker</a> container that runs on the host system?</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2016/11/accessing-localhost-from-a-docker-container-using-native-docker-for-mac/">Accessing localhost from a Docker Container using native Docker for Mac</a></h2>
+      <p>Ever had a need to access something from within a <a href="https://www.docker.com/">Docker</a> container that runs on the host system?</p>
 <p>When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.</p>
 <p>A solution for this isto define a new local loopback to your localhost</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo ifconfig lo0 alias 172.16.123.1
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sudo ifconfig lo0 alias 172.16.123.1
 </span></span></code></pre></div><p>This will define a loopback network interface that points to your localhost. When you need to access the localhost you can use this ip.</p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -204,9 +524,9 @@ if (!doNotTrack) {
         </span>
         <span>
             
-            <a class="is-link" href="/tags/docker/">docker</a>, 
-            <a class="is-link" href="/tags/osx/">osx</a>, 
-            <a class="is-link" href="/tags/mac/">mac</a>
+            <a class="is-link" href="/tags/docker/">Docker</a>, 
+            <a class="is-link" href="/tags/osx/">Osx</a>, 
+            <a class="is-link" href="/tags/mac/">Mac</a>
         </span>
     </span>
     
@@ -214,15 +534,13 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -248,9 +566,9 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2016/10/09/20161009-terraform-to-the-rescue/">Terraform to the rescue</a></h2>
-            <p>Getting exposed to <a href="https://aws.amazon.com/">Amazon Web Services</a> is fun! Certainly when you see that the infrastructure is growing and supporting the daily need of developers and the business. You slowly start adding services and try to keep everything in a state so that it is repeatable and maintainable. At a certain moment it becomes clear that you need the concept of <a href="https://en.wikipedia.org/wiki/Infrastructure_as_Code">Infrastructure As Code</a>.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2016/10/terraform-to-the-rescue/">Terraform to the rescue</a></h2>
+      <p>Getting exposed to <a href="https://aws.amazon.com/">Amazon Web Services</a> is fun! Certainly when you see that the infrastructure is growing and supporting the daily need of developers and the business. You slowly start adding services and try to keep everything in a state so that it is repeatable and maintainable. At a certain moment it becomes clear that you need the concept of <a href="https://en.wikipedia.org/wiki/Infrastructure_as_Code">Infrastructure As Code</a>.</p>
 <p>The Amazon way of doing this is by using <a href="https://aws.amazon.com/cloudformation/">AWS CloudFormation</a>. This enables you to define the infrastructure in a JSON/YAML format and apply the changes to the infrastructure.</p>
 <p>Our team manages a bunch of environments using services like AWS ECS, EC2, ElasticSearch, RDS and more.. Maintaining this infrastructure in CloudFormation seemed the standard way of doing things until we started a proof-of-concept with <a href="https://www.terraform.io/">Terraform</a>.</p>
 <p><strong>Why did we start this proof-of-concept??</strong> Mainly because the overwhelming pieces of code that we needed to maintain in CloudFormation became unmaintainable. The use of Terraform was so successful that we decide to rewrite our entire infrastructure codebase using Terraform.</p>
@@ -259,14 +577,14 @@ if (!doNotTrack) {
 <li>less code to maintain because Terraform is less verbose</li>
 <li>when using Terraform an infrastructure change can be planned, this shows what is going to be changed before actually executing the change</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ terraform plan
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ terraform plan
 </span></span></code></pre></div><p>See what the changes are and then when everything seems ok&hellip;</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ terraform apply
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ terraform apply
 </span></span></code></pre></div><p>Currently we have our entire Infrastructure in Terraform and we could never be more happier. Terraform came to our rescue!</p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -278,9 +596,9 @@ if (!doNotTrack) {
         </span>
         <span>
             
-            <a class="is-link" href="/tags/devops/">devops</a>, 
-            <a class="is-link" href="/tags/aws/">aws</a>, 
-            <a class="is-link" href="/tags/terraform/">terraform</a>
+            <a class="is-link" href="/tags/devops/">Devops</a>, 
+            <a class="is-link" href="/tags/aws/">Aws</a>, 
+            <a class="is-link" href="/tags/terraform/">Terraform</a>
         </span>
     </span>
     
@@ -288,15 +606,13 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -322,26 +638,26 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2015/11/19/20151119-functional-rest-api-testing/">Functional Rest API Testing with Grails/Rest Client Builder</a></h2>
-            <p>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2015/11/functional-rest-api-testing-with-grails/rest-client-builder/">Functional Rest API Testing with Grails/Rest Client Builder</a></h2>
+      <p>Functional Rest API testing with Grails is easy and fun. We will be creating a simple Rest Controller and test it using Spock and Rest Client Builder.</p>
 <p>When running the functional test a real container will be started on a specific port and tests are run against the running container. Just as it should be.</p>
 <p><strong>Scenario:</strong><!-- raw HTML omitted -->
 Performing a GET request on a url (http://localhost:8080/helloworld) should return a <code>HTTP Status 200</code> and data with a json payload</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{<span style="color:#f92672">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;helloworld&#34;</span>}
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{<span style="color:#f92672">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;helloworld&#34;</span>}
 </span></span></code></pre></div><p>So lets get started!</p>
 <p><strong>Create a Grails application</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ grails create-app RestHelloWorld
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ grails create-app RestHelloWorld
 </span></span></code></pre></div><p><strong>Update your <code>build.gradle</code> to include the Rest Client Builder dependencies which we will need later on</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>dependencies <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>dependencies <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// add the following line to the &#39;dependencies&#39; section
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    testCompile <span style="color:#e6db74">&#34;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&#34;</span>
+</span></span></span><span style="display:flex;"><span>    testCompile <span style="color:#e6db74">&#34;org.grails:grails-datastore-rest-client:4.0.7.RELEASE&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><p><strong>Create an Integration Test</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ grails create-integration-test HelloWorld
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ grails create-integration-test HelloWorld
 </span></span></code></pre></div><p><strong>Create a test method inside the integration test</strong></p>
 <p>Open up the created HelloWorldControllerSpec inside the <code>/src/integration-test/groovy/resthelloworld/</code> package</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#f92672">package</span> resthelloworld
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#f92672">package</span> resthelloworld
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> grails.test.mixin.integration.Integration
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> grails.transaction.*
@@ -374,15 +690,15 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><p><strong>Run your test</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ grails test-app
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ grails test-app
 </span></span></code></pre></div><p>Offcourse this will fail as we do not have implement the controller yet.</p>
 <p><strong>Create a Rest controller</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ cd RestHelloWorld
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ cd RestHelloWorld
 </span></span><span style="display:flex;"><span>$ grails create-controller HelloWorld
 </span></span></code></pre></div><p><strong>Note:</strong> The generation of the controller also create a Unit Test for the controller, default this test will fail. We are going to delete the generated Unit Test as we do not need it now. This test is located under the <code>/src/test/</code> groovy package.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ rm ./src/test/groovy/resthelloworld/HelloWorldControllerSpec.groovy
 </span></span></code></pre></div><p><strong>Implement the controller function that will return data</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#f92672">package</span> resthelloworld
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#f92672">package</span> resthelloworld
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloWorldController</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>
@@ -394,13 +710,13 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><p><strong>Modify UrlMapping</strong></p>
 <p>In order to get our newly generated controller accessible via Rest we need to modify our UrlMappings.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UrlMappings</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UrlMappings</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> mappings <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;/$controller/$action?/$id?(.$format)?&#34;</span><span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            constraints <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>                <span style="color:#75715e">// apply constraints here
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#f92672">}</span>
+</span></span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
@@ -408,21 +724,21 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;404&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#39;/notFound&#39;</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// add the line below
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;/helloworld/&#34;</span>  <span style="color:#f92672">(</span>controller: <span style="color:#e6db74">&#34;helloWorld&#34;</span><span style="color:#f92672">,</span> action: <span style="color:#e6db74">&#34;index&#34;</span><span style="color:#f92672">,</span> method: <span style="color:#e6db74">&#34;GET&#34;</span><span style="color:#f92672">)</span>
+</span></span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;/helloworld/&#34;</span>  <span style="color:#f92672">(</span>controller: <span style="color:#e6db74">&#34;helloWorld&#34;</span><span style="color:#f92672">,</span> action: <span style="color:#e6db74">&#34;index&#34;</span><span style="color:#f92672">,</span> method: <span style="color:#e6db74">&#34;GET&#34;</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><p><strong>Test your app</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ grails test-app
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ grails test-app
 </span></span></code></pre></div><p>You should find that your tests are fine now :)</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ grails test-app
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ grails test-app
 </span></span><span style="display:flex;"><span>BUILD SUCCESSFUL
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>Total time: 2.054 secs
+</span></span></span><span style="display:flex;"><span>Total time: 2.054 secs
 </span></span><span style="display:flex;"><span>| Tests PASSED
 </span></span></code></pre></div>
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -434,10 +750,10 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
         </span>
         <span>
             
-            <a class="is-link" href="/tags/grails/">grails</a>, 
-            <a class="is-link" href="/tags/spock/">spock</a>, 
-            <a class="is-link" href="/tags/rest/">rest</a>, 
-            <a class="is-link" href="/tags/testing/">testing</a>
+            <a class="is-link" href="/tags/grails/">Grails</a>, 
+            <a class="is-link" href="/tags/spock/">Spock</a>, 
+            <a class="is-link" href="/tags/rest/">Rest</a>, 
+            <a class="is-link" href="/tags/testing/">Testing</a>
         </span>
     </span>
     
@@ -445,15 +761,13 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -479,9 +793,9 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2015/11/17/20151117-davmail/">Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</a></h2>
-            <p>If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific <a href="http://www.postbox-inc.com">PostBox</a> mail client.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2015/11/using-davmail-gateway-as-a-mail-proxy-for-microsoft-exchange-owa/">Using DavMail Gateway as a mail proxy for Microsoft Exchange (OWA)</a></h2>
+      <p>If you find yourself into a situation where you have a need for non Microsoft mail client that needs support for Microsoft Exchange then you are often out of luck. In my case I needed Exchange support for the terrific <a href="http://www.postbox-inc.com">PostBox</a> mail client.</p>
 <p>As for now PostBox does not support Microsoft Exhange natively so the hunt starts on how to get Exchange working. As it stands most companies also enable Exchange Web Access (or Outlook Web Access [OWA]) so maybe we can use that to feed our native mail client.</p>
 <p>Enter the use of <a href="http://davmail.sourceforge.net/">DavMail</a>!</p>
 <h4 id="davmail-gateway">Davmail Gateway</h4>
@@ -500,9 +814,9 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
 <!-- raw HTML omitted -->
 <p>Now you are ready to send mail using your PostBox Client using DavMail and OWA.</p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -514,10 +828,10 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
         </span>
         <span>
             
-            <a class="is-link" href="/tags/davmail/">davmail</a>, 
-            <a class="is-link" href="/tags/exchange/">exchange</a>, 
-            <a class="is-link" href="/tags/owa/">owa</a>, 
-            <a class="is-link" href="/tags/postbox/">postbox</a>
+            <a class="is-link" href="/tags/davmail/">Davmail</a>, 
+            <a class="is-link" href="/tags/exchange/">Exchange</a>, 
+            <a class="is-link" href="/tags/owa/">Owa</a>, 
+            <a class="is-link" href="/tags/postbox/">Postbox</a>
         </span>
     </span>
     
@@ -525,15 +839,13 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -559,24 +871,24 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2015/10/30/20151030-grails-spock-clean-domain/">Cleaning Grails Domain Objects in a Spock Test</a></h2>
-            <p>Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2015/10/cleaning-grails-domain-objects-in-a-spock-test/">Cleaning Grails Domain Objects in a Spock Test</a></h2>
+      <p>Spock is a nice framework to execute integration tests in your Grails application. It may happen that the Spock test actually creates some domain objects and you want to clean them out on everuy single run of your feature test methods.</p>
 <p>Spock provides a <code>setup()</code> and <code>cleanup()</code> method.</p>
 <p>When you want to remove your domain objects after each feature test has run you can execute the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">setup</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> <span style="color:#f92672">...</span> <span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">setup</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span> <span style="color:#f92672">...</span> <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cleanup</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// make sure to clear out the database on after test
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#f92672">&lt;</span>YourDomainObject<span style="color:#f92672">&gt;.</span><span style="color:#a6e22e">withNewSession</span> <span style="color:#f92672">{</span>
+</span></span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;</span>YourDomainObject<span style="color:#f92672">&gt;.</span><span style="color:#a6e22e">withNewSession</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;</span>YourDomainObject<span style="color:#f92672">&gt;.</span><span style="color:#a6e22e">findAll</span><span style="color:#f92672">().</span><span style="color:#a6e22e">each</span> <span style="color:#f92672">{</span> it<span style="color:#f92672">.</span><span style="color:#a6e22e">delete</span><span style="color:#f92672">(</span>flush: <span style="color:#66d9ef">true</span><span style="color:#f92672">)</span> <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><p>We need the <code>.withNewSession</code> because there is no Hibernate session provided in the <code>setup()</code> and <code>cleanup()</code> methods.</p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -588,8 +900,8 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
         </span>
         <span>
             
-            <a class="is-link" href="/tags/grails/">grails</a>, 
-            <a class="is-link" href="/tags/spock/">spock</a>
+            <a class="is-link" href="/tags/grails/">Grails</a>, 
+            <a class="is-link" href="/tags/spock/">Spock</a>
         </span>
     </span>
     
@@ -597,15 +909,13 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -631,14 +941,14 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2015/06/16/20150616-springboot-websocket-support/">Adding WebSocket/Stomp support to a Spring Boot application</a></h2>
-            <p>Adding support for <a href="https://en.wikipedia.org/wiki/WebSocket">WebSockets</a> / <a href="https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol">Stomp</a> in a <a href="http://projects.spring.io/spring-boot/">Spring Boot</a> application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2015/06/adding-websocket/stomp-support-to-a-spring-boot-application/">Adding WebSocket/Stomp support to a Spring Boot application</a></h2>
+      <p>Adding support for <a href="https://en.wikipedia.org/wiki/WebSocket">WebSockets</a> / <a href="https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol">Stomp</a> in a <a href="http://projects.spring.io/spring-boot/">Spring Boot</a> application has never been more easy. You can use WebSockets to receive serverside events or push data to the server using WebSockets.</p>
 <p>The following example will enable a server to send messages to a WebSocket/Stomp client.</p>
 <ul>
 <li>Modify <code>build.gradle</code></li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>dependencies <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>dependencies <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    compile<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.springframework.boot:spring-boot-starter-web&#34;</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>    compile<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.springframework.boot:spring-boot-starter-websocket&#34;</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>    compile<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.springframework:spring-messaging&#34;</span><span style="color:#f92672">)</span>
@@ -647,47 +957,47 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
 </span></span></code></pre></div><ul>
 <li>Create a WebSocket configuration class that holds the configuration</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#a6e22e">@Configuration</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#a6e22e">@Configuration</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableWebSocketMessageBroker</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WebSocketConfig</span> <span style="color:#66d9ef">extends</span> AbstractWebSocketMessageBrokerConfigurer <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">registerStompEndpoints</span><span style="color:#f92672">(</span>StompEndpointRegistry registry<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// the endpoint for websocket connections
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        registry<span style="color:#f92672">.</span><span style="color:#a6e22e">addEndpoint</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/stomp&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">withSockJS</span><span style="color:#f92672">();</span>
+</span></span></span><span style="display:flex;"><span>        registry<span style="color:#f92672">.</span><span style="color:#a6e22e">addEndpoint</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/stomp&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">withSockJS</span><span style="color:#f92672">();</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">configureMessageBroker</span><span style="color:#f92672">(</span>MessageBrokerRegistry config<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// use the /topic prefix for outgoing WebSocket communication
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        config<span style="color:#f92672">.</span><span style="color:#a6e22e">enableSimpleBroker</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/topic&#34;</span><span style="color:#f92672">);</span>
+</span></span></span><span style="display:flex;"><span>        config<span style="color:#f92672">.</span><span style="color:#a6e22e">enableSimpleBroker</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/topic&#34;</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// use the /app prefix for others
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        config<span style="color:#f92672">.</span><span style="color:#a6e22e">setApplicationDestinationPrefixes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/app&#34;</span><span style="color:#f92672">);</span>
+</span></span></span><span style="display:flex;"><span>        config<span style="color:#f92672">.</span><span style="color:#a6e22e">setApplicationDestinationPrefixes</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/app&#34;</span><span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><p>Now a client that connects to <code>/stomp</code> endpoint is able to receive WebSocket messages.</p>
 <ul>
 <li>Create a service that is going to send the data to a WebSocket endpoint</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ScheduleTask</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> SimpMessagingTemplate template<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// this will send a message to an endpoint on which a client can subscribe
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Scheduled</span><span style="color:#f92672">(</span>fixedRate <span style="color:#f92672">=</span> <span style="color:#ae81ff">5000</span><span style="color:#f92672">)</span>
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Scheduled</span><span style="color:#f92672">(</span>fixedRate <span style="color:#f92672">=</span> <span style="color:#ae81ff">5000</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">trigger</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// sends the message to /topic/message
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">template</span><span style="color:#f92672">.</span><span style="color:#a6e22e">convertAndSend</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/topic/message&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Date: &#34;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">new</span> Date<span style="color:#f92672">());</span>
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">template</span><span style="color:#f92672">.</span><span style="color:#a6e22e">convertAndSend</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/topic/message&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;Date: &#34;</span> <span style="color:#f92672">+</span> <span style="color:#66d9ef">new</span> Date<span style="color:#f92672">());</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><ul>
 <li>Create a client that is able to receive the message</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
 </span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
 </span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
 </span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">title</span>&gt;WebSocket Stomp Receiving Example&lt;/<span style="color:#f92672">title</span>&gt;
@@ -707,13 +1017,13 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">messageList</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">$</span>(<span style="color:#e6db74">&#34;#messages&#34;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">// defined a connection to a new socket endpoint
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">socket</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">SockJS</span>(<span style="color:#e6db74">&#39;/stomp&#39;</span>);
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">socket</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">SockJS</span>(<span style="color:#e6db74">&#39;/stomp&#39;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">stompClient</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Stomp</span>.<span style="color:#a6e22e">over</span>(<span style="color:#a6e22e">socket</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">stompClient</span>.<span style="color:#a6e22e">connect</span>({ }, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">frame</span>) {
 </span></span><span style="display:flex;"><span>                <span style="color:#75715e">// subscribe to the /topic/message endpoint
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#a6e22e">stompClient</span>.<span style="color:#a6e22e">subscribe</span>(<span style="color:#e6db74">&#34;/topic/message&#34;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">data</span>) {
+</span></span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">stompClient</span>.<span style="color:#a6e22e">subscribe</span>(<span style="color:#e6db74">&#34;/topic/message&#34;</span>, <span style="color:#66d9ef">function</span>(<span style="color:#a6e22e">data</span>) {
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">message</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">body</span>;
 </span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">messageList</span>.<span style="color:#a6e22e">append</span>(<span style="color:#e6db74">&#34;&lt;li&gt;&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">message</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&lt;/li&gt;&#34;</span>);
 </span></span><span style="display:flex;"><span>                });
@@ -723,9 +1033,9 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
 </span></span></code></pre></div><p>The whole example project  can be downloaded <a href="https://github.com/mpas/spring-boot-websocket-stomp-server-send-example">https://github.com/mpas/spring-boot-websocket-stomp-server-send-example</a></p>
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -737,8 +1047,8 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
         </span>
         <span>
             
-            <a class="is-link" href="/tags/spring-boot/">spring-boot</a>, 
-            <a class="is-link" href="/tags/websocket/">websocket</a>
+            <a class="is-link" href="/tags/spring-boot/">Spring-Boot</a>, 
+            <a class="is-link" href="/tags/websocket/">Websocket</a>
         </span>
     </span>
     
@@ -746,15 +1056,13 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -780,16 +1088,16 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2015/06/11/20150611-run-grails-war-in-production-mode/">Run a Grails 3 generated Fat Jar file in production mode</a></h2>
-            <p>When creating a Grails WAR/JAR file using:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ grails war
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2015/06/run-a-grails-3-generated-fat-jar-file-in-production-mode/">Run a Grails 3 generated Fat Jar file in production mode</a></h2>
+      <p>When creating a Grails WAR/JAR file using:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ grails war
 </span></span></code></pre></div><p>The resulting artifact can be run in production mode using:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ java -Dgrails.env<span style="color:#f92672">=</span>prod -Dserver.port<span style="color:#f92672">=</span><span style="color:#ae81ff">9000</span> -jar &lt;name-of-jar-file&gt;.jar
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ java -Dgrails.env<span style="color:#f92672">=</span>prod -Dserver.port<span style="color:#f92672">=</span><span style="color:#ae81ff">9000</span> -jar &lt;name-of-jar-file&gt;.jar
 </span></span></code></pre></div>
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -801,7 +1109,7 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
         </span>
         <span>
             
-            <a class="is-link" href="/tags/grails/">grails</a>
+            <a class="is-link" href="/tags/grails/">Grails</a>
         </span>
     </span>
     
@@ -809,15 +1117,13 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -843,55 +1149,55 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2015/06/11/20150611-docker-rabbitmq-default-users/">Setting up Docker RabbitMQ with predefined users/vhosts</a></h2>
-            <p>When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2015/06/setting-up-docker-rabbitmq-with-predefined-users/vhosts/">Setting up Docker RabbitMQ with predefined users/vhosts</a></h2>
+      <p>When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.</p>
 <p>The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.</p>
 <p>It involves a init.sh script that is used to create the users and vhosts.</p>
 <p>The Docker File</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-docker" data-lang="docker"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> rabbitmq:3-management</span><span style="color:#960050;background-color:#1e0010">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-docker" data-lang="docker"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">rabbitmq:3-management</span><span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Add script to create default users / vhosts</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ADD</span> init.sh /init.sh<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># Add script to create default users / vhosts</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ADD</span> init.sh /init.sh<span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set correct executable permissions</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chmod +x /init.sh<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># Set correct executable permissions</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> chmod +x /init.sh<span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Define default command</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#960050;background-color:#1e0010">&amp;quot;/init.sh&amp;quot;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># Define default command</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">CMD</span> [<span style="color:#960050;background-color:#1e0010">&amp;quot;/init.sh&amp;quot;</span>]<span style="color:#960050;background-color:#1e0010">
 </span></span></span></code></pre></div><p>The init.sh script</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/sh
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/sh
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Create Default RabbitMQ setup</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">(</span> sleep <span style="color:#ae81ff">10</span> ; <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Create users</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># rabbitmqctl add_user &lt;username&gt; &lt;password&gt;</span>
 </span></span><span style="display:flex;"><span>rabbitmqctl add_user test_user test_user ; <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Set user rights</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># rabbitmqctl set_user_tags &lt;username&gt; &lt;tag&gt;</span>
 </span></span><span style="display:flex;"><span>rabbitmqctl set_user_tags test_user administrator ; <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Create vhosts</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># rabbitmqctl add_vhost &lt;vhostname&gt;</span>
 </span></span><span style="display:flex;"><span>rabbitmqctl add_vhost dummy ; <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Set vhost permissions</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># rabbitmqctl set_permissions -p &lt;vhostname&gt; &lt;username&gt; &#34;.*&#34; &#34;.*&#34; &#34;.*&#34;</span>
 </span></span><span style="display:flex;"><span>rabbitmqctl set_permissions -p dummy test_user <span style="color:#e6db74">&#34;.*&#34;</span> <span style="color:#e6db74">&#34;.*&#34;</span> <span style="color:#e6db74">&#34;.*&#34;</span> ; <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span><span style="color:#f92672">)</span> &amp;    
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">)</span> &amp;    
 </span></span><span style="display:flex;"><span>rabbitmq-server $@
 </span></span></code></pre></div><p>Place both of these files in a directory and build your image:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ docker build -t my_rabbitmq_image .
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ docker build -t my_rabbitmq_image .
 </span></span></code></pre></div><p>Start a container based on the image using:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>$ docker run <span style="color:#f92672">--</span>rm<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span> <span style="color:#f92672">--</span>name my_rabbitmq_container <span style="color:#f92672">-</span>p <span style="color:#ae81ff">5672</span><span style="color:#f92672">:</span><span style="color:#ae81ff">5672</span> <span style="color:#f92672">-</span>p <span style="color:#ae81ff">15672</span><span style="color:#f92672">:</span><span style="color:#ae81ff">15672</span>  my_rabbitmq_image
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>$ docker run <span style="color:#f92672">--</span>rm<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span> <span style="color:#f92672">--</span>name my_rabbitmq_container <span style="color:#f92672">-</span>p <span style="color:#ae81ff">5672</span><span style="color:#f92672">:</span><span style="color:#ae81ff">5672</span> <span style="color:#f92672">-</span>p <span style="color:#ae81ff">15672</span><span style="color:#f92672">:</span><span style="color:#ae81ff">15672</span>  my_rabbitmq_image
 </span></span></code></pre></div><p>Then in your browser navigate to http://localhost:15672 and see if all is ok!</p>
 <p><strong>Note:</strong> When using Boot2Docker make sure to replace the localhost with the correct IP.</p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -903,8 +1209,8 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
         </span>
         <span>
             
-            <a class="is-link" href="/tags/docker/">docker</a>, 
-            <a class="is-link" href="/tags/rabbitmq/">rabbitmq</a>
+            <a class="is-link" href="/tags/docker/">Docker</a>, 
+            <a class="is-link" href="/tags/rabbitmq/">Rabbitmq</a>
         </span>
     </span>
     
@@ -912,470 +1218,7 @@ Performing a GET request on a url (http://localhost:8080/helloworld) should retu
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>June 10, 2015</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>1 minutes and
-            6 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2015/06/10/20150610-httpservletwrapper-3.1/">HTTPServletRequestWrapper for ServletInputStream 3.1</a></h2>
-            <p>A HttpServletRequestWrapper may be handy if you want to be able to read the HTTP Body multi times after you consume it in a filter. The ServletInputStream 3.1 changed a bit and the following methods have to be implemented.</p>
-<ul>
-<li>isFinished</li>
-<li>isReady</li>
-<li>setReadListener</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> com.google.common.primitives.Bytes<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.servlet.ReadListener<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.servlet.ServletInputStream<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequest<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javax.servlet.http.HttpServletRequestWrapper<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.ByteArrayInputStream<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.IOException<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.InputStream<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Arrays<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span> <span style="color:#66d9ef">extends</span> HttpServletRequestWrapper <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tag::variables[]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> requestBody <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">];</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// end::variables[]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     - Constructs a request object wrapping the given request.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     - @param request The request to wrap
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     - @throws IllegalArgumentException if the request is null
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">AuthenticationRequestWrapper</span><span style="color:#f92672">(</span>HttpServletRequest request<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span><span style="color:#f92672">(</span>request<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tag::getRequestBody[]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> <span style="color:#a6e22e">getRequestBody</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>bufferFilled<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOf</span><span style="color:#f92672">(</span>requestBody<span style="color:#f92672">,</span> requestBody<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        InputStream inputStream <span style="color:#f92672">=</span> <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> buffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span><span style="color:#ae81ff">102400</span><span style="color:#f92672">];</span> <span style="color:#75715e">// 100kb buffer
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> bytesRead<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span>bytesRead <span style="color:#f92672">=</span> inputStream<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">))</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            requestBody <span style="color:#f92672">=</span> Bytes<span style="color:#f92672">.</span><span style="color:#a6e22e">concat</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">requestBody</span><span style="color:#f92672">,</span> Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">copyOfRange</span><span style="color:#f92672">(</span>buffer<span style="color:#f92672">,</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">,</span> bytesRead<span style="color:#f92672">));</span> <span style="color:#75715e">// &lt;1&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        bufferFilled <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> requestBody<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// end::getRequestBody[]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tag::getInputStream[]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Override</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ServletInputStream <span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> CustomServletInputStream<span style="color:#f92672">(</span>getRequestBody<span style="color:#f92672">());</span> <span style="color:#75715e">// &lt;1&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// end::getInputStream[]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomServletInputStream</span> <span style="color:#66d9ef">extends</span> ServletInputStream <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">private</span> ByteArrayInputStream buffer<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">CustomServletInputStream</span><span style="color:#f92672">(</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> contents<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">buffer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ByteArrayInputStream<span style="color:#f92672">(</span>contents<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">read</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isFinished</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> buffer<span style="color:#f92672">.</span><span style="color:#a6e22e">available</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isReady</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setReadListener</span><span style="color:#f92672">(</span>ReadListener listener<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Not implemented&#34;</span><span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span></code></pre></div>
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/java/">java</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>June 5, 2015</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>3 minutes and
-            54 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2015/06/05/20150605-docker-setup-registry/">Installing Docker Registry 2.0.1 using self signed certificates</a></h2>
-            <p>The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.</p>
-<p>So the setup will be that we install the Docker Registry and proxy the SSL user access via self signed certificates using an NGINX proxy image provided by Container Solutions. <a href="http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/">Check here for more information</a></p>
-<p>Installation of the remote docker registry will be done by using on an Amazon EC2 (Linux AMI). Currently the free tier Amazon Linux AMI 2015.03 (HVM), SSD Volume Type - ami-a10897d6. So spin up the Amazon AMI and let&rsquo;s install Docker.</p>
-<p><strong>Note:</strong> when you spin up your Amazon AMI make sure to remember the FQDN/DNS name! We need this name to generate the SSL certificates!</p>
-<pre><code>Example:
-&lt;domain-name&gt; = ec2-52-16-247-220.eu-west-1.compute.amazonaws.com
-</code></pre>
-<p>So spin up your AMI and install Docker!</p>
-<h2 id="installing-docker">Installing docker</h2>
-<ul>
-<li>login into your Amazon AMI</li>
-<li>update the system and install Docker</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo yum update -y
-</span></span><span style="display:flex;"><span>$ sudo wget -qO- https://get.docker.com/ | sh
-</span></span></code></pre></div><ul>
-<li>add the ec2-user to the <code>docker</code> group (optional)</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo usermod -aG docker ec2-user
-</span></span></code></pre></div><ul>
-<li>start Docker</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo service docker start
-</span></span></code></pre></div><ul>
-<li>make sure Docker can run the basic &ldquo;hello-world&rdquo;</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo docker run hello-world
-</span></span></code></pre></div><h2 id="create-docker-registry-data-and-configuration-directories">Create Docker Registry data and configuration directories</h2>
-<p>We are going to store the registry image data inside <code>/opt/docker/registry/data</code> and configuration files such as the ssl certificates and user login inside <code>/opt/docker/registry/conf</code>.</p>
-<ul>
-<li>create data folders for Docker Registry data and configuration</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo mkdir -p /opt/docker/registry/data
-</span></span><span style="display:flex;"><span>$ sudo mkdir -p /opt/docker/registry/conf
-</span></span></code></pre></div><h2 id="run-the-docker-registry">Run the Docker Registry</h2>
-<p>Now we are able to run the Docker Registry, the data for images that will be pushed are going to be stored in <code>/opt/docker/registry/data</code> and the container will be named <code>docker-registry</code></p>
-<ul>
-<li>run the registry and name it <code>docker-registry</code></li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo docker run -d -v /opt/docker/registry/data:/tmp/registry-dev <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--name docker-registry registry:2.0.1
-</span></span></code></pre></div><ul>
-<li>test if the registry is actually running</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo docker ps
-</span></span></code></pre></div><p><strong>So now we have a running Docker Registry, but still no SSL proxy and no user accounts to get access to the registry.</strong></p>
-<h2 id="generate-self-signed-certificates-for-our-ssl-proxy">Generate self signed certificates for our SSL proxy</h2>
-<p>The result of the certificate generation will be placed in <code>/opt/docker/registry/conf</code> and named <code>docker-registry.crt</code> and <code>docker-registry.key</code>.</p>
-<p><strong>Note:</strong> The <code>docker-registry.crt</code> file is important, we will need this later on to configure our local Docker client on the machine that is going to access the remote registry. So after generating the <code>docker-registry.crt</code> file, grab this and store it on your local machine in a place where you can find it.</p>
-<ul>
-<li>generate the certificates</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo openssl req -x509 -nodes -days <span style="color:#ae81ff">365</span> -newkey rsa:2048 <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-keyout /opt/docker/registry/conf/docker-registry.key \
-</span></span><span style="display:flex;"><span>-out /opt/docker/registry/conf/docker-registry.crt
-</span></span></code></pre></div><p>Accept all defaults and make sure you give the correct FQDN /DNS name = <code>&lt;domain-name&gt;</code>.</p>
-<h2 id="create-passwords-for-access-to-the-docker-registry">Create passwords for access to the Docker Registry</h2>
-<p>In order to let users login into the registry we need to create users  (user1/user2). This will be done by using <code>htpasswd</code>. The user data will be stored in <code>docker-registry.htpasswd</code> file and placed in the <code>/opt/docker/registry/conf</code> directory.</p>
-<ul>
-<li>install htpasswd</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo yum install httpd-tools -y
-</span></span></code></pre></div><ul>
-<li>create the users</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo htpasswd -c /opt/docker/registry/conf/docker-registry.htpasswd user1
-</span></span><span style="display:flex;"><span>$ sudo htpasswd /opt/docker/registry/conf/docker-registry.htpasswd user2
-</span></span></code></pre></div><p><strong>Note:</strong> when creating the second user omit the <code>-c</code> otherwise the docker-registry.htpasswd file will be get overwritten!</p>
-<h2 id="run-the-nginx-proxy">Run the NGINX Proxy</h2>
-<p>As mentioned we are going to use the image from <a href="http://container-solutions.com/2015/04/running-secured-docker-registry-2-0/">Container Solutions</a> to run our NGINX proxy.</p>
-<ul>
-<li>start the NGINX proxy and name it <code>docker-registry-proxy</code></li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo docker run -d -p 443:443  <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-e REGISTRY_HOST=&#34;docker-registry&#34; -e REGISTRY_PORT=&#34;5000&#34; -e SERVER_NAME=&#34;localhost&#34; \
-</span></span><span style="display:flex;"><span>--link docker-registry:docker-registry \
-</span></span><span style="display:flex;"><span>-v /opt/docker/registry/conf/docker-registry.htpasswd:/etc/nginx/.htpasswd:ro \
-</span></span><span style="display:flex;"><span>-v /opt/docker/registry/conf:/etc/nginx/ssl:ro \
-</span></span><span style="display:flex;"><span>--name docker-registry-proxy containersol/docker-registry-proxy
-</span></span></code></pre></div><p>After this step we have a running Docker Registry which is secured using Self Signed certificates and users are able to login using their username/password.</p>
-<p>To test this navigate to your registry by using a browser (Chrome) and access: <code>https://&lt;domain-name&gt;:443/v2/</code>. After accepting the security warning provide a username/password and the output should be <code>{}</code>.</p>
-<h2 id="configure-the-local-docker-client">Configure the local Docker client</h2>
-<p>Now that we have a running secured Docker Registry we can configure the Docker client on our machine that is going to access the remote Registry. For this we need a copy of the earlier <code>docker-registry.crt</code> file.</p>
-<ul>
-<li>copy the <code>docker-registry.crt</code> file from our server to your local machine. This file is located in <code>/opt/docker/registry/conf</code>. Put the copy in a place where you can find it.</li>
-</ul>
-<h3 id="ubuntu-docker-client">Ubuntu Docker Client</h3>
-<p>In order to get the local client working, we need to install Docker and register the <code>docker-registry.crt</code> certificate file!</p>
-<ul>
-<li>install docker</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo wget -qO- https://get.docker.com/ | sh
-</span></span><span style="display:flex;"><span>$ sudo service docker start
-</span></span></code></pre></div><ul>
-<li>create a directory holding our extra certificates</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo mkdir /usr/share/ca-certificates/extra
-</span></span></code></pre></div><ul>
-<li>
-<p>copy the <code>docker-registry.crt</code> file to the directory <code>/usr/share/ca-certificates/extra</code></p>
-</li>
-<li>
-<p>register the certificate</p>
-</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo dpkg-reconfigure ca-certificates
-</span></span></code></pre></div><p>Now you are almost ready!</p>
-<ul>
-<li>restart the local Docker client</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ sudo service docker restart
-</span></span></code></pre></div><ul>
-<li>login onto your remote registry using</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ docker login &lt;domain-name&gt;:port
-</span></span></code></pre></div><p>Now we have a remote Docker Registry and the Docker Client is able to connect!</p>
-
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/docker/">docker</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>July 4, 2014</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>0 minutes and
-            20 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2014/07/04/20140724-upgrade-grails-2.4.2/">Upgrading from Grails 2.3.8 to 2.4.2</a></h2>
-            <p>When upgrading to Grails 2.4.2 i ran into an issue where the following error message would pop up.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>Error creating bean with name &#39;grailsApplication&#39; defined in ServletContext resource
-</span></span><span style="display:flex;"><span>[/WEB-INF/applicationContext.xml]: Cannot resolve reference to
-</span></span><span style="display:flex;"><span>bean &#39;grailsResourceLoader&#39; while setting bean property &#39;grailsResourceLoader&#39;;
-</span></span></code></pre></div><p>To solve this issue you need to delete some lines in the <code>&lt;grails-app&gt;/web-app/WEB-INF/applicationContext.xml</code> file.</p>
-<p>Delete the following lines:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;grailsResourceLoader&#34;</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;grailsResourceLoader&#34;</span> <span style="color:#f92672">/&gt;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;grailsResourceLoader&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean&#34;</span> <span style="color:#f92672">/&gt;</span>
-</span></span></code></pre></div><p>And you should be up and running quickly.</p>
-
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/grails/">grails</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>June 9, 2014</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>0 minutes and
-            15 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2014/06/09/20140609-hugo-skip-certain-content-to-be-rendered/">Skip a contenttype/section to be renderend</a></h2>
-            <p>When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.</p>
-<p>Example:
-You want to only render contenttype &lsquo;post&rsquo;  use the following code in your template:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span>{{ <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">eq</span> .<span style="color:#a6e22e">Type</span> <span style="color:#e6db74">&#34;post&#34;</span> }}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    {{ .<span style="color:#a6e22e">Title</span> }}
-</span></span><span style="display:flex;"><span>    {{ .<span style="color:#a6e22e">Content</span> }}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>{{ <span style="color:#a6e22e">end</span> }}
-</span></span></code></pre></div>
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/hugo/">hugo</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
+  </article>
 </div>
 
 
@@ -1412,7 +1255,7 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
 
 
         <ul class="pagination-list">
-            <li><a class="pagination-link" href="https://mpas.github.io" aria-label="Home">
+            <li><a class="pagination-link" href="https://mpas.github.io/" aria-label="Home">
                     <span class="icon-text">
                         <span class="icon">
                             <i class="fas fa-home"></i>
@@ -1461,43 +1304,46 @@ You want to only render contenttype &lsquo;post&rsquo;  use the following code i
         </article>
     </template>
     <footer class="footer">
-    <div class="content has-text-centered">
-        <p>Lets connect on:</p>
-        <p>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-twitter"></i>
-                </span>
-                <span><a href="https://twitter.com/marcopas">Twitter</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-stack-overflow"></i>
-                </span>
-                <span><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-linkedin"></i>
-                </span>
-                <span><a href="">LinkedIn</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-github"></i>
-                </span>
-                <span><a href="https://github.com/mpas">GitHub</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fas fa-envelope"></i>
-                </span>
-                <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
-            </span>
-        </p>
-    </div>
+  <div class="content has-text-centered">
+    <p>Lets connect on:</p>
+    <p>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-twitter"></i>
+        </span>
+        <span><a href="https://twitter.com/marcopas">Twitter</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-stack-overflow"></i>
+        </span>
+        <span
+          ><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span
+        >
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-linkedin"></i>
+        </span>
+        <span><a href="https://www.linkedin.com/in/marcopas">LinkedIn</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-github"></i>
+        </span>
+        <span><a href="https://github.com/mpas">GitHub</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
+      </span>
+    </p>
+  </div>
 </footer>
 <script src="/js/search.js"></script>
+
 
     <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
     <script>addBackToTop({

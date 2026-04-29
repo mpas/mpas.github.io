@@ -4,628 +4,492 @@
     <title>Tags on Marco Pas</title>
     <link>https://mpas.github.io/tags/</link>
     <description>Recent content in Tags on Marco Pas</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 09 May 2023 10:07:26 +0200</lastBuildDate><atom:link href="https://mpas.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 09 May 2023 10:07:26 +0200</lastBuildDate>
+    <atom:link href="https://mpas.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>docker</title>
+      <title>Docker</title>
       <link>https://mpas.github.io/tags/docker/</link>
       <pubDate>Tue, 09 May 2023 10:07:26 +0200</pubDate>
-      
       <guid>https://mpas.github.io/tags/docker/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>k3d</title>
+      <title>K3d</title>
       <link>https://mpas.github.io/tags/k3d/</link>
       <pubDate>Tue, 09 May 2023 10:07:26 +0200</pubDate>
-      
       <guid>https://mpas.github.io/tags/k3d/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>kubernetes</title>
+      <title>Kubernetes</title>
       <link>https://mpas.github.io/tags/kubernetes/</link>
       <pubDate>Tue, 09 May 2023 10:07:26 +0200</pubDate>
-      
       <guid>https://mpas.github.io/tags/kubernetes/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>rancher</title>
+      <title>Rancher</title>
       <link>https://mpas.github.io/tags/rancher/</link>
       <pubDate>Tue, 09 May 2023 10:07:26 +0200</pubDate>
-      
       <guid>https://mpas.github.io/tags/rancher/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>elisp</title>
+      <title>Elisp</title>
       <link>https://mpas.github.io/tags/elisp/</link>
       <pubDate>Tue, 30 Mar 2021 12:54:00 +0200</pubDate>
-      
       <guid>https://mpas.github.io/tags/elisp/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>emacs</title>
+      <title>Emacs</title>
       <link>https://mpas.github.io/tags/emacs/</link>
       <pubDate>Tue, 30 Mar 2021 12:54:00 +0200</pubDate>
-      
       <guid>https://mpas.github.io/tags/emacs/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>orgmode</title>
+      <title>Orgmode</title>
       <link>https://mpas.github.io/tags/orgmode/</link>
       <pubDate>Tue, 30 Mar 2021 12:54:00 +0200</pubDate>
-      
       <guid>https://mpas.github.io/tags/orgmode/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>image</title>
+      <title>Image</title>
       <link>https://mpas.github.io/tags/image/</link>
       <pubDate>Mon, 29 Mar 2021 18:55:00 +0200</pubDate>
-      
       <guid>https://mpas.github.io/tags/image/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>screenshot</title>
+      <title>Screenshot</title>
       <link>https://mpas.github.io/tags/screenshot/</link>
       <pubDate>Mon, 29 Mar 2021 18:55:00 +0200</pubDate>
-      
       <guid>https://mpas.github.io/tags/screenshot/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>timetracking</title>
+      <title>Timetracking</title>
       <link>https://mpas.github.io/tags/timetracking/</link>
       <pubDate>Tue, 16 Mar 2021 10:20:00 +0100</pubDate>
-      
       <guid>https://mpas.github.io/tags/timetracking/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>doom</title>
+      <title>Doom</title>
       <link>https://mpas.github.io/tags/doom/</link>
       <pubDate>Fri, 16 Oct 2020 20:21:00 +0200</pubDate>
-      
       <guid>https://mpas.github.io/tags/doom/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>pathfinder</title>
+      <title>Pathfinder</title>
       <link>https://mpas.github.io/tags/pathfinder/</link>
       <pubDate>Wed, 28 Nov 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/pathfinder/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>ranger</title>
+      <title>Ranger</title>
       <link>https://mpas.github.io/tags/ranger/</link>
       <pubDate>Wed, 28 Nov 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/ranger/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>devoxx</title>
+      <title>Devoxx</title>
       <link>https://mpas.github.io/tags/devoxx/</link>
       <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/devoxx/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>infrastructure</title>
+      <title>Infrastructure</title>
       <link>https://mpas.github.io/tags/infrastructure/</link>
       <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/infrastructure/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>monitoring</title>
+      <title>Monitoring</title>
       <link>https://mpas.github.io/tags/monitoring/</link>
       <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/monitoring/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>prometheus</title>
+      <title>Prometheus</title>
       <link>https://mpas.github.io/tags/prometheus/</link>
       <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/prometheus/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>talks</title>
+      <title>Talks</title>
       <link>https://mpas.github.io/tags/talks/</link>
       <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/talks/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>grails</title>
+      <title>Grails</title>
       <link>https://mpas.github.io/tags/grails/</link>
       <pubDate>Fri, 25 Nov 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/grails/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>gradle</title>
+      <title>Gradle</title>
       <link>https://mpas.github.io/tags/gradle/</link>
       <pubDate>Thu, 24 Nov 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/gradle/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>groovy</title>
+      <title>Groovy</title>
       <link>https://mpas.github.io/tags/groovy/</link>
       <pubDate>Thu, 24 Nov 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/groovy/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>cadvisor</title>
+      <title>Cadvisor</title>
       <link>https://mpas.github.io/tags/cadvisor/</link>
       <pubDate>Thu, 17 Nov 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/cadvisor/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>aws</title>
+      <title>Aws</title>
       <link>https://mpas.github.io/tags/aws/</link>
       <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/aws/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>consul</title>
+      <title>Consul</title>
       <link>https://mpas.github.io/tags/consul/</link>
       <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/consul/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>terraform</title>
+      <title>Terraform</title>
       <link>https://mpas.github.io/tags/terraform/</link>
       <pubDate>Wed, 16 Nov 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/terraform/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>springboot</title>
+      <title>Springboot</title>
       <link>https://mpas.github.io/tags/springboot/</link>
       <pubDate>Wed, 02 Nov 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/springboot/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>mac</title>
+      <title>Mac</title>
       <link>https://mpas.github.io/tags/mac/</link>
       <pubDate>Tue, 01 Nov 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/mac/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>osx</title>
+      <title>Osx</title>
       <link>https://mpas.github.io/tags/osx/</link>
       <pubDate>Tue, 01 Nov 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/osx/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>devops</title>
+      <title>Devops</title>
       <link>https://mpas.github.io/tags/devops/</link>
       <pubDate>Sun, 09 Oct 2016 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/devops/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>rest</title>
+      <title>Rest</title>
       <link>https://mpas.github.io/tags/rest/</link>
       <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/rest/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>spock</title>
+      <title>Spock</title>
       <link>https://mpas.github.io/tags/spock/</link>
       <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/spock/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>testing</title>
+      <title>Testing</title>
       <link>https://mpas.github.io/tags/testing/</link>
       <pubDate>Thu, 19 Nov 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/testing/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>davmail</title>
+      <title>Davmail</title>
       <link>https://mpas.github.io/tags/davmail/</link>
       <pubDate>Tue, 17 Nov 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/davmail/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>exchange</title>
+      <title>Exchange</title>
       <link>https://mpas.github.io/tags/exchange/</link>
       <pubDate>Tue, 17 Nov 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/exchange/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>owa</title>
+      <title>Owa</title>
       <link>https://mpas.github.io/tags/owa/</link>
       <pubDate>Tue, 17 Nov 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/owa/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>postbox</title>
+      <title>Postbox</title>
       <link>https://mpas.github.io/tags/postbox/</link>
       <pubDate>Tue, 17 Nov 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/postbox/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>spring-boot</title>
+      <title>Spring-Boot</title>
       <link>https://mpas.github.io/tags/spring-boot/</link>
       <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/spring-boot/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>websocket</title>
+      <title>Websocket</title>
       <link>https://mpas.github.io/tags/websocket/</link>
       <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/websocket/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>rabbitmq</title>
+      <title>Rabbitmq</title>
       <link>https://mpas.github.io/tags/rabbitmq/</link>
       <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/rabbitmq/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>java</title>
+      <title>Java</title>
       <link>https://mpas.github.io/tags/java/</link>
       <pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/java/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>hugo</title>
+      <title>Hugo</title>
       <link>https://mpas.github.io/tags/hugo/</link>
       <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/hugo/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>review</title>
+      <title>Review</title>
       <link>https://mpas.github.io/tags/review/</link>
       <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/review/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>vertx</title>
+      <title>Vertx</title>
       <link>https://mpas.github.io/tags/vertx/</link>
       <pubDate>Wed, 27 Nov 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/vertx/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>chrome</title>
+      <title>Chrome</title>
       <link>https://mpas.github.io/tags/chrome/</link>
       <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/chrome/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>linux</title>
+      <title>Linux</title>
       <link>https://mpas.github.io/tags/linux/</link>
       <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/linux/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>mint</title>
+      <title>Mint</title>
       <link>https://mpas.github.io/tags/mint/</link>
       <pubDate>Thu, 30 May 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/mint/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>gr8conf</title>
+      <title>Gr8conf</title>
       <link>https://mpas.github.io/tags/gr8conf/</link>
       <pubDate>Sat, 25 May 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/gr8conf/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>migrations</title>
+      <title>Migrations</title>
       <link>https://mpas.github.io/tags/migrations/</link>
       <pubDate>Thu, 28 Feb 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/migrations/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>build</title>
+      <title>Build</title>
       <link>https://mpas.github.io/tags/build/</link>
       <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/build/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>test</title>
+      <title>Test</title>
       <link>https://mpas.github.io/tags/test/</link>
       <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/test/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>testdata</title>
+      <title>Testdata</title>
       <link>https://mpas.github.io/tags/testdata/</link>
       <pubDate>Sun, 13 Jan 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/testdata/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>enum</title>
+      <title>Enum</title>
       <link>https://mpas.github.io/tags/enum/</link>
       <pubDate>Thu, 03 Jan 2013 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/enum/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>ftps</title>
+      <title>Ftps</title>
       <link>https://mpas.github.io/tags/ftps/</link>
       <pubDate>Tue, 18 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/ftps/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>ubuntu</title>
+      <title>Ubuntu</title>
       <link>https://mpas.github.io/tags/ubuntu/</link>
       <pubDate>Tue, 18 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/ubuntu/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>vsftpd</title>
+      <title>Vsftpd</title>
       <link>https://mpas.github.io/tags/vsftpd/</link>
       <pubDate>Tue, 18 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/vsftpd/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>configuration</title>
+      <title>Configuration</title>
       <link>https://mpas.github.io/tags/configuration/</link>
       <pubDate>Mon, 17 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/configuration/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>imagemagick</title>
+      <title>Imagemagick</title>
       <link>https://mpas.github.io/tags/imagemagick/</link>
       <pubDate>Sat, 15 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/imagemagick/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>pathogen</title>
+      <title>Pathogen</title>
       <link>https://mpas.github.io/tags/pathogen/</link>
       <pubDate>Fri, 14 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/pathogen/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>vim</title>
+      <title>Vim</title>
       <link>https://mpas.github.io/tags/vim/</link>
       <pubDate>Fri, 14 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/vim/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>markdown</title>
+      <title>Markdown</title>
       <link>https://mpas.github.io/tags/markdown/</link>
       <pubDate>Thu, 13 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/markdown/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>presentation</title>
+      <title>Presentation</title>
       <link>https://mpas.github.io/tags/presentation/</link>
       <pubDate>Wed, 12 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/presentation/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>cobertura</title>
+      <title>Cobertura</title>
       <link>https://mpas.github.io/tags/cobertura/</link>
       <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/cobertura/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>continous integration</title>
+      <title>Continous Integration</title>
       <link>https://mpas.github.io/tags/continous-integration/</link>
       <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/continous-integration/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>coverage</title>
+      <title>Coverage</title>
       <link>https://mpas.github.io/tags/coverage/</link>
       <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/coverage/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>hudson</title>
+      <title>Hudson</title>
       <link>https://mpas.github.io/tags/hudson/</link>
       <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/hudson/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>jenkins</title>
+      <title>Jenkins</title>
       <link>https://mpas.github.io/tags/jenkins/</link>
       <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/jenkins/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>ssh</title>
+      <title>Ssh</title>
       <link>https://mpas.github.io/tags/ssh/</link>
       <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/ssh/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>deployment</title>
+      <title>Deployment</title>
       <link>https://mpas.github.io/tags/deployment/</link>
       <pubDate>Sun, 09 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/deployment/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>mysql</title>
+      <title>Mysql</title>
       <link>https://mpas.github.io/tags/mysql/</link>
       <pubDate>Wed, 05 Sep 2012 00:00:00 +0000</pubDate>
-      
       <guid>https://mpas.github.io/tags/mysql/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

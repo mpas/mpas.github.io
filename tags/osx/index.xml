@@ -1,32 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>osx on Marco Pas</title>
+    <title>Osx on Marco Pas</title>
     <link>https://mpas.github.io/tags/osx/</link>
-    <description>Recent content in osx on Marco Pas</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 01 Nov 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/osx/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Osx on Marco Pas</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 01 Nov 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mpas.github.io/tags/osx/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Accessing localhost from a Docker Container using native Docker for Mac</title>
-      <link>https://mpas.github.io/posts/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/</link>
+      <link>https://mpas.github.io/posts/2016/11/accessing-localhost-from-a-docker-container-using-native-docker-for-mac/</link>
       <pubDate>Tue, 01 Nov 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/</guid>
-      <description>Ever had a need to access something from within a Docker container that runs on the host system?
-When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.
-A solution for this isto define a new local loopback to your localhost
-$ sudo ifconfig lo0 alias 172.</description>
+      <guid>https://mpas.github.io/posts/2016/11/accessing-localhost-from-a-docker-container-using-native-docker-for-mac/</guid>
+      <description>&lt;p&gt;Ever had a need to access something from within a &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; container that runs on the host system?&lt;/p&gt;&#xA;&lt;p&gt;When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.&lt;/p&gt;&#xA;&lt;p&gt;A solution for this isto define a new local loopback to your localhost&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ sudo ifconfig lo0 alias 172.16.123.1&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This will define a loopback network interface that points to your localhost. When you need to access the localhost you can use this ip.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Installing Markdown on OSX and use it inside VIM</title>
-      <link>https://mpas.github.io/posts/2012/09/13/20120913-installing-markdown-on-osx-use-it-inside-vim/</link>
+      <link>https://mpas.github.io/posts/2012/09/installing-markdown-on-osx-and-use-it-inside-vim/</link>
       <pubDate>Thu, 13 Sep 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2012/09/13/20120913-installing-markdown-on-osx-use-it-inside-vim/</guid>
-      <description>Back again to one of my favorites which is called Markdown. Once every now and then i forget how easy it is. Normally i use Textmate to do all my writing, but recently i have picked up VIM to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)
-Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different.</description>
+      <guid>https://mpas.github.io/posts/2012/09/installing-markdown-on-osx-and-use-it-inside-vim/</guid>
+      <description>&lt;p&gt;Back again to one of my favorites which is called &lt;a href=&#34;http://daringfireball.net/projects/markdown/&#34;&gt;Markdown&lt;/a&gt;. Once every now and then i forget how easy it is. Normally i use &lt;a href=&#34;http://macromates.com/&#34;&gt;Textmate&lt;/a&gt; to do all my writing, but recently i have picked up &lt;a href=&#34;http://www.vim.org/&#34;&gt;VIM&lt;/a&gt; to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)&lt;/p&gt;&#xA;&lt;p&gt;Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different. But anything is different when using VIM :)&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>jenkins on Marco Pas</title>
+    <title>Jenkins on Marco Pas</title>
     <link>https://mpas.github.io/tags/jenkins/</link>
-    <description>Recent content in jenkins on Marco Pas</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 10 Sep 2012 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/jenkins/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Jenkins on Marco Pas</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 10 Sep 2012 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mpas.github.io/tags/jenkins/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Funcional Code Coverage using Cobertura</title>
-      <link>https://mpas.github.io/posts/2012/09/10/20120910-functional-code-coverage-using-cobertura/</link>
+      <link>https://mpas.github.io/posts/2012/09/funcional-code-coverage-using-cobertura/</link>
       <pubDate>Mon, 10 Sep 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2012/09/10/20120910-functional-code-coverage-using-cobertura/</guid>
-      <description>So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.
-One can start to complain :), stop working on the project or even better master the concept of Software Archeology.</description>
+      <guid>https://mpas.github.io/posts/2012/09/funcional-code-coverage-using-cobertura/</guid>
+      <description>&lt;p&gt;So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.&lt;/p&gt;&#xA;&lt;p&gt;One can start to complain :), stop working on the project or even better master the concept of &lt;a href=&#34;http://se-radio.net/podcast/2009-11/episode-148-software-archaeology-dave-thomas&#34;&gt;Software Archeology&lt;/a&gt;. An additional thing is to adopt the use of &lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; a code coverage tool which can easily be used to track down Functional Code Coverage. Normally the concept of Code Coverage is used to identify what code is executed during development and test phase. This to give an indication on how much code you cover with your testing strategy (often unit testing). This is &lt;strong&gt;IMHO&lt;/strong&gt; something you will always want to know! But in the case you do not have unit tests or creating them is impossible due to the technical/organisational nature of the project, you can rely on creating functional tests and still track down the &amp;lsquo;functional&amp;rsquo; coverage with tools like &lt;a href=&#34;http://cobertura.sourceforge.net/&#34;&gt;Cobertura&lt;/a&gt; (or alternatives like &lt;a href=&#34;http://emma.sourceforge.net/&#34;&gt;Emma&lt;/a&gt;).&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

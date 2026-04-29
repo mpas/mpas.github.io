@@ -23,18 +23,6 @@
 
     
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-180712180-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
 
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,7 +51,7 @@ if (!doNotTrack) {
 
     <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" href="https://mpas.github.io">
+            <a class="navbar-item" href="https://mpas.github.io/">
                 MARCO PAS
             </a>
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
@@ -147,6 +135,7 @@ if (!doNotTrack) {
     </div>
 </div>
 
+
     <div class="container">
         <div class="is-search-result">
             
@@ -154,9 +143,8 @@ if (!doNotTrack) {
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -177,14 +165,14 @@ if (!doNotTrack) {
             <i class="fas fa-stopwatch"></i>
         </span>
         <span>1 minutes and
-            52 seconds read</span>
+            53 seconds read</span>
     </span>
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2023/05/09/20230509-running-rancher-on-k3s-using-k3d/">Running Rancher on K3S using K3D</a></h2>
-            <h2 id="requirements">Requirements</h2>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2023/05/running-rancher-on-k3s-using-k3d/">Running Rancher on K3S using K3D</a></h2>
+      <h2 id="requirements">Requirements</h2>
 <ul>
 <li><a href="https://github.com/abiosoft/colima">Colima</a> installed
 <ul>
@@ -211,7 +199,7 @@ echo &#34;Adding Helm repos&#34; \
 ## - the number of servers and agents are specified explicitly but they are the defaults!
 ##   servers: the number of servers that will be run
 ##   agents: the number of worker nodes
-k3d cluster create rmaster --port 80:80@loadbalancer --port 443:443@loadbalancer --servers 1 --agents 0
+k3d cluster create rmaster --api-port 6443 --port 80:80@loadbalancer --port 443:443@loadbalancer --servers 1 --agents 0
 
 # change to the correct Kubernetes context
 ## actually not required as k3d will switch to the just created context
@@ -236,11 +224,12 @@ kubectl get pods --namespace cert-manager
 kubectl create namespace cattle-system \
 &amp;&amp; helm install rancher rancher-latest/rancher \
     --namespace cattle-system \
-    --set replicas=1 \
-    --set hostname=192-168-68-107.nip.io \
+    --set hostname=2a8f-84-30-119-190.ngrok-free.app \
     --set global.cattle.psp.enabled=false \
     --set bootstrapPassword=welcome123 \
     --debug
+    
+    --set replicas=1 \
 
 # verify if rancher is running
 kubectl get pods --namespace cattle-system
@@ -259,9 +248,9 @@ http://192-168-68-107.nip.io
 <li><a href="https://gist.github.com/jwsy/5634d17e133d7fdc3045c3a2a18b652a">GitHub Gist - Script to install rancher on your macOS machine</a></li>
 </ul>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -271,7 +260,7 @@ http://192-168-68-107.nip.io
         </span>
         <span>
             
-            <a class="is-link" href="/categories/infrastructure/">infrastructure</a>
+            <a class="is-link" href="/categories/infrastructure/">Infrastructure</a>
         </span>
     </span>
     
@@ -283,10 +272,10 @@ http://192-168-68-107.nip.io
         </span>
         <span>
             
-            <a class="is-link" href="/tags/kubernetes/">kubernetes</a>, 
-            <a class="is-link" href="/tags/rancher/">rancher</a>, 
-            <a class="is-link" href="/tags/k3d/">k3d</a>, 
-            <a class="is-link" href="/tags/docker/">docker</a>
+            <a class="is-link" href="/tags/kubernetes/">Kubernetes</a>, 
+            <a class="is-link" href="/tags/rancher/">Rancher</a>, 
+            <a class="is-link" href="/tags/k3d/">K3d</a>, 
+            <a class="is-link" href="/tags/docker/">Docker</a>
         </span>
     </span>
     
@@ -294,15 +283,13 @@ http://192-168-68-107.nip.io
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -328,20 +315,20 @@ http://192-168-68-107.nip.io
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2021/03/30/20210330-capture-link-from-mac-app-into-org-mode-document/">Capture link from Mac app into org-mode document</a></h2>
-            <p>To quickly grab a link from an open Mac app and use this link into an org-mode document use the following package:</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2021/03/capture-link-from-mac-app-into-org-mode-document/">Capture link from Mac app into org-mode document</a></h2>
+      <p>To quickly grab a link from an open Mac app and use this link into an org-mode document use the following package:</p>
 <ul>
 <li><a href="https://orgmode.org/worg/org-contrib/org-mac-link.html">Grab links from open Mac applications</a></li>
 </ul>
 <p>An optional keybind as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(add-hook <span style="color:#e6db74">&#39;org-mode-hook</span> (lambda ()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(add-hook <span style="color:#e6db74">&#39;org-mode-hook</span> (lambda ()
 </span></span><span style="display:flex;"><span>                           (<span style="color:#a6e22e">define-key</span> org-mode-map (kbd <span style="color:#e6db74">&#34;C-c g&#34;</span>) <span style="color:#e6db74">&#39;org-mac-grab-link</span>)))
 </span></span></code></pre></div><p>This enables you to quickly grab a link using <code>C-c g</code></p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -351,7 +338,7 @@ http://192-168-68-107.nip.io
         </span>
         <span>
             
-            <a class="is-link" href="/categories/development/">development</a>
+            <a class="is-link" href="/categories/development/">Development</a>
         </span>
     </span>
     
@@ -363,9 +350,9 @@ http://192-168-68-107.nip.io
         </span>
         <span>
             
-            <a class="is-link" href="/tags/orgmode/">orgmode</a>, 
-            <a class="is-link" href="/tags/emacs/">emacs</a>, 
-            <a class="is-link" href="/tags/elisp/">elisp</a>
+            <a class="is-link" href="/tags/orgmode/">Orgmode</a>, 
+            <a class="is-link" href="/tags/emacs/">Emacs</a>, 
+            <a class="is-link" href="/tags/elisp/">Elisp</a>
         </span>
     </span>
     
@@ -373,15 +360,13 @@ http://192-168-68-107.nip.io
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -407,9 +392,9 @@ http://192-168-68-107.nip.io
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2021/03/29/20210329-paste-image-from-clipboard-directly-into-org-mode-document/">Paste image from clipboard directly into org-mode document</a></h2>
-            <p>Personally I really like using org-mode files for creating documentation and presentations.
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2021/03/paste-image-from-clipboard-directly-into-org-mode-document/">Paste image from clipboard directly into org-mode document</a></h2>
+      <p>Personally I really like using org-mode files for creating documentation and presentations.
 When working with screenshots my normal workflows always has been.</p>
 <ol>
 <li>Capture screenshot to clipboard</li>
@@ -422,8 +407,7 @@ When working with screenshots my normal workflows always has been.</p>
 <li>Capture screenshot</li>
 <li>In your org-document paste using C-M-y (or call <code>my/insert-clipboard-image</code>) and automatically add the screenshot to an =./images- directory and insert the link to the image.</li>
 </ol>
-<!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span><span style="color:#75715e">;; Overview</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span><span style="color:#75715e">;; Overview</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">;; --------</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">;; Inserts an image from the clipboard by prompting the user for a filename.</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">;; Default extension for the pasted filename is .png</span>
@@ -479,12 +463,12 @@ When working with screenshots my normal workflows always has been.</p>
 </span></span><span style="display:flex;"><span>      :n <span style="color:#e6db74">&#34;C-M-y&#34;</span> <span style="color:#e6db74">&#39;my/insert-clipboard-image</span>)
 </span></span></code></pre></div><p>A nice setting in org-mode that also helps when viewing large screenshots is the following:</p>
 <p>This display the taken screenshot in a acceptable format in your org-mode file.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(after! org
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(after! org
 </span></span><span style="display:flex;"><span>  (setq org-image-actual-width (<span style="color:#a6e22e">/</span> (display-pixel-width) <span style="color:#ae81ff">2</span>)))
 </span></span></code></pre></div>
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -496,11 +480,11 @@ When working with screenshots my normal workflows always has been.</p>
         </span>
         <span>
             
-            <a class="is-link" href="/tags/emacs/">emacs</a>, 
-            <a class="is-link" href="/tags/orgmode/">orgmode</a>, 
-            <a class="is-link" href="/tags/elisp/">elisp</a>, 
-            <a class="is-link" href="/tags/screenshot/">screenshot</a>, 
-            <a class="is-link" href="/tags/image/">image</a>
+            <a class="is-link" href="/tags/emacs/">Emacs</a>, 
+            <a class="is-link" href="/tags/orgmode/">Orgmode</a>, 
+            <a class="is-link" href="/tags/elisp/">Elisp</a>, 
+            <a class="is-link" href="/tags/screenshot/">Screenshot</a>, 
+            <a class="is-link" href="/tags/image/">Image</a>
         </span>
     </span>
     
@@ -508,15 +492,13 @@ When working with screenshots my normal workflows always has been.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -542,13 +524,13 @@ When working with screenshots my normal workflows always has been.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2021/03/16/20210316-time-tracking-with-org-mode-and-sum-time-per-tag/">Time tracking with Org Mode and sum time per tag</a></h2>
-            <p>Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you <strong>aggregate time across tasks belonging to tags</strong>?</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2021/03/time-tracking-with-org-mode-and-sum-time-per-tag/">Time tracking with Org Mode and sum time per tag</a></h2>
+      <p>Tracking time using Org Mode is simple and easy. You can quickly create reports of the time spend on specific tasks. But how do you <strong>aggregate time across tasks belonging to tags</strong>?</p>
 <p>This can be achieved by using a simple formula and the usage of an awesome Org package called <a href="https://github.com/tbanel/orgaggregate">Org Aggregate</a>.</p>
 <h2 id="input-data">Input data</h2>
 <p>The data below is used for time tracking, note that individual items are <strong>tagged</strong>!</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>- Take out the trash :private:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>- Take out the trash :private:
 </span></span><span style="display:flex;"><span>:LOGBOOK:
 </span></span><span style="display:flex;"><span>CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:30] =&gt;  0:06
 </span></span><span style="display:flex;"><span>:END:
@@ -565,7 +547,7 @@ When working with screenshots my normal workflows always has been.</p>
 </span></span><span style="display:flex;"><span>CLOCK: [2021-03-12 Fri 11:24]--[2021-03-12 Fri 11:40] =&gt;  0:16
 </span></span><span style="display:flex;"><span>:END:
 </span></span></code></pre></div><h2 id="reporting">Reporting</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>#+BEGIN: clocktable :scope file :maxlevel 3 :tags t :match &#34;work|client1&#34; :header &#34;#+TBLNAME: timetable\n&#34;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>#+BEGIN: clocktable :scope file :maxlevel 3 :tags t :match &#34;work|client1&#34; :header &#34;#+TBLNAME: timetable\n&#34;
 </span></span><span style="display:flex;"><span>#+TBLNAME: timetable
 </span></span><span style="display:flex;"><span>| Tags    | Headline                              | Time |      |      |     T |
 </span></span><span style="display:flex;"><span>|---------+---------------------------------------+------+------+------+-------|
@@ -584,10 +566,9 @@ When working with screenshots my normal workflows always has been.</p>
 <li><strong>:header</strong> &ldquo;#+TBLNAME: timetable\n&rdquo;= used to name our table so we can process it later on using <a href="https://github.com/tbanel/orgaggregate">Org Aggregate</a></li>
 <li><strong>#+TBLFM:</strong> is using a function to correctly display time in <strong>hh:mm</strong> so we can use it later on to sum. <strong>Note:</strong> this is required as the package <a href="https://github.com/tbanel/orgaggregate">Org Aggregate</a> that we are using to aggregate data is expecting the time in a <strong>hh:mm</strong> format</li>
 </ul>
-<!-- raw HTML omitted -->
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
@@ -602,7 +583,7 @@ When working with screenshots my normal workflows always has been.</p>
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun convert-org-clocktable-time-to-hhmm (time-string)
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun convert-org-clocktable-time-to-hhmm (time-string)
 </span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;Converts a time string to HH:MM&#34;</span>
 </span></span><span style="display:flex;"><span>(if (<span style="color:#a6e22e">&gt;</span> (<span style="color:#a6e22e">length</span> time-string) <span style="color:#ae81ff">0</span>)
 </span></span><span style="display:flex;"><span>(progn
@@ -618,7 +599,7 @@ When working with screenshots my normal workflows always has been.</p>
 </div>
 </div>
 <p>Use <a href="https://github.com/tbanel/orgaggregate">Org Aggregate</a> to sum the times of the tags</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>#+BEGIN: aggregate :table &#34;timetable&#34; :cols &#34;Tags sum(T);U&#34; :cond (not (equal Tags &#34;&#34;))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>#+BEGIN: aggregate :table &#34;timetable&#34; :cols &#34;Tags sum(T);U&#34; :cond (not (equal Tags &#34;&#34;))
 </span></span><span style="display:flex;"><span>#+TBLNAME: timetable
 </span></span><span style="display:flex;"><span>| Tags    | sum(T);U |
 </span></span><span style="display:flex;"><span>|---------+----------|
@@ -628,9 +609,9 @@ When working with screenshots my normal workflows always has been.</p>
 </span></span></code></pre></div><ul>
 <li><strong>:cond</strong> used to filter empty rows from the data input!</li>
 </ul>
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -642,9 +623,9 @@ When working with screenshots my normal workflows always has been.</p>
         </span>
         <span>
             
-            <a class="is-link" href="/tags/emacs/">emacs</a>, 
-            <a class="is-link" href="/tags/orgmode/">orgmode</a>, 
-            <a class="is-link" href="/tags/timetracking/">timetracking</a>
+            <a class="is-link" href="/tags/emacs/">Emacs</a>, 
+            <a class="is-link" href="/tags/orgmode/">Orgmode</a>, 
+            <a class="is-link" href="/tags/timetracking/">Timetracking</a>
         </span>
     </span>
     
@@ -652,15 +633,13 @@ When working with screenshots my normal workflows always has been.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -686,24 +665,23 @@ When working with screenshots my normal workflows always has been.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2020/10/16/20201016-org-bullets-doom-emacs/">Get pretty org-bullets in Doom Emacs</a></h2>
-            <p>When installing <a href="https://github.com/hlissner/doom-emacs">Doom Emacs</a> and using org-mode the defaults bullets are `*`.
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2020/10/get-pretty-org-bullets-in-doom-emacs/">Get pretty org-bullets in Doom Emacs</a></h2>
+      <p>When installing <a href="https://github.com/hlissner/doom-emacs">Doom Emacs</a> and using org-mode the defaults bullets are `*`.
 In order to get some fancy bullets the following steps need to be taken.</p>
 <ol>
 <li>Add the org-mode <code>+pretty</code> flag to your org settings in <code>init.el</code> To read more on the available flags check the <a href="https://github.com/hlissner/doom-emacs/tree/develop/modules/lang/org#module-flags">org-mode Doom Emacs module `lang/org`</a></li>
 </ol>
-<!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>:lang
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>:lang
 </span></span><span style="display:flex;"><span>(org +pretty ) <span style="color:#75715e">; organize your plain life in plain text</span>
 </span></span></code></pre></div><!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(setq
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(setq
 </span></span><span style="display:flex;"><span>    org-superstar-headline-bullets-list <span style="color:#f92672">&#39;</span>(<span style="color:#e6db74">&#34;⁖&#34;</span> <span style="color:#e6db74">&#34;◉&#34;</span> <span style="color:#e6db74">&#34;○&#34;</span> <span style="color:#e6db74">&#34;✸&#34;</span> <span style="color:#e6db74">&#34;✿&#34;</span>)
 </span></span><span style="display:flex;"><span>)
 </span></span></code></pre></div><!-- raw HTML omitted -->
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -715,9 +693,9 @@ In order to get some fancy bullets the following steps need to be taken.</p>
         </span>
         <span>
             
-            <a class="is-link" href="/tags/emacs/">emacs</a>, 
-            <a class="is-link" href="/tags/doom/">doom</a>, 
-            <a class="is-link" href="/tags/orgmode/">orgmode</a>
+            <a class="is-link" href="/tags/emacs/">Emacs</a>, 
+            <a class="is-link" href="/tags/doom/">Doom</a>, 
+            <a class="is-link" href="/tags/orgmode/">Orgmode</a>
         </span>
     </span>
     
@@ -725,15 +703,13 @@ In order to get some fancy bullets the following steps need to be taken.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -759,14 +735,14 @@ In order to get some fancy bullets the following steps need to be taken.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2018/11/28/20181128-ranger-show-file-in-path-finder/">Ranger - Show File in Path Finder</a></h2>
-            <p>Ranger is a VIM-inspired filemanager for the console (<a href="https://ranger.github.io/">https://ranger.github.io/</a>) and can easily be installed by using
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2018/11/ranger-show-file-in-path-finder/">Ranger - Show File in Path Finder</a></h2>
+      <p>Ranger is a VIM-inspired filemanager for the console (<a href="https://ranger.github.io/">https://ranger.github.io/</a>) and can easily be installed by using
 <code>brew install ranger</code>. When working in the terminal sometimes it is nice to open the files in the default <code>Finder</code> app
 or use the excellent alternative called <code>Path Finder</code>. (<a href="https://cocoatech.com/#/">https://cocoatech.com/#/</a>)</p>
 <p>To reveal your files in the Finder or Path Finder create a <code>commands.py</code> in <code>~/.config/ranger</code> and paste the following
 code.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> ranger.api.commands <span style="color:#f92672">import</span> Command
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> ranger.api.commands <span style="color:#f92672">import</span> Command
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">show_files_in_path_finder</span>(Command):
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
@@ -801,9 +777,9 @@ code.</p>
 </span></span><span style="display:flex;"><span>        subprocess<span style="color:#f92672">.</span>check_output([<span style="color:#e6db74">&#34;osascript&#34;</span>, <span style="color:#e6db74">&#34;-e&#34;</span>, reveal_script, <span style="color:#e6db74">&#34;-e&#34;</span>, activate_script])
 </span></span></code></pre></div><p>Restart Ranger and now you can execute the commands :show_files_in_pathfinder or :show_files_in_finder.</p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -815,8 +791,8 @@ code.</p>
         </span>
         <span>
             
-            <a class="is-link" href="/tags/ranger/">ranger</a>, 
-            <a class="is-link" href="/tags/pathfinder/">pathfinder</a>
+            <a class="is-link" href="/tags/ranger/">Ranger</a>, 
+            <a class="is-link" href="/tags/pathfinder/">Pathfinder</a>
         </span>
     </span>
     
@@ -824,15 +800,13 @@ code.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -858,9 +832,9 @@ code.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/">Infrastructure and System Monitoring using Prometheus</a></h2>
-            <p>Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &ldquo;Infrastructure and System Monitoring using Prometheus&rdquo;. You can find the used material here:</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2017/05/infrastructure-and-system-monitoring-using-prometheus/">Infrastructure and System Monitoring using Prometheus</a></h2>
+      <p>Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &ldquo;Infrastructure and System Monitoring using Prometheus&rdquo;. You can find the used material here:</p>
 <ul>
 <li>Slides: <a href="https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus">https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus</a></li>
 <li>Slides in PDF: <a href="https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE">https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE</a></li>
@@ -868,9 +842,9 @@ code.</p>
 </ul>
 <p>Feel free to share and distribute</p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -882,12 +856,12 @@ code.</p>
         </span>
         <span>
             
-            <a class="is-link" href="/tags/infrastructure/">infrastructure</a>, 
-            <a class="is-link" href="/tags/monitoring/">monitoring</a>, 
-            <a class="is-link" href="/tags/docker/">docker</a>, 
-            <a class="is-link" href="/tags/prometheus/">prometheus</a>, 
-            <a class="is-link" href="/tags/talks/">talks</a>, 
-            <a class="is-link" href="/tags/devoxx/">devoxx</a>
+            <a class="is-link" href="/tags/infrastructure/">Infrastructure</a>, 
+            <a class="is-link" href="/tags/monitoring/">Monitoring</a>, 
+            <a class="is-link" href="/tags/docker/">Docker</a>, 
+            <a class="is-link" href="/tags/prometheus/">Prometheus</a>, 
+            <a class="is-link" href="/tags/talks/">Talks</a>, 
+            <a class="is-link" href="/tags/devoxx/">Devoxx</a>
         </span>
     </span>
     
@@ -895,15 +869,13 @@ code.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -929,36 +901,36 @@ code.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2016/11/25/20161125-dockerize-your-grails-application/">Dockerize your Grails application</a></h2>
-            <p>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2016/11/dockerize-your-grails-application/">Dockerize your Grails application</a></h2>
+      <p>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..</p>
 <p>Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.</p>
 <p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ grails create-app docker-test --profile rest-api
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ grails create-app docker-test --profile rest-api
 </span></span></code></pre></div><p>After the Grails application has been created, we will need to add the following files to our project.</p>
 <ul>
 <li>Dockerfile (determines what our Docker image will contain)</li>
 <li>docker-entrypoint.sh (script that is responsible for starting our Grails application)</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span>// file: /src/main/docker/Dockerfile<span style="color:#960050;background-color:#1e0010">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="display:flex;"><span>// file: /src/main/docker/Dockerfile<span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> openjdk:latest</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">openjdk:latest</span><span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># set environment options</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> JAVA_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># set environment options</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ENV</span> JAVA_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Xms64m -Xmx256m -XX:MaxMetaspaceSize=128m&#34;</span><span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> mkdir -p /app<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /app</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> mkdir -p /app<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">WORKDIR</span> <span style="color:#e6db74">/app</span><span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /app/application.jar application.jar<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> /app/docker-entrypoint.sh docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> /app/application.jar application.jar<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> /app/docker-entrypoint.sh docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set file permissions</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chmod +x /app/docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># Set file permissions</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> chmod +x /app/docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
 </span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Set start script as enrypoint</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;./docker-entrypoint.sh&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>// file: /src/main/docker/app/docker-entrypoint.sh
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># Set start script as enrypoint</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;./docker-entrypoint.sh&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>// file: /src/main/docker/app/docker-entrypoint.sh
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash</span>
 </span></span><span style="display:flex;"><span>set -e
 </span></span><span style="display:flex;"><span>
@@ -966,8 +938,8 @@ code.</p>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># exec java ${JAVA_OPTS} -Dserver.port=${SERVER_PORT} -jar application.jar $@</span>
 </span></span></code></pre></div><p>Next step is to add the tasks to our <code>build.gradle</code> so it can generate the Docker image.</p>
 <p>So add the following snippet to your <code>build.gradle</code> file!</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#75715e">// file: /build.gradle
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>String <span style="color:#a6e22e">getDockerImageName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#75715e">// file: /build.gradle
+</span></span></span><span style="display:flex;"><span>String <span style="color:#a6e22e">getDockerImageName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;docker-test&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>
@@ -1001,15 +973,15 @@ code.</p>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><p>Now that we have everyting in place we can build the image and start the container,</p>
 <p>Create the docker image using assemble target and buildDockerImage</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ ./gradlew assemble buildDockerImage
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ ./gradlew assemble buildDockerImage
 </span></span></code></pre></div><p>Run a container based on the previous created image</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ docker run -it --rm -p 8080:8080 docker-test
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>$ docker run -it --rm -p 8080:8080 docker-test
 </span></span></code></pre></div><p>This will run the container in interactive mode (<code>-it</code>) and the container will be removed when we stop the container (<code>--rm</code>). Port 8080 in the container will be available on port 8080 on your host system (<code>-p 8080:8080</code>).</p>
 <p>This will run the specified container and the endpoint will be available using your browser. Just visit http://localhost:8080</p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -1021,8 +993,8 @@ code.</p>
         </span>
         <span>
             
-            <a class="is-link" href="/tags/grails/">grails</a>, 
-            <a class="is-link" href="/tags/docker/">docker</a>
+            <a class="is-link" href="/tags/grails/">Grails</a>, 
+            <a class="is-link" href="/tags/docker/">Docker</a>
         </span>
     </span>
     
@@ -1030,15 +1002,13 @@ code.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -1064,9 +1034,9 @@ code.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/">Creating/Pushing Docker images using Gradle without plugins</a></h2>
-            <p>In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2016/11/creating/pushing-docker-images-using-gradle-without-plugins/">Creating/Pushing Docker images using Gradle without plugins</a></h2>
+      <p>In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.</p>
 <p><strong>Prerequisite</strong> : Docker is installed on your machine.</p>
 <h2 id="creating-an-image">Creating an image</h2>
 <p>The following snippet will create a Docker image using the task <code>gradle buildDockerImage</code></p>
@@ -1077,7 +1047,7 @@ code.</p>
 | &gt;-- docker (contains a Dockerfile)
 | &gt;--- app (contains data that can be used in your Dockerfile)
 </code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#75715e">/*
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#75715e">/*
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">    You can put some logic in the getDockerImageName to determine how your
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">    Docker image should be created.
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
@@ -1112,7 +1082,7 @@ code.</p>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><h2 id="pushing-an-image">pushing an image</h2>
 <p>Pushing an image without using plugins is just as easy.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>pushDockerImage<span style="color:#f92672">(</span>type: Exec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>pushDockerImage<span style="color:#f92672">(</span>type: Exec<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;docker&#39;</span>
 </span></span><span style="display:flex;"><span>    description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Push a docker image&#39;</span>
 </span></span><span style="display:flex;"><span>    commandLine <span style="color:#e6db74">&#39;docker&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;push&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;${dockerImageName}&#34;</span>
@@ -1123,9 +1093,9 @@ code.</p>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><p>Using this approach without using unneeded Gradle plugins resulted in a an easy way to create containers on different platforms.</p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -1137,9 +1107,9 @@ code.</p>
         </span>
         <span>
             
-            <a class="is-link" href="/tags/docker/">docker</a>, 
-            <a class="is-link" href="/tags/gradle/">gradle</a>, 
-            <a class="is-link" href="/tags/groovy/">groovy</a>
+            <a class="is-link" href="/tags/docker/">Docker</a>, 
+            <a class="is-link" href="/tags/gradle/">Gradle</a>, 
+            <a class="is-link" href="/tags/groovy/">Groovy</a>
         </span>
     </span>
     
@@ -1147,15 +1117,13 @@ code.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -1181,11 +1149,11 @@ code.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/">Identifying Docker container outage using Prometheus</a></h2>
-            <p><a href="https://prometheus.io/">Prometheus</a> is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2016/11/identifying-docker-container-outage-using-prometheus/">Identifying Docker container outage using Prometheus</a></h2>
+      <p><a href="https://prometheus.io/">Prometheus</a> is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.</p>
 <p>Metric data is <strong>pulled</strong> (on a regular time-interval) from so called exporters which expose the metrics coming from applications/operating systems etc..</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>+------------------+                               +----------+     Visualize data
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>+------------------+                               +----------+     Visualize data
 </span></span><span style="display:flex;"><span>|  +------------+  |                               | Grafana  +---&gt; coming from
 </span></span><span style="display:flex;"><span>|  | Dockerized |  |                               +----+-----+     Prometheus
 </span></span><span style="display:flex;"><span>|  | Application|  |                                    |
@@ -1205,16 +1173,16 @@ code.</p>
 <p><a href="https://github.com/google/cadvisor">cAdvisor</a> is a project coming from Google and analyzes resource usage and performance characteristics of running Docker  containers! When running a Dockerized application and starting a cAdvisor container you will have instant metrics available for all running containers.</p>
 <p>A lot of metrics are exposed by cAdvisor of which one is the metric <code>container_last_seen</code>. You can use this metric in Prometheus to identify if a container has left the building :) The challenge with Prometheus is that it keeps the data for a specific amount of time the so called <code>Stale Timeout</code>. This means that Prometheus will keep reporting back that the data has been received until this timeout has occurred (default 5 minutes). This is of course too much if we need to identify if a container has gone.</p>
 <p>So if you would normally query like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">count</span>(container_last_seen<span style="color:#960050;background-color:#1e0010">{</span>job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;jobname&gt;&#34;</span>,name<span style="color:#f92672">=~</span><span style="color:#e6db74">&#34;.*&lt;containername&gt;.*&#34;</span><span style="color:#960050;background-color:#1e0010">}</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">count</span>(container_last_seen<span style="color:#960050;background-color:#1e0010">{</span>job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;jobname&gt;&#34;</span>,name<span style="color:#f92672">=~</span><span style="color:#e6db74">&#34;.*&lt;containername&gt;.*&#34;</span><span style="color:#960050;background-color:#1e0010">}</span>)
 </span></span></code></pre></div><p>This would get results until 5 minutes.. way to far&hellip;</p>
 <p>A simple alternate query to identify if the container has gone is like below:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">count</span>(time() <span style="color:#f92672">-</span> container_last_seen<span style="color:#960050;background-color:#1e0010">{</span>job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;jobname&gt;&#34;</span>,name<span style="color:#f92672">=~</span><span style="color:#e6db74">&#34;.*&lt;containername&gt;.*&#34;</span><span style="color:#960050;background-color:#1e0010">}</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">30</span>) <span style="color:#66d9ef">OR</span> vector(<span style="color:#ae81ff">0</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">count</span>(time() <span style="color:#f92672">-</span> container_last_seen<span style="color:#960050;background-color:#1e0010">{</span>job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;jobname&gt;&#34;</span>,name<span style="color:#f92672">=~</span><span style="color:#e6db74">&#34;.*&lt;containername&gt;.*&#34;</span><span style="color:#960050;background-color:#1e0010">}</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">30</span>) <span style="color:#66d9ef">OR</span> vector(<span style="color:#ae81ff">0</span>)
 </span></span></code></pre></div><p>The &lsquo;30&rsquo; is the time in seconds before we want to be notified if a container has gone. This time has to be larger then the pull interval for your job.</p>
 <p>When using the mentioned query you can create a nice <a href="http://docs.grafana.org/reference/singlestat/">Singlestat</a> panel in Grafan so you can display an alert when the container is gone.</p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -1226,9 +1194,9 @@ code.</p>
         </span>
         <span>
             
-            <a class="is-link" href="/tags/prometheus/">prometheus</a>, 
-            <a class="is-link" href="/tags/docker/">docker</a>, 
-            <a class="is-link" href="/tags/cadvisor/">cadvisor</a>
+            <a class="is-link" href="/tags/prometheus/">Prometheus</a>, 
+            <a class="is-link" href="/tags/docker/">Docker</a>, 
+            <a class="is-link" href="/tags/cadvisor/">Cadvisor</a>
         </span>
     </span>
     
@@ -1236,344 +1204,7 @@ code.</p>
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>November 16, 2016</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>4 minutes and
-            45 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2016/11/16/20161116-building-a-consul-cluster-using-terraform-aws/">Building a Consul cluster using Terraform/AWS</a></h2>
-            <!-- raw HTML omitted -->
-<ul>
-<li>Service Discovery</li>
-<li>Health Checking</li>
-<li>Key/Value Store</li>
-<li>Multi Datacenter</li>
-</ul>
-<p>For more information on <a href="http://Consul.io">Consul</a> itself please have a look in the excellent documentation.</p>
-<ul>
-<li><a href="https://www.consul.io/intro/index.html">Consul Intro</a></li>
-<li><a href="https://www.consul.io/docs/index.html">Consul documentation</a></li>
-</ul>
-<h2 id="is-it-really-easy">Is it really easy?</h2>
-<p>Setting up a <a href="http://Consul.io">Consul</a> cluster seems easy, just follow the many tutorials out there and you will have a Consul cluster running in a few steps on your local machine&hellip;</p>
-<p>But hey.. <strong>what if you need to deploy this cluster on an AWS environment? How do
-you create the cluster and how can you make sure it is always available?</strong></p>
-<p>This simple write up is just an example to give you an idea how this Consul cluster can be created and provisioned by using Terraform only. The goal is to have a cluster using the official Docker images provided by Consul itself running on EC2 nodes.</p>
-<h2 id="creating-a-consul-cluster">Creating a Consul cluster</h2>
-<p>The principle is not that hard&hellip; Consul nodes can discover each other based on IP Address. If you feed the Consul cluster members with IP Addresses that are part of the cluster you are good to go. In the example case we are going to start a number of Consul cluster members. The first node will be unable to form a cluster but if the second node starts up it will get the ip from the first node and the the first node will then know the ip of the second one.. etc.. So if you start up more than 2 nodes you will be good to go.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>+------+   +------+  +------+  +------+  +------+
-</span></span><span style="display:flex;"><span>|Consul|   |Consul|  |Consul|  |Consul|  |Consul|
-</span></span><span style="display:flex;"><span>|Node 1|   |Node 2|  |Node 3|  |Node 4|  |Node n|
-</span></span><span style="display:flex;"><span>+------+   +------+  +------+  +------+  +------+
-</span></span><span style="display:flex;"><span>    &lt; Find each other based on ip address &gt;
-</span></span></code></pre></div><p>The power is in the user-data script that is used for bootstrapping the Consul cluster nodes. In the example case they will find each other based on a query using <code>aws ec2 describe-instances</code> that will find nodes with a specific name, and from those identified nodes we will extract the IP Addresses that will be used to joint the Consul cluster. You can always modify the query to your own needs off course. The user-data script is used in the launch configuration.</p>
-<p>So enough talk&hellip; lets start :)</p>
-<p><strong>The given examples are intentionally kept simple!! So you will need to tweak your Terraform code according to your needs</strong></p>
-<h2 id="step-1-define-a-launch-configuration">Step 1: Define a launch Configuration</h2>
-<p>The core component of our Consul cluster is the launch configuration. This launch configuration determines what user-data file needs to be executed when launching a new instance.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_launch_configuration&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/*
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    in this case we use a docker optimized ami, because we are going
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    to use the official Consul docker image as a starter.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    You can always use an ami on which you install docker manually!
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">image_id</span>  = <span style="color:#e6db74">&#34;docker-optimized-ami-0123456789&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/*
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    the user-data script that holds the magic
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">user_data</span> = <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>data.<span style="color:#a6e22e">template_file</span>.<span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">rendered</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">instance_type</span> = <span style="color:#e6db74">&#34;t2.micro&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/*
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    make sure you open the correct ports so the Consul nodes can
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    discover each other the actual security group is not shown
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">security_groups</span> = [<span style="color:#e6db74">&#34;sg-0123456789&#34;</span>]
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">key_name</span> = <span style="color:#a6e22e">your</span><span style="color:#f92672">-</span><span style="color:#a6e22e">deploy</span><span style="color:#f92672">-</span><span style="color:#a6e22e">key</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/*
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    us a policy which grants read access to the EC2 api
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">iam_instance_profile</span> = <span style="color:#e6db74">&#34;arn:aws:iam::0123456789:read_ec2_policy/ec2&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    The template file used for the user-data
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">data</span> <span style="color:#e6db74">&#34;template_file&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">template</span> = <span style="color:#e6db74">&#34;user-data-consul-cluster.tpl&#34;</span>)}<span style="color:#e6db74">&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  vars {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    // the name must match the Name tag of the autoscaling group
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    consul_cluster_name = &#34;</span><span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span><span style="color:#f92672">-</span><span style="color:#a6e22e">member</span><span style="color:#e6db74">&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    // the number of instances that need to be in the cluster to be healthy
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    consul_cluster_min_size = 3
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
-</span></span></span></code></pre></div><h2 id="step-2-create-the-template-file">Step 2: Create the template file</h2>
-<p>The user-data file is going to query AWS using the aws describe-instances api and will return ec2 nodes that have a matching name using the --filters option. <code>'Name=tag:Name,Values=${consul_cluster_name}'</code></p>
-<p>All the retrieved instances are then queried for their private ip and the values are stored in a list. After completing the list the instance ip for the current machine is removed.</p>
-<p>A Consul specific join string is composed and provided to the docker image. This enables the Consul docker image to check for available servers when starting.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>// File: user-data-consul-cluster.tpl
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash -ex</span>
-</span></span><span style="display:flex;"><span>exec &gt; &gt;<span style="color:#f92672">(</span>tee /var/log/user-data.log|logger -t user-data -s 2&gt;/dev/console<span style="color:#f92672">)</span> 2&gt;&amp;<span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;installing additional software&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#f92672">{</span>1..5<span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
-</span></span><span style="display:flex;"><span>    yum install -y aws-cli <span style="color:#f92672">&amp;&amp;</span> break <span style="color:#f92672">||</span> sleep <span style="color:#ae81ff">120</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">################################################################################</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Running Consul</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">################################################################################</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># get current instance ip</span>
-</span></span><span style="display:flex;"><span>INSTANCE_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl http://169.254.169.254/latest/meta-data/local-ipv4<span style="color:#66d9ef">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># get list of available Consul servers; based on Name (value) tag!</span>
-</span></span><span style="display:flex;"><span>IP_LIST<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>aws ec2 describe-instances --region us-east-1 <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--filters <span style="color:#e6db74">&#39;Name=tag:Name,Values=${consul_cluster_name}&#39;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span><span style="color:#e6db74">&#39;Name=instance-state-name,Values=running&#39;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--query <span style="color:#e6db74">&#34;Reservations[*].Instances[*].PrivateIpAddress&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--output<span style="color:#f92672">=</span>text<span style="color:#66d9ef">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># remove the current instance ip from the list of available servers</span>
-</span></span><span style="display:flex;"><span>IP_LIST<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$$<span style="color:#e6db74">{IP_LIST/</span>$$<span style="color:#e6db74">INSTANCE_IP/}&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># remove duplicated spaces, \r\n and replace space by &#39;,&#39;</span>
-</span></span><span style="display:flex;"><span>IP_LIST<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo $$IP_LIST | tr -s <span style="color:#e6db74">&#34; &#34;</span> | tr -d <span style="color:#e6db74">&#39;\r\n&#39;</span> | tr -s <span style="color:#e6db74">&#39; &#39;</span> <span style="color:#e6db74">&#39;,&#39;</span><span style="color:#66d9ef">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># create join string</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#66d9ef">$(</span>echo $IP_LIST | sed <span style="color:#e6db74">&#34;s/,/ /g&#34;</span><span style="color:#66d9ef">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">do</span>
-</span></span><span style="display:flex;"><span>    JOIN_STRING<span style="color:#f92672">+=</span><span style="color:#e6db74">&#34;-retry-join </span>$i<span style="color:#e6db74"> &#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># - run Consul</span>
-</span></span><span style="display:flex;"><span>docker run -d --net<span style="color:#f92672">=</span>host <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-e <span style="color:#e6db74">&#39;CONSUL_LOCAL_CONFIG={&#34;skip_leave_on_interrupt&#34;: true}&#39;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--name consul-server consul:latest <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>agent -server -bind<span style="color:#f92672">=</span>$INSTANCE_IP $JOIN_STRING <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-bootstrap-expect<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>consul_cluster_min_size<span style="color:#e6db74">}</span> -ui -client 0.0.0.0
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># ------------------------------------------------------------------------------</span>
-</span></span></code></pre></div><h2 id="step-3-create-an-autoscaling-group">Step 3: Create an autoscaling group</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#75715e">/*
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    creates an autoscaling group so servers are created when needed
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_autoscaling_group&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">min_size</span> = <span style="color:#ae81ff">3</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">max_size</span> = <span style="color:#ae81ff">5</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">desired_capacity</span> = <span style="color:#ae81ff">3</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">min_elb_capacity</span> = <span style="color:#ae81ff">3</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">launch_configuration</span> = <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">aws_launch_configuration</span>.<span style="color:#a6e22e">consul</span><span style="color:#f92672">-</span><span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">load_balancers</span> = [<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">aws_elb</span>.<span style="color:#a6e22e">consul</span>.<span style="color:#a6e22e">id</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tag</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">key</span> = <span style="color:#e6db74">&#34;Name&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/*
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">      note: this is the value that is being searched for in the user-data
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    */</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">value</span> = <span style="color:#e6db74">&#34;consul-cluster-member&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">propagate_at_launch</span> = <span style="color:#66d9ef">true</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="step-4-create-an-elb-as-frontend-for-the-consul-cluster">Step 4: Create an ELB as frontend for the Consul cluster</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-terraform" data-lang="terraform"><span style="display:flex;"><span><span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_elb&#34;</span> <span style="color:#e6db74">&#34;consul-cluster&#34;</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;consul-cluster&#34;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">subnets</span> = [<span style="color:#e6db74">&#34;sn-0123456789&#34;</span>]
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">security_groups</span> = [<span style="color:#e6db74">&#34;sg-0123456789&#34;</span>]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8300</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8300</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8301</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8301</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8302</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8302</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8400</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8400</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8500</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;http&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8500</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;http&#34;</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">listener</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_port</span> = <span style="color:#ae81ff">8600</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">instance_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_port</span> = <span style="color:#ae81ff">8600</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">lb_protocol</span> = <span style="color:#e6db74">&#34;tcp&#34;</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">health_check</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">target</span> = <span style="color:#e6db74">&#34;HTTP:8500/v1/status/leader&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">healthy_threshold</span> = <span style="color:#ae81ff">2</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">unhealthy_threshold</span> = <span style="color:#ae81ff">2</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">interval</span> = <span style="color:#ae81ff">30</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">timeout</span> = <span style="color:#ae81ff">5</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>When putting all the pieces together you should now have a running Consul cluster!</p>
-
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/consul/">consul</a>, 
-            <a class="is-link" href="/tags/terraform/">terraform</a>, 
-            <a class="is-link" href="/tags/aws/">aws</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>November 2, 2016</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>0 minutes and
-            31 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2016/11/02/20161101-change-the-port-of-actuator-endpoint/">Change the port of actuator endpoint in a Grails application</a></h2>
-            <p>When using actuator endpoints to expose metrics in a Grails (Spring Boot) application,
-it may be useful to run the metrics on a different port.</p>
-<p>This enables you to hide the metrics for the public and use the different port in
-an AWS infrastucture so that the metrics are only available internal.</p>
-<p>Let us first enable the actuator endpoints</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>// File: grails-app/conf/application.yml
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span># Spring Actuator Endpoints are Disabled by Default
-</span></span><span style="display:flex;"><span>endpoints:
-</span></span><span style="display:flex;"><span>    enabled: true
-</span></span><span style="display:flex;"><span>    jmx:
-</span></span><span style="display:flex;"><span>        enabled: true
-</span></span></code></pre></div><p>Change the port on which the metrics runs, add the lines below to the appl</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>// File: grails-app/conf/application.yml
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>management:
-</span></span><span style="display:flex;"><span>    port: 9000
-</span></span></code></pre></div><p>Now when you start your Grails application it run on port <code>8080</code> and the metrics
-are available on port <code>9090</code>/metrics</p>
-
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/grails/">grails</a>, 
-            <a class="is-link" href="/tags/springboot/">springboot</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
+  </article>
 </div>
 
 
@@ -1610,7 +1241,7 @@ are available on port <code>9090</code>/metrics</p>
 
 
         <ul class="pagination-list">
-            <li><a class="pagination-link" href="https://mpas.github.io" aria-label="Home">
+            <li><a class="pagination-link" href="https://mpas.github.io/" aria-label="Home">
                     <span class="icon-text">
                         <span class="icon">
                             <i class="fas fa-home"></i>
@@ -1659,43 +1290,46 @@ are available on port <code>9090</code>/metrics</p>
         </article>
     </template>
     <footer class="footer">
-    <div class="content has-text-centered">
-        <p>Lets connect on:</p>
-        <p>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-twitter"></i>
-                </span>
-                <span><a href="https://twitter.com/marcopas">Twitter</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-stack-overflow"></i>
-                </span>
-                <span><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-linkedin"></i>
-                </span>
-                <span><a href="">LinkedIn</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-github"></i>
-                </span>
-                <span><a href="https://github.com/mpas">GitHub</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fas fa-envelope"></i>
-                </span>
-                <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
-            </span>
-        </p>
-    </div>
+  <div class="content has-text-centered">
+    <p>Lets connect on:</p>
+    <p>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-twitter"></i>
+        </span>
+        <span><a href="https://twitter.com/marcopas">Twitter</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-stack-overflow"></i>
+        </span>
+        <span
+          ><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span
+        >
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-linkedin"></i>
+        </span>
+        <span><a href="https://www.linkedin.com/in/marcopas">LinkedIn</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-github"></i>
+        </span>
+        <span><a href="https://github.com/mpas">GitHub</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
+      </span>
+    </p>
+  </div>
 </footer>
 <script src="/js/search.js"></script>
+
 
     <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
     <script>addBackToTop({

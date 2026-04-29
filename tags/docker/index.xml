@@ -1,94 +1,68 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>docker on Marco Pas</title>
+    <title>Docker on Marco Pas</title>
     <link>https://mpas.github.io/tags/docker/</link>
-    <description>Recent content in docker on Marco Pas</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 09 May 2023 10:07:26 +0200</lastBuildDate><atom:link href="https://mpas.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Docker on Marco Pas</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 09 May 2023 10:07:26 +0200</lastBuildDate>
+    <atom:link href="https://mpas.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Running Rancher on K3S using K3D</title>
-      <link>https://mpas.github.io/posts/2023/05/09/20230509-running-rancher-on-k3s-using-k3d/</link>
+      <link>https://mpas.github.io/posts/2023/05/running-rancher-on-k3s-using-k3d/</link>
       <pubDate>Tue, 09 May 2023 10:07:26 +0200</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2023/05/09/20230509-running-rancher-on-k3s-using-k3d/</guid>
-      <description>Requirements Colima installed When using Colima make sure to point to the correct docker socket using an export
-export DOCKER_HOST=&amp;quot;unix://${HOME}/.colima/default/docker.sock K3D installed Helm installed Steps # start colima with 4 CPU and 8GB memory colima start --cpu 4 --memory 8 # add the correct Helm repositories echo &amp;#34;Adding Helm repos&amp;#34; \ &amp;amp;&amp;amp; helm repo add rancher-latest https://releases.rancher.com/server-charts/latest \ &amp;amp;&amp;amp; helm repo add rancher-stable https://releases.rancher.com/server-charts/stable \ &amp;amp;&amp;amp; helm repo add jetstack https://charts.</description>
+      <guid>https://mpas.github.io/posts/2023/05/running-rancher-on-k3s-using-k3d/</guid>
+      <description>&lt;h2 id=&#34;requirements&#34;&gt;Requirements&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/abiosoft/colima&#34;&gt;Colima&lt;/a&gt; installed&#xA;&lt;ul&gt;&#xA;&lt;li&gt;When using Colima make sure to point to the correct docker socket using an export&lt;br&gt;&#xA;&lt;code&gt;export DOCKER_HOST=&amp;quot;unix://${HOME}/.colima/default/docker.sock&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://k3d.io/&#34;&gt;K3D&lt;/a&gt; installed&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://helm.sh/&#34;&gt;Helm&lt;/a&gt; installed&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;steps&#34;&gt;Steps&lt;/h2&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# start colima with 4 CPU and 8GB memory&#xA;colima start --cpu 4 --memory 8&#xA;&#xA;# add the correct Helm repositories&#xA;echo &amp;#34;Adding Helm repos&amp;#34; \&#xA;&amp;amp;&amp;amp; helm repo add rancher-latest https://releases.rancher.com/server-charts/latest \&#xA;&amp;amp;&amp;amp; helm repo add rancher-stable https://releases.rancher.com/server-charts/stable \&#xA;&amp;amp;&amp;amp; helm repo add jetstack https://charts.jetstack.io \&#xA;&amp;amp;&amp;amp; helm repo update&#xA;&#xA;# create a cluster where rancher will be installed (name: rmaster -&amp;gt; this will become k3d-rmaster)&#xA;## - port 80/443 on localhost will be forwarded to 80/443 in the cluster/load balancer&#xA;## - the number of servers and agents are specified explicitly but they are the defaults!&#xA;##   servers: the number of servers that will be run&#xA;##   agents: the number of worker nodes&#xA;k3d cluster create rmaster --api-port 6443 --port 80:80@loadbalancer --port 443:443@loadbalancer --servers 1 --agents 0&#xA;&#xA;# change to the correct Kubernetes context&#xA;## actually not required as k3d will switch to the just created context&#xA;kubectl config set-context k3d-rmaster&#xA;&#xA;# install Cert Manager&#xA;kubectl create namespace cert-manager \&#xA;&amp;amp;&amp;amp; helm install cert-manager jetstack/cert-manager \&#xA;    --namespace cert-manager \&#xA;    --version v1.11.1 \&#xA;    --set installCRDs=true --debug&#xA;&#xA;# verify if cert-manager is running&#xA;kubectl get pods --namespace cert-manager&#xA;&#xA;# install Rancher (this can take a while! So dont get scared when you see pods in error state!)&#xA;## - replicas: the number of rancher replicas&#xA;## - hostname: set the hostname to your correct ip; for this we are using https://nip.io&#xA;##             an alternative could be using ngrok or manually update your hosts file!&#xA;## - bootstrapPassword: The password for login into the rancher web ui&#xA;## - global.cattle.psp.enabled: We disable pod security policies; we need to harden later on!&#xA;kubectl create namespace cattle-system \&#xA;&amp;amp;&amp;amp; helm install rancher rancher-latest/rancher \&#xA;    --namespace cattle-system \&#xA;    --set hostname=2a8f-84-30-119-190.ngrok-free.app \&#xA;    --set global.cattle.psp.enabled=false \&#xA;    --set bootstrapPassword=welcome123 \&#xA;    --debug&#xA;    &#xA;    --set replicas=1 \&#xA;&#xA;# verify if rancher is running&#xA;kubectl get pods --namespace cattle-system&#xA;&#xA;# create client clusters&#xA;k3d cluster create rclient1 # (name: rclient1 -&amp;gt; this will become k3d-rclient1)&#xA;k3d cluster create rclient2 # (name: rclient2 -&amp;gt; this will become k3d-rclient2)&#xA;&#xA;# import the client clusters via the web interface!&#xA;## make sure to pick the correct host; see the rancher install&#xA;## this will give an unsecure connection; no need to worry just proceed in your browser&#xA;http://192-168-68-107.nip.io&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;resources&#34;&gt;Resources&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://gist.github.com/rafi/d4440661e7de208009701ca3627caa1d&#34;&gt;GitHub Gist - Rancher Workshop&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://gist.github.com/jwsy/5634d17e133d7fdc3045c3a2a18b652a&#34;&gt;GitHub Gist - Script to install rancher on your macOS machine&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
-    
     <item>
       <title>Infrastructure and System Monitoring using Prometheus</title>
-      <link>https://mpas.github.io/posts/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</link>
+      <link>https://mpas.github.io/posts/2017/05/infrastructure-and-system-monitoring-using-prometheus/</link>
       <pubDate>Fri, 12 May 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2017/05/12/20170512-infrastructure-and-system-monitoring-using-prometheus/</guid>
-      <description>Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &amp;ldquo;Infrastructure and System Monitoring using Prometheus&amp;rdquo;. You can find the used material here:
-Slides: https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus Slides in PDF: https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE Code: https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus Feel free to share and distribute</description>
+      <guid>https://mpas.github.io/posts/2017/05/infrastructure-and-system-monitoring-using-prometheus/</guid>
+      <description>&lt;p&gt;Last week I was lucky enough to host a talk during the Devoxx (UK) on the subject of &amp;ldquo;Infrastructure and System Monitoring using Prometheus&amp;rdquo;. You can find the used material here:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Slides: &lt;a href=&#34;https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus&#34;&gt;https://speakerdeck.com/mpas/infrastructure-and-system-monitoring-using-prometheus&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Slides in PDF: &lt;a href=&#34;https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE&#34;&gt;https://drive.google.com/open?id=0Byx7lFSXlDU0TkJ1ZUZqdjU4MFE&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Code: &lt;a href=&#34;https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus&#34;&gt;https://github.com/mpas/infrastructure-and-system-monitoring-using-prometheus&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Feel free to share and distribute&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Dockerize your Grails application</title>
-      <link>https://mpas.github.io/posts/2016/11/25/20161125-dockerize-your-grails-application/</link>
+      <link>https://mpas.github.io/posts/2016/11/dockerize-your-grails-application/</link>
       <pubDate>Fri, 25 Nov 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2016/11/25/20161125-dockerize-your-grails-application/</guid>
-      <description>Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..
-Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.
-Prerequisite : Docker is installed on your machine.
-$ grails create-app docker-test --profile rest-api After the Grails application has been created, we will need to add the following files to our project.</description>
+      <guid>https://mpas.github.io/posts/2016/11/dockerize-your-grails-application/</guid>
+      <description>&lt;p&gt;Ever wanted to create a Docker image that contains your Grails application? You are lucky! It is easy to do so..&lt;/p&gt;&#xA;&lt;p&gt;Let us first create a new Grails application. In the example we will create a basic application using the rest-profile.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Prerequisite&lt;/strong&gt; : Docker is installed on your machine.&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ grails create-app docker-test --profile rest-api&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After the Grails application has been created, we will need to add the following files to our project.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Creating/Pushing Docker images using Gradle without plugins</title>
-      <link>https://mpas.github.io/posts/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/</link>
+      <link>https://mpas.github.io/posts/2016/11/creating/pushing-docker-images-using-gradle-without-plugins/</link>
       <pubDate>Thu, 24 Nov 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2016/11/24/20161124-creating-pushing-docker-images-using-gradle-without-plugins/</guid>
-      <description>In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.</description>
+      <guid>https://mpas.github.io/posts/2016/11/creating/pushing-docker-images-using-gradle-without-plugins/</guid>
+      <description>&lt;p&gt;In our current project we where heavily focussed on the usage of Gradle plugins to create Docker images. We used plugins to create the images and push them to our AWS ECR repositories. When using these plugins we hit various bugs related to the fact that not all developers where using Linux operating systems to test our their containers. At the end we took a look on how we could create those images without using additional plugins.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Identifying Docker container outage using Prometheus</title>
-      <link>https://mpas.github.io/posts/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</link>
+      <link>https://mpas.github.io/posts/2016/11/identifying-docker-container-outage-using-prometheus/</link>
       <pubDate>Thu, 17 Nov 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2016/11/17/20161117-identifying-docker-container-outage-using-prometheus/</guid>
-      <description>Prometheus is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.
-Metric data is pulled (on a regular time-interval) from so called exporters which expose the metrics coming from applications/operating systems etc..
-+------------------+ +----------+ Visualize data | +------------+ | | Grafana +---&amp;gt; coming from | | Dockerized | | +----+-----+ Prometheus | | Application| | | | +------------+ | ^ | +------------+ | Pull data +----------+ | | | CAdvisor +---------&amp;gt;-------+Prometheus+----------+ | +------------+ | +---------++ | | | | Operating System | | | with | | | Docker installed | | | | v +------------------+ Prometheus collects data coming from remote systems In the diagram above cAdvisor is a so called exporter.</description>
+      <guid>https://mpas.github.io/posts/2016/11/identifying-docker-container-outage-using-prometheus/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://prometheus.io/&#34;&gt;Prometheus&lt;/a&gt; is a an open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.&lt;/p&gt;&#xA;&lt;p&gt;Metric data is &lt;strong&gt;pulled&lt;/strong&gt; (on a regular time-interval) from so called exporters which expose the metrics coming from applications/operating systems etc..&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+------------------+                               +----------+     Visualize data&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|  +------------+  |                               | Grafana  +---&amp;gt; coming from&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|  | Dockerized |  |                               +----+-----+     Prometheus&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|  | Application|  |                                    |&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|  +------------+  |                                    ^&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|  +------------+  |  Pull data   +----------+          |&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|  |  CAdvisor  +---------&amp;gt;-------+Prometheus+----------+&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|  +------------+  |              +---------++&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                  |                        |&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| Operating System |                        |&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|       with       |                        |&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;| Docker installed |                        |&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|                  |                        v&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;+------------------+           Prometheus collects data&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                               coming from remote systems&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In the diagram above cAdvisor is a so called exporter. There are other exporters like e.g. &lt;a href=&#34;https://github.com/prometheus/node_exporter&#34;&gt;Node Exporter&lt;/a&gt; that exposes machine metrics. &lt;strong&gt;cAdvisor&lt;/strong&gt; is used to get Docker container metrics.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Accessing localhost from a Docker Container using native Docker for Mac</title>
-      <link>https://mpas.github.io/posts/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/</link>
+      <link>https://mpas.github.io/posts/2016/11/accessing-localhost-from-a-docker-container-using-native-docker-for-mac/</link>
       <pubDate>Tue, 01 Nov 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2016/11/01/20161101-access-localhost-using-native-docker-for-mac/</guid>
-      <description>Ever had a need to access something from within a Docker container that runs on the host system?
-When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.
-A solution for this isto define a new local loopback to your localhost
-$ sudo ifconfig lo0 alias 172.</description>
+      <guid>https://mpas.github.io/posts/2016/11/accessing-localhost-from-a-docker-container-using-native-docker-for-mac/</guid>
+      <description>&lt;p&gt;Ever had a need to access something from within a &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; container that runs on the host system?&lt;/p&gt;&#xA;&lt;p&gt;When using native Docker on OSX you have bad luck. When configuring a container and pointing that to localhost will result in the fact the your software will be targeted at the localhost of the docker container.&lt;/p&gt;&#xA;&lt;p&gt;A solution for this isto define a new local loopback to your localhost&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ sudo ifconfig lo0 alias 172.16.123.1&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This will define a loopback network interface that points to your localhost. When you need to access the localhost you can use this ip.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Setting up Docker RabbitMQ with predefined users/vhosts</title>
-      <link>https://mpas.github.io/posts/2015/06/11/20150611-docker-rabbitmq-default-users/</link>
+      <link>https://mpas.github.io/posts/2015/06/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</link>
       <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2015/06/11/20150611-docker-rabbitmq-default-users/</guid>
-      <description>When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.
-The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.
-It involves a init.sh script that is used to create the users and vhosts.</description>
+      <guid>https://mpas.github.io/posts/2015/06/setting-up-docker-rabbitmq-with-predefined-users/vhosts/</guid>
+      <description>&lt;p&gt;When creating an Docker image it is nice to have predefined users and vhosts without manually having to create them after the Docker RabbitMQ image has started.&lt;/p&gt;&#xA;&lt;p&gt;The following is a Dockerfile that extends the default Docker RabbitMQ image including the Management Plugin and it creates a standard set of users / vhosts when the container is created from the image.&lt;/p&gt;&#xA;&lt;p&gt;It involves a init.sh script that is used to create the users and vhosts.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Installing Docker Registry 2.0.1 using self signed certificates</title>
-      <link>https://mpas.github.io/posts/2015/06/05/20150605-docker-setup-registry/</link>
+      <link>https://mpas.github.io/posts/2015/06/installing-docker-registry-2.0.1-using-self-signed-certificates/</link>
       <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2015/06/05/20150605-docker-setup-registry/</guid>
-      <description>The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.</description>
+      <guid>https://mpas.github.io/posts/2015/06/installing-docker-registry-2.0.1-using-self-signed-certificates/</guid>
+      <description>&lt;p&gt;The new Docker Registry (2.x) has just been released and is rewritten in Go. The default installation now requires SSL security and I was looking for a way to secure the Registry using a NGINX SSL proxy where users need to provide username/password to access the registry. The setup of the NGINX proxy can be done manually but i decided to see if i can reuse the excellent images from Container Solutions to ease the installation.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

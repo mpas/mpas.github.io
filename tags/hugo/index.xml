@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>hugo on Marco Pas</title>
+    <title>Hugo on Marco Pas</title>
     <link>https://mpas.github.io/tags/hugo/</link>
-    <description>Recent content in hugo on Marco Pas</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 09 Jun 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://mpas.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent content in Hugo on Marco Pas</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 09 Jun 2014 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://mpas.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Skip a contenttype/section to be renderend</title>
-      <link>https://mpas.github.io/posts/2014/06/09/20140609-hugo-skip-certain-content-to-be-rendered/</link>
+      <link>https://mpas.github.io/posts/2014/06/skip-a-contenttype/section-to-be-renderend/</link>
       <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://mpas.github.io/posts/2014/06/09/20140609-hugo-skip-certain-content-to-be-rendered/</guid>
-      <description>When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.
-Example: You want to only render contenttype &amp;lsquo;post&amp;rsquo; use the following code in your template:
-{{ if eq .Type &amp;#34;post&amp;#34; }} {{ .Title }} {{ .Content }} {{ end }} </description>
+      <guid>https://mpas.github.io/posts/2014/06/skip-a-contenttype/section-to-be-renderend/</guid>
+      <description>&lt;p&gt;When creating a layout it may occur that you want to skip rendering certain types of content, or render only specific content in a part of your layout.&lt;/p&gt;&#xA;&lt;p&gt;Example:&#xA;You want to only render contenttype &amp;lsquo;post&amp;rsquo;  use the following code in your template:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{{ &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;eq&lt;/span&gt; .&lt;span style=&#34;color:#a6e22e&#34;&gt;Type&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;post&amp;#34;&lt;/span&gt; }}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {{ .&lt;span style=&#34;color:#a6e22e&#34;&gt;Title&lt;/span&gt; }}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {{ .&lt;span style=&#34;color:#a6e22e&#34;&gt;Content&lt;/span&gt; }}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{{ &lt;span style=&#34;color:#a6e22e&#34;&gt;end&lt;/span&gt; }}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
-    
   </channel>
 </rss>

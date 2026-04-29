@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+
+    
+    <meta charset="utf-8">
+    <title>Marco Pas - Running Rancher on K3S using K3D</title>
+    <meta name="description"
+        content="">
+    <meta name="author" content="Marco Pas">
+
+    <meta name="generator" content="" />
+    <meta name="robots" content="index,follow">
+
+
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad: true});</script>
+
+    <script src="https://unpkg.com/lunr/lunr.js"></script>
+
+    
+    
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+
+    
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+
+</head>
+
+<body class="has-background-light">
+    <div>
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
+    </div>
+
+    <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://mpas.github.io/">
+                MARCO PAS
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-menu">
+            <div class="navbar-start">
+                <div class="navbar-start">
+                    
+                    
+                    <a class="navbar-item is-hoverable" href="/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-book has-text-primary"></i>
+                        </span>
+                        
+                        <span>
+                            Home
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/posts">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-archive has-text-warning"></i>
+                        </span>
+                        
+                        <span>
+                            Archive
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/tags">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-tag has-text-danger"></i>
+                        </span>
+                        
+                        <span>
+                            Tags
+                        </span>
+                        
+                    <a class="navbar-item is-hoverable" href="/pages/about/">
+                        
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-address-card has-text-success"></i>
+                        </span>
+                        
+                        <span>
+                            About
+                        </span>
+                        
+                    </a>
+                    
+                </div>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field control">
+                        <div class="control has-icons-left">
+                            <form id="search" method="get" role="search">
+                                <input class="input" type="search" id="search-input" placeholder="Search">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </nav>
+
+    <div class="columns is-mobile" style="height: 10px; padding: 0; margin: 0;">
+        <div class="column has-background-black" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-success" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-link" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-warning" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-danger" style="margin: 0; padding: 0;"></div>
+        <div class="column has-background-info" style="margin: 0; padding: 0;"></div>
+    </div>
+</div>
+
+
+    <div class="container">
+        <div class="is-search-result">
+            
+<div class="box mt-5 has-background-white">
+  <article>
+    
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>May 9, 2023</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>1 minutes and
+            53 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+    <div class="content">
+      <h2>Running Rancher on K3S using K3D</h2>
+      <h2 id="requirements">Requirements</h2>
+<ul>
+<li><a href="https://github.com/abiosoft/colima">Colima</a> installed
+<ul>
+<li>When using Colima make sure to point to the correct docker socket using an export<br>
+<code>export DOCKER_HOST=&quot;unix://${HOME}/.colima/default/docker.sock</code></li>
+</ul>
+</li>
+<li><a href="https://k3d.io/">K3D</a> installed</li>
+<li><a href="https://helm.sh/">Helm</a> installed</li>
+</ul>
+<h2 id="steps">Steps</h2>
+<pre tabindex="0"><code># start colima with 4 CPU and 8GB memory
+colima start --cpu 4 --memory 8
+
+# add the correct Helm repositories
+echo &#34;Adding Helm repos&#34; \
+&amp;&amp; helm repo add rancher-latest https://releases.rancher.com/server-charts/latest \
+&amp;&amp; helm repo add rancher-stable https://releases.rancher.com/server-charts/stable \
+&amp;&amp; helm repo add jetstack https://charts.jetstack.io \
+&amp;&amp; helm repo update
+
+# create a cluster where rancher will be installed (name: rmaster -&gt; this will become k3d-rmaster)
+## - port 80/443 on localhost will be forwarded to 80/443 in the cluster/load balancer
+## - the number of servers and agents are specified explicitly but they are the defaults!
+##   servers: the number of servers that will be run
+##   agents: the number of worker nodes
+k3d cluster create rmaster --api-port 6443 --port 80:80@loadbalancer --port 443:443@loadbalancer --servers 1 --agents 0
+
+# change to the correct Kubernetes context
+## actually not required as k3d will switch to the just created context
+kubectl config set-context k3d-rmaster
+
+# install Cert Manager
+kubectl create namespace cert-manager \
+&amp;&amp; helm install cert-manager jetstack/cert-manager \
+    --namespace cert-manager \
+    --version v1.11.1 \
+    --set installCRDs=true --debug
+
+# verify if cert-manager is running
+kubectl get pods --namespace cert-manager
+
+# install Rancher (this can take a while! So dont get scared when you see pods in error state!)
+## - replicas: the number of rancher replicas
+## - hostname: set the hostname to your correct ip; for this we are using https://nip.io
+##             an alternative could be using ngrok or manually update your hosts file!
+## - bootstrapPassword: The password for login into the rancher web ui
+## - global.cattle.psp.enabled: We disable pod security policies; we need to harden later on!
+kubectl create namespace cattle-system \
+&amp;&amp; helm install rancher rancher-latest/rancher \
+    --namespace cattle-system \
+    --set hostname=2a8f-84-30-119-190.ngrok-free.app \
+    --set global.cattle.psp.enabled=false \
+    --set bootstrapPassword=welcome123 \
+    --debug
+    
+    --set replicas=1 \
+
+# verify if rancher is running
+kubectl get pods --namespace cattle-system
+
+# create client clusters
+k3d cluster create rclient1 # (name: rclient1 -&gt; this will become k3d-rclient1)
+k3d cluster create rclient2 # (name: rclient2 -&gt; this will become k3d-rclient2)
+
+# import the client clusters via the web interface!
+## make sure to pick the correct host; see the rancher install
+## this will give an unsecure connection; no need to worry just proceed in your browser
+http://192-168-68-107.nip.io
+</code></pre><h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://gist.github.com/rafi/d4440661e7de208009701ca3627caa1d">GitHub Gist - Rancher Workshop</a></li>
+<li><a href="https://gist.github.com/jwsy/5634d17e133d7fdc3045c3a2a18b652a">GitHub Gist - Script to install rancher on your macOS machine</a></li>
+</ul>
+
+    </div>
+    <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-folder"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/categories/infrastructure/">Infrastructure</a>
+        </span>
+    </span>
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/kubernetes/">Kubernetes</a>, 
+            <a class="is-link" href="/tags/rancher/">Rancher</a>, 
+            <a class="is-link" href="/tags/k3d/">K3d</a>, 
+            <a class="is-link" href="/tags/docker/">Docker</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+  </article>
+</div>
+
+        </div>
+    </div>
+
+    
+    <template id="is-search-template" hidden>
+        <article class="content-placeholder content">
+            <div>
+                <hr class="mt-0 mb-0">
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                    <span>
+                        <div class="date-placeholder"></div>
+                    </span>
+                </span>
+                <span class="icon-text">
+                    <span class="icon">
+                        <i class="fas fa-tag"></i>
+                    </span>
+                    <span>
+                        <div class="tags-placeholder"></div>
+                    </span>
+                </span>
+                <hr class="mt-0 mb-0">
+            </div>
+            <div>
+                <h5 class="mt-2">
+                    <a class="is-read-more" href=""></a>
+                </h5>
+                <div class="summary-placeholder"></div>
+            </div>
+        </article>
+    </template>
+    <footer class="footer">
+  <div class="content has-text-centered">
+    <p>Lets connect on:</p>
+    <p>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-twitter"></i>
+        </span>
+        <span><a href="https://twitter.com/marcopas">Twitter</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-stack-overflow"></i>
+        </span>
+        <span
+          ><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span
+        >
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-linkedin"></i>
+        </span>
+        <span><a href="https://www.linkedin.com/in/marcopas">LinkedIn</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-github"></i>
+        </span>
+        <span><a href="https://github.com/mpas">GitHub</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
+      </span>
+    </p>
+  </div>
+</footer>
+<script src="/js/search.js"></script>
+
+
+    <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+    <script>addBackToTop({
+            diameter: 56,
+            backgroundColor: 'rgb(255, 82, 82)',
+            textColor: '#fff'
+        })</script>
+    <script src="/js/navbar.js"></script>
+</body>
+
+</html>

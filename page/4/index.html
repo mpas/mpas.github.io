@@ -23,18 +23,6 @@
 
     
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-180712180-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
 
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,7 +51,7 @@ if (!doNotTrack) {
 
     <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-            <a class="navbar-item" href="https://mpas.github.io">
+            <a class="navbar-item" href="https://mpas.github.io/">
                 MARCO PAS
             </a>
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
@@ -147,6 +135,7 @@ if (!doNotTrack) {
     </div>
 </div>
 
+
     <div class="container">
         <div class="is-search-result">
             
@@ -154,9 +143,498 @@ if (!doNotTrack) {
 
 
 <div class="box mt-5 has-background-white">
-    <article>
+  <article>
+    
 
-        
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>February 28, 2013</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            37 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2013/02/grails-migrations-and-waiting-for-changelog-lock/">Grails migrations and &#39;Waiting for changelog lock&#39;</a></h2>
+      <p>Sometimes it may happen that the automatic migrations in a Grails project may come to a hold due to the fact that Liquibase keeps waiting for a changelog lock. At the end this will result in a application that is not going to be deployed.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>Waiting for changelog lock....
+</span></span><span style="display:flex;"><span>Waiting for changelog lock....
+</span></span><span style="display:flex;"><span>Waiting for changelog lock....
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>To solve this take the following steps:</p>
+<ul>
+<li>Stop the application container (example: Tomcat)</li>
+<li>In the database look for a table called <code>DATABASECHANGELOGLOCK</code></li>
+<li>In the table there is a record with id=1, change the following values:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>locked -&gt; 0
+</span></span><span style="display:flex;"><span>lockgranted -&gt; null
+</span></span><span style="display:flex;"><span>lockedby -&gt; null
+</span></span></code></pre></div><ul>
+<li>After updating this record start the application container</li>
+</ul>
+<p><strong>Notes:</strong><br>
+To see who has locked the database (normally the local machine):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> DATABASECHANGELOGLOCK;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">To</span> <span style="color:#66d9ef">update</span> the record
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">update</span> DATABASECHANGELOGLOCK
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> locked<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, lockgranted<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span>, lockedby<span style="color:#f92672">=</span><span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span> id<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span></code></pre></div>
+    </div>
+
+    <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/grails/">Grails</a>, 
+            <a class="is-link" href="/tags/migrations/">Migrations</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+  </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+  <article>
+    
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>January 13, 2013</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            38 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2013/01/testing-constraints-with-build-test-data/">Testing constraints with Build Test Data</a></h2>
+      <p>The <a href="http://grails.org/plugin/spock">Spock</a> &amp; <a href="http://grails.org/plugin/build-test-data">Build Test Data</a> plugins both are wonderful additions to your toolkit if you are creating tests without getting into the hassle of constantly building up your object graph. You can focus on what you want to test!</p>
+<p>When testing constraints on an object it can be used as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    String name   <span style="color:#75715e">// name of foo
+</span></span></span><span style="display:flex;"><span>    Integer age   <span style="color:#75715e">// age of foo
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> constraints <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        name nullable: <span style="color:#66d9ef">false</span><span style="color:#f92672">,</span> blank: <span style="color:#66d9ef">false</span> <span style="color:#75715e">// name may never be nullable or blank
+</span></span></span><span style="display:flex;"><span>        age nullable: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>And the Spock test</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#a6e22e">@Build</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@TestFor</span><span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FooSpec</span> <span style="color:#66d9ef">extends</span> Specification <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#e6db74">&#34;Name of Foo must exist&#34;</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        given: <span style="color:#e6db74">&#34;setting up the constraints&#34;</span>
+</span></span><span style="display:flex;"><span>        mockForConstraintsTests<span style="color:#f92672">(</span>Foo<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        when: <span style="color:#e6db74">&#34;creating a Foo&#34;</span>
+</span></span><span style="display:flex;"><span>        Foo foo <span style="color:#f92672">=</span> Foo<span style="color:#f92672">.</span><span style="color:#a6e22e">buildWithoutSave</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        then: <span style="color:#e6db74">&#34;validation should trigger&#34;</span>
+</span></span><span style="display:flex;"><span>        assertFalse foo<span style="color:#f92672">.</span><span style="color:#a6e22e">validate</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        and: <span style="color:#e6db74">&#34;validation error should be on the value field&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">assert</span> foo<span style="color:#f92672">.</span><span style="color:#a6e22e">errors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">allErrors</span><span style="color:#f92672">.</span><span style="color:#a6e22e">first</span><span style="color:#f92672">().</span><span style="color:#a6e22e">field</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;name&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div>
+    </div>
+
+    <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/build/">Build</a>, 
+            <a class="is-link" href="/tags/testdata/">Testdata</a>, 
+            <a class="is-link" href="/tags/grails/">Grails</a>, 
+            <a class="is-link" href="/tags/spock/">Spock</a>, 
+            <a class="is-link" href="/tags/test/">Test</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+  </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+  <article>
+    
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>January 3, 2013</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            10 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2013/01/getting-the-enum-from-a-string-value/">Getting the Enum from a String value</a></h2>
+      <p>Ever asked yourself the question how you could get the Enum from a String value? This is particularly usefull when you use Enum values in your screens and pass back the value of the enum!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>Enum<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>YourClassName<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;String Value&#34;</span><span style="color:#f92672">)</span>
+</span></span></code></pre></div><p><a href="http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html">http://docs.oracle.com/javase/6/docs/api/java/lang/Enum.html</a></p>
+
+    </div>
+
+    <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/enum/">Enum</a>, 
+            <a class="is-link" href="/tags/java/">Java</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+  </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+  <article>
+    
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>September 18, 2012</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            39 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2012/09/troubles-getting-vsftpd-user-logged-in/">Troubles getting vsftpd user logged in?</a></h2>
+      <p>Recently i had the pleasure of installing and using vsftp on a Ubuntu Linux 12.04 system. I closely followed the instructions but keeped getting my head banging against a wall with an error message:
+500 OOPS: vsftpd: refusing to run with writable root inside chroot()</p>
+<p>After some googling around i found the following fix..
+chmod the folder that the ftp user comes in to as he first login (root folder) by using in terminal:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>sudo chmod a-w /home/user
+</span></span></code></pre></div><p>Create a subfolder within the folder, either by the use of GUI or if you only have terminal it&rsquo;s:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>sudo mkdir /home/user/newfolder
+</span></span></code></pre></div><p>Now you should be able to log in and read write within the &ldquo;newfolder&rdquo;.</p>
+<p>You will <strong>NOT</strong> be able to write in the root folder itself from the ftp with the chmod a-w, so that is the reason for the subfolder, there you can.</p>
+<p><a href="http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update">http://askubuntu.com/questions/128180/vsftpd-stopped-working-after-update</a></p>
+
+    </div>
+
+    <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/ftps/">Ftps</a>, 
+            <a class="is-link" href="/tags/linux/">Linux</a>, 
+            <a class="is-link" href="/tags/ubuntu/">Ubuntu</a>, 
+            <a class="is-link" href="/tags/vsftpd/">Vsftpd</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+  </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+  <article>
+    
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>September 17, 2012</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>2 minutes and
+            4 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2012/09/loading-grails-configuration-files-update/">Loading Grails configuration files update!</a></h2>
+      <p>We recently changed the way how we load configuration files in a Grails project. Normally we to use the .properties file format, but this has some serious disadvantages.</p>
+<ul>
+<li>You cannot deal with all Grails Mail settings in the configuration file</li>
+<li>You cannot use the log4j DSL to extract the logging configuration outside your application</li>
+<li>etc..</li>
+</ul>
+<p>In our hunt for a good way to load configuration files we asked question on the mailinglist and also found this <a href="http://www.baselogic.com/blog/development/java-javaee-j2ee/getting-grails-external-configuration-working-in-the-real-world/">blogpost</a> which was the start for our implementation of loading the external configuration files.</p>
+<p>We modified some small things and added a way of loading a configuration file that is resident in the root of a Grails project. So when developing with IntelliJ for example the config file is at your fingertips in the root of the application project structure. We must also note that we are very happy with the fact that the Grails community was more then helpfull in helping us out here!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------------- //
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// - START: CONFIGURATION FILE LOADING -------------------------------------------- //
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------------- //
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// locations to search for config files that get merged into the main config
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// config files can either be Java properties files or ConfigSlurper scripts
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> ENV_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;${appName}.config.location&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span><span style="color:#f92672">(!</span>grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!(</span>grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#66d9ef">instanceof</span> List<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;--------------------------------------------------------------------------------&#34;</span>
+</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;- Loading configuration file                                                   -&#34;</span>
+</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;--------------------------------------------------------------------------------&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 1: check for environment variable that has been set! This variable must point to the
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// configuration file that must be used. Can be a .groovy or .properties file!
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Including System Environment configuration file: &#34;</span> <span style="color:#f92672">+</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">))</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;file:&#34;</span> <span style="color:#f92672">+</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 2: check for commandline properties!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// Use it like (examples):
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//      grails -D[name of app].config.location=/tmp/[name of config file].groovy run-app
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// or
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//      grails -D[name of app].config.location=/tmp/[name of config file].properties run-app
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;Including configuration file specified on command line: &#34;</span> <span style="color:#f92672">+</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;file:&#34;</span> <span style="color:#f92672">+</span> System<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span>ENV_NAME<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 3: check on local project config file in the project root directory
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;./${appName}-config.groovy&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;*** User defined config: file:./${appName}-config.groovy ***&#34;</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;file:./${appName}-config.groovy&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;./${appName}-config.properties&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;*** User defined config: file:./${appName}-config.properties ***&#34;</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;file:./${appName}-config.groovy&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 4: check on local project config file in ${userHome}/.grails/...
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${userHome}/.grails/${appName}-config.groovy&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;*** User defined config: file:${userHome}/.grails/${appName}-config.groovy ***&#34;</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;file:${userHome}/.grails/${appName}-config.groovy&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${userHome}/.grails/${appName}-config.properties&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;*** User defined config: file:${userHome}/.grails/${appName}-config.properties ***&#34;</span>
+</span></span><span style="display:flex;"><span>    grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;file:${userHome}/.grails/${appName}-config.properties&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 5: we have problem!!
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;********************************************************************************&#34;</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;* No external configuration file defined                                       *&#34;</span>
+</span></span><span style="display:flex;"><span>    println <span style="color:#e6db74">&#34;********************************************************************************&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;(*) grails.config.locations = ${grails.config.locations}&#34;</span>
+</span></span><span style="display:flex;"><span>println <span style="color:#e6db74">&#34;--------------------------------------------------------------------------------&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------------- //
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// - END: CONFIGURATION FILE LOADING ---------------------------------------------- //
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// -------------------------------------------------------------------------------- //
+</span></span></span></code></pre></div>
+    </div>
+
+    <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/grails/">Grails</a>, 
+            <a class="is-link" href="/tags/configuration/">Configuration</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+  </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+  <article>
+    
+
+
+
+
+<div class="content">
+    <hr class="mt-0 mb-0">
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-calendar"></i>
+        </span>
+        <span>September 16, 2012</span>
+    </span>
+    
+
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-stopwatch"></i>
+        </span>
+        <span>0 minutes and
+            51 seconds read</span>
+    </span>
+    <hr class="mt-0 mb-0">
+</div>
+
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2012/09/loading-external-configuration-files-in-a-grails-application/">Loading external Configuration files in a Grails application</a></h2>
+      <p>The use of &lsquo;Config.groovy&rsquo; as a placeholder for configuration settings is nice, but not always sufficient. The &lsquo;Config.groovy&rsquo; file will get compiled and packaged inside the WAR file you are creating. If you want to externalize the configuration and have a need to configure settings outside the deployed (WAR file) application you can use property files (.properties) to achieve that.</p>
+<p>A simple mechanism to load these property files is to place a short snippet of code in the &lsquo;Config.groovy&rsquo; that will load a specific configuration file from the filesystem, depending on the availability.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>grails<span style="color:#f92672">.</span><span style="color:#a6e22e">config</span><span style="color:#f92672">.</span><span style="color:#a6e22e">locations</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;classpath:application-config.properties&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;file:./application-config.properties&#34;</span><span style="color:#f92672">]</span>
+</span></span></code></pre></div><p>This snippet will first try to load the property file from the classpath and if that fails you have a backup on the filesystem. This opens opportunities to load a different property file during development! When you deploy the application you can place the &lsquo;application-config.properties&rsquo; file inside a folder which is available in the classpath. For Apache Tomcat this would be the &rsquo;lib&rsquo; folder!</p>
+<p>This gives the opportunity to configure the application outside the &lsquo;Config.groovy&rsquo; file so any changes made the the property file will be reflected in your environment.</p>
+
+    </div>
+
+    <div class="content">
+    <hr class=" mt-0 mb-0">
+
+    
+
+    
+    <span class="icon-text">
+        <span class="icon">
+            <i class="fas fa-tag"></i>
+        </span>
+        <span>
+            
+            <a class="is-link" href="/tags/grails/">Grails</a>, 
+            <a class="is-link" href="/tags/configuration/">Configuration</a>
+        </span>
+    </span>
+    
+
+    <hr class="mt-0 mb-0">
+</div>
+
+  </article>
+</div>
+
+
+<div class="box mt-5 has-background-white">
+  <article>
+    
 
 
 
@@ -182,20 +660,20 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2012/09/15/20120915-grails-and-imagemagick/">Combining ImageMagick and Grails</a></h2>
-            <p>When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2012/09/combining-imagemagick-and-grails/">Combining ImageMagick and Grails</a></h2>
+      <p>When there is a need to work with images (thumbnailing, watermark, resize etc.) there is always ImageMagick that comes to the rescue. Combining this image utility powerhouse with the Grails framework is a task which can be easily accomplished.</p>
 <p><strong>Steps:</strong></p>
 <ul>
 <li>Install ImageMagick according to the installation instructions.</li>
 <li>It contains a utility called convert which we will need later on! This utility takes care of the conversion of images to thumbnails, watermarks etc. So remember where this utility is installed on your system!</li>
 <li>Make sure that ImageMagick is installed correctly be converting an image to a thumbnail by using the following command in a terminal.</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>/opt/local/bin/convert &lt;filename&gt; -thumbnail 70x70 &lt;thumbnail-filename&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>/opt/local/bin/convert &lt;filename&gt; -thumbnail 70x70 &lt;thumbnail-filename&gt;
 </span></span></code></pre></div><p><strong>example:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>/opt/local/bin/convert /tmp/image-001.jpg -thumbnail 70x70 /tmp/thumbnail-image-001.jpg
 </span></span></code></pre></div><p>Create some code that calls the ImageMagick convert utility with the correct parameters to enable you to achieve what you want. Something like below:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">createThumbnail</span><span style="color:#f92672">(</span>File file<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">createThumbnail</span><span style="color:#f92672">(</span>File file<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">def</span> command <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/opt/local/bin/convert ${file.canonicalPath} &#34;</span> <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>                 <span style="color:#e6db74">&#34;-thumbnail 70x70 &#34;</span> <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>                 <span style="color:#e6db74">&#34;/images/thumbs&#34;</span> <span style="color:#f92672">+</span> File<span style="color:#f92672">.</span><span style="color:#a6e22e">separator</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;${file.name}&#34;</span>
@@ -217,9 +695,9 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span></code></pre></div><p>The above should give you some idea on how you could integrate Grails and ImageMagick into your own application.</p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -231,8 +709,8 @@ if (!doNotTrack) {
         </span>
         <span>
             
-            <a class="is-link" href="/tags/grails/">grails</a>, 
-            <a class="is-link" href="/tags/imagemagick/">imagemagick</a>
+            <a class="is-link" href="/tags/grails/">Grails</a>, 
+            <a class="is-link" href="/tags/imagemagick/">Imagemagick</a>
         </span>
     </span>
     
@@ -240,15 +718,13 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -274,9 +750,9 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2012/09/14/20120914-installing-vimball-plugins-using-pathogen/">Installing Vimball plugins when using Pathogen</a></h2>
-            <p>No need to discuss that <a href="http://www.vim.org/">Vim</a> is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the <a href="http://www.installationwiki.org/Installing_Vim_Scripts">wiki</a>.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2012/09/installing-vimball-plugins-when-using-pathogen/">Installing Vimball plugins when using Pathogen</a></h2>
+      <p>No need to discuss that <a href="http://www.vim.org/">Vim</a> is truly a great text editor. Wealth of features, great speed and extensive support for plugins. The installation of plugins is very easy. If you want to learn how to install plugins, make sure to check out the <a href="http://www.installationwiki.org/Installing_Vim_Scripts">wiki</a>.</p>
 <h4 id="pathogen">Pathogen</h4>
 <p>When you instal a plugin one may copy the files to the plugin directory. In a later stage you also want to delete a plugin and then the hunt for files starts. You need to track down which files belong to the specific plugin you want to delete. <a href="http://tammersaleh.com/posts/the-modern-vim-config-with-pathogen">Pathogen</a> to the rescue :)</p>
 <p>Pathogen enables you to create sub-folders inside a bundle-folder which will acts a place holder for all your plugins nicely separated in a ‘folder per plugin’ structure. So if you need to delete a plugin then you just delete the correct plugin-folder and everything is gone.</p>
@@ -284,23 +760,23 @@ if (!doNotTrack) {
 <ul>
 <li>Create a folder in which you want to later on extract the vimball. Preferably below the ‘bundle’ folder.</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>mkdir ~/.vim/bundle/align
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>mkdir ~/.vim/bundle/align
 </span></span><span style="display:flex;"><span>```console
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>* Open the vimball with command ‘:e &#39;location of your vimball’/‘name of your vimball&#39;
+</span></span></span><span style="display:flex;"><span>* Open the vimball with command ‘:e &#39;location of your vimball’/‘name of your vimball&#39;
 </span></span><span style="display:flex;"><span>```console
 </span></span><span style="display:flex;"><span>:e ~/Downloads/Align.vba
 </span></span></code></pre></div><ul>
 <li>Tell Vim to use the vimball by issuing command ‘:UseVimball &rsquo;location to extract’'</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>:UseVimball ~/.vim/bundle/align
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>:UseVimball ~/.vim/bundle/align
 </span></span></code></pre></div><ul>
 <li>Restart your Vim and your plugin should be available.</li>
 </ul>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -312,8 +788,8 @@ if (!doNotTrack) {
         </span>
         <span>
             
-            <a class="is-link" href="/tags/vim/">vim</a>, 
-            <a class="is-link" href="/tags/pathogen/">pathogen</a>
+            <a class="is-link" href="/tags/vim/">Vim</a>, 
+            <a class="is-link" href="/tags/pathogen/">Pathogen</a>
         </span>
     </span>
     
@@ -321,15 +797,13 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -355,9 +829,9 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2012/09/13/20120913-installing-markdown-on-osx-use-it-inside-vim/">Installing Markdown on OSX and use it inside VIM</a></h2>
-            <p>Back again to one of my favorites which is called <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. Once every now and then i forget how easy it is. Normally i use <a href="http://macromates.com/">Textmate</a> to do all my writing, but recently i have picked up <a href="http://www.vim.org/">VIM</a> to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2012/09/installing-markdown-on-osx-and-use-it-inside-vim/">Installing Markdown on OSX and use it inside VIM</a></h2>
+      <p>Back again to one of my favorites which is called <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. Once every now and then i forget how easy it is. Normally i use <a href="http://macromates.com/">Textmate</a> to do all my writing, but recently i have picked up <a href="http://www.vim.org/">VIM</a> to do some editing etc. Why i did chose VIM? I will not trouble you with that decision :)</p>
 <p>Using Textmate everything is easy, but when you want to use Markdown inside VIM it is somewhat different. But anything is different when using VIM :)</p>
 <h4 id="steps">Steps</h4>
 <ul>
@@ -369,9 +843,9 @@ if (!doNotTrack) {
 <li>You are done… :)</li>
 </ul>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -383,9 +857,9 @@ if (!doNotTrack) {
         </span>
         <span>
             
-            <a class="is-link" href="/tags/vim/">vim</a>, 
-            <a class="is-link" href="/tags/markdown/">markdown</a>, 
-            <a class="is-link" href="/tags/osx/">osx</a>
+            <a class="is-link" href="/tags/vim/">Vim</a>, 
+            <a class="is-link" href="/tags/markdown/">Markdown</a>, 
+            <a class="is-link" href="/tags/osx/">Osx</a>
         </span>
     </span>
     
@@ -393,15 +867,13 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
+  </article>
 </div>
 
 
 <div class="box mt-5 has-background-white">
-    <article>
-
-        
+  <article>
+    
 
 
 
@@ -427,14 +899,14 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2012/09/12/20120912-introduction-groovy-and-grails/">Introduction to Groovy &amp; Grails</a></h2>
-            <p>Recently i had the opportunity to show an exciting crowd a presentation about <a href="http://groovy.codehaus.org/">Groovy</a> &amp; <a href="http://www.grails.org/">Grails</a>.</p>
+    <div class="content">
+      <h2><a href="https://mpas.github.io/posts/2012/09/introduction-to-groovy-grails/">Introduction to Groovy &amp; Grails</a></h2>
+      <p>Recently i had the opportunity to show an exciting crowd a presentation about <a href="http://groovy.codehaus.org/">Groovy</a> &amp; <a href="http://www.grails.org/">Grails</a>.</p>
 <p>This happend during the <a href="http://www.devnology.nl/">Devnology</a> Community Event at Baarn. If you want to view the presentation &ndash;&gt; <a href="http://slidesha.re/cfL3eH">check it out here!</a></p>
 
-        </div>
+    </div>
 
-        <div class="content">
+    <div class="content">
     <hr class=" mt-0 mb-0">
 
     
@@ -446,8 +918,8 @@ if (!doNotTrack) {
         </span>
         <span>
             
-            <a class="is-link" href="/tags/grails/">grails</a>, 
-            <a class="is-link" href="/tags/presentation/">presentation</a>
+            <a class="is-link" href="/tags/grails/">Grails</a>, 
+            <a class="is-link" href="/tags/presentation/">Presentation</a>
         </span>
     </span>
     
@@ -455,464 +927,7 @@ if (!doNotTrack) {
     <hr class="mt-0 mb-0">
 </div>
 
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>September 11, 2012</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>0 minutes and
-            23 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2012/09/11/20120911-grails-change-default-homepage/">Change default homepage for a Grails application</a></h2>
-            <p>You can set the default homepage for a Grails application by modifying the <code>grails-app/conf/UrlMappings.groovy</code> file. In a new Grails application this file will look like</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UrlMappings</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> mappings <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;/$controller/$action?/$id?&#34;</span><span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>            constraints <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// apply constraints here
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;500&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#39;/error&#39;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span></code></pre></div><p>Replace the line:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>view:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
-</span></span></code></pre></div><p>with:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span><span style="color:#e6db74">&#34;/&#34;</span><span style="color:#f92672">(</span>controller:<span style="color:#e6db74">&#39;home&#39;</span><span style="color:#f92672">,</span> action:<span style="color:#e6db74">&#34;/index&#34;</span><span style="color:#f92672">)</span>
-</span></span></code></pre></div><p>This will result in the fact that when you start your Grails application and you enter the URL for your application it will trigger the <strong>HomeController</strong> and corresponding <strong>index</strong> action related to that controller.</p>
-
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/grails/">grails</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>September 10, 2012</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>3 minutes and
-            22 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2012/09/10/20120910-functional-code-coverage-using-cobertura/">Funcional Code Coverage using Cobertura</a></h2>
-            <p>So assume you are assigned to a JEE/Web project with no written functional requirements, no technical design, no functional and unit tests and even no business process description. Sounds really hopeless, but it is your responsibility to learn the system and make adjustments to it. Does this sound familiar?? Hopefully not :) But every now and then this scenario seems to happen.</p>
-<p>One can start to complain :), stop working on the project or even better master the concept of <a href="http://se-radio.net/podcast/2009-11/episode-148-software-archaeology-dave-thomas">Software Archeology</a>. An additional thing is to adopt the use of <a href="http://cobertura.sourceforge.net/">Cobertura</a> a code coverage tool which can easily be used to track down Functional Code Coverage. Normally the concept of Code Coverage is used to identify what code is executed during development and test phase. This to give an indication on how much code you cover with your testing strategy (often unit testing). This is <strong>IMHO</strong> something you will always want to know! But in the case you do not have unit tests or creating them is impossible due to the technical/organisational nature of the project, you can rely on creating functional tests and still track down the &lsquo;functional&rsquo; coverage with tools like <a href="http://cobertura.sourceforge.net/">Cobertura</a> (or alternatives like <a href="http://emma.sourceforge.net/">Emma</a>).</p>
-<p><strong>This tackles several problems:</strong><br>
-You are creating functional tests which can be used for regression testing
-You are creating awareness on how little is tested or is known about the system
-Note: By functional testing we mean that we are going to test via the Web layer of the JEE project To see an example on how the reporting looks like, check out this <a href="http://cobertura.sourceforge.net/sample/">sample</a> report!</p>
-<h4 id="how-to-get-code-coverage-information">How to get Code Coverage information</h4>
-<p><strong>General process:</strong></p>
-<ul>
-<li>Compile your software</li>
-<li>Instrument the compiled code</li>
-<li>Deploy your instrumented code and start the application</li>
-<li>Use the application or run automated functional tests</li>
-<li>Shutdown the application</li>
-<li>Generate your Code Coverage reports</li>
-<li>no step 7! All done :)</li>
-</ul>
-<p>The remaining part of this article is going to describe how you can get Functional Code Coverage information in the process of continously building, deploying and testing your software. Some elements are not explained due to the fact that other extensive information is given somewhere else on the web!</p>
-<h4 id="compile-instrument-and-build">Compile, Instrument and Build</h4>
-<p>The <a href="http://maven.apache.org/">Maven</a> project enables you to build your software with great ease. Giving a few simple commands makes it able to build a project, deploy it and even integrate it with tools and technologies such as  Cobertura. There is a even a <a href="http://mojo.codehaus.org/cobertura-maven-plugin/">Cobertura Maven</a> Plugin to easily use <a href="http://cobertura.sourceforge.net/">Cobertura</a> in a <a href="http://maven.apache.org/">Maven</a> build. We need to use Cobertura in the build phase because it will instrument the compiled code and generate a small file called &lsquo;cobertura.ser&rsquo; which is used as a kind of database that stores each call to a piece of code. The instrumented code and the database file are crucial because they contains all information needed to generate code coverage reports later on.</p>
-<h4 id="run-and-test">Run and Test</h4>
-<p>After the code is succesfully instrumented you may deploy the build artifacts together with the &lsquo;cobertura.ser&rsquo; file inside a JBoss JEE container and run your application.</p>
-<p>Note: In our project we used <a href="http://www.jboss.org/">JBoss</a> but offcourse you can use other application servers!</p>
-<p>The <a href="http://jakarta.apache.org/jmeter/">JMeter</a> project delivers an excellent tooling and technology which enables you to record your functional flow and lets you replay a scenario which was recorded earlier on. For more information on <a href="http://jakarta.apache.org/jmeter/">JMeter</a> recording and usage, please check the <a href="http://jakarta.apache.org/jmeter/">JMeter</a> project. But for now lets assume you have created a couple of functional tests, so you can execute them.</p>
-<h4 id="generate-coverage-reports">Generate coverage reports</h4>
-<p>After the functional tests have been executed, the modified database file &lsquo;cobertura.ser&rsquo; can be collected and reports can be generated. Cobertura has some nice predefined reporting templates. After these stepes you should have inisight on what code is actually executed during a functional flow and this may contribute to your understanding of the application.</p>
-<h4 id="not-once-but-do-it-always">Not once but do it always!</h4>
-<p>The process of compiling, instrumenting, deploying, testing and reporting can be fully automatized. The famous Hudson comes to the rescue! When corectly implemented Hudson will serve you all information that you need on the moments you need it!</p>
-<h4 id="tools--technologies">Tools &amp; Technologies</h4>
-<p>The folowing list provides information on the tools that are used:</p>
-<ul>
-<li><a href="http://maven.apache.org/">Maven</a> -&gt; used info for compiling and instrumenting your code (alternative to <a href="http://ant.apache.org/">Ant</a>)</li>
-<li><a href="http://cobertura.sourceforge.net/">Cobertura</a> -&gt; used to get Code Coverage information</li>
-<li><a href="http://www.jboss.org/">JBoss</a> -&gt; used for running a JEE project</li>
-<li><a href="http://jakarta.apache.org/jmeter/">JMeter</a> -&gt; used to record and playback functional tests</li>
-<li><a href="http://hudson-ci.org/">Hudson</a> -&gt; used to automatically build &amp; test your software</li>
-</ul>
-
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/coverage/">coverage</a>, 
-            <a class="is-link" href="/tags/testing/">testing</a>, 
-            <a class="is-link" href="/tags/cobertura/">cobertura</a>, 
-            <a class="is-link" href="/tags/continous-integration/">continous integration</a>, 
-            <a class="is-link" href="/tags/hudson/">hudson</a>, 
-            <a class="is-link" href="/tags/jenkins/">jenkins</a>, 
-            <a class="is-link" href="/tags/ssh/">ssh</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>September 9, 2012</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>6 minutes and
-            7 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2012/09/09/20120909-distributed-deployment-with-hudson-and-ssh/">Distributed Deployment with Hudson &amp; SSH</a></h2>
-            <p>Have you already implemented an multi-server artifact deployment using a <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engine? If not, then read ahead and maybe this article is of help.</p>
-<h4 id="the-need-for-continuous-integration">The need for Continuous Integration</h4>
-<p>A good practice in a software development methodology and lifecycle is the use of a <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engine. The adoption of <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> improves you software quality by quickly reporting failed builds so you can modify/correct your code. Popular Continuous Integration Engines can often be extended with software quality tooling so you can report on specific quality aspect of your software.</p>
-<p>Thus informing developers and even other people who take an interest in the status of the latest build. <strong>IMHO</strong> a failed build can also be identified as code that compiles but that does not meet the quality standards set by your organization. You are off-course totally free in defining what in your opinion a failed build actually means!</p>
-<p>A good build compiles, quality requirements have been met and automatic functional and unit testing has been successful.</p>
-<p>There a few popular <a href="http://en.wikipedia.org/wiki/Continuous_integration">Continuous Integration</a> Engines available:</p>
-<ul>
-<li><a href="http://hudson-ci.org/">Hudson Extensible Continuous Integration Server</a></li>
-<li><a href="http://cruisecontrol.sourceforge.net/">CruiseControl</a></li>
-<li><a href="http://www.atlassian.com/software/bamboo/">Bamboo</a></li>
-</ul>
-<p>Probably there a some more, but for me needs the [Hudson Extensible Continuous Integration Server] works perfect.</p>
-<h4 id="my-needs">My needs</h4>
-<p>My Continuous Integration Engine:</p>
-<ul>
-<li>Must support multiple programming languages Java/.Net/Ruby</li>
-<li>Runs on multiple operating systems (Windows/Mac/Linux)</li>
-<li>Pluggable in the sense that there must be integration with for example JUnit, JMeter, Cobertura, Checkstyle etc.</li>
-<li>Must be able to send out notifications using email, twitter, Instant Messaging</li>
-<li>Seemless integration with CVS/SubVersion and GIT</li>
-<li>Simple and easy Configuration</li>
-<li>Must support timed builds &amp; trigger builds from <a href="http://en.wikipedia.org/wiki/Revision_control">SCM</a> commits</li>
-<li>Maintain a link between modified code and</li>
-<li>and some more..</li>
-</ul>
-<p>All of these requirements and more have been succesfully fulfilled by using <a href="http://hudson-ci.org/">Hudson</a></p>
-<h4 id="hudson-and-automatic-deployment">Hudson and automatic deployment</h4>
-<p>In every project a recurring problem arises, artifacts of a software build have to be distributed accross different servers and environments. How are the build artifacts going to be distributed and deployed? Why not let the <a href="http://hudson-ci.org/">Hudson</a> server give a helping hand!!</p>
-<h4 id="deployment-scenario">Deployment Scenario</h4>
-<p>In the following scenario we will be distributing build artifacts from a central Hudson server to three different <a href="http://www.jboss.org/">JBoss</a> application servers al running Windows 2003 Server as Operating System. Next to the <a href="http://hudson-ci.org/">Hudson</a> server we have a <a href="http://subversion.tigris.org/">Subversion</a> system which is used for <a href="http://en.wikipedia.org/wiki/Revision_control">SCM</a> purposes.</p>
-<h4 id="distribution-of-build-artifacts">Distribution of build artifacts</h4>
-<p>After a succesfull build, the artifacts have to be distributed to remote machines. Offcourse the latest code has been checked out from the SVN repository, compiled and tested. The distribution of the artifacts can be done in various ways. One can use Ftp, shared folders, SCM checkin etc..</p>
-<p>For me the most easiest way to distribute build artifacts is using <a href="http://en.wikipedia.org/wiki/Secure_Shell">Secure Shell access aka SSH</a>. This is a secure and a standardized manner for distribution. Lets assume we have the build artifacts somewhere on our <a href="http://hudson-ci.org/">Hudson</a> server, we need a way of transfering them using <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to a remote machine.</p>
-<p>To accomplish this we need SSH access to the remote machine. With the help off <a href="http://www.itefix.no/i2/node/27">CopSSH</a> installing SSH is a breeze!</p>
-<h4 id="prepare-for-installation-of-ssh">Prepare for installation of SSH</h4>
-<p>Prepare yourself by downloading:</p>
-<ul>
-<li><a href="http://www.itefix.no/i2/node/27">CopSSH</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> service for Windows</li>
-<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Putty</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client (used for connection to the SSH service)</li>
-<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">PSCP</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client for file transfer</li>
-<li><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Plink</a> – <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> client for executing remote commands</li>
-</ul>
-<h4 id="installing-and-enable-remote-access-using-ssh">Installing and enable remote access using SSH</h4>
-<ul>
-<li>Install <a href="http://www.itefix.no/i2/node/27">CopSSH</a> on the remote system</li>
-<li>On the remote system enable a user for <a href="http://en.wikipedia.org/wiki/Secure_Shell">SSH</a> access, see the installation guide of CopSSH</li>
-<li>Start <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">Putty</a> on your local machine</li>
-<li>Using Putty connect to the remote system and exchange security credentials</li>
-</ul>
-<p>You are now officially ready to remotely access the system using SSH
-If you want to enable the Hudson server to access the remote system, start Putty on the Hudson server and repeat step 4!</p>
-<p><strong>Note</strong>: Make sure that your Hudson uses the same credentials then the account in which you exchange security credentials, otherwise remote access from Hudson server to the remote system will not work!</p>
-<h4 id="execute-remote-commands-and-exchange-files-using-ssh">Execute remote commands and Exchange files using SSH</h4>
-<p>If you can succesfully access the remote server using Putty, it is time to exchange files or execute remote commands. This can be done by using 2 small commandline utilities called PSCP for file transfer and Plink for executing remote commands such as remotely deleting files etc.</p>
-<p>Make sure these are in you PATH settings so you can execute them everywhere!</p>
-<p>Examples for executing a remote command (substitute the %parameters% with your own ones)</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>#create a directory
-</span></span><span style="display:flex;"><span>plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  mkdir C:/tmp
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>#delete a directory
-</span></span><span style="display:flex;"><span>plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  rm -rf C:/tmp
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>#stop a windows service
-</span></span><span style="display:flex;"><span>plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME%  net stop %SERVICENAME%
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>#upload a file
-</span></span><span style="display:flex;"><span>pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>#upload multiple files
-</span></span><span style="display:flex;"><span>pscp -pw %PASSWORD% %SOURCE%\*.* %USERNAME%@%HOSTNAME%:%DESTINATION%
-</span></span></code></pre></div><h4 id="the-return-of-the-bat-file">The return of the .bat file</h4>
-<p>So far we have enabled remote access using SSH / CopSSH, executed remote commands and transferred files. All the needed ingredients are in place to enable our Hudson server to remotely deploy build artifacts. In the job configuration of Hudson you can trigger a batch file after a succesfull build, so whenever a succesfull build occurs trigger a batch that executes a few commands to quickly deploy build artifacts to any number of remote servers.</p>
-<p>In our case all deployment artifacts are copied to a central directory per project. So if we need to deploy a build, we can copy parts or the whole directory contents to a remote server.</p>
-<p>To give an example see the following batch files: Main example for a batchfile that triggers stopping of the remote Windows Services gives the instruction on which files need to be remotely deployed and start the services again.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-batch" data-lang="batch"><span style="display:flex;"><span>-&gt; filename = upload-project-to-development.bat
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">CLS</span>
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> OFF
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> USERNAME=%1
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> PASSWORD=%2
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> HOSTNAME=%3
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> JBOSSDIR=%4
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> SOURCEDIR=%5
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> : - start upload procedure
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> : -- stopping servers
-</span></span><span style="display:flex;"><span>@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% net stop JBoss
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> : -- uploading files CALL upload-files.bat %USERNAME% %PASSWORD% %HOSTNAME% %JBOSSDIR% %SOURCEDIR%\*.*
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> : -- starting servers
-</span></span><span style="display:flex;"><span>@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% net start JBoss
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> : - finished upload procedure
-</span></span></code></pre></div><p>The above script can be called easily by the Hudson server after a succesfull deployment.</p>
-<p><strong>example:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>upload-project-to-development scott tiger 10.0.0.100 d:/java/server/jboss-v5.0 d:/build_artifacts/projectx
-</span></span></code></pre></div><p><strong>The example above:</strong></p>
-<ul>
-<li>Stops the JBoss server on the 10.0.0.100 host</li>
-<li>Passes some parameters to a file called “upload-files.bat” script</li>
-<li>Starts the JBoss servers again</li>
-</ul>
-<p>The script that executes the actual maintenance and uploads is the “upload-files.bat file”. All parameters are passed in by the calling script.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-batch" data-lang="batch"><span style="display:flex;"><span>-&gt; filename = upload-files.bat
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span> OFF
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> USERNAME=%1
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> PASSWORD=%2
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> HOSTNAME=%3
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> JBOSSDIR=%4
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> SOURCE=%5
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SET</span> DESTINATION=%JBOSSDIR%/deploy
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span>  : - %HOSTNAME% - starting file copy
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - deleting JBOSS tmp
-</span></span><span style="display:flex;"><span>@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm -rf %JBOSSDIR%/tmp
-</span></span><span style="display:flex;"><span>@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% mkdir %JBOSSDIR%/tmp
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - deleting JBOSS work
-</span></span><span style="display:flex;"><span>@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm -rf %JBOSSDIR%/work
-</span></span><span style="display:flex;"><span>@plink -batch -pw %PASSWORD% %USERNAME%@%HOSTNAME% mkdir %JBOSSDIR%/work
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - deleting previous ears + jars
-</span></span><span style="display:flex;"><span>@plink -batch  -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm %JBOSSDIR%/deploy/*.ear
-</span></span><span style="display:flex;"><span>@plink -batch  -pw %PASSWORD% %USERNAME%@%HOSTNAME% rm %JBOSSDIR%/deploy/*.jar
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span>  : -- %HOSTNAME% - copy remote files
-</span></span><span style="display:flex;"><span>@pscp -pw %PASSWORD% %SOURCE% %USERNAME%@%HOSTNAME%:%DESTINATION%
-</span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">ECHO</span>  : - %HOSTNAME% - finishing file copy
-</span></span></code></pre></div><p><strong>The example above:</strong></p>
-<ul>
-<li>Removes the JBoss tmp &amp; work directory</li>
-<li>Removes artifacts from previous builds</li>
-<li>Copies the artifacts to the remote JBoss deploy directory</li>
-</ul>
-<h4 id="steps-taken">Steps taken</h4>
-<p>So the list of tasks executed by calling the batch files with the correct parameters are:</p>
-<ul>
-<li>Stopping the remote JBoss server</li>
-<li>Removing the remote JBoss tmp &amp; work directories</li>
-<li>Removing the remote JBoss artifacts from previous deployments</li>
-<li>Copy files to the remote JBoss server</li>
-<li>Starting the JBoss server again</li>
-</ul>
-<h4 id="from-build-to-deployment">From build to deployment</h4>
-<p>So with a quick installation of SSH/Putty/Plink/PSCP we now have a modular and easy way of distributing files to remote systems. Offcourse there are lots of improvements to make, but for now it works without any problems!</p>
-<p>The given examples can be easily modified so that after a succesfull build the artifact deployment to all of your servers can be done in a very simple and easy way.
-Notes</p>
-
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/deployment/">deployment</a>, 
-            <a class="is-link" href="/tags/continous-integration/">continous integration</a>, 
-            <a class="is-link" href="/tags/hudson/">hudson</a>, 
-            <a class="is-link" href="/tags/ssh/">ssh</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
-</div>
-
-
-<div class="box mt-5 has-background-white">
-    <article>
-
-        
-
-
-
-
-<div class="content">
-    <hr class="mt-0 mb-0">
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-calendar"></i>
-        </span>
-        <span>September 5, 2012</span>
-    </span>
-    
-
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-stopwatch"></i>
-        </span>
-        <span>0 minutes and
-            25 seconds read</span>
-    </span>
-    <hr class="mt-0 mb-0">
-</div>
-
-        <div class="content">
-            <h2><a href="https://mpas.github.io/posts/2012/09/05/20120905-grails-replace-in-memory-db-with-mysql/">Using MySQL instead of in-memory database for a Grails application</a></h2>
-            <p>A Grails application by default uses a in-memory HSQL database. To switch to a MySQL database the steps are simple and straightforward.</p>
-<ul>
-<li>Download the MySQL JDBC driver [called a connector] from the MySQL website</li>
-<li>Extract the zip or tar archive</li>
-<li>Copy the driver (at this time of writing called <code>mysql-connector-java-5.1.13-bin.jar</code> into the <code>grails-app/lib</code> directory</li>
-<li>Configure your application datasource in file <code>grails-app/conf/DataSource.groovy</code></li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-groovy" data-lang="groovy"><span style="display:flex;"><span>development <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    dataSource <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>       dbCreate <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;create-drop&#34;</span> <span style="color:#75715e">// one of &#39;create&#39;, &#39;create-drop&#39;,&#39;update&#39;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>       url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;jdbc:mysql://localhost:&lt;port&gt;/&lt;database&gt;&#34;</span>
-</span></span><span style="display:flex;"><span>       driverClassName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;com.mysql.jdbc.Driver&#34;</span>
-</span></span><span style="display:flex;"><span>       port <span style="color:#f92672">=</span>  <span style="color:#75715e">// default 3306
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>       username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;username&gt;&#34;</span>
-</span></span><span style="display:flex;"><span>       password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;password&gt;&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span></code></pre></div>
-        </div>
-
-        <div class="content">
-    <hr class=" mt-0 mb-0">
-
-    
-
-    
-    <span class="icon-text">
-        <span class="icon">
-            <i class="fas fa-tag"></i>
-        </span>
-        <span>
-            
-            <a class="is-link" href="/tags/grails/">grails</a>, 
-            <a class="is-link" href="/tags/mysql/">mysql</a>
-        </span>
-    </span>
-    
-
-    <hr class="mt-0 mb-0">
-</div>
-
-
-    </article>
+  </article>
 </div>
 
 
@@ -935,7 +950,8 @@ Notes</p>
         
 
         
-        <a class="pagination-next is-disabled">
+        
+        <a class="pagination-next has" href="https://mpas.github.io/page/5">
             <span class="icon-text">
                 <span class="icon">
                     <i class="fas fa-arrow-right"></i>
@@ -945,11 +961,10 @@ Notes</p>
         </a>
         
         
-        
 
 
         <ul class="pagination-list">
-            <li><a class="pagination-link" href="https://mpas.github.io" aria-label="Home">
+            <li><a class="pagination-link" href="https://mpas.github.io/" aria-label="Home">
                     <span class="icon-text">
                         <span class="icon">
                             <i class="fas fa-home"></i>
@@ -998,43 +1013,46 @@ Notes</p>
         </article>
     </template>
     <footer class="footer">
-    <div class="content has-text-centered">
-        <p>Lets connect on:</p>
-        <p>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-twitter"></i>
-                </span>
-                <span><a href="https://twitter.com/marcopas">Twitter</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-stack-overflow"></i>
-                </span>
-                <span><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-linkedin"></i>
-                </span>
-                <span><a href="">LinkedIn</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fab fa-github"></i>
-                </span>
-                <span><a href="https://github.com/mpas">GitHub</a></span>
-            </span>
-            <span class="icon-text">
-                <span class="icon">
-                    <i class="fas fa-envelope"></i>
-                </span>
-                <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
-            </span>
-        </p>
-    </div>
+  <div class="content has-text-centered">
+    <p>Lets connect on:</p>
+    <p>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-twitter"></i>
+        </span>
+        <span><a href="https://twitter.com/marcopas">Twitter</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-stack-overflow"></i>
+        </span>
+        <span
+          ><a href="http://stackoverflow.com/users/185432/marco">StackOverflow</a></span
+        >
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-linkedin"></i>
+        </span>
+        <span><a href="https://www.linkedin.com/in/marcopas">LinkedIn</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fab fa-github"></i>
+        </span>
+        <span><a href="https://github.com/mpas">GitHub</a></span>
+      </span>
+      <span class="icon-text">
+        <span class="icon">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span><a href="mailto:marco.pasopas@gmail.com">Email</a></span>
+      </span>
+    </p>
+  </div>
 </footer>
 <script src="/js/search.js"></script>
+
 
     <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
     <script>addBackToTop({
