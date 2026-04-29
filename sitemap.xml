@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://mpas.github.io/pages/about/</loc>
+    <lastmod>2026-04-29T09:03:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mpas.github.io/</loc>
+    <lastmod>2026-04-29T09:03:00+00:00</lastmod>
+  </url><url>
+    <loc>https://mpas.github.io/pages/</loc>
+    <lastmod>2026-04-29T09:03:00+00:00</lastmod>
+  </url><url>
     <loc>https://mpas.github.io/categories/</loc>
     <lastmod>2023-05-09T10:07:26+02:00</lastmod>
   </url><url>
@@ -16,9 +25,6 @@
   </url><url>
     <loc>https://mpas.github.io/tags/kubernetes/</loc>
     <lastmod>2023-05-09T10:07:26+02:00</lastmod>
-  </url><url>
-    <loc>https://mpas.github.io/</loc>
-    <lastmod>2026-04-29T08:56:00+00:00</lastmod>
   </url><url>
     <loc>https://mpas.github.io/posts/</loc>
     <lastmod>2026-04-29T08:03:00+00:00</lastmod>
@@ -70,12 +76,6 @@
   </url><url>
     <loc>https://mpas.github.io/posts/2020/10/get-pretty-org-bullets-in-doom-emacs/</loc>
     <lastmod>2020-10-16T20:21:00+02:00</lastmod>
-  </url><url>
-    <loc>https://mpas.github.io/pages/about/</loc>
-    <lastmod>2026-04-29T08:56:00+00:00</lastmod>
-  </url><url>
-    <loc>https://mpas.github.io/pages/</loc>
-    <lastmod>2026-04-29T08:56:00+00:00</lastmod>
   </url><url>
     <loc>https://mpas.github.io/tags/pathfinder/</loc>
     <lastmod>2018-11-28T00:00:00+00:00</lastmod>
